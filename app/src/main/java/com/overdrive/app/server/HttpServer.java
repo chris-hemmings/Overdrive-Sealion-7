@@ -1232,13 +1232,15 @@ public class HttpServer {
         boolean vehicleReady = waitForVehicleDataReady(1500);
         status.put("vehicleDataReady", vehicleReady);
 
-        // App version — the installed GitHub release label, read from the
-        // world-readable version file written by every install (shared across
-        // app + daemon UIDs), falling back to the BuildConfig identity
-        // (channel + versionName) when nothing's been installed via the updater
-        // or the persisted label is stale/malformed. getDisplayVersionFromFile()
-        // → getDisplayVersion(null) → persistedGithubVersion (file-first).
-        status.put("appVersion", com.overdrive.app.updater.AppUpdater.getDisplayVersionFromFile());
+        // App version — the build's TRUE self-identity (BuildConfig), not
+        // getDisplayVersionFromFile()'s persisted GitHub label. That label is
+        // written ONLY by the in-app updater's own install path, so a plain
+        // `adb install` (sideload) — every build pushed tonight — leaves it
+        // stale: the sidebar/About version kept showing whatever was last
+        // installed THROUGH the updater, not what's actually running.
+        // getInstalledVersion() reads BuildConfig directly, so it's always
+        // correct for the binary genuinely executing, sideloaded or not.
+        status.put("appVersion", com.overdrive.app.updater.AppUpdater.getInstalledVersion());
         status.put("recording", TcpCommandServer.getRecordingCameras());
         status.put("viewing", TcpCommandServer.getViewOnlyCameras());
         status.put("active", TcpCommandServer.getActiveCameras());
