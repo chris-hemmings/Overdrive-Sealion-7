@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Neutral 8dp status dot. Tinted at runtime via android:tint or app:tint
+  so callers can swap to ?attr/colorOutline (unknown), ?attr/colorPrimary
+  (active), ?attr/colorOnSurfaceVariant (placeholder), etc., without
+  needing one drawable per state.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:tint="?attr/colorOutline">
+    <solid android:color="@android:color/white" />
+    <size android:width="8dp" android:height="8dp" />
+</shape>

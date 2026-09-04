@@ -1,0 +1,1372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OverDrive</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">Maintient la surveillance du véhicule d\'Overdrive active en arrière-plan. Ce service ne lit pas le contenu de l\'écran et n\'interagit pas avec lui.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">Annuler</string>
+    <string name="action_clear_plain">Effacer</string>
+    <string name="action_select_all">Sélectionnez tous</string>
+    <string name="action_select_all_short">Tout sélectionner</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_share">Partager</string>
+    <string name="action_done">C\' est fait</string>
+    <string name="action_remind_me_later">Je me souviens plus tard.</string>
+    <string name="action_retry">Réessayer</string>
+    <string name="action_run">Courir</string>
+    <string name="action_clear_output">Une sortie claire</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">Une caméra</string>
+    <string name="cd_qr">Résultats de l\'enquête</string>
+    <string name="cd_qr_code">Codes QR</string>
+    <string name="cd_show_hide_token">Indicateur d\'affichage/de couverture</string>
+    <string name="cd_copy_token">Copier le jeton</string>
+    <string name="cd_copy_url">Copie URL</string>
+    <string name="cd_clear_logs">Des journaux clairs</string>
+    <string name="cd_expand_collapse">Expansion/effondrement</string>
+    <string name="cd_recording_status">Statut de l\'enregistrement</string>
+    <string name="cd_trip_tracking_status">Statut du suivi du voyage</string>
+    <string name="cd_mic_status">Statut de capture du microphone</string>
+    <string name="cd_video_thumbnail">Miniature vidéo</string>
+    <string name="cd_play">Lire</string>
+    <string name="cd_back">Retour</string>
+    <string name="cd_play_pause">Jeu/pause</string>
+    <string name="cd_player_prev">Enregistrement précédent</string>
+    <string name="cd_player_next">Enregistrement suivant</string>
+    <string name="cd_player_maximize">Maximiser le joueur</string>
+    <string name="cd_player_minimize">Sortie à écran complet</string>
+    <string name="cd_player_mute">Faire tourner l\'audio</string>
+    <string name="cd_player_quadrant_all">Afficher toutes les caméras</string>
+    <string name="cd_player_quadrant_front">Afficher la caméra frontale</string>
+    <string name="cd_player_quadrant_right">Afficher la caméra droite</string>
+    <string name="cd_player_quadrant_rear">Afficher la caméra arrière</string>
+    <string name="cd_player_quadrant_left">Afficher la caméra de gauche</string>
+    <string name="cd_delete">Supprimer</string>
+    <string name="cd_share">Partager</string>
+    <string name="cd_expand">Élargissement</string>
+    <string name="cd_configure">Configuration</string>
+    <string name="cd_download_log">Télécharger le journal</string>
+    <string name="cd_reset">Réinitialiser</string>
+    <string name="cd_battery">Batterie</string>
+    <string name="cd_step_completed">Étape complète</string>
+    <string name="cd_permission_granted">Autorisation accordée</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">REC</string>
+    <string name="overlay_trip_inactive_label">Retour</string>
+    <string name="overlay_mic_inactive_label">MIC</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">Arrêter l\'enregistrement</string>
+    <string name="overlay_mode_continuous_cd">Enregistrement continu</string>
+    <string name="overlay_mode_drive_cd">Enregistrement en mode Lecteur</string>
+    <string name="overlay_mode_proximity_cd">Enregistrement de proximité-garde</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">Il est 12h34:56</string>
+    <string name="log_entry_default_tag">Je vous en prie.</string>
+    <string name="log_entry_default_message">Message de journaux ici</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">Nom du démon</string>
+    <string name="daemon_card_default_status">Message d\'état</string>
+    <string name="daemon_card_subprocesses">SUPPROCESSES</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">Les journaux</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">Je me connecte...</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">Aucun navigateur trouvé. Lien copié : %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">Générer une connexion URL</string>
+    <string name="tailscale_scan_to_login">Scanner à la connexion</string>
+    <string name="tailscale_qr_waiting">En attendant le login URL...</string>
+    <string name="tailscale_enable_proxy">Activer le proxy Tailscale</string>
+    <string name="tailscale_proxy_explainer">Les routes MQTT à Tailscale pour que vous puissiez contacter un courtier privé sur votre filet sans transfert de port.</string>
+    <string name="tailscale_proxy_warning">Alors que activé, MQTT à des courtiers publics (HiveMQ, AWS IoT, etc.) échouera  Tailscale seulement des routes vers votre filet de couture.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">Mode d\'ingestion</string>
+    <string name="camera_mode_subtitle">Choisissez le chemin qui correspond à votre unité de tête. Par défaut, il convient à la plupart des modèles BYD; DiLink 4 est nécessaire sur les nouveaux accessoires (Han / Tang 2024+) où le AVM HAL émet une mosaïque 2x2 prédéterminée.</string>
+    <string name="camera_mode_option_default">Par défaut  fonctionne sur Seal, Atto, Dolphin (la plupart des voitures)</string>
+    <string name="camera_mode_option_dilink4">DiLink 4  nouvelles variantes Han / Tang</string>
+    <string name="camera_mode_current_default">Courant: par défaut</string>
+    <string name="camera_mode_current_dilink4">Actuel: DiLink 4</string>
+    <string name="camera_mode_save">Mode d\'application</string>
+    <string name="camera_mode_hint">Le changement de mode redémarre l\'appareil photo daemon. Si la vidéo semble mal (écrasée, quadrants manquants, superposition rouge), essayez l\'autre mode.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">Les modifications du quadrant 4</string>
+    <string name="camera_dilink4_tweaks_subtitle">Ajustements par véhicule pour le parcours DiLink 4.</string>
+    <string name="camera_dilink4_save">Appliquer des ajustements</string>
+    <string name="camera_dilink4_hint">Ne les démarrez que si le HAL peint un chrome rouge \"failli de calibration\" sur le flux.</string>
+    <string name="camera_dilink4_red_mask_label">Supprimer la couche de calibration rouge (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">Ajout d\'un passage d\'ombre de fragment qui détecte les pixels HAL \"failli de calibration\" de couleur rouge vif et les remplace par un échantillon voisin (ou gris lumineux lorsque la bannière est trop grande pour être peinte).</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">Sélection de caméra</string>
+    <string name="camera_selection_subtitle">Sélectionnez la source de la caméra panoramique</string>
+    <string name="camera_current_auto">Actuel: Auto</string>
+    <string name="camera_option_auto">Détection automatique (détection au démarrage)</string>
+    <string name="camera_option_0">Caméra 0  Atto décorations</string>
+    <string name="camera_option_1">Caméra 1  Seal (par défaut)</string>
+    <string name="camera_option_2">Caméra 2</string>
+    <string name="camera_option_3">Caméra 3</string>
+    <string name="camera_option_4">Caméra 4</string>
+    <string name="camera_option_5">Caméra 5</string>
+    <string name="camera_selection_hint">L\'appareil photo 1 = BYD Seal, l\'appareil photo 0 = Atto. Réinitialisez le démon après avoir changé l\'identifiant de l\'appareil photo pour que le réglage entre en vigueur.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">ID de caméra de Dashcam OEM</string>
+    <string name="camera_oem_dashcam_hint">Choisissez l\'id AVMCamera qui pointe sur le capteur de dashcam avant. Dashcam est l\'OPPOSITE de pano: Seal/Han pano = 1 → dashcam = 0; Atto / Tang pano = 0 → dashcam = 1. Laissez sur Auto pour laisser le logiciel OverDrive choisir.</string>
+    <string name="camera_oem_dashcam_auto_resolved">Auto — utilisation de l\'id %1$d (le pano est l\'id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">Auto — le pano id est %1$d, impossible de déduire la dashcam</string>
+    <string name="camera_oem_dashcam_save">Enregistrer</string>
+    <string name="camera_concurrent_probe_label">Tester la prise en charge de la double caméra au prochain démarrage</string>
+    <string name="camera_concurrent_probe_subtitle">Vérification unique qui ouvre les deux caméras à la fois pour confirmer que ce véhicule peut exécuter pano + dashcam en même temps. Exécute une fois au prochain redémarrage pendant garage. Laissez DÉSACTIVÉ à moins que les enregistrements ne semblent mal — ce n\'est pas nécessaire et peut interrompre brièvement un enregistrement si celui-ci est actif lors de son exécution.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">Caméra 0 — Sceau / Han (par défaut)</string>
+    <string name="camera_oem_option_1">Caméra 1 — Atto / Tang</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">Cartographie par caméra</string>
+    <string name="camera_role_label">Cartographie des rôles</string>
+    <string name="camera_candidate_previous">Précédent</string>
+    <string name="camera_candidate_next">Suivant</string>
+    <string name="camera_preview_unavailable">L\'aperçu n\'est pas encore disponible. Essayez un autre candidat ou rafraîchissez en rouvrant la boîte de dialogue après le redémarrage du démon.</string>
+    <string name="camera_mapping_save">Sauvegarde de la cartographie</string>
+    <string name="camera_mapping_clear">Un rôle clair</string>
+    <string name="camera_mapping_saved">La cartographie de la caméra est sauvegardée.</string>
+    <string name="camera_mapping_cleared">La cartographie du rôle de la caméra est dégagée.</string>
+    <string name="camera_mapping_summary_format">Flux panoramique: caméra %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">Flux panoramique: détection automatique / sonde de l\'héritage</string>
+    <string name="camera_mapping_current_format">Cartographie du courant: %1$s</string>
+    <string name="camera_mapping_current_none">Cartographie du courant: automatique / par défaut</string>
+    <string name="camera_mapping_hint">OverDrive conserve le comportement de démarrage par défaut, mais vous permet maintenant de calibrer correctement la bande panoramique fusionnée. Aperçu de chaque tranche fusionnée crue, cartographier les rôles 360 logiques à la tranche qui montre réellement avant / droite / arrière / gauche sur votre véhicule, et le daemon réutilisera cette disposition pour l\'enregistrement, le streaming et l\'IA après le redémarrage.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">Scan pour connecter</string>
+    <string name="dashboard_qr_waiting">En attendant le tunnel...</string>
+    <string name="dashboard_daemons_running_default">0/5 Cours</string>
+    <string name="dashboard_device_id_loading">- Je ne sais pas .</string>
+    <string name="dashboard_access_code">Code d\'accès</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">Le symbole de régénération</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">Le début</string>
+    <string name="setup_guide_subtitle">Trois étapes rapides pour obtenir la meilleure expérience:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2 - Les États membres</string>
+    <string name="setup_step_three_label">3 Les États membres</string>
+    <string name="setup_language_title">Choisissez votre langue</string>
+    <string name="setup_language_body">Par défaut dans la langue de votre unité principale. Appuyez pour choisir une autre pour l\'application OverDrive et le tunnel Web.</string>
+    <string name="setup_language_button">Choisissez une langue</string>
+    <string name="setup_autostart_title">Désactiver la restriction de démarrage automatique</string>
+    <string name="setup_autostart_body">Cliquez ci-dessous pour ouvrir BYD Auto-Start. Trouvez OverDrive dans la liste et démarrez la case. BYD efface ceci à chaque installation  vous le redéfinirez après les mises à jour.</string>
+    <string name="setup_autostart_button">Ouvrez le démarrage automatique BYD</string>
+    <string name="setup_overlay_title">Permettez l\'affichage sur d\'autres applications</string>
+    <string name="setup_overlay_body">Activez cela pour afficher un indicateur d\'état flottant pour l\'enregistrement et le suivi des déplacements en haut d\'autres applications.</string>
+    <string name="setup_overlay_button">Ouvrez les paramètres de superposition</string>
+    <!-- Onboarding guide (novice track). Parked-only, glanceable. Overdrive is a
+         protected brand name — keep it verbatim. -->
+    <!-- Shared button labels -->
+    <string name="onboarding_next">Suivant</string>
+    <string name="onboarding_back">Précédent</string>
+    <string name="onboarding_skip">Ignorer</string>
+    <string name="onboarding_later">Faire cela plus tard</string>
+    <string name="onboarding_dismiss">Refuser</string>
+    <string name="onboarding_exit">Quitter la visite</string>
+    <string name="onboarding_done_short">Compris</string>
+    <!-- Step 0: authorize the daemon (system ADB popup) -->
+    <string name="onboarding_authorize_title">Réveillez Overdrive</string>
+    <string name="onboarding_authorize_body">Overdrive pilote vos caméras via un petit assistant embarqué sur l\'appareil. Android vous demandera une seule fois d\'autoriser le débogage USB — appuyez sur <b>Autoriser</b> et cochez <b>Toujours autoriser depuis cet ordinateur</b> pour que l\'autorisation reste active après chaque redémarrage.</string>
+    <string name="onboarding_authorize_button">Autoriser l\'accès</string>
+    <string name="onboarding_authorize_waiting_title">En attente de permission…</string>
+    <string name="onboarding_authorize_waiting_body">Acceptez la fenêtre pop-up Android. Si vous ne la voyez pas, elle peut être déjà accordée, cela continuera tout seul.</string>
+    <string name="onboarding_authorize_retry_title">Toujours non connecté</string>
+    <string name="onboarding_authorize_retry_body">L\'aide n\'est pas encore en cours d\'exécution. La permission Android a peut-être été rejetée. Essayez à nouveau et n\'oubliez pas de cocher <b>Toujours autoriser</b>.</string>
+    <string name="onboarding_authorize_retry_button">Réessayez</string>
+    <string name="onboarding_mode_title">Quand la surcharge doit-elle être exécutée ?</string>
+    <string name="onboarding_mode_body">Choisissez comment se comporte la Surcharge après avoir éteint la voiture.\n\n<b>Sur &amp; Off</b> continue à surveiller pendant que vous stationnez — la surveillance et la surveillance de fond restent actives, la voiture attire un peu de puissance du jour au lendemain.\n\n<b>On Only</b> ferme complètement Overdrive une fois que vous partiez. Dashcam, les trajets et le chargement fonctionnent encore pendant que vous conduisez, et tout recommence automatiquement lorsque vous allumez la voiture. Vous pouvez modifier cela à tout moment dans les paramètres.</string>
+    <string name="onboarding_mode_on_off_button">Sur &amp; Désactivé</string>
+    <string name="onboarding_mode_on_only_button">Activé uniquement</string>
+    <!-- Camera mapping chapter -->
+    <string name="onboarding_camera_step_label">Caméra · Etape %1$d de %2$d</string>
+    <string name="onboarding_camera_intro_title">Configurez vos caméras</string>
+    <string name="onboarding_camera_intro_body">Disons à Overdrive quelle caméra est votre vue 360 et quelle est votre caméra de bord. Cela prend environ une minute, et vous pourrez la changer plus tard.</string>
+    <string name="onboarding_camera_intro_primary">Début</string>
+    <string name="onboarding_camera_opening_title">Ouverture de la configuration de la caméra…</string>
+    <string name="onboarding_camera_opening_body">Chargement d\'un aperçu en direct depuis vos caméras. Cela peut prendre quelques secondes.</string>
+    <string name="onboarding_camera_pano_title">Ceci est votre vue 360</string>
+    <string name="onboarding_camera_pano_body">Utilisez les flèches pour trouver l\'image de 4 haut cousue. Lisez-la à partir du BOTTOM: en bas à gauche est le REAR, en bas à droite est le côté GAUCHE.</string>
+    <string name="onboarding_camera_dashcam_title">Maintenant, trouvez la caméra d\'avance</string>
+    <string name="onboarding_camera_dashcam_body">Traversez les caméras avec les flèches et arrêtez sur celle montrant le pare-brise / vue avant. Notez son numéro — vous allez le choisir ensuite.</string>
+    <string name="onboarding_camera_pick_title">Choisissez votre caméra 360</string>
+    <string name="onboarding_camera_pick_body">Dans la carte supérieure, choisissez le numéro pour votre appareil photo 360 / normale. Pas sûr? Laissez le sur AUTO et Overdrive le chiffre.</string>
+    <string name="onboarding_camera_pick_primary">Suivant</string>
+    <string name="onboarding_camera_pick_dash_title">Choisissez votre caméra dashcam</string>
+    <string name="onboarding_camera_pick_dash_body">Dans cette carte, choisissez le numéro de dashcam que vous avez trouvé précédemment — ou laissez-le sur AUTO.</string>
+    <string name="onboarding_camera_save_primary">Enregistrer &amp; redémarrer</string>
+    <string name="onboarding_camera_applying_title">Application — redémarrage des caméras</string>
+    <string name="onboarding_camera_applying_body">L\'alimentation deviendra sombre et clignotera pendant environ 10 secondes. C\'est normal, accrochez serré.</string>
+    <string name="onboarding_camera_verify_title">Contrôle rapide</string>
+    <string name="onboarding_camera_verify_body">Est-ce que la vue 360 montre l\'image cousue et la dashcam montre la route à venir ? Si un flux semble erroné, appuyez sur Re-pick — rien n\'est cassé.</string>
+    <string name="onboarding_camera_verify_ok">Regarde à droite</string>
+    <string name="onboarding_camera_verify_repick">Ré-sélectionner</string>
+    <string name="onboarding_camera_windshield_title">Des enregistrements sur bande de route ? (facultatif)</string>
+    <string name="onboarding_camera_windshield_body">Pour la disposition OEM dashcam — la caméra de pare-brise comme une bande au-dessus de votre enregistrement — choisissez Windshield dans le menu de rôle, choisissez la caméra suivante, puis Enregistrer. La plupart des propriétaires peuvent sauter cela.</string>
+    <string name="onboarding_camera_windshield_primary">Montrez-moi</string>
+    <string name="onboarding_camera_windshield_skip">Non merci</string>
+    <!-- Vehicle profile chapter -->
+    <string name="onboarding_vehicle_title">Indiquez votre batterie à Overdrive</string>
+    <string name="onboarding_vehicle_body">Choisissez votre modèle et nous remplissons le kWh, ou tapez-le vous-même (15-120). Cela rend les estimations de portée et de charge précises. Vous pouvez les passer et les définir plus tard.</string>
+    <string name="onboarding_vehicle_primary">Définir la batterie</string>
+    <!-- Dashboard orientation chapter -->
+    <string name="onboarding_dash_tiles_title">Votre cockpit en un coup d\'œil</string>
+    <string name="onboarding_dash_tiles_body">Ces cartes sont des boutons — touchez pour ouvrir des caméras en direct, des enregistrements, des services ou votre véhicule.</string>
+    <string name="onboarding_dash_chips_title">Celles-ci ne montrent que le statut</string>
+    <string name="onboarding_dash_chips_body">Les puces vers le haut montrent l\'enregistrement, les services et votre lien à distance. Ils se mettent à jour seuls, ce ne sont pas des boutons.</string>
+    <string name="onboarding_dash_chips_body_land">Votre statut en direct — enregistrement, services et lien distant — apparaît ici. Il se met à jour seul.</string>
+    <!-- Completion -->
+    <string name="onboarding_done_title">Cockpit prêt</string>
+    <string name="onboarding_done_body">Caméras mappées et batterie définies. Appuyez sur Live pour regarder vos flux — ou explorez les paramètres plus profonds à tout moment.</string>
+    <string name="onboarding_done_primary">Fait</string>
+    <string name="onboarding_done_secondary">Explorer la configuration</string>
+    <!-- Expert track (chaptered walkthrough of deeper config; footguns warned, never fired) -->
+    <string name="onboarding_help_cd">Visite guidée</string>
+    <string name="onboarding_reset_toast">Réinitialisation de l\'intégration — relecture du guide</string>
+    <string name="onboarding_expert_chapter_label">Chapitre %1$d de %2$d</string>
+    <string name="onboarding_expert_finish">Terminer</string>
+    <string name="onboarding_expert_menu_title">Visite guidée</string>
+    <string name="onboarding_expert_menu_body">Une marche rapide dans la configuration plus profonde — profil de votre véhicule, intégration, surveillance, diagnostic, services et sécurité. Vous pouvez arrêter à tout moment.</string>
+    <string name="onboarding_expert_menu_start">Commencer la visite</string>
+    <string name="onboarding_expert_vehicle_title">Profil du véhicule</string>
+    <string name="onboarding_expert_vehicle_body">Appuyez sur la tuile du véhicule pour définir la taille et le modèle de votre batterie. Elle alimente les estimations de portée et de santé précises.</string>
+    <string name="onboarding_expert_recordings_title">Vos enregistrements</string>
+    <string name="onboarding_expert_recordings_body">Basculer entre Dashcam (continu + clips de proximité) et Surveillance (événements de sentinelle stationnée) avec ce commutateur — chacun conserve sa propre bibliothèque. Appuyez sur un clip pour le jouer.</string>
+    <string name="onboarding_expert_live_title">Caméras en direct</string>
+    <string name="onboarding_expert_live_body">Ouvrez Live depuis ici pour regarder toutes les caméras en temps réel. Pratique pour vérifier la vue avant un lecteur ou pendant que vous êtes stationné à proximité.</string>
+    <string name="onboarding_expert_trips_title">Historique de la course</string>
+    <string name="onboarding_expert_trips_body">Les trajets enregistrent chaque trajet — trajet, distance, durée et consommation d\'énergie — afin que vous puissiez vérifier où la voiture a été utilisée.</string>
+    <string name="onboarding_expert_roadsense_title">RoadSense</string>
+    <string name="onboarding_expert_roadsense_body">RoadSense utilise les capteurs de mouvement et le GPS de la voiture pour détecter les dangers de la route — bosses, bâtons, brise-vitesses — et vous avertit avant d\'en connaître un. Ses onglets recouvrent la détection, la carte des dangers, les carreaux d\'avertissement et la tache aveugle. Allumez l\'interrupteur principal pour l\'utiliser.</string>
+    <string name="onboarding_expert_blindspot_title">Tache aveugle</string>
+    <string name="onboarding_expert_blindspot_body">Activer la tache aveugle dans l\'onglet ici et, lorsque vous signalez un virage, une vue caméra latérale apparaît automatiquement à l’écran — à gauche pour un signal de gauche, à droite pour un signal de droite — puis se cache peu après. Il ne s\'exécute que lorsqu\'un signal est allumé.</string>
+    <string name="onboarding_expert_maps_title">Navigation</string>
+    <string name="onboarding_expert_maps_body">Ouvrez la carte pour une navigation complète par tour — recherchez une destination, obtenez des itinéraires et des conseils en direct, plus les points d\'intérêt à proximité et tous les risques routiers RoadSense s\'est connecté le long du chemin. Vous pouvez également le projeter automatiquement sur le cluster d\'instruments lorsque vous commencez à conduire — ce bascule est vivant dans l\'onglet Carte de RoadSense.</string>
+    <string name="onboarding_expert_integrations_title">Intégrations</string>
+    <string name="onboarding_expert_integrations_body">Connectez les alertes Telegram, Un meilleur planificateur routier, MQTT ou BYD Cloud. Chaque carte ouvre sa configuration à l\'intérieur de l\'application. La pilule devient verte lorsque tout est lié.</string>
+    <string name="onboarding_expert_bydcloud_title">BYD Cloud déverrouille la télécommande</string>
+    <string name="onboarding_expert_bydcloud_body">Lier votre compte BYD ici permet le verrouillage, le flash et le cor à distance depuis votre téléphone. Traiter le compte lié et le code d\'accès comme sensible.</string>
+    <string name="onboarding_expert_surveillance_title">Surveillance &amp; enregistrement</string>
+    <string name="onboarding_expert_surveillance_body">Réglage précis de la détection, de la qualité et du stockage ici. Celles-ci s\'ouvrent sous forme de pages de configuration intégrées à votre voiture — un écran vide signifie juste que l\'aide est toujours en cours de démarrage.</string>
+    <string name="onboarding_expert_camprobe_title">sonde de l\'appareil photo — attentif</string>
+    <string name="onboarding_expert_camprobe_body">Cette recartographie la caméra physique alimente chaque rôle et redémarre les caméras. Ne le changez que si un flux semble mal — vous le configurez plus tôt dans le guide.</string>
+    <string name="onboarding_expert_traffic_title">Moniteur de trafic — requis pour l\'accès à distance</string>
+    <string name="onboarding_expert_traffic_body">Le Moniteur de trafic intégré de BYD empêche d\'autres applications d\'utiliser la carte SIM intégrée de la voiture. Si vous voulez atteindre votre voiture à distance sur la carte BYD, vous devez la désactiver ici. La tête redémarre pour appliquer le changement.</string>
+    <string name="onboarding_expert_daemons_title">Services — manipuler avec soin</string>
+    <string name="onboarding_expert_daemons_body">Ces commutateurs démarrent et arrêtent les services en arrière-plan. Désactiver la caméra, la surveillance ou la prise de vue ACC arrête l\'enregistrement et les met hors tension jusqu\'à ce que vous les réallumiez — même après un redémarrage.</string>
+    <string name="onboarding_expert_security_title">Verrouiller avec un code PIN</string>
+    <string name="onboarding_expert_security_body">Définissez un code PIN pour ouvrir l\'application pour les véhicules partagés. La surveillance et l\'enregistrement restent en cours pendant que l\'application est verrouillée. Un code PIN oublié ne peut être effacé que par USB.</string>
+    <string name="onboarding_expert_reset_title">Réinitialiser les données — permanent</string>
+    <string name="onboarding_expert_reset_body">Cela efface les enregistrements, les événements et les paramètres et ne peut pas être annulé. C\'est ici si vous vendez jamais la voiture, pas une partie de l\'utilisation normale.</string>
+    <string name="onboarding_expert_done_title">C\'est la visite</string>
+    <string name="onboarding_expert_done_body">Vous avez vu les paramètres plus profonds. Ouvrez à nouveau ce guide à tout moment à partir du bouton d\'aide.</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">Fermer</string>
+    <string name="language_picker_title">La langue</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">%1$d langues disponibles</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">Choisissez une langue</string>
+    <string name="language_auto_title">Automobile</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">Système de suivi · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · Auto</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">- Je ne sais pas.</string>
+    <string name="adb_command_hint">Entrez dans le commandement...</string>
+    <string name="adb_preset_commands_header">Commandes prédéfinies</string>
+    <string name="adb_output_header">Résultats</string>
+    <string name="adb_output_ready">Prêt pour les commandes...</string>
+    <string name="adb_console_hero_title">Console ADB</string>
+    <string name="adb_console_hero_subtitle">Exécuter les commandes de shell sur l\'appareil</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">La charge...</string>
+    <string name="webview_camera_daemon_not_running">Le Daemon de la caméra ne fonctionne pas</string>
+    <string name="webview_start_camera_daemon">Démarrez le Daemon de la caméra à partir de l\'écran Daemons pour accéder à cette page.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">Activer le jeton</string>
+    <string name="zrok_token_storage_note">Le jeton est stocké en toute sécurité et partagé entre les processus de l\'application et du daemon.</string>
+    <string name="zrok_reset_environment">Réinitialiser l\'environnement Zrok</string>
+    <string name="zrok_reset_environment_desc">Vous devrez réactiver avec votre jeton (utilisez un emplacement d\'appareil).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">Réinitialisation des données</string>
+    <string name="reset_subtitle">Effacer les données accumulées par catégorie</string>
+    <string name="reset_warning">Cela ne peut pas être annulé. Les enregistrements, les voyages et l\'historique de la batterie seront définitivement supprimés.</string>
+    <string name="reset_cat_trips">Trajets</string>
+    <string name="reset_cat_trips_desc">L\'historique des voyages, les itinéraires, les visites hebdomadaires ou mensuelles</string>
+    <string name="reset_cat_soc_history">L\'historique de SoC &amp; 12V</string>
+    <string name="reset_cat_soc_history_desc">échantillons de SoC, sessions de charge, journaux de tension</string>
+    <string name="reset_cat_soh">Calibration de la SOH</string>
+    <string name="reset_cat_soh_desc">Rédétecte la capacité nominale, estimation des semences à partir du BMS</string>
+    <string name="reset_cat_abrp_token">Le jeton ABRP</string>
+    <string name="reset_cat_abrp_token_desc">Désactiver la télémétrie ABRP jusqu\'à réparation</string>
+    <string name="reset_cat_byd_cloud">BYD Les informations d\'identification dans le cloud</string>
+    <string name="reset_cat_byd_cloud_desc">Nom d\'utilisateur, clé de connexion, VIN  ré-connexion requise</string>
+    <string name="reset_cat_recordings">Enregistrements (vidéos)</string>
+    <string name="reset_cat_recordings_desc">Tous les MP4 dans le dossier d\'enregistrements</string>
+    <string name="reset_cat_sentry_events">Événements de surveillance</string>
+    <string name="reset_cat_sentry_events_desc">Clips d\'événements de surveillance et voitures latérales JSON</string>
+    <string name="reset_cat_proximity">Enregistrements de proximité</string>
+    <string name="reset_cat_proximity_desc">MP4 d\'événements déclenchés par radar</string>
+    <string name="reset_cat_trip_files">Fichiers de télémétrie de voyage</string>
+    <string name="reset_cat_trip_files_desc">Télémétrie par voyage JSON sur disque</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">Tout le monde</string>
+    <string name="recording_lib_chip_person">Personnes</string>
+    <string name="recording_lib_chip_vehicle">Véhicule</string>
+    <string name="recording_lib_chip_bike">Vélo</string>
+    <string name="recording_lib_chip_animal">Animaux</string>
+    <string name="recording_lib_chip_alert">Alerte</string>
+    <string name="recording_lib_chip_critical">Critical</string>
+    <string name="recording_lib_selected_count_zero">0 sélectionné</string>
+    <string name="recording_lib_no_recordings">Aucun enregistrement</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">Filtre</string>
+    <string name="recording_lib_filter_button_active">Filtre · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">Enregistrements de filtres</string>
+    <string name="recording_lib_filter_apply">Appliquer</string>
+    <string name="recording_lib_filter_reset">Réinitialiser</string>
+    <string name="recording_lib_filter_section_what">C\' est quoi ?</string>
+    <string name="recording_lib_filter_section_severity">La gravité</string>
+    <string name="recording_lib_filter_section_type">Type</string>
+    <string name="recording_lib_filter_section_place">Le lieu</string>
+    <string name="recording_lib_filter_section_storage">Stockage</string>
+    <!-- Storage filter chip labels (full words; the tile badge uses the short
+         SD/USB/INT forms above). -->
+    <string name="recording_lib_storage_filter_internal">Interne</string>
+    <string name="recording_lib_storage_filter_sd">Carte SD</string>
+    <string name="recording_lib_storage_filter_usb">Clés USB</string>
+    <string name="recording_lib_place_search_hint">Rechercher des lieux…</string>
+    <string name="recording_lib_chip_type_normal">Normale</string>
+    <string name="recording_lib_chip_type_proximity">Proximité</string>
+    <string name="recording_lib_date_today">Aujourd\'hui</string>
+    <string name="recording_lib_date_yesterday">Hier, c\'était hier.</string>
+    <string name="recording_lib_clip_count">Clips %1$d</string>
+    <string name="recording_lib_clip_count_one">Clip %1$d</string>
+    <string name="recording_lib_pick_date">Choisissez une date.</string>
+    <string name="recording_lib_date_all_days">Tous les jours</string>
+    <string name="cd_clear_date_filter">Afficher tous les jours</string>
+    <string name="recording_lib_section_morning">Le matin.</string>
+    <string name="recording_lib_section_afternoon">Au revoir .</string>
+    <string name="recording_lib_section_evening">Le soir</string>
+    <string name="recording_lib_section_night">La nuit</string>
+    <string name="cd_previous_day">Jour précédent</string>
+    <string name="cd_next_day">Le lendemain .</string>
+    <string name="cd_open_filters">Filtres ouverts</string>
+    <string name="cd_clear_filter">Filtre clair</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">Aucun enregistrement correspondant</string>
+    <string name="recording_lib_empty_body">Essayez d\'ajuster la plage de dates ou les filtres à puce.</string>
+    <string name="recording_lib_empty_clear_filters">Effacer les filtres</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">Rien n\'a encore été enregistré</string>
+    <string name="recording_lib_empty_disk_body">Les captures apparaîtront ici dès que le dashcam ou le pipeline de surveillance écrira un clip.</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">Construction de l\'index de la bibliothèque</string>
+    <string name="recording_lib_building_index_body">Un instant pendant que le démon analyse vos enregistrements.</string>
+    <string name="recording_lib_building_index_progress">Indexé %1$d de %2$d clips…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">CAM</string>
+    <string name="recording_lib_type_event">ÉVÉNEMENT</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">OEM</string>
+    <!-- Per-clip storage tag — where the clip actually landed. Surfaces the
+         silent SD→internal fallback (SD bridged behind the USB power rail). -->
+    <string name="recording_lib_storage_sd">Carte SD</string>
+    <string name="recording_lib_storage_usb">Clés USB</string>
+    <string name="recording_lib_storage_internal">INTÉGRÉ</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">Partage des enregistrements %1$d</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">Enregistrement</string>
+    <string name="player_time_zero">À 0h00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">Services d\'arrière-plan</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">Les services de chargement...</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d de %2$d en cours d\'exécution</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">Je prépare une mise à jour...</string>
+    <string name="update_percent_zero">Pourcentage d\'équipement</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">Santé de la batterie</string>
+    <string name="battery_health_subtitle">L\'état de santé</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">En attendant les données...</string>
+    <string name="battery_health_source">Sources</string>
+    <string name="battery_health_method">Méthode</string>
+    <string name="battery_health_capacity">Capacité</string>
+    <string name="battery_health_samples">Des échantillons</string>
+    <string name="battery_health_last_updated">Dernière mise à jour</string>
+    <string name="battery_health_reset">Réinitialiser l\'estimation SOH</string>
+    <string name="battery_health_reset_desc">Efface toutes les données et réestime à partir de zéro. Utilisez si la batterie a été remplacée ou si la lecture semble incorrecte.</string>
+    <string name="soh_dialog_model_label">Modèle</string>
+    <string name="soh_dialog_pack_capacity_label">Capacité d\'emballage</string>
+    <string name="soh_dialog_estimated_capacity_label">Capacité effective</string>
+    <string name="soh_dialog_calibration_anchor_label">Dernière calibration</string>
+    <string name="soh_dialog_source_user">groupe d\'utilisateurs</string>
+    <string name="soh_dialog_source_auto">détecté automatiquement</string>
+    <string name="soh_dialog_model_not_selected">Pas sélectionné</string>
+    <string name="soh_dialog_capacity_not_detected">Ne pas détecté</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% sur %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">Réservation totale observée</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh observé à pleine portée (échantillons%2$d/%3$d)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh observé à pleine portée (collection d\'échantillons %2$d/%3$d)</string>
+    <string name="soh_dialog_frame_mismatch_title">Diséquilibre entre les cadres de capacité d\'emballage et les cadres de capacité d\'emballage</string>
+    <string name="soh_dialog_frame_mismatch_format">Le véhicule rapporte %1$.1f kWh à pleine charge, mais la capacité d\'emballage est réglée sur %2$.1f kWh. Le nombre ci-dessus peut refléter un déséquilibre unitaire (plaque de nom versus utilisable), pas une dégradation réelle. Considérez d\'entrer %1$.1f kWh pour correspondre à ce que le véhicule rapporte.</string>
+    <string name="soh_dialog_use_observed_value">Utiliser la valeur observée</string>
+    <string name="soh_dialog_use_observed_value_pending">Enregistrement…</string>
+    <string name="toast_soh_observed_value_saved">Capacité d\'emballage mise à jour à %1$.1f kWh.</string>
+    <string name="toast_soh_observed_value_failed">N\'a pas pu mettre à jour la capacité de l\'emballage (%1$s).</string>
+    <string name="diagnostics_battery_needs_review">À vérifier</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">OK</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="one">L\'enregistrement %d est supprimé</item>
+        <item quantity="other">Les enregistrements %d supprimés</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="one">Supprimer l\' enregistrement %d</item>
+        <item quantity="other">Supprimer les enregistrements %d</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="one">Cela supprimera définitivement l\'enregistrement %d.</item>
+        <item quantity="other">Cela supprimera définitivement les enregistrements %d.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">Mis à jour à %1$s</string>
+    <string name="toast_update_install_failed">Installation de mise à jour échouée: %1$s</string>
+    <string name="toast_checking_for_updates">Je vérifie les mises à jour...</string>
+    <string name="toast_app_up_to_date">L\'application est à jour (%1$s)</string>
+    <string name="toast_update_check_failed">Faillite de vérification de mise à jour: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">Mise à jour disponible</string>
+    <string name="update_dialog_subtitle">Une nouvelle version est prête à être installée</string>
+    <string name="update_dialog_current">Actuellement: v%1$s</string>
+    <string name="update_dialog_new">Nouveau: v%1$s</string>
+    <string name="update_dialog_current_label">Installé</string>
+    <string name="update_dialog_new_label">Nouvelle version</string>
+    <string name="update_dialog_whats_new">Quoi de neuf</string>
+    <string name="update_dialog_install_now">Installer maintenant</string>
+    <string name="update_dialog_later">Plus tard</string>
+    <string name="update_picker_title">Choisir une version</string>
+    <string name="update_picker_subtitle">Installer n\'importe quelle version publiée — plus récente ou plus ancienne</string>
+    <string name="update_picker_empty">Aucune version n\'a encore été publiée.</string>
+    <string name="update_picker_current_suffix">%1$s (installé)</string>
+    <string name="update_picker_older_suffix">%1$s (ancien)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">Mise à jour d\'Overdrive</string>
+    <string name="update_step_downloading">Téléchargement de la mise à jour…</string>
+    <string name="update_step_verifying">Verifying download…</string>
+    <string name="update_step_stopping">Arrêt des démons…</string>
+    <string name="update_step_installing">Installation de la mise à jour…</string>
+    <string name="update_step_installed">Mise à jour installée</string>
+    <string name="update_step_restarting">Redémarrage de l\'application…</string>
+    <string name="update_step_queued">Démarrage de la mise à jour…</string>
+    <string name="update_error_title">La mise à jour a échoué</string>
+    <string name="update_error_daemon_down">Le démon de l\'appareil photo n\'est pas en cours d\'exécution. Démarrez-le à partir de l\'écran des démons, puis essayez de mettre à jour à nouveau.</string>
+    <string name="update_error_start_failed">Impossible de démarrer la mise à jour : %1$s</string>
+    <string name="update_error_lost_headunit">Contact perdu avec la tête de l\'unité avant la fin de l\'installation. Sur un tunnel? Vérifiez Telegram pour la nouvelle URL, ou utilisez l\'adresse IP locale.</string>
+    <string name="update_hide">Cacher</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">Canal de mise à jour</string>
+    <string name="settings_update_channel_alpha">Alphabétisation</string>
+    <string name="settings_update_channel_braveheart">Cœur courageux</string>
+    <string name="settings_update_channel_alpha_desc">La version stable. Chaque version publiée est conservée — choisissez n\'importe quelle version à installer (downgrades autorisés). Recommandée pour une utilisation quotidienne.</string>
+    <string name="settings_update_channel_braveheart_desc">Des versions de fond en comble ont été fournies dès qu\'elles sont publiées. Vous obtenez de nouvelles fonctionnalités en premier, mais elles peuvent être instables ou boguées. Si quelque chose se brise, ouvrez l\'écran des démons, tapez sur le journal d\'un démon, choisissez \"Télécharger &amp; obtenir un code\", et partagez le code avec nous sur les canaux de la communauté.</string>
+    <string name="settings_update_channel_save_failed">Impossible d\'enregistrer le canal de mise à jour</string>
+    <string name="settings_update_channel_braveheart_toast">Basculé vers Braveheart. Les constructions peuvent être instables — si quelque chose ne fonctionne pas, envoyez le journal du démon et signalez le sur Discord/GitHub/WhatsApp.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">Autorisation de stockage requise pour les enregistrements</string>
+    <string name="toast_url_copied_short">URL copié !</string>
+    <string name="toast_camera_set_to_auto">La caméra est réglée sur Auto</string>
+    <string name="toast_failed_to_save_short">Échec de sauvegarde</string>
+    <string name="toast_failed_with_message">Échec: %1$s</string>
+    <string name="toast_camera_id_set">Caméra %1$d ensemble  prochain cycle ACC</string>
+    <string name="toast_clearing_camera_config">Je déconnecte la configuration de la caméra...</string>
+    <string name="toast_restarting_camera_daemon">Relancer le démon de la caméra...</string>
+    <string name="toast_camera_daemon_restarting">Daemon de la caméra redémarrant avec une sonde complète</string>
+    <string name="toast_camera_restart_failed">Configuration effacée mais démarrage de démon a échoué.</string>
+    <string name="toast_camera_settings_saved_restarting">Les paramètres de l\'appareil photo sauvegardés  redémarrer le démon de l\'appareil photo...</string>
+    <string name="toast_camera_settings_restart_failed">Les paramètres de l\'appareil photo ont été sauvegardés, mais le démarrage du démon a échoué.</string>
+    <string name="toast_failed_with_message_x">Échec: %1$s</string>
+    <string name="toast_soh_reset_success">Réinitialisation de l\'estimation SOH  se fera à nouveau à partir des données suivantes</string>
+    <string name="toast_soh_reset_failed_no_daemon">Réinitialiser échoué  daemon ne répond pas et le fichier ne peut pas être écrit</string>
+    <string name="toast_soh_reset_failed_with_message">Réinitialisation ratée: %1$s</string>
+    <string name="toast_select_at_least_one_category">Sélectionnez au moins une catégorie</string>
+    <string name="toast_reset_failed_with_error">Réinitialisation ratée: %1$s</string>
+    <string name="toast_traffic_monitor_changing">Moniteur de circulation %1$s...</string>
+    <string name="dialog_close">Fermer</string>
+    <string name="dialog_reset">Réinitialiser</string>
+    <string name="dialog_delete">Supprimer</string>
+    <string name="dialog_save">Enregistrer</string>
+    <string name="dialog_enable">Activer</string>
+    <string name="dialog_disable">Désactiver</string>
+    <string name="dialog_keep_enabled">Restez en mesure de le faire</string>
+    <string name="dialog_keep_disabled">Restez handicapé</string>
+    <string name="dialog_regenerate">Régénération</string>
+    <string name="dialog_reset_selected">Réinitialisation sélectionnée</string>
+    <string name="dialog_reset_soh_title">Réinitialiser l\'estimation SOH ?</string>
+    <string name="dialog_reset_soh_message">Cela effacera toutes les données SOH et forcera la réévaluation à partir de zéro.\n\nUtilisez ceci si:\n• La batterie a été remplacée\n• La lecture SOH semble incorrecte\n• Vous souhaitez recalibrer\n\nLe système se reproduira à partir de la prochaine source de données disponible (OEM, calibration de charge ou lecture instantanée).</string>
+    <string name="dialog_reset_following_title">Réinitialiser ce qui suit ?</string>
+    <string name="dialog_reset_following_message">This cannot be undone.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Réinitialisation complète</string>
+    <string name="dialog_traffic_cannot_check_title">Impossible de vérifier le statut</string>
+    <string name="dialog_traffic_cannot_check_message">La connexion ADB n\'est pas encore prête.\n\nL\'application a besoin d\'un accès ADB pour gérer les paquets système. Veuillez vous assurer que:\n\n• USB Débogage est activé dans les Options du développeur\n• La demande d\'autorisation ADB a été acceptée\n\nL\'état sera mis à jour automatiquement une fois connecté.</string>
+    <string name="dialog_traffic_disable_title">Désactiver le moniteur de circulation BYD ?</string>
+    <string name="dialog_traffic_disable_message">Le BYD Traffic Monitor (com.byd.trafficmonitor) est une application de système intégrée qui surveille continuellement les conditions de la circulation routière en arrière-plan.\n\n️ Pourquoi le désactiver?\n\n• Consomme des données mobiles (même lorsqu\'il est garé)\n• Utilise CPU et une batterie en arrière-plan\n• Ne nécessite pas si vous utilisez une application de navigation distincte\n• peut interférer avec l\'utilisation du réseau de la caméra de bord\n\nCela peut être désactivé en toute sécurité  il n\'affecte que la couche de trafic intégrée sur la carte. Votre navigation, Bluetooth, et toutes les autres fonctions de la voiture rest</string>
+    <string name="dialog_traffic_enable_title">Réactiver le moniteur de circulation BYD ?</string>
+    <string name="dialog_traffic_enable_message">Le moniteur de trafic BYD est actuellement désactivé.\n\nLe réactiver permettra de restaurer la superposition de trafic intégrée sur la carte de navigation.Notez qu\'il fonctionnera en arrière-plan et consommera des données mobiles.\n\nUn redémarrage dur est nécessaire après activation (rester le bouton de la console centrale 5 secondes).</string>
+    <string name="dialog_traffic_status_title">Moniteur de circulation %1$s</string>
+    <string name="dialog_traffic_reboot_message">Le changement a été appliqué.\n\nS\'il vous plaît effectuer un redémarrage dur maintenant:\nAppuyez et maintenez le bouton de la console centrale pendant 5 secondes.</string>
+    <string name="traffic_monitor_loading">Moniteur de circulation: vérification...</string>
+    <string name="traffic_monitor_tap_to_check">Moniteur de circulation (cliquez pour vérifier)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">Trajets</string>
+    <string name="reset_label_soc_history">L\'historique de la SoC + 12V</string>
+    <string name="reset_label_soh">Calibration de la SOH</string>
+    <string name="reset_label_abrp_token">Le jeton ABRP</string>
+    <string name="reset_label_byd_cloud">BYD Les informations d\'identification dans le cloud</string>
+    <string name="reset_label_recordings">Enregistrements</string>
+    <string name="reset_label_sentry_events">Événements de surveillance</string>
+    <string name="reset_label_proximity">Enregistrements de proximité</string>
+    <string name="reset_label_trip_files">Fichiers de télémétrie de voyage</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">Code d\'accès copié</string>
+    <string name="dialog_regenerate_token_title">Le symbole de régénération</string>
+    <string name="dialog_regenerate_token_message">Cela annulera le jeton actuel. Toutes les sessions actives seront désactivées.</string>
+    <string name="toast_token_regenerated_logged_out">Toutes les séances ont été retirées.</string>
+    <string name="toast_token_regenerated_restart">Le Daemon a peut-être besoin de redémarrer pour appliquer.</string>
+    <string name="toast_token_regenerated_no_notify">Le jeton a été régénéré.</string>
+    <string name="toast_token_regenerated">Le jeton régénéré</string>
+    <string name="dashboard_no_tunnel">Pas de tunnel en cours d\'exécution</string>
+    <string name="dashboard_starting_zrok">Je démarre le tunnel Zrok...</string>
+    <string name="dashboard_starting_cloudflared">Le tunnel de Cloudflared commence...</string>
+    <string name="dashboard_starting_tailscale">Je démarre le tunnel Tailscale...</string>
+    <string name="dashboard_waiting_url">En attendant le tunnel URL...</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d en cours d\'exécution</string>
+    <string name="tunnel_label_cloudflared">Cloudflared</string>
+    <string name="tunnel_label_zrok">Zrok</string>
+    <string name="tunnel_label_tailscale">Tailscale</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">Daemon de la caméra</string>
+    <string name="daemon_name_surveillance">Daemon de la surveillance</string>
+    <string name="daemon_name_acc_surveillance">ACC Surveillance</string>
+    <string name="daemon_name_singbox">Sing-box Proxy</string>
+    <string name="daemon_name_cloudflared">Le tunnel Cloudflared</string>
+    <string name="daemon_name_zrok">Le tunnel Zrok</string>
+    <string name="daemon_name_tailscale">Le tunnel Tailscale</string>
+    <string name="daemon_name_telegram">Telegram Bot</string>
+    <string name="clip_label_access_code">Code d\'accès</string>
+    <string name="clip_label_url">URL</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">Aucune configuration n\'est nécessaire pour %1$s</string>
+    <string name="dialog_zrok_token_title">Token du tunnel Zrok</string>
+    <string name="dialog_zrok_token_message">Entrez votre jeton Zrok activé.\n Obtenez un à: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">Le jeton ne peut pas être vide</string>
+    <string name="dialog_tailscale_settings_title">Paramètres de tunnel Tailscale</string>
+    <string name="dialog_tailscale_settings_message">Configurer Tailscale</string>
+    <string name="tailscale_failed_login_url">Échec de générer l\' url de connexion</string>
+    <string name="tailscale_logged_in_relogin">Connectez-vous. Cliquez pour vous connecter à un autre compte</string>
+    <string name="dialog_tailscale_proxy_enable_title">Activer le Tailscale Proxy ?</string>
+    <string name="dialog_tailscale_proxy_enable_message">Ce routeur MQTT passe par Tailscale afin que vous puissiez atteindre un courtier privé sur votre filet de couture sans transfert de port.\n\nTandis que:\n• MQTT à un courtier de filet de couture fonctionne (par exemple Mosquitto sur un appareil sur votre filet de couture)\n• MQTT à des courtiers publics (HiveMQ, AWS IoT, etc.) échouera  Tailscale seulement des routes vers votre filet de couture\n• Le démon Tailscale redémarrera pour appliquer le changement\n• Le trafic d\'autres applications et le reste de l\'appareil ne sont pas affectés\n\nVous pouvez le désactiver à tout moment.</string>
+    <string name="dialog_zrok_reset_title">Réinitialiser l\'environnement Zrok</string>
+    <string name="dialog_zrok_reset_message">Ceci:\n• Arrêtera le tunnel zrok si il fonctionne\n• Supprimez l\'environnement zrok de cet appareil\n• Supprimez le jeton enregistré\n\nVous devrez réentrer votre jeton et le réactiver. Cela utilise l\'un de vos 5 emplacements d\'appareils sur zrok.io.\n\nEst-ce que vous êtes sûr?</string>
+    <string name="toast_resetting_zrok">Réinitialiser l\'environnement zrok...</string>
+    <string name="toast_zrok_reset_success">Réinitialiser l\'environnement Zrok. Entrez un nouveau jeton pour le réinitialiser.</string>
+    <string name="toast_zrok_reset_partial">Réinitialisation de l\'environnement (le fichier de jeton peut nécessiter un nettoyage manuel)</string>
+    <string name="toast_zrok_reset_warnings">Réinitialisation de l\'environnement (avec avertissements: %1$s)</string>
+    <string name="zrok_no_token_configured">Aucun jeton configuré.</string>
+    <string name="dialog_tailscale_reset_title">Réinitialiser l\'environnement Tailscale</string>
+    <string name="dialog_tailscale_reset_message">Cela:\n• Arrêtera le tunnel de tailscale si elle fonctionne\n• Retirez l\'environnement de tailscale de cet appareil\n• Vous devrez toujours retirer l\'appareil de la console de tailscale\n\nVous devrez vous connecter à nouveau.\n\nEst-ce que vous êtes sûr?</string>
+    <string name="toast_resetting_tailscale">Réinitialisation de l\'environnement Tailscale…</string>
+    <string name="toast_tailscale_reset_success">Réinitialisation de l\'environnement Tailscale.</string>
+    <string name="toast_tailscale_reset_warnings">Réinitialisation de l\'environnement Tailscale (avec avertissements: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">Tailscale proxy activé</string>
+    <string name="toast_tailscale_proxy_disabled">Tailscale proxy désactivé</string>
+    <string name="toast_tailscale_proxy_save_failed">Échec de sauvegarde des paramètres proxy</string>
+    <string name="toast_zrok_token_saved">Les jetons enregistrés</string>
+    <string name="toast_zrok_token_save_failed">Échec à enregistrer le jeton</string>
+    <string name="toast_zrok_token_deleted">Le jeton supprimé</string>
+    <string name="toast_zrok_token_delete_failed">Échec à supprimer le jeton</string>
+    <string name="toast_fetching_log">Je prends le journal %1$s...</string>
+    <string name="toast_log_empty_or_missing">Fichier journalier est vide ou non trouvé</string>
+    <string name="toast_log_empty">Le fichier journalier est vide</string>
+    <string name="toast_daemon_manager_unavailable">Le directeur Daemon n\'est pas prêt, réessayez dans un instant.</string>
+    <string name="toast_log_save_failed">Échec de sauvegarde du journal: %1$s</string>
+    <string name="toast_log_not_found">Fichier journalier non trouvé ou illégable</string>
+    <string name="log_share_title">%1$s Log - %2$s</string>
+    <string name="log_share_chooser">Partager le journal %1$s</string>
+    <string name="log_header_title">=== %1$s Log ===</string>
+    <string name="log_header_source">Source: %1$s</string>
+    <string name="log_header_exported">Exporté: %1$s</string>
+    <string name="log_header_truncated">NOTE: Logi réduit à 10000 lignes (total: lignes %1$d)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">Envoyer le journal %1$s</string>
+    <string name="logs_send_title_plain">Envoyer le journal du démon</string>
+    <string name="logs_send_subtitle">%1$s · choose how to send it to us</string>
+    <string name="logs_send_upload">Télécharger &amp; obtenir un code</string>
+    <string name="logs_send_upload_desc">Envoie le log et vous donne un code court. Plus facile pour l\'assistance.</string>
+    <string name="logs_send_share">Partager le fichier…</string>
+    <string name="logs_send_share_desc">Enregistrez ou envoyez vous-même le log via la feuille de partage.</string>
+    <string name="logs_uploading_title">Envoi du journal…</string>
+    <string name="logs_uploading_subtitle">Rédaction des secrets et envoi sécurisé</string>
+    <string name="logs_uploaded_title">Journal téléchargé</string>
+    <string name="logs_uploaded_instructions">Partagez ce code avec nous, avec une note sur ce que vous faisiez quand il a cassé. Publiez-le sur Discord, GitHub Issues ou WhatsApp — les liens sont sur l\'écran À Propos.</string>
+    <string name="logs_uploaded_privacy">Les secrets ont été supprimés · le journal expire automatiquement</string>
+    <string name="logs_copy_code">Copier le code</string>
+    <string name="logs_done">Fait</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">Erreur réseau</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">Je ne peux pas lire la vidéo: %1$s</string>
+    <string name="dialog_delete_recording_title">Supprimer l\'enregistrement</string>
+    <string name="dialog_delete_recording_message">Supprimer %1$s ?\nCe n\'est pas possible.</string>
+    <string name="toast_recording_deleted">Enregistrement supprimé</string>
+    <string name="toast_recording_delete_failed">Échec de supprimer l\'enregistrement</string>
+    <string name="toast_batch_delete_partial">%1$d supprimé, %2$d échoué</string>
+    <string name="play_with_chooser">Joue avec</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">Mis à jour vers %1$s — reconfirmer le démarrage automatique, BYD l\'efface à chaque installation</string>
+    <string name="setup_overlay_already_granted">Déjà accordé</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">Conseils et dépannage</string>
+    <string name="setup_traffic_title">Désactiver le moniteur de circulation BYD</string>
+    <string name="setup_traffic_body">Le BYD Traffic Monitor bloque les applications tierces d\'accéder à Internet. La désactivation permet à OverDrive et à toutes les autres applications que vous installez d\'utiliser réellement le réseau.</string>
+    <string name="setup_traffic_button">Moniteur de circulation ouvert</string>
+    <string name="setup_camera_fix_title">La caméra est noire ou incorrecte ?</string>
+    <string name="setup_camera_fix_body">Ouvrez le diagnostic → sonde de la caméra, définissez l\'identifiant de la caméra à 0, appuyez sur Enregistrer, puis redémarrez le démon de la caméra. Si les flux sont toujours erronés, répétez avec l\'identifiant de la caméra 1. Laissez la section de cartographie intacte.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">Actuel: appareil photo %1$d (manuel)</string>
+    <string name="camera_current_auto_label">Actuel: Auto</string>
+    <string name="soh_estimation_active">Activité de l\'estimation</string>
+    <string name="soh_no_estimate_yet">Pas encore d\'estimation  attendant les données</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">%1$d sélectionné</string>
+    <string name="video_player_playback_error">Erreur de lecture</string>
+    <string name="video_player_no_events">Aucun événement</string>
+    <string name="daemon_configuration_required">Configuration requise</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">Le lecteur vidéo</string>
+    <string name="nav_page_telegram">Telegram</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">MQTT</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">OverDrive État</string>
+    <string name="status_overlay_notif_text">Couche de statut active</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Overdrive actif</string>
+    <string name="daemon_keepalive_notif_text">Surveillance des systèmes de véhicules</string>
+    <string name="overdrive_status_summary_title">Overdrive</string>
+    <string name="overdrive_status_summary_text">Services en arrière-plan en cours d\'exécution</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">Tableau de bord</string>
+    <string name="rail_live">En direct</string>
+    <string name="rail_recordings">Enregistrements</string>
+    <string name="rail_vehicle">Véhicule</string>
+    <string name="rail_projection">Projection</string>
+    <string name="rail_trips">Trajets</string>
+    <string name="rail_charging">Recharge en cours</string>
+    <string name="rail_automations">Automatisations</string>
+    <string name="rail_key_mapping">Cartographie des touches</string>
+    <string name="rail_integrations">Les intégrations</string>
+    <string name="rail_diagnostics">Diagnostics</string>
+    <string name="rail_settings">Paramètres</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">L\'apparence</string>
+    <string name="settings_section_recording">Enregistrement</string>
+    <string name="settings_section_surveillance">Surveillance</string>
+    <string name="settings_section_daemons">Des démons</string>
+    <string name="settings_section_privacy">Confidentialité et données</string>
+    <string name="settings_section_overlay">Couche de statut</string>
+    <string name="settings_section_security">Sécurité</string>
+    <string name="settings_overlay_subtitle">Choisissez les segments de la pilule d\'état flottante qui restent visibles.</string>
+    <string name="settings_overlay_camera_title">ou indicateur d\'appareil photo</string>
+    <string name="settings_overlay_camera_subtitle">Afficher le badge REC / PROX pendant que l\'enregistrement est actif.</string>
+    <string name="settings_overlay_trip_title">Indique Trip</string>
+    <string name="settings_overlay_trip_subtitle">Montrez le badge TRIP pendant que la détection des voyages est en cours.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">À propos</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">Réglages</string>
+    <string name="cd_settings_subrail">Réseau de réglage</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">Confidentialité et données</string>
+    <string name="settings_privacy_body">La réinitialisation efface l\'index d\'enregistrement, les informations d\'identification en cache, l\'état du démon et les préférences sur l\'appareil.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">À propos de OverDrive</string>
+    <string name="settings_about_version_label">La version</string>
+    <string name="settings_about_package_label">Construire</string>
+    <string name="settings_about_check_update_value">Vérifiez la dernière version de GitHub et installez-la si elle est plus récente.</string>
+    <!-- Backup & Restore (same-device). The backup file contains credentials +
+         the device key, so the copy warns the user to keep it private. -->
+    <string name="settings_backup_export_title">Exporter les paramètres</string>
+    <string name="settings_backup_export_value">Enregistrez un fichier de sauvegarde de vos paramètres actuels. Gardez-le privé - il contient vos identifiants.</string>
+    <string name="settings_backup_import_title">Restaurer les paramètres</string>
+    <string name="settings_backup_import_value">Charger un fichier de sauvegarde fait sur cette même unité de tête.</string>
+    <string name="settings_backup_default_filename">overdrive-backup.json</string>
+    <string name="settings_backup_exporting">Construction de la sauvegarde…</string>
+    <string name="settings_backup_export_failed">L\'exportation de la sauvegarde a échoué</string>
+    <string name="settings_backup_saved">Sauvegarde enregistrée</string>
+    <string name="settings_backup_saved_to">Sauvegarde enregistrée vers %1$s</string>
+    <string name="settings_backup_save_failed">Impossible d\'enregistrer le fichier de sauvegarde</string>
+    <string name="settings_backup_pick_file">Choisir une sauvegarde à restaurer</string>
+    <string name="settings_backup_no_files">Aucun fichier de sauvegarde trouvé. Exportez un premier, ou copiez une sauvegarde .json dans %1$s, puis réessayez.</string>
+    <string name="settings_backup_read_failed">Impossible de lire le fichier</string>
+    <string name="settings_backup_invalid_file">Ce fichier n\'est pas une sauvegarde Overdrive valide</string>
+    <string name="settings_backup_restoring">Restauration de…</string>
+    <string name="settings_backup_restored">Paramètres restaurés</string>
+    <string name="settings_backup_restore_failed">Échec de la restauration</string>
+    <string name="settings_backup_daemon_down">Le service de caméra doit être en cours d\'exécution pour la sauvegarde ou la restauration. Démarrez-le à partir des démons, puis réessayez.</string>
+    <string name="settings_backup_restore_confirm_title">Restaurer les paramètres?</string>
+    <string name="settings_backup_restore_confirm_msg">Ceci remplace les paramètres actuels de Overdrive par la sauvegarde et recharge les services. Il ne fonctionne que sur la même unité principale sur laquelle la sauvegarde a été effectuée.</string>
+    <string name="settings_backup_restore_confirm_btn">Restaurer</string>
+    <string name="settings_backup_restart_hint">Paramètres restaurés. Redémarrez le démon de la caméra (Daemons → Caméra → Redémarrer) pour vous assurer que tous les paramètres restaurés sont appliqués.</string>
+    <string name="settings_backup_trips_prompt">Inclure l\'historique de votre voyage (distance, énergie, coûts, scores, emplacements de début/fin) ? La télémétrie détaillée par trajet n\'est pas incluse. Le fichier contiendra votre historique d\'emplacement — le garder privé.</string>
+    <string name="settings_backup_settings_only">Paramètres uniquement</string>
+    <string name="settings_backup_with_trips">Inclure les courses</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">Poussé par des gens comme toi</string>
+    <string name="settings_about_support_share_title">Parlez-en à un autre propriétaire</string>
+    <string name="settings_about_support_share_value">Chaque lien partagé aide un autre propriétaire de BYD à découvrir Overdrive.</string>
+    <string name="settings_about_support_share_message">Consultez Overdrive  surveillance open source et dashcam pour BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">Partager Overdrive</string>
+    <string name="settings_about_open_link_failed">Je n\'ai pas pu ouvrir le lien.</string>
+    <string name="settings_about_open_link_copied">Aucun navigateur n\'a été trouvé. URL copié: %1$s</string>
+    <string name="settings_about_support_kofi_title">Fuel la prochaine version</string>
+    <string name="settings_about_support_kofi_value">Un café sur Ko-Fi fait venir les engagements de fin de soirée.</string>
+    <string name="settings_about_license_title">Licence</string>
+    <string name="settings_about_license_value">MIT  open source. Appuyez pour voir le texte complet.</string>
+    <string name="settings_about_source_title">Code source</string>
+    <string name="settings_about_source_value">github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">Faites une sur GitHub</string>
+    <string name="settings_about_star_value">Ça prend une seconde, ça veut dire beaucoup.</string>
+    <string name="settings_about_thanks_title">Merci</string>
+    <string name="settings_about_thanks_subtitle">Conçu avec l\'aide de contributeurs et de soutiens.</string>
+    <string name="settings_about_contributors_title">Contributeurs</string>
+    <string name="settings_about_supporters_title">Soutiens</string>
+    <string name="settings_about_thanks_empty">La liste se remplit au fur et à mesure que des gens participent.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">Thème</string>
+    <string name="settings_theme_auto">Automobile (système de suivi)</string>
+    <string name="settings_theme_light">Lumière</string>
+    <string name="settings_theme_dark">Dans le noir</string>
+    <string name="settings_language_label">La langue</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">Enregistrements</string>
+    <string name="recordings_segment_dashcam">Dashcam</string>
+    <string name="recordings_segment_surveillance">Surveillance</string>
+    <string name="recordings_action_settings">Paramètres</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d aujourd\'hui · %2$d total · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">Dashcam · %d</string>
+    <string name="recordings_segment_surveillance_count">Surveillance · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending"> Le gouvernement</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">Sélectionnez un enregistrement</string>
+    <string name="recordings_preview_placeholder_body">Appuyez sur n\'importe quel élément à gauche pour le lire.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">Console ADB</string>
+    <string name="diagnostics_section_traffic">Moniteur de circulation</string>
+    <string name="diagnostics_section_camera_probe">Sonde de la caméra</string>
+    <string name="diagnostics_section_battery">Santé de la batterie</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">Diagnostics du système</string>
+    <string name="diagnostics_hero_subtitle">La santé en direct, les journaux et les sondes pour l\'appareil.</string>
+    <string name="diagnostics_health_clear">Tout est clair.</string>
+    <string name="diagnostics_health_section">Santé</string>
+    <string name="diagnostics_health_network">Réseau</string>
+    <string name="diagnostics_health_storage">Le stockage</string>
+    <string name="diagnostics_health_camera">Une caméra</string>
+    <string name="diagnostics_health_battery">Batterie</string>
+    <string name="diagnostics_metric_pending"> Le gouvernement</string>
+    <string name="diagnostics_metric_online">En ligne</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">Le tunnel · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">En ligne</string>
+    <string name="diagnostics_tunnel_state_offline">En ligne</string>
+    <string name="diagnostics_tunnel_state_connecting">Connexion</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">Mobiles</string>
+    <string name="diagnostics_network_ethernet">Éthernet</string>
+    <string name="diagnostics_network_offline">En ligne</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">Clips %1$d · %2$s utilisés</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s libre</string>
+    <string name="diagnostics_logs_card_title">Registre d\' événement en direct</string>
+    <string name="diagnostics_logs_card_subtitle">Retour en continu des services en cours d\'exécution.</string>
+    <string name="diagnostics_tools_section">Les outils</string>
+    <string name="diagnostics_traffic_subtitle">Regardez le débit du réseau en direct.</string>
+    <string name="diagnostics_camera_probe_subtitle">Inspectez les flux de caméras connectés.</string>
+    <string name="diagnostics_adb_subtitle">Ouvrez le terminal de l\'appareil.</string>
+    <string name="diagnostics_battery_subtitle">Inspectez la cellule SOH et emballez les statistiques.</string>
+    <string name="diagnostics_settings_subtitle">Les préférences de l\'application, le thème et la langue.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">Les intégrations</string>
+    <string name="integrations_hero_subtitle">Connectez Overdrive à vos services.</string>
+    <string name="integrations_status_unknown">Appuyez pour configurer</string>
+    <string name="integrations_status_configured">Configuré</string>
+    <string name="integrations_status_not_set_up">Pas mis en place</string>
+    <string name="integrations_telegram_desc">Envoyez des résumés de disques, des alertes de mouvement et des notifications SOS à votre robot privé Telegram.</string>
+    <string name="integrations_abrp_desc">Poussez les données de la batterie en direct et de l\'itinéraire à un meilleur planificateur pour les prédictions de charge.</string>
+    <string name="integrations_mqtt_desc">Publier la télémétrie du véhicule à l\'assistant à domicile ou à un courtier MQTT.</string>
+    <string name="integrations_byd_cloud_desc">Connectez votre compte d\'application BYD pour activer les commandes à distance comme le verrouillage de porte, l\'appel de phares et le klaxon.</string>
+    <string name="integrations_configure_button">Configuration</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">Vérifiez les mises à jour</string>
+    <string name="settings_action_reset_data">Réset des données...</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">OverDrive</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">En veille active</string>
+    <string name="dashboard_subtitle_all_systems">Tous les systèmes en ligne</string>
+    <string name="dashboard_subtitle_some_offline">%1$d des services en ligne de %2$d</string>
+    <string name="dashboard_subtitle_no_tunnel">Accès à distance hors connexion</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">Les enregistrements d\' aujourd\'hui</string>
+    <string name="dashboard_metric_storage">Stockage utilisé</string>
+    <string name="dashboard_metric_tunnel">Accès à distance</string>
+    <string name="dashboard_metric_services">Services d\'arrière-plan</string>
+    <string name="dashboard_metric_value_pending"> Le gouvernement</string>
+    <string name="dashboard_metric_vehicle">Véhicule</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">Enregistrement</string>
+    <string name="dashboard_chip_recording_idle">Inactif</string>
+    <string name="dashboard_vehicle_tap_to_set">Appuyez sur le réglage</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWh · %2$s</string>
+    <string name="vehicle_dialog_title">Réglage de la capacité de la batterie</string>
+    <string name="vehicle_dialog_capacity_label">Capacité (kWh)</string>
+    <string name="vehicle_dialog_capacity_suffix">kWh</string>
+    <string name="vehicle_dialog_capacity_helper">15 à 120 kWh. Laissez utiliser le modèle par défaut.</string>
+    <string name="vehicle_dialog_model_label">Modèle</string>
+    <string name="vehicle_dialog_save">Enregistrer</string>
+    <string name="vehicle_dialog_reset">Réinitialiser à la détection automatique</string>
+    <string name="vehicle_dialog_invalid_capacity">La capacité doit être comprise entre 15 et 120 kWh</string>
+    <string name="vehicle_dialog_summary_capacity">Capacité: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">Effectif: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">Modèle: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">Dernière calibration: %1$.1f%% sur %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">non disponible</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s utilisé · %2$s libre</string>
+    <string name="dashboard_metric_storage_chip_pending">Réservation </string>
+    <string name="dashboard_tunnel_offline">En ligne</string>
+    <string name="dashboard_tunnel_online">En ligne</string>
+    <string name="dashboard_tunnel_connecting">Je me connecte...</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">Vue en direct</string>
+    <string name="dashboard_action_live_subtitle">Vue de caméra ouverte</string>
+    <string name="dashboard_action_recordings">Enregistrements</string>
+    <string name="dashboard_action_settings">Paramètres</string>
+    <string name="dashboard_action_settings_subtitle">Préférences et sur</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">Paramètres</string>
+    <string name="settings_hero_overline">Le dépassement</string>
+    <string name="settings_hero_subtitle">Ajustez l\'apparence, l\'enregistrement, la surveillance et les données sur l\'appareil.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">Préférences</string>
+    <string name="settings_overline_about_data">À propos et données</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">Thème</string>
+    <string name="settings_quick_language_label">La langue</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">Buffers pré/après, codec, limites de stockage.</string>
+    <string name="settings_section_surveillance_subtitle">Zones de détection, horaire, sensibilité au mouvement.</string>
+    <string name="settings_section_daemons_subtitle">Processus Cloudflared, Zrok, Telegram, MQTT.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">À propos de OverDrive</string>
+    <string name="settings_about_row_subtitle">La version, la licence, le développement de support.</string>
+    <string name="settings_reset_row_subtitle">Des enregistrements clairs, des événements, ou tous les caches.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">OverDrive %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">Thème, langage et préférences visuelles.</string>
+    <string name="settings_theme_active_auto_caption">Auto suit votre thème système.</string>
+    <string name="settings_theme_active_light_caption">Le thème de la lumière est toujours allumé.</string>
+    <string name="settings_theme_active_dark_caption">Le thème sombre est toujours en ligne.</string>
+    <string name="settings_language_count_format">%1$d des langues %2$d disponibles</string>
+    <string name="settings_language_card_title">Langage d\'affichage</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">En périphérique par défaut</string>
+    <string name="settings_privacy_stance_body">OverDrive fonctionne entièrement sur l\'unité principale. Aucune télémétrie ne sort de votre voiture sauf par les tunnels et les intégrations que vous configurez explicitement.</string>
+    <string name="settings_privacy_overline_storage">RÉPORTATION locale</string>
+    <string name="settings_privacy_overline_reset">Réinitialisation des données</string>
+    <string name="settings_privacy_storage_clips_label">Clips sur le disque</string>
+    <string name="settings_privacy_storage_size_label">Taille totale</string>
+    <string name="settings_privacy_storage_unavailable">Pas disponible</string>
+    <string name="settings_privacy_storage_count_format">Clip %1$d</string>
+    <string name="settings_privacy_storage_count_format_plural">Clips %1$d</string>
+    <string name="settings_privacy_reset_subtitle">Choisissez des catégories: enregistrements, événements, configurations de démons, télémétrie en cache...</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">Sécurité</string>
+    <string name="settings_security_subtitle">Verrouillez l\'application OverDrive pour que les passagers et les valets ne puissent pas l\'ouvrir sans votre NIP.</string>
+    <string name="settings_security_stance_title">Verrouillage de l\'interface utilisateur uniquement</string>
+    <string name="settings_security_stance_body">La surveillance, l\'enregistrement, la dissuasion, les alertes et les services d\'arrière-plan continuent de fonctionner pendant que l\'application est verrouillée. Le code PIN porte l\'interface OverDrive, rien d\'autre.</string>
+    <string name="settings_security_overline_lock">Verrouillage de l\'application</string>
+    <string name="settings_security_overline_recovery">Si vous oubliez votre code PIN</string>
+    <string name="settings_security_toggle_title">Exiger le code PIN</string>
+    <string name="settings_security_toggle_subtitle_off">Désactivé, tout le monde peut ouvrir OverDrive.</string>
+    <string name="settings_security_toggle_subtitle_on">Activé — PIN requis pour ouvrir OverDrive.</string>
+    <string name="settings_security_change_title">Changer le code PIN</string>
+    <string name="settings_security_change_subtitle">Confirmez le code PIN actuel, puis définissez-en un nouveau.</string>
+    <string name="settings_security_autolock_title">Verrouillage automatique</string>
+    <string name="settings_security_autolock_immediate">Verrouiller immédiatement</string>
+    <string name="settings_security_autolock_1min">Après 1 minute</string>
+    <string name="settings_security_autolock_5min">Après 5 minutes</string>
+    <string name="settings_security_autolock_15min">Après 15 minutes</string>
+    <string name="settings_security_autolock_never">Ne jamais verrouiller automatiquement par temps</string>
+    <string name="settings_security_recovery_title">Récupération ADB</string>
+    <string name="settings_security_recovery_body">Le code PIN oublié peut être effacé d\'une machine hôte par le débogage USB sans réinitialisation d\'usine. Exécutez cette commande, puis rouvrez l\'application.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">Définir le code PIN</string>
+    <string name="settings_security_dialog_set_body">Choisissez un code PIN de 4 à 8 chiffres. Vous en aurez besoin chaque fois que vous ouvrirez l\'application.</string>
+    <string name="settings_security_dialog_disable_title">Désactiver le verrouillage du code PIN ?</string>
+    <string name="settings_security_dialog_disable_body">Confirmez votre code PIN actuel pour désactiver le verrou de l\'application.</string>
+    <string name="settings_security_dialog_change_step1_title">Confirmer le code PIN actuel</string>
+    <string name="settings_security_dialog_change_step1_body">Entrez votre code PIN actuel, puis vous en définissez un nouveau.</string>
+    <string name="settings_security_action_set">Définir le code PIN</string>
+    <string name="settings_security_action_disable">Désactiver le verrou</string>
+    <string name="settings_security_action_continue">Continuer</string>
+    <string name="settings_security_pin_hint">Code PIN</string>
+    <string name="settings_security_pin_confirm_hint">Confirmer le code PIN</string>
+    <string name="settings_security_error_length">Le code PIN doit comporter entre 4 et 8 chiffres</string>
+    <string name="settings_security_error_numeric">Chiffres uniquement</string>
+    <string name="settings_security_error_mismatch">Les codes PIN ne correspondent pas</string>
+    <string name="settings_security_error_wrong">Mauvais code PIN</string>
+    <string name="settings_security_error_locked_out">Trop de tentatives. Réessayez dans un instant.</string>
+    <string name="settings_security_error_persist">Impossible d\'enregistrer le code PIN. Veuillez réessayer.</string>
+    <string name="settings_security_toast_set_ok">Code PIN défini. Verrouillage de l\'application activé.</string>
+    <string name="settings_security_toast_disable_ok">Verrouillage de l\'application désactivé.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">Saisir le code PIN</string>
+    <string name="pin_lock_title_unlocked">Déverrouillé</string>
+    <string name="pin_lock_subtitle_default">Débloquez le logiciel OverDrive pour continuer.</string>
+    <string name="pin_lock_subtitle_wrong">Code PIN incorrect. Veuillez réessayer.</string>
+    <string name="pin_lock_subtitle_locked_out">Trop de tentatives. Réessayez sous peu.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">Verrouillé. Réessayez dans %1$s.</string>
+    <string name="pin_lock_lockout_seconds">%1$ds</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">Vous avez oublié votre code PIN? Exécutez depuis un ordinateur connecté:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Rétro-espace</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="one">%1$d digit entered</item>
+        <item quantity="other">%1$d digits entered</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">Aucun emplacement</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">Caméra %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">L\'appareil photo %1$d (manuel)</string>
+    <string name="diagnostics_camera_value_probing">Je suis en train d\'explorer...</string>
+    <string name="diagnostics_camera_value_offline">En ligne</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">Données en attente</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">Bienvenue  Overdrive est maintenant votre deuxième paire d\'yeux.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">Il a récupéré %1$s (≈%2$s) alors qu\'il était garé.</string>
+    <string name="dashboard_insight_parked_charged">J\'ai récupéré %1$s alors que j\'étais garé.</string>
+    <string name="dashboard_insight_parked_drained_kwh">Utilisé %1$s (≈%2$s) depuis que vous avez garé</string>
+    <string name="dashboard_insight_parked_drained">Utilisé %1$s depuis que vous avez garé</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">Dernière alerte de surveillance: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">Dernière charge: +%1$s en %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">Clips %1$d · %2$s enregistrés</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f kWh</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d h %2$d min</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="one">Clip %1$d enregistré aujourd\'hui</item>
+        <item quantity="other">Clips %1$d enregistrés aujourd\'hui</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="one">Survoler en ligne pour %1$d jour, %2$d heure</item>
+        <item quantity="other">Survoler en ligne pendant %1$d jours, %2$d h</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="one">Survoler en ligne pendant %1$d heure</item>
+        <item quantity="other">Survol en ligne pendant %1$d heures</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="one">%1$d min</item>
+        <item quantity="other">%1$d min</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="one">%1$d hr</item>
+        <item quantity="other">%1$d hr</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">RoadSense</string>
+    <string name="rail_hazard_map">Carte</string>
+    <string name="roadsense_title">RoadSense</string>
+    <string name="roadsense_pill_scanning">Analyse en cours</string>
+    <string name="roadsense_pill_idle">RoadSense</string>
+    <string name="roadsense_status_idle">Inactif</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">Apprendre votre véhicule</string>
+    <string name="roadsense_cal_ready">Véhicule calibré</string>
+    <string name="roadsense_cal_partial">Amélioration de l\'étalonnage</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">Nettoyer à l\'avance</string>
+    <string name="roadsense_road_mapped">Carte routière · effacée</string>
+    <string name="roadsense_road_new">Nouvelle route · apprentissage</string>
+    <string name="roadsense_unit_meters">m</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">Avertir</string>
+    <string name="roadsense_toggle_audio">Audio</string>
+    <string name="roadsense_toggle_visual">Visuel</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">Mineur</string>
+    <string name="roadsense_sev_moderate">Modérée</string>
+    <string name="roadsense_sev_severe">Sévère</string>
+    <string name="roadsense_type_breaker">Briseur de vitesse</string>
+    <string name="roadsense_type_pothole">Pothole</string>
+    <string name="roadsense_type_hazard">Danger</string>
+    <string name="roadsense_type_rough">Section brute</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">%1$d bosses à venir</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">Section brute · %1$d m</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">Était-ce un danger?</string>
+    <string name="roadsense_confirm_reject">Pas un danger</string>
+    <string name="roadsense_confirm_accept">Valider</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">Niveau de calibration de la route</string>
+    <string name="roadsense_cd_direction">Direction vers le danger suivant</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">GAUCHE</string>
+    <string name="blindspot_overlay_right">DROITE</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">Carte</string>
+    <string name="roadsense_map_route_clear">Nettoyer</string>
+    <string name="roadsense_map_route_unmapped">Pas encore mappé</string>
+    <string name="roadsense_map_back">Précédent</string>
+    <string name="roadsense_map_recenter">Recentre sur ma position</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">Gravité</string>
+    <string name="roadsense_map_type_label">Type de texte</string>
+    <string name="roadsense_map_type_unknown">Inconnu</string>
+    <string name="roadsense_map_confirm">Valider</string>
+    <string name="roadsense_map_delete">Supprimez</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">Candidat</string>
+    <string name="roadsense_map_status_local">Sur l\'appareil</string>
+    <string name="roadsense_map_status_cloud">Partagé</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% confidence · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="one">Rapport %1$d</item>
+        <item quantity="other">Rapports %1$d</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">Dazard confirmé</string>
+    <string name="roadsense_map_deleted_toast">Danger supprimé</string>
+    <string name="roadsense_map_action_failed">Impossible d\'atteindre RoadSense. Réessayez.</string>
+    <string name="roadsense_map_no_location">En attente de la résolution GPS…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">Chercher une destination</string>
+    <string name="roadsense_map_search_action">Chercher</string>
+    <string name="roadsense_map_searching">Recherche de…</string>
+    <string name="roadsense_map_no_results">Aucun lieu trouvé</string>
+    <string name="roadsense_map_search_network">Impossible de joindre le service de recherche. Vérifiez votre connexion ou votre proxy, puis réessayez.</string>
+    <string name="roadsense_map_pick_destination">Choisir la destination</string>
+    <string name="roadsense_map_routing">Recherche de la route…</string>
+    <string name="roadsense_map_route_failed">Impossible de trouver un itinéraire. Veuillez réessayer.</string>
+    <string name="roadsense_map_need_key">Ajoutez une clé de routage dans les paramètres RoadSense pour naviguer.</string>
+    <string name="roadsense_map_route_key_rejected">La clé de routage a été rejetée. Vérifiez votre clé dans les paramètres RoadSense.</string>
+    <string name="roadsense_map_route_network">Réseau trop lent pour trouver un itinéraire. Vérifiez votre connexion et réessayez.</string>
+    <string name="roadsense_map_route_http">Erreur du service de routage (%1$d). Réessayez sous peu.</string>
+    <string name="roadsense_map_rerouting">Hors route — recalcul de…</string>
+    <string name="roadsense_map_arrived">Vous êtes arrivé.</string>
+    <string name="roadsense_map_nav_started">Naviguer vers %1$s</string>
+    <string name="roadsense_map_nav_ended">Navigation terminée</string>
+    <string name="roadsense_map_end_nav">Fin de la navigation</string>
+    <string name="roadsense_map_zoom_in">Zoom avant</string>
+    <string name="roadsense_map_zoom_out">Zoom arrière</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">Visibilité des dangers</string>
+    <string name="roadsense_map_hazards_all">Afficher tous les dangers</string>
+    <string name="roadsense_map_hazards_moderate">Modérée et sévère</string>
+    <string name="roadsense_map_hazards_severe">Sévère seulement</string>
+    <string name="roadsense_map_hazards_hidden">Masquer les dangers</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">Chargement et carburant</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">Bâtiments 2D / 3D</string>
+    <string name="roadsense_map_3d_on">Bâtiments 3D sur</string>
+    <string name="roadsense_map_3d_off">Bâtiments 3D désactivés</string>
+    <string name="roadsense_map_poi_loading">Trouver le chargement et le carburant arrête…</string>
+    <string name="roadsense_map_poi_none">Aucune station trouvée à proximité</string>
+    <string name="roadsense_map_poi_need_route">Choisissez d\'abord une destination</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">Arrêt ajouté</string>
+    <string name="roadsense_map_remove_stop_action">Supprimer l\'arrêt</string>
+    <string name="roadsense_map_poi_navigate">Naviguer ici</string>
+    <string name="roadsense_map_poi_kind_charging">Station de rechargement</string>
+    <string name="roadsense_map_poi_kind_fuel">Station de Carburant</string>
+    <string name="roadsense_map_poi_charging_generic">Station de rechargement</string>
+    <string name="roadsense_map_poi_fuel_generic">Station de Carburant</string>
+    <string name="roadsense_map_route_switched">Itinéraire changé</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">puis</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">quitter %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">%1$d sévère</string>
+    <string name="roadsense_map_pill_moderate">%1$d modéré</string>
+    <string name="roadsense_map_pill_minor">%1$d minor</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">Données cartographiques indisponibles hors ligne</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">Effacer la recherche</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">Choisir une route</string>
+    <string name="roadsense_map_routes_to">Itinéraires vers %1$s</string>
+    <string name="roadsense_map_routes_cancel">Abandonner</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">Route %1$d</string>
+    <string name="roadsense_map_fastest">Le plus rapide</string>
+    <string name="roadsense_map_start">Début</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">Votre position</string>
+    <string name="roadsense_map_add_stop">Ajouter un arrêt</string>
+    <string name="roadsense_map_add_stop_hint">Rechercher un arrêt à ajouter</string>
+    <string name="roadsense_map_stop_removed">Arrêter la suppression</string>
+    <string name="roadsense_map_remove_stop">Supprimer l\'arrêt</string>
+    <string name="roadsense_map_move_stop_up">Arrêt vers le haut</string>
+    <string name="roadsense_map_move_stop_down">Descendre l\'arrêt</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">Up to %1$d stops allowed</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">Thème de carte</string>
+    <string name="roadsense_map_theme_auto">Thème de la carte : Auto</string>
+    <string name="roadsense_map_theme_light">Thème de la carte : Lumière</string>
+    <string name="roadsense_map_theme_dark">Thème de la carte : Sombre</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">Domicile</string>
+    <string name="roadsense_map_saved_work">Travail</string>
+    <string name="roadsense_map_saved_set_home">Définir l\'Accueil</string>
+    <string name="roadsense_map_saved_set_work">Définir le travail</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">Favori</string>
+    <string name="roadsense_map_save_place">Enregistrer le lieu</string>
+    <string name="roadsense_map_save_as_home">Enregistrer en tant qu\'Accueil</string>
+    <string name="roadsense_map_save_as_work">Enregistrer en tant que Travail</string>
+    <string name="roadsense_map_save_as_custom">Enregistrer comme…</string>
+    <string name="roadsense_map_saved_added">Enregistré</string>
+    <string name="roadsense_map_saved_removed">Supprimé de la sauvegarde</string>
+    <string name="roadsense_map_saved_remove">Retirer</string>
+    <string name="roadsense_map_recent_remove">Retirer des applications récentes</string>
+    <string name="roadsense_map_recent_removed">Supprimé des applications récentes</string>
+    <string name="roadsense_map_custom_label_hint">Étiquette (ex: Gym, Maman)</string>
+    <string name="roadsense_map_custom_label_title">Nommer ce lieu</string>
+    <string name="roadsense_map_save">Enregistrer</string>
+    <string name="roadsense_map_cancel">Abandonner</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">Épingle lâchée</string>
+    <string name="roadsense_map_navigate_here">Naviguer ici</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">Rechercher un lieu à définir comme %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">La course a été restaurée</string>
+    <!-- Cloudflared paid-tunnel settings -->
+    <string name="cloudflared_token_storage_note">Le jeton est stocké de manière sécurisée et partagé entre les processus d\'application et de démon.</string>
+    <string name="cloudflared_token_hint">Entrez le jeton cloudflared</string>
+    <string name="cloudflare_paid_version">Version payante de Cloudflare</string>
+    <string name="dialog_cloudflared_settings_title">🌐 Paramètres Cloudflared</string>
+    <string name="dialog_cloudflared_settings_message">Indiquez si vous utilisez une version payante de Cloudflare ou trycloudflare. Si vous utilisez la version payante de Cloudflare, saisissez votre jeton de tunnel.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">Si vous définissez une version payante, le jeton ne peut pas être vide</string>
+    <string name="toast_cloudflared_token_invalid">Token invalide : utilisez uniquement des lettres, des chiffres et . _ - = des caractères</string>
+    <string name="toast_cloudflared_saved_settings">Paramètres Cloudflared enregistrés</string>
+    <!-- Projection feature -->
+    <string name="projection_hero_title">Projection</string>
+    <string name="projection_hero_subtitle">Placer une application sur le cluster de pilotes et la mettre en miroir ici.</string>
+    <string name="projection_pick_app">Choisir une application à projeter</string>
+    <string name="projection_cast">Diffuser vers le cluster</string>
+    <string name="projection_stop">Arrêter</string>
+    <string name="projection_cast_failed">Impossible de convertir cette application vers le cluster.</string>
+    <string name="projection_status_idle">Pas de projection.</string>
+    <string name="projection_status_live">Miroir en direct — touchez et glissez pour contrôler.</string>
+    <string name="projection_status_preview">Mode d\'aperçu (taux d\'images réduit sur ce véhicule).</string>
+    <string name="projection_status_none">Rien n’est projeté pour le moment — choisissez une application et lancez.</string>
+    <string name="projection_status_unsupported">Le miroir en direct n\'est pas pris en charge sur ce véhicule. L\'application est toujours projetée sur le cluster.</string>
+    <string name="projection_note_single_app">Une application peut être projetée sur le cluster à la fois.</string>
+    <string name="projection_adjust_bounds">Ajuster la zone</string>
+    <string name="projection_done_adjusting">Fait</string>
+    <string name="projection_bounds_hint_idle">Zone du miroir</string>
+    <string name="projection_status_adjust">Faites glisser pour déplacer · faites glisser un coin pour redimensionner.</string>
+    <string name="projection_scale_title">Mise à l\'échelle</string>
+    <string name="projection_scale_desc">Comment le combiné remplit la zone du miroir.</string>
+    <string name="projection_scale_fit">Ajuster</string>
+    <string name="projection_scale_fill">Étirer</string>
+    <string name="projection_scale_zoom">Zoom</string>
+    <string name="projection_autostart_title">Démarrage automatique à l\'allumage</string>
+    <string name="projection_autostart_desc">Diffuse automatiquement la dernière application utilisée sur le combiné à chaque démarrage de la voiture. (Le miroir s\'ouvre lorsque vous accédez à cet écran.)</string>
+    <string name="projection_autostart_need_app">Diffusez d\'abord une application, puis activez ceci.</string>
+    <string name="projection_autostart_conflict_title">RoadSense utilise le combiné</string>
+    <string name="projection_autostart_conflict_body">RoadSense est configuré pour projeter automatiquement la carte sur le combiné du conducteur au démarrage de la voiture. Le combiné ne peut afficher qu\'une seule chose à la fois. Désactiver cela et démarrer automatiquement cette application à la place ?</string>
+    <string name="projection_autostart_conflict_confirm">Utiliser cette application</string>
+    <string name="projection_app_uninstalled">Cette application n\'est plus installée.</string>
+    <string name="projection_status_service_down">Le service de miroir n\'est pas prêt — redémarrez l\'application (ou le démon de la caméra) et réessayez.</string>
+    <string name="cd_replay_status">Statut de relecture instantanée</string>
+    <string name="recording_lib_type_replay">REJOUER</string>
+    <string name="settings_overlay_replay_title">Indicateur de relecture instantanée</string>
+    <string name="settings_overlay_replay_subtitle">Afficher le badge CLIP: vert pendant un enregistrement de rediffusion, bleu pendant 5 secondes une fois enregistré, rouge quand il échoue. N\'apparaît que lorsqu\'une liaison ou une automatisation de relecture existe.</string>
+    <string name="recordings_segment_replays">Rediffusions</string>
+    <string name="recordings_segment_replays_count">Rediffusions · %d</string>
+    <string name="vehicle_model_seagull">BYD Seagull</string>
+    <string name="projection_window_title">Fenêtre de cluster</string>
+    <string name="projection_window_desc">Positionnez l\'application de conversion sur le cluster de pilotes. Les préréglages l\'accrochent aux mises en page courantes; La fenêtre de redimensionnement vous permet de la déplacer librement.</string>
+    <string name="projection_preset_full">Plein</string>
+    <string name="projection_preset_left">Moitié gauche</string>
+    <string name="projection_preset_right">Moitié droite</string>
+    <string name="projection_preset_center">Centrer</string>
+    <string name="projection_lock_aspect">Garder l\'aspect du cluster</string>
+</resources>

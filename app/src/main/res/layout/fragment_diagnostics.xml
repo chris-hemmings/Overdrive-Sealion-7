@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SOTA Diagnostics — portrait (1080×1920 / ~540dp × 960dp).
+
+  Single column, but tighter and intentional:
+    HERO ROW   : "System diagnostics" + status pill ("All clear")
+    HEALTH grid: 2×2 health tiles (Network, Storage, Camera, Battery)
+    TOOLS grid : 2×2 outlined tool cards (Traffic, Camera probe, ADB, Battery)
+    LOGS card  : surface-container card hosting LogsPanelFragment, fills
+                 remaining vertical space (layout_weight=1).
+
+  IDs preserved (DiagnosticsFragment.kt findViewById targets):
+    cardAdb, cardTraffic, cardCameraProbe, cardBattery, logsPanelContainer
+
+  Health-tile IDs (DiagnosticsFragment.kt findViewById targets):
+    Network : tvNetworkValue / viewNetworkTunnelDot / tvNetworkTunnelState
+    Storage : tvStorageUsed / tvStorageFree
+-->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:fillViewport="true"
+    android:clipToPadding="false">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    android:paddingHorizontal="@dimen/page_padding_horizontal"
+    android:paddingTop="@dimen/page_padding_top"
+    android:paddingBottom="@dimen/page_padding_bottom"
+    android:clipToPadding="false">
+
+    <!-- ================== HERO ROW ================== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/page_padding_top"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/diagnostics_hero_title"
+                android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+                android:textColor="?attr/colorOnSurface"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/diagnostics_hero_subtitle"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+
+        <!-- The "All clear" status pill was removed: it had no real
+             telemetry behind it and read as a clickable affordance even
+             though it was purely informational. The HEALTH grid below
+             carries the same signal with real data. -->
+    </LinearLayout>
+
+    <!-- ================== HEALTH SECTION ================== -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/section_overline_bottom"
+        android:letterSpacing="0.06"
+        android:text="@string/diagnostics_health_section"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        android:textColor="?attr/colorOnSurfaceVariant" />
+
+    <!-- HEALTH 2×2 — row 1 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/card_gap_horizontal_half"
+            android:minHeight="@dimen/grid_tile_min_height"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding_standard">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/card_icon_standard"
+                        android:layout_height="@dimen/card_icon_standard"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_traffic_monitor"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:letterSpacing="0.06"
+                    android:text="@string/diagnostics_health_network"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <!-- Top line: SSID / Mobile / Ethernet / Offline. Bound at runtime. -->
+                <TextView
+                    android:id="@+id/tvNetworkValue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/diagnostics_metric_online"
+                    android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textStyle="bold" />
+
+                <!-- Bottom line: tunnel dot + state. Bound at runtime. -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:id="@+id/viewNetworkTunnelDot"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/status_dot_offline" />
+
+                    <TextView
+                        android:id="@+id/tvNetworkTunnelState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="@string/diagnostics_tunnel_state_offline"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/card_gap_horizontal_half"
+            android:minHeight="@dimen/grid_tile_min_height"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding_standard">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/card_icon_standard"
+                        android:layout_height="@dimen/card_icon_standard"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_diagnostics"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:letterSpacing="0.06"
+                    android:text="@string/diagnostics_health_storage"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <!-- Top line: "X clips · Y used". Bound at runtime. -->
+                <TextView
+                    android:id="@+id/tvStorageUsed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/diagnostics_metric_pending"
+                    android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textStyle="bold" />
+
+                <!-- Bottom line: "Z free". Bound at runtime. -->
+                <TextView
+                    android:id="@+id/tvStorageFree"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="@string/diagnostics_metric_pending"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- HEALTH 2×2 — row 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/card_gap_vertical"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCameraHealth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/card_gap_horizontal_half"
+            android:minHeight="@dimen/grid_tile_min_height"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding_standard">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/card_icon_standard"
+                        android:layout_height="@dimen/card_icon_standard"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_camera_probe"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <View
+                        android:id="@+id/viewCameraDot"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/status_dot_neutral" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:letterSpacing="0.06"
+                    android:text="@string/diagnostics_health_camera"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:id="@+id/tvCameraValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/diagnostics_metric_pending"
+                    android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardBatteryHealth"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/card_gap_horizontal_half"
+            android:minHeight="@dimen/grid_tile_min_height"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/card_padding_standard">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/card_icon_standard"
+                        android:layout_height="@dimen/card_icon_standard"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_battery_health"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <View
+                        android:id="@+id/viewBatteryDot"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:background="@drawable/status_dot_neutral" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:letterSpacing="0.06"
+                    android:text="@string/diagnostics_health_battery"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:id="@+id/tvBatteryValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/diagnostics_metric_pending"
+                    android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:textStyle="bold" />
+
+                <!-- Frame mismatch advisory pill — only shown when the
+                     daemon reports peak/nominal < 0.85 after the anchor
+                     has stabilized. Tap the tile (already clickable) to
+                     open the dialog where the "Use observed value" action
+                     lives. We keep the badge text small + tonal so it
+                     reads as advisory, not error. -->
+                <TextView
+                    android:id="@+id/tvBatteryReviewBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:background="@drawable/bg_battery_review_pill"
+                    android:text="@string/diagnostics_battery_needs_review"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                    android:textColor="?attr/colorOnSecondaryContainer"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- ================== TOOLS SECTION ================== -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/page_padding_top"
+        android:layout_marginBottom="@dimen/section_overline_bottom"
+        android:letterSpacing="0.06"
+        android:text="@string/diagnostics_tools_section"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+        android:textColor="?attr/colorOnSurfaceVariant" />
+
+    <!-- TOOLS 2×2 — row 1 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardTraffic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/card_gap_horizontal_half"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/card_padding_standard">
+
+                <ImageView
+                    android:layout_width="@dimen/card_icon_standard"
+                    android:layout_height="@dimen/card_icon_standard"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_traffic_monitor"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:id="@+id/tvTrafficLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/diagnostics_section_traffic"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardCameraProbe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/card_gap_horizontal_half"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/card_padding_standard">
+
+                <ImageView
+                    android:layout_width="@dimen/card_icon_standard"
+                    android:layout_height="@dimen/card_icon_standard"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_camera_probe"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/diagnostics_section_camera_probe"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- TOOLS 2×2 — row 2 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/card_gap_vertical"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAdb"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/card_gap_horizontal_half"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/card_padding_standard">
+
+                <ImageView
+                    android:layout_width="@dimen/card_icon_standard"
+                    android:layout_height="@dimen/card_icon_standard"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_console"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/diagnostics_section_adb_console"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardBattery"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="@dimen/card_gap_horizontal_half"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/card_padding_standard">
+
+                <ImageView
+                    android:layout_width="@dimen/card_icon_standard"
+                    android:layout_height="@dimen/card_icon_standard"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_battery_health"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/diagnostics_section_battery"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- TOOLS row 3: Settings shortcut. Diagnostics is where power users
+         land for tuning; surfacing Settings here closes the loop without
+         making them hop back to the rail. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/card_gap_vertical"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardSettingsShortcut"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/card_padding_standard">
+
+                <ImageView
+                    android:layout_width="@dimen/card_icon_standard"
+                    android:layout_height="@dimen/card_icon_standard"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_settings"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/rail_settings"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- The Live Event Log card was removed from this page. Logs are
+         still available via the ADB Console tile if a power user needs
+         them, but the always-on log feed was making the page feel busy
+         without delivering primary diagnostic value. -->
+</LinearLayout>
+</androidx.core.widget.NestedScrollView>

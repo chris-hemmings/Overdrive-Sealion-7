@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title data-i18n="app.key_mapping_title">Key Mapping - OverDrive</title>
+    <link rel="icon" type="image/webp" href="../shared/app-icon-dark.webp">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#00876C">
+    <script src="../shared/theme.js?v=5"></script>
+    <script src="../shared/app-shell.js?v=5"></script>
+    <!--
+      Bottom-tab manifest — two task-based tabs:
+        Bindings — the enable switch + list of current key bindings
+        Add      — capture a key + pick the action it should fire
+    -->
+    <script>
+        window.OT_TABS = [
+            { id: 'bindings', label: 'Bindings', i18n: 'keymap.tab_bindings', svg: '<rect width="20" height="14" x="2" y="5" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M7 13h10"/>', readOnly: true },
+            { id: 'add',      label: 'Add',      i18n: 'keymap.tab_add',      svg: '<line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>', readOnly: true }
+        ];
+        window.OT_setActiveTab = function (id) {
+            var btn = document.querySelector('.bottom-tabs .bottom-tab[data-tab-target="' + id + '"]');
+            if (btn) { btn.click(); return true; }
+            return false;
+        };
+    </script>
+    <script src="../shared/app-tabs.js"></script>
+    <link rel="stylesheet" href="../shared/styles.css?v=23">
+    <style>
+        /* Big capture box — shows the last hardware key the user pressed while
+           arming. JetBrains Mono keycode, sized for a phone in a car cradle. */
+        .km-capture {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px; /* Chrome 58 ignores gap — vertical fallback added below */
+            margin: 14px 0;
+            padding: 22px 16px;
+            border: 1px dashed var(--brand-primary);
+            border-radius: 14px;
+            background: rgba(0, 212, 170, 0.06);
+            text-align: center;
+        }
+        .km-capture > * + * { margin-top: 6px; }
+        .km-capture.armed { border-style: solid; background: rgba(0, 212, 170, 0.12); }
+        .km-capture .km-keycode {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--brand-primary);
+            line-height: 1;
+        }
+        .km-capture .km-caphint { font-size: 12px; color: var(--text-muted); }
+        /* One binding row in the list */
+        .km-binding {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+        /* Chrome 58 (Android 7.1 head-unit WebView) does NOT support flex `gap`
+           (shipped Chrome 84) — it's silently ignored on-car, so the keycode chip,
+           action text and delete icon butt together with no spacing. Sibling-margin
+           fallback (same idiom as .btn-group / .btn in styles.css) works on Chrome 58
+           AND modern engines and adds no leading margin. Applied to every flex row
+           on this page that relies on gap. */
+        .km-binding > * + * { margin-left: 12px; }
+        .km-binding .km-key {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--brand-primary);
+            min-width: 46px;
+            text-align: center;
+            padding: 6px 8px;
+            background: rgba(0, 212, 170, 0.08);
+            border-radius: 8px;
+        }
+        .km-binding .km-meta { flex: 1; min-width: 0; }
+        .km-binding .km-meta .km-action { font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .km-binding .km-meta .km-sub { font-size: 12px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .km-press-pill {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: var(--bg-subtle, rgba(255,255,255,0.06));
+            color: var(--text-secondary);
+        }
+        .km-adv-warn {
+            display: flex; gap: 10px; align-items: flex-start;
+            margin-top: 12px; padding: 10px 14px; border-radius: 10px;
+            background: rgba(255, 179, 0, 0.10);
+            border: 1px solid rgba(255, 179, 0, 0.35);
+            font-size: 12.5px; color: var(--text-secondary); line-height: 1.5;
+        }
+        /* Chrome 58 gap fallback — keep the warning icon off its text. */
+        .km-adv-warn > * + * { margin-left: 10px; }
+        .km-adv-warn svg { width: 18px; height: 18px; flex: none; color: #ffb300; margin-top: 1px; }
+        /* Uniform width for every dropdown in the Add form so the right-hand
+           control column lines up regardless of the longest option's text. */
+        #kmKnownButton, #kmPressType, #kmActionKind, #kmCuratedAction, #kmPayload, #kmOpenApp, #kmClipPreset {
+            width: 190px;
+            max-width: 55vw;
+        }
+        /* Chrome 58 fallback for the value-to-slider gap in the custom clip
+           window controls (shared .slider-control relies on flex gap). */
+        #kmClipCustomWrap .slider-control > * + * { margin-left: 12px; }
+        /* Sequence step chips — numbered actions the user has chained. */
+        .km-steps { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+        /* Chrome 58 gap fallback — vertical spacing between step chips. */
+        .km-steps > * + * { margin-top: 6px; }
+        .km-step {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 10px 8px 12px;
+            background: var(--bg-elevated); border-radius: 10px;
+            font-size: 13px; color: var(--text-primary);
+        }
+        /* Chrome 58 gap fallback — step number/text off the ✕ remove button. */
+        .km-step > * + * { margin-left: 8px; }
+        .km-step span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .km-step-x {
+            flex: none; border: none; background: transparent; cursor: pointer;
+            color: var(--text-muted); font-size: 20px; line-height: 1; padding: 0 4px;
+        }
+        .km-step-x:hover { color: var(--danger); }
+        /* Reorder arrows on a sequence step — same muted-icon treatment as the
+           remove ✕, brand-tinted on hover; dimmed + non-interactive at the ends. */
+        .km-step-move {
+            flex: none; border: none; background: transparent; cursor: pointer;
+            color: var(--text-muted); font-size: 15px; line-height: 1; padding: 0 2px;
+        }
+        .km-step-move:hover { color: var(--brand-primary); }
+        .km-step-move:disabled { opacity: 0.3; cursor: default; }
+        /* Disabled binding row — muted so the user can see it's inactive. */
+        .km-binding.km-disabled { opacity: 0.5; }
+        .km-binding.km-disabled .km-key { color: var(--text-muted); background: rgba(128,128,128,0.08); }
+        /* Small toggle switch for inline use in binding rows. Shares the
+           .toggle-switch/toggle-slider classes but scaled down so it fits
+           the compact binding-row height without bloating it. */
+        .toggle-switch-sm { transform: scale(0.75); flex: none; }
+        /* Empty-state styling. The shared .empty-state rules live in
+           automations.css, which this page does NOT load — without these the
+           bindings empty-state icon renders at its full intrinsic size with no
+           text spacing (the "big weird icon" bug). Mirror automations.css. */
+        .empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
+        .empty-state svg { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.4; }
+        .empty-state p { font-size: 14px; margin-bottom: 6px; color: var(--text-secondary); }
+        .empty-state .empty-state-hint { font-size: 13px; margin-bottom: 20px; color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <div id="app-shell-mount"></div>
+        <main class="main-content">
+            <div class="mobile-header">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                </button>
+                <span style="font-weight:600;" data-i18n="nav.key_mapping">Key Mapping</span>
+                <div style="width:40px;"></div>
+            </div>
+
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="keymap.page_title">Key Mapping</h1>
+                <div class="header-actions">
+                    <span class="status-badge inactive" id="kmStatusBadge" data-i18n="keymap.badge_off">OFF</span>
+                </div>
+            </header>
+
+            <div class="page-body">
+                <!-- ===== BINDINGS TAB ===== -->
+
+                <!-- Accessibility-not-enabled warning: key filtering is inert
+                     until the OS accessibility service is switched on. -->
+                <div class="card" data-tab="bindings" id="kmA11yCard" style="display:none;">
+                    <div class="card-body">
+                        <!-- ACTIONABLE state: the service is not enabled and the user must turn it
+                             on. Mutually exclusive with #kmA11yPending below — updateA11yCard()
+                             shows exactly one, and hides the settings button in the pending case
+                             (there is nothing to go and change). Both need ids for that. -->
+                        <div class="info-box-note" id="kmA11yNeeded" style="background:rgba(255,179,0,0.10);border:1px solid rgba(255,179,0,0.35);">
+                            <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="#ffb300" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            <div data-i18n="keymap.a11y_needed">Key mapping needs the OverDrive accessibility service turned on to intercept hardware buttons. Bindings are saved but won't fire until you enable it.</div>
+                        </div>
+                        <!-- Shown INSTEAD of the amber note when the service is enabled but the
+                             system hasn't finished starting it — the normal window right after a
+                             car power-on, which clears on its own. -->
+                        <div class="info-box-note" id="kmA11yPending" style="display:none;background:rgba(3,169,244,0.10);border:1px solid rgba(3,169,244,0.35);">
+                            <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="#03a9f4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <div data-i18n="keymap.a11y_pending">The service is enabled and starting up — hardware buttons become active in a few seconds. No action needed.</div>
+                        </div>
+                        <button class="btn btn-primary" id="kmA11yOpenBtn" onclick="KM.openA11ySettings()" style="width:100%;margin-top:12px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                            <span data-i18n="keymap.open_a11y">Open accessibility settings</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card" data-tab="bindings" id="kmReplayRestartCard" style="display:none;">
+                    <div class="card-body">
+                        <div class="info-box-note" style="background:rgba(255,179,0,0.10);border:1px solid rgba(255,179,0,0.35);">
+                            <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="#ffb300" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            <div data-i18n="keymap.clip_restart_required">Instant replay is saved. The full window becomes available after a cold restart of Camera daemon from Daemons. The current dashcam recording was not interrupted.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" data-tab="bindings">
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="keymap.enable">Enable key mapping</div>
+                                <div class="setting-desc" data-i18n="keymap.enable_desc">Master switch. When off, all hardware buttons behave exactly as stock — no key is intercepted.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="kmEnable" onchange="KM.saveConfig()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="keymap.allow_advanced">Advanced actions</div>
+                                <div class="setting-desc" data-i18n="keymap.allow_advanced_desc">Allow bindings that run a raw shell command. Leave off unless you know exactly what you're sending.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="kmAllowAdvanced" onchange="KM.saveConfig()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="keymap.double_tap_window">Double-tap speed</div>
+                                <div class="setting-desc" data-i18n="keymap.double_tap_window_desc">How long to wait for a second tap before a double-tap binding gives up and the single-tap fires. Raise it if your double-taps often trigger the single action; lower it if a single tap feels laggy.</div>
+                            </div>
+                            <div class="setting-control" style="display:flex;align-items:center;">
+                                <input type="range" id="kmDoubleTapWindow" min="250" max="1500" step="50"
+                                       oninput="KM.onDoubleTapWindowInput()" onchange="KM.onDoubleTapWindowChange()"
+                                       style="vertical-align:middle;">
+                                <span id="kmDoubleTapWindowVal" style="margin-left:10px;min-width:40px;display:inline-block;text-align:right;">0.5s</span>
+                            </div>
+                        </div>
+                        <!-- Shared driver-cluster size, injected by cluster-projection.js.
+                             Writes blindspot.clusterSizeProfile — the SAME setting the map +
+                             blind-spot use, and the "Cast app to cluster" binding. Shown here
+                             so a user binding a cluster cast can match it to their cluster. -->
+                        <div id="kmClusterSizeMount"></div>
+                    </div>
+                </div>
+
+                <div class="card" data-tab="bindings">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M7 13h10"/></svg>
+                            <span data-i18n="keymap.list_title">Your bindings</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="kmList"></div>
+                        <div id="kmEmpty" class="empty-state" style="display:none;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M7 13h10"/></svg>
+                            <p data-i18n="keymap.empty_p">No key bindings yet.</p>
+                            <p class="empty-state-hint" data-i18n="keymap.empty_hint">Switch to the Add tab, press a hardware button to capture it, then choose what it should do.</p>
+                            <button class="btn btn-primary" onclick="KM.goAdd()" data-i18n="keymap.add_binding">Add binding</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ===== ADD TAB ===== -->
+                <div class="card" data-tab="add">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            <span id="kmAddTitle" data-i18n="keymap.add_title">Add a binding</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Easiest path: pick a known steering-wheel / dash button
+                             by name. Populated from the known BYD keycode map in
+                             key-mapping.js, so no capture is needed. Selecting one
+                             fills the keycode (and press type for long-press-only
+                             buttons). Capture + manual entry remain below for any
+                             button not in the list. -->
+                        <div class="setting-row" style="margin-top:4px;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="keymap.known_button">Button</div>
+                            </div>
+                            <div class="setting-control">
+                                <select id="kmKnownButton" class="select-control" onchange="KM.onKnownButtonChange()"></select>
+                            </div>
+                        </div>
+
+                        <!-- Secondary path: shown only when "Custom / capture" is
+                             chosen in the Button dropdown. Capture a key that isn't
+                             in the known list, or type its keycode. -->
+                        <div id="kmCustomKeyWrap" style="display:none;">
+                            <div class="setting-hint" style="margin:12px 0 4px;" data-i18n="keymap.capture_hint">Tap “Capture”, then press the steering-wheel or dash button. Some buttons are handled by the car's firmware and never reach here — if nothing appears, enter its keycode below.</div>
+
+                            <div class="km-capture" id="kmCaptureBox">
+                                <div class="km-keycode" id="kmCapKeycode">—</div>
+                                <div class="km-caphint" id="kmCapHint" data-i18n="keymap.capture_idle">No key captured</div>
+                            </div>
+                            <button class="btn btn-secondary" id="kmCaptureBtn" onclick="KM.toggleCapture()" style="width:100%;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                                <span id="kmCaptureBtnLabel" data-i18n="keymap.capture">Capture a key</span>
+                            </button>
+
+                            <div class="md-field" style="margin-top:16px;">
+                                <div class="md-field-box">
+                                    <input type="number" class="md-input" id="kmManualKeycode" placeholder=" " inputmode="numeric">
+                                    <label class="md-label" for="kmManualKeycode" data-i18n="keymap.manual_keycode">Or enter a keycode</label>
+                                </div>
+                                <span class="md-supporting" data-i18n="keymap.manual_keycode_help">Android KeyEvent code, e.g. 87 = next track, 88 = previous.</span>
+                            </div>
+                        </div>
+
+                        <div class="setting-row" style="margin-top:8px;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="keymap.press_type">Press type</div>
+                            </div>
+                            <div class="setting-control">
+                                <select id="kmPressType" class="select-control" onchange="KM.onPressTypeChange()">
+                                    <option value="single" data-i18n="keymap.press_single">Single press</option>
+                                    <option value="double" data-i18n="keymap.press_double">Double press</option>
+                                    <option value="long" data-i18n="keymap.press_long">Long press</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Block-native-single: only meaningful for a DOUBLE-press
+                             binding. Off (default) = the button's native single-click
+                             still fires on the first tap (then the double promotes). On
+                             = the native single is suppressed; a lone tap is replayed
+                             after the double window so the button still works. Shown
+                             only when Press type = double (toggled in onPressTypeChange). -->
+                        <div class="setting-row" id="kmBlockNativeRow" style="display:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="keymap.block_native_single">Block single-click action</div>
+                                <div class="setting-desc" data-i18n="keymap.block_native_single_desc">Stop the button's normal single-click from firing before your double-click action. A single tap still works, just after a short delay.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="kmBlockNativeSingle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="keymap.action">Action</div>
+                            </div>
+                            <div class="setting-control">
+                                <select id="kmActionKind" class="select-control" onchange="KM.onKindChange()">
+                                    <option value="curated" data-i18n="keymap.kind_curated">Vehicle action</option>
+                                    <option value="openApp" data-i18n="keymap.kind_open_app">Open app</option>
+                                    <option value="shell" id="kmShellOption" data-i18n="keymap.kind_shell">Advanced: shell</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Curated picker: an action + (optional) payload. The
+                             action list is built in JS from CURATED so the
+                             daemon's catalog stays the single source of truth. -->
+                        <div id="kmCuratedWrap">
+                            <div class="setting-row">
+                                <div class="setting-info"><div class="setting-name" data-i18n="keymap.curated_action">Vehicle action</div></div>
+                                <div class="setting-control">
+                                    <select id="kmCuratedAction" class="select-control" onchange="KM.onCuratedChange()"></select>
+                                </div>
+                            </div>
+                            <div class="setting-row" id="kmPayloadRow" style="border-bottom:none;">
+                                <div class="setting-info"><div class="setting-name" data-i18n="keymap.value">Value</div></div>
+                                <div class="setting-control">
+                                    <select id="kmPayload" class="select-control"></select>
+                                </div>
+                            </div>
+
+                            <!-- Instant replay has two numeric dimensions instead
+                                 of the regular one-value payload. Presets cover the
+                                 common windows; Custom reveals both whole-second
+                                 sliders. Only beforeSeconds/afterSeconds are saved. -->
+                            <div id="kmClipWindowWrap" style="display:none;">
+                                <div class="setting-row">
+                                    <div class="setting-info"><div class="setting-name" data-i18n="keymap.clip_window">Clip window</div></div>
+                                    <div class="setting-control">
+                                        <select id="kmClipPreset" class="select-control" onchange="KM.onClipPresetChange()">
+                                            <option value="15:0" data-i18n="keymap.clip_previous_15">Previous 15 seconds</option>
+                                            <option value="30:0" data-i18n="keymap.clip_previous_30" selected>Previous 30 seconds</option>
+                                            <option value="60:0" data-i18n="keymap.clip_previous_60">Previous 60 seconds</option>
+                                            <option value="15:15" data-i18n="keymap.clip_before_after_15">15 seconds before + 15 after</option>
+                                            <option value="30:30" data-i18n="keymap.clip_before_after_30">30 seconds before + 30 after</option>
+                                            <option value="custom" data-i18n="keymap.clip_custom">Custom</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div id="kmClipCustomWrap" style="display:none;">
+                                    <div class="setting-row">
+                                        <div class="setting-info"><div class="setting-name" data-i18n="keymap.clip_before">Seconds before</div></div>
+                                        <div class="setting-control">
+                                            <div class="slider-control">
+                                                <span class="slider-value" id="kmClipBeforeValue">30s</span>
+                                                <input type="range" class="slider" id="kmClipBefore" min="0" max="60" step="1" value="30" oninput="KM.onClipWindowChange()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="setting-row" style="border-bottom:none;">
+                                        <div class="setting-info"><div class="setting-name" data-i18n="keymap.clip_after">Seconds after</div></div>
+                                        <div class="setting-control">
+                                            <div class="slider-control">
+                                                <span class="slider-value" id="kmClipAfterValue">0s</span>
+                                                <input type="range" class="slider" id="kmClipAfter" min="0" max="60" step="1" value="0" oninput="KM.onClipWindowChange()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="setting-hint" style="margin-top:8px;" data-i18n="keymap.clip_window_hint">The complete clip can be up to 60 seconds.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Open app: pick an installed app to launch. The list is
+                             fetched live from /api/apps/list (daemon PackageManager). -->
+                        <div id="kmOpenAppWrap" style="display:none;">
+                            <div class="setting-row" style="border-bottom:none;">
+                                <div class="setting-info"><div class="setting-name" data-i18n="keymap.app">App</div></div>
+                                <div class="setting-control">
+                                    <select id="kmOpenApp" class="select-control"></select>
+                                </div>
+                            </div>
+                            <div class="setting-row" style="border-bottom:none;">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="keymap.split_screen">Split screen</div>
+                                    <div class="setting-desc" data-i18n="keymap.split_screen_desc">Open the app docked to one half of the screen instead of full-screen.</div>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="kmOpenAppSplit">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Advanced: shell -->
+                        <div id="kmShellWrap" style="display:none;">
+                            <div class="md-field" style="margin-top:8px;">
+                                <div class="md-field-box">
+                                    <input type="text" class="md-input" id="kmShellCmd" placeholder=" " autocomplete="off">
+                                    <label class="md-label" for="kmShellCmd" data-i18n="keymap.shell_cmd">Shell command</label>
+                                </div>
+                            </div>
+                            <div class="km-adv-warn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                <span data-i18n="keymap.shell_warn">Runs as the daemon on every press. A bad command can disrupt the head unit. Requires “Advanced actions” enabled.</span>
+                            </div>
+                        </div>
+
+
+                        <!-- Sequence builder: accumulate multiple actions so one
+                             key fires them in order. Each "Add step" appends the
+                             current selection above; "Add binding" saves the whole
+                             chain (or the single action if no steps were added). -->
+                        <div id="kmSeqSteps" class="km-steps" style="display:none;"></div>
+
+                        <div class="byd-action-row" style="margin-top:16px;">
+                            <button class="btn btn-secondary" id="kmAddStepBtn" onclick="KM.addStep()" style="flex:1;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                <span data-i18n="keymap.add_step">Add step</span>
+                            </button>
+                            <button class="btn btn-primary" id="kmAddBtn" onclick="KM.addBinding()" style="flex:1;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><polyline points="20 6 9 17 4 12"/></svg>
+                                <span id="kmAddBtnLabel" data-i18n="keymap.add_binding">Add binding</span>
+                            </button>
+                        </div>
+                        <div class="setting-hint" style="margin-top:8px;" data-i18n="keymap.sequence_hint">Add one action, or chain several with “Add step” to fire them all from one button.</div>
+                        <!-- Quick-control buttons reuse the action builder above: compose the
+                             action exactly as for a key, then save it as a dashboard button
+                             instead of binding it to a keycode. The daemon fires both through
+                             one executor, so a button can never do more than a key can. -->
+                        <div class="setting-row" style="margin-top:20px;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="keymap.qc_title">Or add it as a dashboard button</div>
+                                <div class="setting-desc" data-i18n="keymap.qc_desc">Saves the action above as a button under Quick controls on the dashboard, with no physical key needed.</div>
+                            </div>
+                        </div>
+                        <div class="md-field">
+                            <div class="md-field-box">
+                                <input type="text" class="md-input" id="kmQcLabel" placeholder=" " autocomplete="off" maxlength="40">
+                                <label class="md-label" for="kmQcLabel" data-i18n="keymap.qc_label">Button label</label>
+                            </div>
+                        </div>
+                        <div class="byd-action-row" style="margin-top:12px;">
+                            <button class="btn btn-secondary" id="kmQcSaveBtn" onclick="KM.saveQuickControl()" style="flex:1;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                                <span data-i18n="keymap.qc_save">Add dashboard button</span>
+                            </button>
+                        </div>
+                        <div id="kmQcList" class="km-steps" style="margin-top:12px;"></div>
+                        <div id="kmQcEmpty" class="setting-hint" style="margin-top:8px;display:none;" data-i18n="keymap.qc_empty">No dashboard buttons yet.</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../shared/auth.js"></script>
+    <script src="../shared/pwa-init.js?v=index1"></script>
+    <script src="../shared/core.js?v=20"></script>
+    <script src="../shared/key-mapping.js?v=34"></script>
+    <script src="../shared/cluster-projection.js?v=1"></script>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+        document.addEventListener('DOMContentLoaded', function () {
+            BYD.i18n.init().then(function () {
+                BYD.core.init();
+                KM.init();
+                if (window.ClusterProjection) ClusterProjection.renderInto('kmClusterSizeMount', 'kmClusterSize');
+            });
+        });
+    </script>
+</body>
+</html>

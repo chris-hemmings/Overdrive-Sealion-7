@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Primary action button (Confirm) — filled translucent accent with a brighter
+     edge so it reads as the affirmative call-to-action vs the outlined Reject. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:startColor="#3329E08A"
+        android:endColor="#2615C46E" />
+    <corners android:radius="13dp" />
+    <stroke android:width="1dp" android:color="#8029E08A" />
+</shape>

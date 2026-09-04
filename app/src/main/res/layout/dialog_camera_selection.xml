@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurfaceContainerHigh"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:contentDescription="@string/cd_camera"
+                android:src="@drawable/ic_camera_select"
+                app:tint="?attr/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/camera_selection_title"
+                    android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:id="@+id/tvCameraSubtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/camera_selection_subtitle"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Current status card -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/card_gap_vertical"
+            android:layout_marginBottom="@dimen/card_gap_vertical"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <View
+                    android:id="@+id/dotCameraStatus"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:background="@drawable/status_dot_online" />
+
+                <TextView
+                    android:id="@+id/tvCurrentCamera"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_weight="1"
+                    android:text="@string/camera_current_auto"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:textColor="?attr/colorOnSurface" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Camera options -->
+        <RadioGroup
+            android:id="@+id/rgCameraOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rbCameraAuto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="12dp"
+                android:text="@string/camera_option_auto"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?attr/colorOnSurface" />
+
+            <RadioButton
+                android:id="@+id/rbCamera0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="12dp"
+                android:text="@string/camera_option_0"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?attr/colorOnSurface" />
+
+            <RadioButton
+                android:id="@+id/rbCamera1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="12dp"
+                android:text="@string/camera_option_1"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?attr/colorOnSurface" />
+
+            <RadioButton
+                android:id="@+id/rbCamera2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="12dp"
+                android:text="@string/camera_option_2"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?attr/colorOnSurface" />
+
+            <RadioButton
+                android:id="@+id/rbCamera3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="12dp"
+                android:text="@string/camera_option_3"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?attr/colorOnSurface" />
+
+            <RadioButton
+                android:id="@+id/rbCamera4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="12dp"
+                android:text="@string/camera_option_4"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?attr/colorOnSurface" />
+
+            <RadioButton
+                android:id="@+id/rbCamera5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:buttonTint="?attr/colorPrimary"
+                android:paddingStart="8dp"
+                android:paddingTop="12dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="12dp"
+                android:text="@string/camera_option_5"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                android:textColor="?attr/colorOnSurface" />
+        </RadioGroup>
+
+        <!-- Hint text -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/camera_selection_hint"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Calibration signal dot. Tinted at runtime (green/orange/red) by the overlay
+     service via setColorFilter — the base is a filled circle with a faint halo
+     ring so it reads as a live "signal strength" indicator, not a status LED. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#33FFFFFF" />
+            <size android:width="16dp" android:height="16dp" />
+        </shape>
+    </item>
+    <item
+        android:width="10dp"
+        android:height="10dp"
+        android:gravity="center">
+        <shape android:shape="oval">
+            <solid android:color="#FFFFFFFF" />
+        </shape>
+    </item>
+</layer-list>

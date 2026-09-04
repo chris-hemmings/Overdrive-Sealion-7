@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded: keyboard_arrow_up (24px, weight 400, fill 0).
+     Reorder-up control on a RoadSense itinerary stop row. Tintable. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M480-528 324-372q-11 11-28 11t-28-11q-11-11-11-28t11-28l184-184q6-6 13-8.5t15-2.5q8 0 15 2.5t13 8.5l184 184q11 11 11 28t-11 28q-11 11-28 11t-28-11L480-528Z"/>
+    </group>
+</vector>

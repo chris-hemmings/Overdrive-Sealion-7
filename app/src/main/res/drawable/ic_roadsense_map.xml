@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense Hazard Map mark — M3, single-color, tint-driven (24dp grid).
+
+  Concept: a FOLDED MAP (three accordion panels) with a LOCATION PIN
+  dropped on it — "hazards plotted on the map." Authored in the Material
+  Symbols 960-unit grid and scaled via the same <group> transform
+  (scale 0.025 + translateY 24) used by ic_roadsense / ic_trips so the
+  optical weight matches the rest of the rail.
+
+  Material baseline convention: x:0..960, y:-960..0, baseline y=0.
+  LARGER magnitude = HIGHER on screen.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+
+        <!-- Folded map: three accordion panels in gentle perspective.
+             Material Symbols "map" silhouette (top-left panel up, centre
+             panel down, right panel up). -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M600,-760 L360,-844 L120,-760 Q104,-754 104,-737 L104,-200 Q104,-176 128,-184 L360,-264 L600,-180 L832,-260 Q848,-266 848,-283 L848,-720 L600,-760 Z M360,-758 L600,-680 L600,-262 L360,-340 L360,-758 Z" />
+
+        <!-- Location pin dropped on the map (bold teardrop + bored hole),
+             sitting on the right panel. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:fillType="evenOdd"
+            android:pathData="M712,-712 Q628,-712 628,-624 Q628,-560 712,-468 Q796,-560 796,-624 Q796,-712 712,-712 Z M712,-660 m-32,0 a32,32 0 1,0 64,0 a32,32 0 1,0 -64,0 Z" />
+    </group>
+</vector>

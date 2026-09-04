@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Battery-tile advisory pill shown when the daemon detects pack-capacity
+     frame mismatch (peak observed at full charge ≪ user nominal). Sized to
+     match the recording library count pill — same visual rhythm, different
+     palette (secondary container vs surface) so it reads as advisory. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/colorSecondaryContainer" />
+    <corners android:radius="999dp" />
+</shape>

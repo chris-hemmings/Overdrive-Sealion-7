@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense map — one itinerary row in the route-options sheet's trip list,
+  built in code by RoadSenseMapActivity.rebuildStopsUi(). One layout serves
+  every row type (origin / intermediate stop / destination / "Add stop"); the
+  host shows/hides the pieces:
+    - a soft tonal leading-icon disc (ivStopIcon) with an optional 1-based
+      via-stop ordinal badge (tvStopOrdinal) overlaid on it;
+    - a primary label (tvStopLabel) + optional muted subtitle (tvStopSubtitle);
+    - a trailing control cluster: reorder up/down (btnStopUp / btnStopDown,
+      shown only for reorderable intermediate stops) and a remove X
+      (btnStopRemove, shown for every editable entry).
+  Editable rows are tappable (ripple via ?attr/selectableItemBackground) to
+  re-search/replace the entry. All colours are theme attrs so the row is
+  correct in both day and night.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:minHeight="56dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="8dp">
+
+    <FrameLayout
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="14dp">
+
+        <ImageView
+            android:id="@+id/ivStopIcon"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_nav_leading_icon"
+            android:contentDescription="@null"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_location_pin"
+            app:tint="?attr/colorOnSurfaceVariant" />
+
+        <!-- 1-based via-stop ordinal, overlaid bottom-end on the disc. Hidden for
+             origin / destination / "Add stop". -->
+        <TextView
+            android:id="@+id/tvStopOrdinal"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="bottom|end"
+            android:background="@drawable/bg_stop_ordinal"
+            android:gravity="center"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="10sp"
+            android:visibility="gone"
+            tools:text="1"
+            tools:visibility="visible" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvStopLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.Overdrive.NavRow.Title"
+            tools:text="Marina Bay Sands" />
+
+        <TextView
+            android:id="@+id/tvStopSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.Overdrive.NavRow.Subtitle"
+            android:visibility="gone"
+            tools:text="Bayfront Avenue, Singapore"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btnStopUp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="2dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/roadsense_map_move_stop_up"
+        android:padding="7dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_arrow_up"
+        android:visibility="gone"
+        app:tint="?attr/colorOnSurfaceVariant"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/btnStopDown"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="2dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/roadsense_map_move_stop_down"
+        android:padding="7dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_arrow_down"
+        android:visibility="gone"
+        app:tint="?attr/colorOnSurfaceVariant"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/btnStopRemove"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="2dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/roadsense_map_remove_stop"
+        android:padding="8dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_clear"
+        app:tint="?attr/colorOnSurfaceVariant"
+        tools:ignore="ImageContrastCheck" />
+
+</LinearLayout>

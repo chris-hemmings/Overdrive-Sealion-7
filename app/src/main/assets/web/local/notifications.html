@@ -1,0 +1,2660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#00876C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="../shared/app-icon-dark.webp">
+    <title data-i18n="app.notifications_title">Notifications - OverDrive</title>
+    <link rel="icon" type="image/webp" href="../shared/app-icon-dark.webp">
+    <script src="../shared/theme.js?v=5"></script>
+    <script src="../shared/app-shell.js?v=5"></script>
+    <!--
+      WebView detection MUST run before app-tabs.js builds the tab bar so
+      we can filter OT_TABS to the Telegram-only flow on the head unit.
+      The AndroidBridge JS interface is injected by WebViewFragment; its
+      mere presence is the canonical "we're inside the Overdrive shell"
+      signal (same approach core.js uses for locale / theme decisions).
+      Setting the class on <html> (not <body>) so CSS rules can style
+      pre-paint elements like <main> and <style> media queries.
+    -->
+    <script>
+        (function () {
+            if (typeof window !== 'undefined' && typeof window.AndroidBridge !== 'undefined') {
+                document.documentElement.classList.add('is-app-webview');
+            }
+        })();
+    </script>
+    <!--
+      Bottom-tab manifest for Notifications. Three task-based tabs:
+        Push     — per-device push permission + per-category toggles
+        Telegram — Two-stage Telegram alerts + tier filter (was on Surveillance)
+        Devices  — registered push subscriptions
+      Inside the head-unit WebView the Telegram block is the only piece
+      that makes sense — Web Push needs a tunnel origin the head unit
+      doesn't have, and the Devices list manages browsers, not the
+      built-in shell. Filter OT_TABS down to Telegram so the bottom-tab
+      bar collapses to a single chip (or app-tabs.js may hide the bar
+      entirely when only one tab remains).
+      The Telegram block reuses the legacy IDs (v2TelegramSendStartPing,
+      v2TelegramTierGroup, v2TelegramNotices/Alerts/Critical) so the
+      SurvSettings bindings in shared/surveillance.js keep firing.
+    -->
+    <script>
+        var __OT_LOG_TAB = { id: 'log', label: 'Log', i18n: 'notif.tab_log', svg: '<line x1="8" y1="7" x2="18" y2="7"/><line x1="8" y1="12" x2="18" y2="12"/><line x1="8" y1="17" x2="14" y2="17"/><circle cx="4.5" cy="7" r="1"/><circle cx="4.5" cy="12" r="1"/><circle cx="4.5" cy="17" r="1"/>' };
+        var __OT_ALL_TABS = [
+            __OT_LOG_TAB,
+            { id: 'push',     label: 'Push',     i18n: 'notif.tab_push',     svg: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>' },
+            { id: 'telegram', label: 'Telegram', i18n: 'notif.tab_telegram', svg: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>' },
+            { id: 'devices',  label: 'Devices',  i18n: 'notif.tab_devices',  svg: '<rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>', readOnly: true }
+        ];
+        // The Log tab reads persisted history (no tunnel needed) so it is useful
+        // in the head-unit WebView too — keep it alongside Telegram there. Push
+        // and Devices still make no sense in-car and are filtered out.
+        window.OT_TABS = (typeof window.AndroidBridge !== 'undefined')
+            ? __OT_ALL_TABS.filter(function (t) { return t.id === 'telegram' || t.id === 'log'; })
+            : __OT_ALL_TABS;
+    </script>
+    <script src="../shared/app-tabs.js"></script>
+    <link rel="stylesheet" href="../shared/styles.css?v=23">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        .notif-page-body { max-width: 720px; margin: 0 auto; }
+        .notif-section { margin-bottom: 28px; }
+        .notif-section h2 {
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            color: var(--text-secondary);
+            margin: 0 0 4px;
+        }
+        .notif-section-sub {
+            font-size: 13px; color: var(--text-muted);
+            line-height: 1.5; margin: 0 0 14px;
+        }
+        .notif-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 4px 0;
+        }
+        .notif-row {
+            position: relative;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .notif-row:last-child { border-bottom: 0; }
+        .notif-row-text { flex: 1; min-width: 0; padding-right: 12px; }
+        .notif-row-label {
+            font-size: 14px; font-weight: 500;
+            display: flex; align-items: center; gap: 8px;
+            flex-wrap: wrap;
+        }
+        .notif-row-note {
+            font-size: 12px; color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        .notif-sev-pill {
+            position: relative;
+            display: inline-block;
+            font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase;
+            padding: 2px 8px; border-radius: 999px;
+            background: var(--bg-hover);
+            color: var(--text-secondary);
+            cursor: help;
+        }
+        .notif-sev-pill.warn { color: #FFB75A; background: rgba(255,183,90,0.1); }
+        .notif-sev-pill.critical { color: #FF6B6B; background: rgba(255,107,107,0.1); }
+        .notif-sev-pill.auto { color: #00E5FF; background: rgba(0,229,255,0.1); }
+        /* Tooltip is a child of the pill (anchored to it), positioned just
+           below-right of the pill, kept narrow enough that it never covers
+           the toggle on the row's right edge. Triggers only on pill hover
+           so casual mouse movement through the row doesn't hide the toggle. */
+        .notif-sev-tooltip {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            width: max-content;
+            max-width: min(240px, calc(100vw - 48px));
+            padding: 8px 10px;
+            background: var(--panel-overlay-bg);
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            box-shadow: var(--shadow-overlay);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--text-primary);
+            font-size: 11px; font-weight: 400; line-height: 1.45;
+            text-transform: none; letter-spacing: 0;
+            white-space: normal; text-align: left;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.15s;
+            z-index: 100;
+        }
+        .notif-sev-pill:hover .notif-sev-tooltip,
+        .notif-sev-pill:focus .notif-sev-tooltip,
+        .notif-sev-pill:focus-within .notif-sev-tooltip {
+            opacity: 1;
+        }
+        .notif-toggle {
+            position: relative; width: 44px; height: 26px;
+            background: var(--border-default); border-radius: 13px;
+            transition: background 0.15s;
+            flex-shrink: 0; cursor: pointer;
+        }
+        .notif-toggle.on { background: #00E5FF; }
+        .notif-toggle::after {
+            content: ''; position: absolute; top: 3px; left: 3px;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: #fff; transition: transform 0.15s;
+        }
+        .notif-toggle.on::after { transform: translateX(18px); }
+        /* Inactive toggle — push isn't enabled on this device so the
+           per-category preference is moot. Show as visibly disabled and
+           ignore clicks. */
+        .notif-toggle.inactive {
+            background: var(--border-subtle);
+            cursor: not-allowed;
+            pointer-events: none;
+            opacity: 0.45;
+        }
+        .notif-toggle.inactive.on { background: var(--border-subtle); }
+        .notif-toggle.inactive::after {
+            background: var(--text-muted);
+            transform: none !important;
+        }
+        .notif-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            min-width: 132px; height: 38px;
+            padding: 0 18px;
+            border: 1px solid rgba(0,229,255,0.4); border-radius: 8px;
+            background: rgba(0,229,255,0.08); color: #00E5FF;
+            font-size: 13px; font-weight: 500; line-height: 1; cursor: pointer;
+            white-space: nowrap;
+            font-family: inherit;
+        }
+        .notif-btn:hover { background: rgba(0,229,255,0.15); }
+        .notif-btn.danger { border-color: rgba(255,107,107,0.4); background: rgba(255,107,107,0.08); color: #FF6B6B; }
+        .notif-btn.disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+        /* Minimum-importance segmented control. ES5/Chrome-58 safe (flexbox,
+           no gap on the segments themselves — border-collapse look via -1px). */
+        .notif-seg {
+            display: flex; width: 100%;
+            border: 1px solid var(--border-subtle); border-radius: 8px;
+            overflow: hidden;
+        }
+        .notif-seg-btn {
+            flex: 1 1 0; min-width: 0;
+            padding: 10px 12px;
+            border: 0; border-left: 1px solid var(--border-subtle);
+            background: transparent; color: var(--text-secondary);
+            font-family: inherit; font-size: 13px; font-weight: 500;
+            line-height: 1.2; cursor: pointer; white-space: nowrap;
+            text-overflow: ellipsis; overflow: hidden;
+        }
+        .notif-seg-btn:first-child { border-left: 0; }
+        .notif-seg-btn:hover { background: rgba(0,229,255,0.08); }
+        .notif-seg-btn[aria-checked="true"] {
+            background: rgba(0,229,255,0.15); color: #00E5FF;
+        }
+        .notif-seg.disabled { opacity: 0.5; pointer-events: none; }
+        .notif-seg-hint { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
+        /* Compact variant: sits inline on the right of a .notif-row (like
+           .notif-range does) instead of spanning the card. Same look,
+           fixed-size segments. */
+        .notif-seg-compact {
+            width: auto; flex-shrink: 0;
+        }
+        .notif-seg-compact .notif-seg-btn {
+            flex: 0 0 auto; padding: 8px 14px; font-size: 12px;
+        }
+        .notif-status {
+            font-size: 13px; padding: 12px 16px; border-radius: 8px;
+            margin: 12px 0; line-height: 1.5;
+        }
+        .notif-status.ok    { background: rgba(0,229,255,0.08); color: #00E5FF; }
+        .notif-status.warn  { background: rgba(255,183,90,0.08); color: #FFB75A; }
+        .notif-status.error { background: rgba(255,107,107,0.08); color: #FF6B6B; }
+        .notif-status code {
+            background: var(--bg-elevated); padding: 2px 6px; border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace; font-size: 12px;
+        }
+        .notif-permission-row {
+            display: grid;
+            grid-template-columns: 16px 1fr;
+            column-gap: 12px;
+            row-gap: 14px;
+            align-items: center;
+        }
+        .notif-permission-row::before {
+            content: ''; grid-column: 1; grid-row: 1;
+            width: 10px; height: 10px; border-radius: 50%;
+            background: var(--text-muted);
+            justify-self: center;
+        }
+        .notif-permission-row.granted::before { background: #00E5FF; box-shadow: 0 0 8px rgba(0,229,255,0.6); }
+        .notif-permission-row.denied::before  { background: #FF6B6B; }
+        .notif-permission-row.default::before { background: #FFB75A; }
+        .notif-permission-state {
+            grid-column: 2; grid-row: 1;
+            font-size: 14px; color: var(--text-secondary);
+        }
+        .notif-action-row {
+            grid-column: 2; grid-row: 2;
+            display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+        }
+        .notif-action-row .notif-btn { flex: 0 0 auto; }
+        .device-row { padding: 12px 16px; border-bottom: 1px solid var(--border-subtle); }
+        .device-row:last-child { border-bottom: 0; }
+        .device-row-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+        .device-row-label { font-weight: 500; }
+        .device-row-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+        /* "(this device)" tag — small tonal chip inline with the device label
+           so the user can identify the row corresponding to the current
+           browser before clicking Remove. */
+        .device-row-self {
+            display: inline-block;
+            margin-left: 8px;
+            padding: 1px 8px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--text-muted);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 999px;
+            vertical-align: middle;
+        }
+        .empty-state {
+            padding: 24px 16px; text-align: center;
+            color: var(--text-secondary); font-size: 13px;
+        }
+
+        /* ============================================================
+           TYRE PRESSURE LIMITS
+           Numeric min/max entry per axle. Reuses the .notif-row grid so the
+           card lines up with the LHD/RHD picker directly above it. The two
+           inputs sit in a fixed-width group on the row's right edge, where
+           every other row in this page puts its control.
+           ============================================================ */
+        .notif-range {
+            display: flex; align-items: center; gap: 6px;
+            flex-shrink: 0;
+        }
+        .notif-num {
+            width: 68px; height: 34px;
+            padding: 0 8px;
+            border: 1px solid var(--border-default);
+            border-radius: 8px;
+            background: var(--bg-base);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px; text-align: center;
+            /* Chrome 58 in the head-unit WebView still paints spinners on
+               number inputs; they'd overlap the 68px field. */
+            -moz-appearance: textfield;
+        }
+        .notif-num::-webkit-outer-spin-button,
+        .notif-num::-webkit-inner-spin-button {
+            -webkit-appearance: none; margin: 0;
+        }
+        .notif-num:focus {
+            outline: none;
+            border-color: #00E5FF;
+            box-shadow: 0 0 0 2px rgba(0,229,255,0.18);
+        }
+        /* Server rejected the value, or it fails the local sanity check. */
+        .notif-num.invalid {
+            border-color: #FF6B6B;
+            box-shadow: 0 0 0 2px rgba(255,107,107,0.18);
+        }
+        .notif-range-sep { color: var(--text-muted); font-size: 12px; }
+        .notif-num-unit {
+            color: var(--text-muted); font-size: 11px;
+            width: 26px; text-align: left;
+        }
+        /* Live PSI echo under each axle label, so a user thinking in PSI can
+           sanity-check a kPa entry without leaving the page. */
+        .notif-row-conv {
+            font-size: 11px; color: var(--text-muted);
+            margin-top: 3px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .notif-card-actions {
+            display: flex; justify-content: flex-end; gap: 10px;
+            align-items: center; flex-wrap: wrap;
+            padding: 14px 16px;
+        }
+        .notif-card-actions .notif-hint {
+            font-size: 12px; color: var(--text-muted);
+            margin-right: auto; max-width: 60%;
+        }
+        @media (max-width: 520px) {
+            /* Stack the control under the label so the two inputs keep their
+               tap targets on the narrow head-unit portrait layout. */
+            #tyreLimitsCard .notif-row { flex-wrap: wrap; }
+            #tyreLimitsCard .notif-row-text { padding-right: 0; }
+            #tyreLimitsCard .notif-range { margin-top: 10px; }
+            #tyreLimitsCard .notif-seg-compact { margin-top: 10px; }
+        }
+
+        /* ============================================================
+           In-app WebView adaptations
+           ------------------------------------------------------------
+           When loaded inside the Overdrive Android shell (signaled by
+           html.is-app-webview), Web Push is unreachable (the head unit
+           can't satisfy the secure-origin requirement and the on-device
+           browser is the wrong UA for the Devices list). Hide both
+           sections completely. The OT_TABS filter above keeps them out
+           of the bottom-tab bar; this rule covers the section bodies in
+           case the page paints before app-tabs.js gates display.
+           ============================================================ */
+        html.is-app-webview .notif-section[data-tab="push"],
+        html.is-app-webview .notif-section[data-tab="devices"] {
+            display: none !important;
+        }
+
+        /* Toast container collides with the WebView bottom-tabs (which sit
+           at z-index 400 and occupy the bottom 68px). Lift the toast above
+           that strip and raise z-index over every overlay so the
+           "Preferences saved" confirmation is actually visible after the
+           tier toggles save. The shared rule (.toast-container in
+           shared/styles.css) keeps a 24px bottom for non-tabbed pages. */
+        html.is-app-webview .toast-container {
+            bottom: calc(88px + var(--safe-bottom, 0px)) !important;
+            z-index: 600 !important;
+        }
+
+        /* The default toast hide animation in core.js references a keyframe
+           name (slideIn) that doesn't exist in styles.css — only slideUp
+           does. On Chrome 58 the malformed animation drops the toast off
+           screen before it ever paints. Define slideIn here so the toast
+           plays a real animation in both directions. Scoped to the page
+           so we don't disturb other pages until they migrate. */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translate(-50%, 10px); }
+            to   { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        /* Severity status dots next to the tier toggle labels need the same
+           inline-block + vertical-align treatment that .info-icon uses on
+           telegram.html — without it Chrome 58 drops them onto the text
+           baseline (clipping the bottom half) and the gap between the dot
+           and the label collapses to nothing. The label container is a
+           flex row with gap:8px, but flex `gap` is unreliable on the
+           Android System WebView 58 so we fall back to margin. */
+        .notif-row-label .status-dot {
+            display: inline-block;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+        .notif-row-label .info-icon {
+            display: inline-block;
+            width: 14px; height: 14px;
+            vertical-align: middle;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+
+        /* Material 3 radio dot used by the vehicle-layout picker. Larger
+           hit target than the toggle and pulls colours from theme tokens
+           so dark / light flip cleanly. The selected state lights up with
+           the same accent the page accent (notif-toggle.on) uses, so the
+           picker reads as a peer of the per-category toggles. */
+        .notif-radio {
+            position: relative;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            border: 2px solid var(--border-default);
+            background: transparent;
+            cursor: pointer;
+            flex-shrink: 0;
+            transition: border-color 0.15s, background 0.15s;
+        }
+        .notif-radio:hover { border-color: #00E5FF; }
+        /* Pair :focus + :focus-visible — Chrome 58 (Android System WebView on
+           the BYD head unit) added :focus-visible only in v86, so a rule
+           targeting :focus-visible alone gets dropped at parse and the
+           keyboard ring never paints inside the WebView. Modern browsers
+           respect both, with :focus-visible's tighter "only on keyboard
+           focus" semantics taking precedence. */
+        .notif-radio:focus,
+        .notif-radio:focus-visible {
+            outline: 2px solid #00E5FF;
+            outline-offset: 3px;
+        }
+        .notif-radio.on {
+            border-color: #00E5FF;
+        }
+        .notif-radio.on::after {
+            content: '';
+            position: absolute;
+            top: 4px; left: 4px;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #00E5FF;
+            box-shadow: 0 0 6px rgba(0,229,255,0.55);
+        }
+        .notif-radio.disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+        /* The whole row is the hit target for the picker. The row itself
+           gets a pointer cursor so users see the affordance, and a subtle
+           hover lift makes it feel like a peer of the notif-toggle rows.
+           The radio dot inside still receives the click via the delegated
+           handler walking up to the closest [data-side] ancestor. */
+        #driveSideCard .notif-row {
+            cursor: pointer;
+        }
+        #driveSideCard .notif-row:hover .notif-radio:not(.on) {
+            border-color: #00E5FF;
+        }
+
+        /* ============================================================
+           NOTIFICATION LOG TAB (data-tab="log")
+           Ported filter/calendar CSS from charging.html + event-style
+           pagination. Chrome-58 safe: no flex gap (sibling margins), no
+           inset:0, explicit calendar-day height.
+           ============================================================ */
+        .nl-wrap { max-width: 100%; }
+
+        /* ---- Header: count (left) + icon actions (right) ---- */
+        .nl-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .nl-count { font-size: 15px; font-weight: 700; color: var(--text-primary); letter-spacing: 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .nl-actions { display: flex; flex: 0 0 auto; }
+        .nl-actions > * + * { margin-left: 8px; }
+        .nl-icon-btn {
+            width: 38px; height: 38px; display: inline-flex; align-items: center; justify-content: center;
+            border-radius: var(--radius-full); background: var(--bg-surface); border: 1px solid var(--border-subtle);
+            color: var(--text-secondary); cursor: pointer; transition: background .2s, color .2s, border-color .2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .nl-icon-btn svg { width: 18px; height: 18px; }
+        .nl-icon-btn:hover { background: var(--bg-elevated); color: var(--text-primary); }
+        .nl-icon-btn.active { background: var(--brand-primary); color: var(--bg-base); border-color: var(--brand-primary); }
+        .nl-icon-btn.danger:hover { background: rgba(255,180,171,0.14); color: var(--status-danger); border-color: var(--status-danger); }
+
+        /* ---- Filter bar: one row of dropdown chips ---- */
+        .nl-filterbar { display: flex; flex-wrap: nowrap; align-items: center; margin-bottom: 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .nl-filterbar::-webkit-scrollbar { display: none; }
+        .nl-filterbar > * + * { margin-left: 8px; }
+        /* The 3 dimension chips shrink to share the row (label ellipsizes);
+           the reset chip is fixed-size and never wraps to a new line. */
+        .nl-filterbar .nl-fchip:not(.nl-fchip-reset) { flex: 0 1 auto; min-width: 0; }
+        .nl-fchip {
+            display: inline-flex; align-items: center; height: 36px; padding: 0 12px;
+            border-radius: var(--radius-full); background: var(--bg-surface); border: 1px solid var(--border-subtle);
+            color: var(--text-secondary); font-size: 13px; font-weight: 600; cursor: pointer;
+            transition: background .2s, color .2s, border-color .2s; white-space: nowrap; max-width: 46vw;
+            -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+        }
+        .nl-fchip > svg:first-child { width: 15px; height: 15px; flex: 0 0 auto; margin-right: 7px; opacity: .85; }
+        .nl-fchip-label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .nl-fchip-caret { width: 15px; height: 15px; flex: 0 0 auto; margin-left: 5px; opacity: .7; transition: transform .2s; }
+        .nl-fchip:hover { background: var(--bg-elevated); color: var(--text-primary); border-color: var(--border-default); }
+        .nl-fchip.is-active { background: var(--brand-primary); color: var(--bg-base); border-color: var(--brand-primary); }
+        .nl-fchip.is-active > svg { opacity: 1; }
+        .nl-fchip.is-open .nl-fchip-caret { transform: rotate(180deg); }
+        .nl-fchip-reset { width: 36px; flex: 0 0 auto; padding: 0; justify-content: center; }
+        .nl-fchip-reset > svg:first-child { margin-right: 0; }
+        /* Narrow phones: tighten chips so all three + reset fit the row. */
+        @media (max-width: 400px) {
+            .nl-fchip { padding: 0 10px; height: 34px; font-size: 12px; }
+            .nl-fchip > svg:first-child { margin-right: 5px; width: 14px; height: 14px; }
+            .nl-fchip-caret { margin-left: 3px; }
+            .nl-filterbar > * + * { margin-left: 6px; }
+        }
+
+        /* ---- Filter menu bottom-sheet (reuses .calendar-popup overlay) ---- */
+        .nl-menu-header { display: flex; align-items: center; justify-content: space-between; }
+        .nl-menu-title { font-size: 17px; font-weight: 700; color: var(--text-primary); }
+        .nl-menu-close { width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--bg-elevated); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .nl-menu-close svg { width: 16px; height: 16px; }
+        .nl-menu-list { display: flex; flex-direction: column; }
+        .nl-menu-item {
+            display: flex; align-items: center; padding: 13px 12px; border-radius: var(--radius-md);
+            background: transparent; color: var(--text-primary); font-size: 15px; font-weight: 500;
+            cursor: pointer; text-align: left; transition: background .15s; -webkit-tap-highlight-color: transparent;
+        }
+        .nl-menu-item + .nl-menu-item { margin-top: 2px; }
+        .nl-menu-item:hover { background: var(--bg-elevated); }
+        .nl-menu-item .nl-menu-dot { width: 10px; height: 10px; border-radius: 50%; flex: 0 0 auto; margin-right: 11px; background: var(--text-muted); }
+        .nl-menu-item .nl-menu-check { width: 18px; height: 18px; flex: 0 0 auto; margin-left: auto; color: var(--brand-primary); opacity: 0; }
+        .nl-menu-item.selected { background: var(--bg-elevated); font-weight: 600; }
+        .nl-menu-item.selected .nl-menu-check { opacity: 1; }
+        .nl-menu-dot.sev-critical { background: var(--status-danger); }
+        .nl-menu-dot.sev-warn { background: var(--status-warning); }
+        .nl-menu-dot.sev-info { background: var(--status-info); }
+
+        /* ---- Custom From -> To range row (revealed inside the date menu) ---- */
+
+        /* Custom From -> To range row + calendar popup (ported from charging). */
+        .calendar-popup { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--panel-overlay-bg-deep); z-index: 500; display: none; align-items: flex-end; justify-content: center; -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+        .calendar-popup.active { display: flex; }
+        .calendar-panel { background: var(--bg-surface); border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: 20px; padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); width: 100%; max-width: 100%; max-height: 85vh; overflow-y: auto; display: flex; flex-direction: column; box-shadow: var(--shadow-lg); animation: nlSlideUp .3s ease; }
+        .calendar-panel > * + * { margin-top: 16px; }
+        @keyframes nlSlideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @media (min-width: 480px) { .calendar-popup { align-items: center; padding: 20px; } .calendar-panel { border-radius: var(--radius-lg); max-width: 340px; max-height: none; padding-bottom: 20px; animation: nlPopIn .2s ease; } }
+        @keyframes nlPopIn { from { transform: scale(.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        .calendar-header { display: flex; justify-content: space-between; align-items: center; }
+        .calendar-title { font-size: 18px; font-weight: 600; }
+        .calendar-nav { display: flex; }
+        .calendar-nav button + button { margin-left: 8px; }
+        .calendar-nav button { width: 32px; height: 32px; border-radius: var(--radius-sm); background: var(--bg-elevated); color: var(--text-secondary); display: flex; align-items: center; justify-content: center; transition: all .2s; }
+        .calendar-nav button:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .calendar-weekday { text-align: center; font-size: 11px; font-weight: 600; color: var(--text-muted); padding: 8px 0; text-transform: uppercase; }
+        .calendar-day { aspect-ratio: 1; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-sm); font-size: 13px; font-weight: 500; color: var(--text-secondary); cursor: pointer; position: relative; transition: all .2s; min-height: 40px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .calendar-day:hover { background: var(--bg-hover); }
+        .calendar-day:active { background: var(--bg-elevated); transform: scale(.95); }
+        .calendar-day.other-month { color: var(--text-muted); opacity: .5; }
+        .calendar-day.today { background: var(--bg-elevated); color: var(--text-primary); font-weight: 600; }
+        .calendar-day.selected { background: var(--brand-primary); color: var(--bg-base); }
+        .calendar-day.in-range { background: rgba(93,219,182,0.16); color: var(--text-primary); }
+        .calendar-day.disabled { color: var(--text-muted); opacity: .3; cursor: not-allowed; pointer-events: none; }
+
+        /* ---- Date sheet (presets + inline range calendar) ---- */
+        .nl-date-presets { display: flex; margin-bottom: 4px; }
+        .nl-date-presets > * + * { margin-left: 8px; }
+        .nl-date-preset {
+            flex: 1 1 0; height: 40px; border-radius: var(--radius-md);
+            background: var(--bg-elevated); border: 1px solid transparent;
+            color: var(--text-secondary); font-size: 14px; font-weight: 600; cursor: pointer;
+            transition: background .15s, color .15s, border-color .15s; -webkit-tap-highlight-color: transparent;
+        }
+        .nl-date-preset:hover { color: var(--text-primary); }
+        .nl-date-preset.active { background: var(--brand-primary); color: var(--bg-base); border-color: var(--brand-primary); }
+        .nl-date-divider { display: flex; align-items: center; text-align: center; color: var(--text-muted); font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+        .nl-date-divider::before, .nl-date-divider::after { content: ''; flex: 1 1 auto; height: 1px; background: var(--border-subtle); }
+        .nl-date-divider span { padding: 0 10px; }
+        .nl-date-summary { text-align: center; font-size: 14px; font-weight: 600; color: var(--text-primary); padding: 6px 0; }
+        .nl-date-apply { width: 100%; padding: 12px; color: var(--on-primary, #000); }
+        .nl-date-apply:disabled { opacity: .45; cursor: not-allowed; }
+
+        /* Bulk-select action bar (sticky above the list when selecting). */
+        .nl-bulk-bar { display: none; align-items: center; justify-content: space-between; padding: 10px 14px; margin-bottom: 12px; border-radius: var(--radius-md); background: var(--bg-elevated); border: 1px solid var(--border-default); position: sticky; top: 0; z-index: 6; }
+        .nl-bulk-left { display: flex; align-items: center; }
+        .nl-bulk-left > * + * { margin-left: 10px; }
+        .nl-bulk-count { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .nl-bulk-link { font-size: 12px; font-weight: 600; color: var(--text-secondary); cursor: pointer; background: none; }
+        .nl-bulk-link:hover { color: var(--text-primary); }
+
+        /* ---- The cards ---- */
+        #nlList { display: flex; flex-direction: column; }
+        #nlList > * + * { margin-top: 10px; }
+        .nl-card {
+            display: flex; align-items: flex-start; padding: 14px;
+            border-radius: var(--radius-lg); background: var(--bg-surface);
+            border: 1px solid var(--border-subtle); position: relative; transition: background .2s, border-color .2s, transform .12s;
+        }
+        .nl-card > * + * { margin-left: 12px; }
+        .nl-card.nl-clickable { cursor: pointer; }
+        .nl-card.nl-clickable:hover { background: var(--bg-elevated); border-color: var(--border-default); }
+        .nl-card.nl-clickable:active { transform: scale(.995); }
+        /* Severity accent — left inset bar (matches events.html sev cards). */
+        .nl-card.sev-warn { box-shadow: inset 3px 0 0 var(--status-warning); }
+        .nl-card.sev-critical { box-shadow: inset 3px 0 0 var(--status-danger); }
+
+        .nl-icon { flex: 0 0 auto; width: 40px; height: 40px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; background: var(--bg-elevated); color: var(--text-secondary); margin-top: 1px; }
+        .nl-icon svg { width: 20px; height: 20px; }
+        .nl-icon.sev-warn { color: var(--status-warning); }
+        .nl-icon.sev-critical { color: var(--status-danger); }
+        .nl-icon.sev-info { color: var(--status-info); }
+
+        .nl-thumb { flex: 0 0 auto; width: 64px; height: 48px; border-radius: var(--radius-sm); overflow: hidden; background: var(--bg-elevated); }
+        .nl-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+        .nl-body { flex: 1 1 auto; min-width: 0; }
+        .nl-line1 { display: flex; align-items: center; }
+        .nl-title { font-size: 15px; font-weight: 600; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .nl-jump { margin-left: 8px; color: var(--text-muted); flex: 0 0 auto; }
+        .nl-jump svg { width: 15px; height: 15px; vertical-align: middle; }
+        .nl-text { font-size: 13px; color: var(--text-secondary); margin-top: 3px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .nl-meta { display: flex; flex-wrap: wrap; align-items: center; margin-top: 8px; }
+        .nl-meta > * { margin-right: 8px; margin-top: 4px; }
+        .nl-time { font-size: 12px; color: var(--text-muted); margin-left: auto; margin-right: 0; }
+
+        .nl-sev-pill { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-full); text-transform: uppercase; letter-spacing: .03em; }
+        .nl-sev-pill.sev-info { background: rgba(133,207,255,0.16); color: var(--status-info); }
+        .nl-sev-pill.sev-warn { background: rgba(255,184,112,0.16); color: var(--status-warning); }
+        .nl-sev-pill.sev-critical { background: rgba(255,180,171,0.16); color: var(--status-danger); }
+        .nl-group-pill { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-full); background: var(--bg-elevated); color: var(--text-secondary); }
+        .nl-place { font-size: 12px; color: var(--text-secondary); }
+        .nl-chip { font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: var(--radius-sm); background: var(--bg-elevated); color: var(--text-secondary); }
+        .nl-chip.prox-veryclose { background: rgba(255,180,171,0.18); color: var(--status-danger); }
+        .nl-chip.prox-close { background: rgba(255,184,112,0.18); color: var(--status-warning); }
+
+        .nl-del { flex: 0 0 auto; width: 34px; height: 34px; border-radius: var(--radius-sm); background: transparent; color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all .2s; }
+        .nl-del svg { width: 17px; height: 17px; }
+        .nl-del:hover { background: rgba(255,180,171,0.14); color: var(--status-danger); }
+
+        /* Selection checkbox */
+        .nl-check { flex: 0 0 auto; display: inline-flex; align-items: center; cursor: pointer; margin-top: 4px; }
+        .nl-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .nl-check-box { width: 22px; height: 22px; border-radius: var(--radius-sm); border: 2px solid var(--border-default); display: inline-block; position: relative; transition: all .2s; }
+        .nl-check input:checked + .nl-check-box { background: var(--brand-primary); border-color: var(--brand-primary); }
+        .nl-check input:checked + .nl-check-box:after { content: ''; position: absolute; left: 7px; top: 3px; width: 5px; height: 10px; border: solid var(--bg-base); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+        /* Pagination (events-style Prev / Next). */
+        .nl-pagination { display: none; justify-content: center; align-items: center; padding: 16px; margin-top: 8px; border-top: 1px solid var(--border-subtle); }
+        .nl-pagination > * + * { margin-left: 8px; }
+        .pagination-btn { padding: 8px 16px; background: var(--bg-elevated); border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 13px; font-weight: 500; transition: all .2s; display: flex; align-items: center; cursor: pointer; }
+        .pagination-btn svg { width: 14px; height: 14px; }
+        .pagination-btn.prev svg { margin-right: 6px; }
+        .pagination-btn.next svg { margin-left: 6px; }
+        .pagination-btn:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-primary); }
+        .pagination-btn:disabled { opacity: .4; cursor: not-allowed; }
+        .pagination-info { font-size: 13px; color: var(--text-muted); padding: 0 12px; }
+
+        /* Skeleton + empty */
+        .nl-skel-card { height: 76px; border-radius: var(--radius-lg); background: var(--bg-surface); opacity: .5; animation: nlPulse 1.3s ease-in-out infinite; }
+        .nl-skel-card + .nl-skel-card { margin-top: 10px; }
+        @keyframes nlPulse { 0%,100% { opacity: .35; } 50% { opacity: .6; } }
+        .nl-empty { text-align: center; padding: 48px 16px; color: var(--text-muted); }
+        .nl-empty svg { width: 56px; height: 56px; opacity: .4; margin-bottom: 12px; }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <!-- App shell sidebar (rendered by ../shared/app-shell.js) -->
+        <div id="app-shell-mount"></div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="mobile-header">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                </button>
+                <span style="font-weight:600;">Notifications</span>
+                <div style="width:40px;"></div>
+            </div>
+
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="notif.page_title">Notifications</h1>
+                <div class="header-actions">
+                    <div class="header-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span id="currentTime">--:--</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-body">
+                <div class="notif-page-body">
+                    <!-- Toast-style banner — shown on any tab as a transient
+                         status message (kept outside the tab system so it
+                         can survive a tab switch during a save). -->
+                    <div id="status" class="notif-status" style="display:none;"></div>
+
+                    <!-- ============================================================
+                         NOTIFICATION LOG (data-tab="log")
+                         Chronological history of every emitted notification.
+                         Calendar date filter (charging-page parity) + group /
+                         severity chips + event-style pagination + per-card and
+                         bulk delete. Tapping an event card jumps to the clip.
+                         ============================================================ -->
+                    <div class="notif-section" data-tab="log">
+                        <div class="nl-wrap">
+                            <!-- Header: count (left) + icon actions (right) -->
+                            <div class="nl-header">
+                                <span class="nl-count" id="nlCount" data-i18n="notiflog.empty">No notifications yet</span>
+                                <div class="nl-actions">
+                                    <button class="nl-icon-btn" id="nlSelectToggle" onclick="NOTIFLOG.toggleSelectMode()" title="Select" aria-label="Select">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                                    </button>
+                                    <button class="nl-icon-btn danger" id="nlClearAllBtn" onclick="NOTIFLOG.clearAll()" title="Clear all" aria-label="Clear all">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Bulk action bar (shown only in select mode) -->
+                            <div class="nl-bulk-bar" id="nlBulkBar">
+                                <div class="nl-bulk-left">
+                                    <span class="nl-bulk-count" id="nlBulkCount" data-i18n="notiflog.none_selected">0 selected</span>
+                                    <button class="nl-bulk-link" onclick="NOTIFLOG.selectAllOnPage()" data-i18n="notiflog.select_all">Select all</button>
+                                    <button class="nl-bulk-link" onclick="NOTIFLOG.clearSelection()" data-i18n="notiflog.clear_selection">Clear</button>
+                                </div>
+                                <button class="btn btn-danger" id="nlBulkDeleteBtn" onclick="NOTIFLOG.deleteSelected()" disabled data-i18n="notiflog.delete">Delete</button>
+                            </div>
+
+                            <!-- SOTA filter bar: one row of dropdown chips. Each opens
+                                 a bottom-sheet menu (reuses the calendar-popup pattern).
+                                 The chip label reflects the active selection; a chip with
+                                 a non-default value gets the .is-active accent. -->
+                            <div class="nl-filterbar" id="nlFilterBar">
+                                <button class="nl-fchip" id="nlDateChip" onclick="NOTIFLOG.openFilterMenu('date')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                    <span class="nl-fchip-label" id="nlDateChipLabel" data-i18n="notiflog.filter_all">All time</span>
+                                    <svg class="nl-fchip-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                                </button>
+                                <button class="nl-fchip" id="nlCatChip" onclick="NOTIFLOG.openFilterMenu('cat')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                                    <span class="nl-fchip-label" id="nlCatChipLabel" data-i18n="notiflog.filter_category">Category</span>
+                                    <svg class="nl-fchip-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                                </button>
+                                <button class="nl-fchip" id="nlSevChip" onclick="NOTIFLOG.openFilterMenu('sev')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                    <span class="nl-fchip-label" id="nlSevChipLabel" data-i18n="notiflog.filter_severity">Severity</span>
+                                    <svg class="nl-fchip-caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+                                </button>
+                                <button class="nl-fchip nl-fchip-reset" id="nlResetChip" onclick="NOTIFLOG.resetFilters()" style="display:none;" title="Reset filters" aria-label="Reset filters">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.36 2.64L3 8"/><path d="M3 3v5h5"/></svg>
+                                </button>
+                            </div>
+
+                            <!-- Skeleton (first load) -->
+                            <div id="nlSkeleton" style="display:none;margin-top:14px;">
+                                <div class="nl-skel-card"></div>
+                                <div class="nl-skel-card"></div>
+                                <div class="nl-skel-card"></div>
+                            </div>
+
+                            <!-- The list -->
+                            <div id="nlList" style="margin-top:14px;"></div>
+
+                            <!-- Empty state -->
+                            <div class="nl-empty" id="nlEmpty" style="display:none;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                                <div data-i18n="notiflog.empty">No notifications yet</div>
+                                <div style="font-size:13px;margin-top:6px;" data-i18n="notiflog.empty_hint">Alerts you receive appear here so you can review them any time.</div>
+                            </div>
+
+                            <!-- Pagination -->
+                            <div class="nl-pagination" id="nlPagination">
+                                <button class="pagination-btn prev" id="nlPrevBtn" onclick="NOTIFLOG.prevPage()" disabled>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                                    <span data-i18n="notiflog.prev">Prev</span>
+                                </button>
+                                <span class="pagination-info" id="nlPageInfo">Page 1 of 1</span>
+                                <button class="pagination-btn next" id="nlNextBtn" onclick="NOTIFLOG.nextPage()" disabled>
+                                    <span data-i18n="notiflog.next">Next</span>
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Vehicle layout (LHD / RHD) =====
+                         Cross-cuts every tab: door notifications fire from the
+                         camera daemon regardless of delivery channel, so the
+                         driver-side picker lives outside the tab grid. Saves
+                         to /api/models/selected (vehicle config section).
+                         The daemon force-reloads its config on every door
+                         edge so a flip here applies to the very next event
+                         without restart. -->
+                    <div class="notif-section" id="driveSideSection">
+                        <h2 id="driveSideHeading" data-i18n="notif.vehicle_layout">Vehicle layout</h2>
+                        <p class="notif-section-sub" data-i18n="notif.vehicle_layout_sub">Pick which side of the car the driver sits on. This decides whether door notifications label the front-axis doors as Front-left or Front-right. Saves immediately and applies to the next door event without restarting the daemon.</p>
+                        <!-- role=radiogroup wraps the two radio rows so screen
+                             readers announce the picker as one unit instead of
+                             two unrelated radios. aria-labelledby points at the
+                             section header. Initial radios both render OFF so
+                             LHD users don't see RHD checked for a beat before
+                             /api/models/selected resolves; DriveSidePicker.load
+                             paints the real state on first response, paint() is
+                             idempotent. -->
+                        <div class="notif-card" id="driveSideCard"
+                             role="radiogroup" aria-labelledby="driveSideHeading">
+                            <div class="notif-row" data-side="lhd">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="notif.drive_lhd">Left-hand drive</div>
+                                    <div class="notif-row-note" data-i18n="notif.drive_lhd_sub">Driver sits on the left (most of Europe, North America, China).</div>
+                                </div>
+                                <!-- WAI-ARIA roving tabindex: exactly ONE radio
+                                     in the group is reachable via Tab. paint()
+                                     moves the 0 to the currently-selected
+                                     radio after the load() response, defaulting
+                                     to the first radio while the response is
+                                     still pending. Avoids a double Tab-stop. -->
+                                <div class="notif-radio" data-side="lhd" role="radio" aria-checked="false" tabindex="0"></div>
+                            </div>
+                            <div class="notif-row" data-side="rhd">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="notif.drive_rhd">Right-hand drive</div>
+                                    <div class="notif-row-note" data-i18n="notif.drive_rhd_sub">Driver sits on the right (UK, Australia, India, Japan).</div>
+                                </div>
+                                <div class="notif-radio" data-side="rhd" role="radio" aria-checked="false" tabindex="-1"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Tyre pressure limits =====
+                         Also cross-cuts every tab (same reasoning as the
+                         vehicle-layout picker above): these limits drive BOTH
+                         delivery channels plus the Vehicle Control corner
+                         colouring, so they don't belong to the push or the
+                         Telegram tab. Saves to /api/tyres/limits, which
+                         persists the `tyres` section of the unified config.
+                         Values are kPa — the unit the BYD TPMS reports — so
+                         the comparison path never rounds. -->
+                    <div class="notif-section" id="tyreLimitsSection">
+                        <h2 id="tyreLimitsHeading" data-i18n="notif.tyre_limits">Tyre pressure limits</h2>
+                        <p class="notif-section-sub" data-i18n="notif.tyre_limits_sub">Set the normal pressure range for each axle. A tyre below the minimum or above the maximum raises a warning; below the critical value it raises a deflated-tyre alert. Used for push and Telegram notifications and for the corner colours in Vehicle Control. Defaults suit stock tyres — change them if your placard pressures differ.</p>
+                        <div class="notif-card" id="tyreLimitsCard">
+                            <!-- Display-unit picker. Presentation only: the
+                                 limit inputs below stay kPa (the canonical,
+                                 compared unit) — this drives how readings are
+                                 shown in Vehicle Control, the dashboard glance,
+                                 the conversion echoes here, and notification
+                                 text. Saves immediately on tap (no Save press
+                                 needed), same as the min-severity segments. -->
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="notif.tyre_unit">Display unit</div>
+                                    <div class="notif-row-note" data-i18n="notif.tyre_unit_note">How pressure readings are shown across the dashboard and in alerts. Limits below are always set in kPa.</div>
+                                </div>
+                                <div class="notif-seg notif-seg-compact" id="tyreUnitSeg" role="radiogroup" aria-label="Pressure display unit">
+                                    <button type="button" class="notif-seg-btn" data-unit="kpa" role="radio" aria-checked="false">kPa</button>
+                                    <button type="button" class="notif-seg-btn" data-unit="psi" role="radio" aria-checked="true">PSI</button>
+                                    <button type="button" class="notif-seg-btn" data-unit="bar" role="radio" aria-checked="false">bar</button>
+                                </div>
+                            </div>
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="notif.tyre_front">Front axle</div>
+                                    <div class="notif-row-note" data-i18n="notif.tyre_axle_note">Normal range — minimum and maximum.</div>
+                                    <div class="notif-row-conv" id="tyreFrontConv">&nbsp;</div>
+                                </div>
+                                <div class="notif-range">
+                                    <input class="notif-num" id="tyreFrontLow" type="number" inputmode="numeric"
+                                           min="80" max="600" step="1" aria-label="Front minimum pressure in kPa">
+                                    <span class="notif-range-sep">–</span>
+                                    <input class="notif-num" id="tyreFrontHigh" type="number" inputmode="numeric"
+                                           min="80" max="600" step="1" aria-label="Front maximum pressure in kPa">
+                                    <span class="notif-num-unit">kPa</span>
+                                </div>
+                            </div>
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="notif.tyre_rear">Rear axle</div>
+                                    <div class="notif-row-note" data-i18n="notif.tyre_axle_note">Normal range — minimum and maximum.</div>
+                                    <div class="notif-row-conv" id="tyreRearConv">&nbsp;</div>
+                                </div>
+                                <div class="notif-range">
+                                    <input class="notif-num" id="tyreRearLow" type="number" inputmode="numeric"
+                                           min="80" max="600" step="1" aria-label="Rear minimum pressure in kPa">
+                                    <span class="notif-range-sep">–</span>
+                                    <input class="notif-num" id="tyreRearHigh" type="number" inputmode="numeric"
+                                           min="80" max="600" step="1" aria-label="Rear maximum pressure in kPa">
+                                    <span class="notif-num-unit">kPa</span>
+                                </div>
+                            </div>
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="notif.tyre_critical">Critical (deflated)</div>
+                                    <div class="notif-row-note" data-i18n="notif.tyre_critical_note">At or below this, the alert is escalated to critical. Applies to all four tyres and cannot exceed either axle minimum.</div>
+                                    <div class="notif-row-conv" id="tyreCriticalConv">&nbsp;</div>
+                                </div>
+                                <div class="notif-range">
+                                    <input class="notif-num" id="tyreCriticalLow" type="number" inputmode="numeric"
+                                           min="80" max="600" step="1" aria-label="Critical low pressure in kPa">
+                                    <span class="notif-num-unit">kPa</span>
+                                </div>
+                            </div>
+                            <div class="notif-card-actions">
+                                <span class="notif-hint" id="tyreLimitsHint"></span>
+                                <button class="notif-btn" id="tyreLimitsReset" data-i18n="notif.tyre_reset">Reset to defaults</button>
+                                <button class="notif-btn" id="tyreLimitsSave" data-i18n="common.save">Save</button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="notif-section" id="permissionSection" data-tab="push">
+                        <h2 data-i18n="notif.push_delivery">Push delivery</h2>
+                        <p class="notif-section-sub" data-i18n="notif.push_delivery_sub">
+                            Enables alerts on the device you are currently using. Each phone you install the dashboard onto needs to be enabled here once.
+                        </p>
+                        <!-- Origin + backend warnings are PUSH-ONLY: they
+                             explain why the per-device push subscribe button
+                             is dead, so they shouldn't bleed onto the
+                             Telegram or Devices tabs (those have nothing to
+                             do with the Web Push origin requirement). -->
+                        <div id="originBanner" class="notif-status warn" style="display:none;margin-bottom:14px;" data-i18n="notif.origin_banner">
+                            Push notifications require Zrok or a reverse proxy. Cloudflare quick tunnels change every restart and would invalidate every subscription. Tailscale serves over plain HTTP and can't be used for Web Push unless using a reverse proxy. Open the dashboard from your reserved Zrok or reverse proxy URL on your phone, Add to Home Screen, then return here to enable.
+                        </div>
+                        <div id="backendBanner" class="notif-status warn" style="display:none;margin-bottom:14px;" data-i18n="notif.backend_banner">
+                            Notifications backend not initialized. Reserve a Zrok URL via the daemons screen and restart the daemon to enable push delivery.
+                        </div>
+                        <div class="notif-card" style="padding: 16px 18px;">
+                            <div id="permissionRow" class="notif-permission-row">
+                                <div id="permissionState" class="notif-permission-state"></div>
+                                <div class="notif-action-row">
+                                    <button class="notif-btn" id="enableBtn" data-i18n="notif.enable_btn">Enable on this device</button>
+                                    <button class="notif-btn" id="testBtn" data-i18n="notif.test_btn">Send test</button>
+                                    <button class="notif-btn danger" id="disableBtn" style="display:none;" data-i18n="notif.disable_btn">Disable on this device</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notif-section" data-tab="push">
+                        <h2 data-i18n="notif.categories">Categories</h2>
+                        <p class="notif-section-sub" data-i18n="notif.categories_sub">
+                            Toggle which kinds of alerts are pushed to this device. Each category fires when the head unit detects the matching event; what triggers it depends on the related daemon's settings. Hover any row to see what its severity level means.
+                        </p>
+
+                        <div id="categoriesContainer">
+                            <div class="notif-card"><div class="empty-state" data-i18n="common.loading">Loading…</div></div>
+                        </div>
+                    </div>
+
+                    <div class="notif-section" data-tab="push">
+                        <h2 data-i18n="notif.min_importance">Minimum importance</h2>
+                        <p class="notif-section-sub" data-i18n="notif.min_importance_sub">
+                            A device-wide floor applied on top of the categories above. Raise it to silence lower-importance pushes in one place — e.g. "Warn and up" drops every Notice/Info push (routine surveillance, charging started/stopped) while keeping Alerts and Criticals. Off tiers are still recorded in the log.
+                        </p>
+                        <div class="notif-card" id="minSeverityCard">
+                            <!-- Starts disabled + hint shown to match renderMinSeverity's
+                                 no-subscription default; the async init flips it on once a
+                                 subscription is confirmed. Without this the control would
+                                 look active + clickable during the load window and a tap
+                                 would show a false "enable first" warning. -->
+                            <div class="notif-seg disabled" id="minSeveritySeg" role="radiogroup" aria-label="Minimum importance">
+                                <button type="button" class="notif-seg-btn" data-sev="info" role="radio" aria-checked="true" data-i18n="notif.min_info">Everything</button>
+                                <button type="button" class="notif-seg-btn" data-sev="warn" role="radio" aria-checked="false" data-i18n="notif.min_warn">Warn &amp; up</button>
+                                <button type="button" class="notif-seg-btn" data-sev="critical" role="radio" aria-checked="false" data-i18n="notif.min_critical">Critical only</button>
+                            </div>
+                            <div class="notif-seg-hint" id="minSeverityHint" data-i18n="notif.enable_first">Enable notifications on this device first.</div>
+                        </div>
+                    </div>
+
+                    <!-- ===== Telegram tab ===== -->
+                    <div class="notif-section" data-tab="telegram" id="telegramSection">
+                        <h2 data-i18n="notif.telegram">Telegram delivery</h2>
+                        <p class="notif-section-sub" data-i18n="notif.telegram_sub">
+                            Send surveillance events to a paired Telegram chat. Pair the bot in the Telegram daemon settings; toggles below decide which severities reach the chat. Off tiers are still recorded — only the message is suppressed.
+                        </p>
+                        <div class="notif-card" style="padding: 6px 0;">
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="surveillance.telegram_two_stage">Two-stage Telegram alerts</div>
+                                    <div class="notif-row-note" data-i18n="surveillance.telegram_two_stage_desc">Send a quick "recording started" message, then the photo when it ends. Off by default — the photo alone is usually enough.</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="v2TelegramSendStartPing" onchange="SurvSettings.updateTelegramStartPing()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="v2TelegramTierGroup" style="margin-top:18px;">
+                            <p class="notif-section-sub" data-i18n="surveillance.telegram_tiers_desc">Pick which severity tiers reach your Telegram chat. Off tiers are still recorded; only the message is suppressed.</p>
+                            <div id="v2TelegramTierWarning" class="info-box-warning" style="display:none;margin-bottom:12px;">
+                                <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                <span style="font-size:12px;color:var(--warning);" data-i18n="surveillance.telegram_not_paired">Telegram bot isn't paired yet — tier toggles have no effect until you link a bot.</span>
+                            </div>
+                            <div class="notif-card" style="padding: 6px 0;">
+                                <div class="notif-row">
+                                    <div class="notif-row-text">
+                                        <div class="notif-row-label">
+                                            <span class="status-dot" style="background:var(--text-muted);"></span>
+                                            <span data-i18n="surveillance.tier_notice">Notice</span>
+                                        </div>
+                                        <div class="notif-row-note" data-i18n="surveillance.tier_notice_desc">Routine activity (parked cars, distant movement)</div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="v2TelegramNotices" onchange="SurvSettings.updateTelegramTiers()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="notif-row">
+                                    <div class="notif-row-text">
+                                        <div class="notif-row-label">
+                                            <span class="status-dot" style="background:#FFB75A;"></span>
+                                            <span data-i18n="surveillance.tier_alert">Alert</span>
+                                        </div>
+                                        <div class="notif-row-note" data-i18n="surveillance.tier_alert_desc">Approaching person, vehicle close enough to warrant attention</div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="v2TelegramAlerts" onchange="SurvSettings.updateTelegramTiers()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                                <div class="notif-row">
+                                    <div class="notif-row-text">
+                                        <div class="notif-row-label">
+                                            <span class="status-dot" style="background:#FF6B6B;"></span>
+                                            <span data-i18n="surveillance.tier_critical">Critical</span>
+                                        </div>
+                                        <div class="notif-row-note" data-i18n="surveillance.tier_critical_desc">Person at very close range — likely tampering / loitering</div>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="v2TelegramCritical" onchange="SurvSettings.updateTelegramTiers()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ===== Telegram delivery preferences =====
+                             Lives here (not on telegram.html) so the user has
+                             one place to decide WHAT events arrive via Telegram.
+                             Each toggle persists to the daemon properties file
+                             via /api/telegram/preferences (partial-merge), the
+                             same endpoint the Telegram daemon-behavior page
+                             uses. -->
+                        <p class="notif-section-sub" style="margin-top:22px;" data-i18n="notif.telegram_delivery_sub">What kind of events Telegram receives. Independent from the per-tier filter above — these toggle entire categories on or off.</p>
+                        <div class="notif-card" style="padding: 6px 0;">
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="telegram.critical_alerts">Critical alerts</div>
+                                    <div class="notif-row-note" data-i18n="telegram.critical_alerts_desc">Drop-everything events — vehicle health faults, tampering, charging faults. Keep this on.</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="tgPrefCriticalAlerts" onchange="TelegramPrefs.save()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="telegram.connectivity_updates">Connectivity updates</div>
+                                    <div class="notif-row-note" data-i18n="telegram.connectivity_updates_desc">Notify when the daemon starts, stops, or restarts. Useful for diagnostics; chatty in normal use.</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="tgPrefConnectivity" onchange="TelegramPrefs.save()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="telegram.motion_text">Motion text alerts</div>
+                                    <div class="notif-row-note" data-i18n="telegram.motion_text_desc">Send a motion alert (text, plus the snapshot photo when one is available) when surveillance detects motion. Video clips have their own toggle below.</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="tgPrefMotionText" onchange="TelegramPrefs.save()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="telegram.video_uploads">Send videos</div>
+                                    <div class="notif-row-note" data-i18n="telegram.video_uploads_desc">Upload short clips on Critical events. Costs more bandwidth — disable if you're on a slow tunnel.</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="tgPrefVideoUploads" onchange="TelegramPrefs.save()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <!-- Tyre pressure gets its own toggle, matching the
+                                 per-category control Web Push already has.
+                                 Previously the only way to silence tyre alerts
+                                 on Telegram was to turn off Critical alerts,
+                                 which also killed charging faults, proximity
+                                 and battery-health messages. -->
+                            <div class="notif-row">
+                                <div class="notif-row-text">
+                                    <div class="notif-row-label" data-i18n="telegram.tyre_alerts">Tyre pressure alerts</div>
+                                    <div class="notif-row-note" data-i18n="telegram.tyre_alerts_desc">Send a Telegram message when a tyre goes outside your configured pressure range, or when the TPMS reports a leak. Uses the limits set under Tyre pressure limits.</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="tgPrefTyreAlerts" onchange="TelegramPrefs.save()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="notif-section" data-tab="devices">
+                        <h2 data-i18n="notif.registered_devices">Registered devices</h2>
+                        <p class="notif-section-sub" data-i18n="notif.devices_sub">
+                            Every phone that enabled push notifications appears here. Use Remove to deregister a device. Disable on this device above also unsubscribes the current browser locally, while Remove is server-side only.
+                        </p>
+                        <div class="notif-card" id="devicesCard">
+                            <div class="empty-state" id="devicesEmpty" data-i18n="notif.no_devices">No devices registered yet.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Filter menu bottom-sheet for the Category / Severity chips. Its list is
+         rebuilt fresh each open (no shared/relocated nodes), so innerHTML reuse
+         is safe. The Date chip uses its own self-contained sheet below. -->
+    <div class="calendar-popup nl-menu-popup" id="nlMenuPopup">
+        <div class="calendar-panel nl-menu-panel">
+            <div class="nl-menu-header">
+                <span class="nl-menu-title" id="nlMenuTitle"></span>
+                <button class="nl-menu-close" onclick="NOTIFLOG.closeFilterMenu()" aria-label="Close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="nl-menu-list" id="nlMenuList"></div>
+        </div>
+    </div>
+
+    <!-- Date sheet: presets + an ALWAYS-PRESENT inline calendar (tap-tap range
+         selection). Fully self-contained — nothing is relocated or wiped, so it
+         reopens reliably every time. -->
+    <div class="calendar-popup nl-date-popup" id="nlDatePopup">
+        <div class="calendar-panel nl-date-panel">
+            <div class="nl-menu-header">
+                <span class="nl-menu-title" data-i18n="notiflog.filter_date">Date</span>
+                <button class="nl-menu-close" onclick="NOTIFLOG.closeDateMenu()" aria-label="Close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                </button>
+            </div>
+            <div class="nl-date-presets" id="nlDatePresets">
+                <button class="nl-date-preset" data-days="0" onclick="NOTIFLOG.pickDatePreset(0)" data-i18n="notiflog.filter_all">All time</button>
+                <button class="nl-date-preset" data-days="7" onclick="NOTIFLOG.pickDatePreset(7)" data-i18n="notiflog.filter_7d">7 days</button>
+                <button class="nl-date-preset" data-days="30" onclick="NOTIFLOG.pickDatePreset(30)" data-i18n="notiflog.filter_30d">30 days</button>
+            </div>
+            <div class="nl-date-divider"><span data-i18n="notiflog.filter_custom">Custom range</span></div>
+            <div class="nl-date-summary" id="nlDateSummary" data-i18n="notiflog.range_pick">Pick a start or end date</div>
+            <div class="calendar-header">
+                <span class="calendar-title" id="nlCalendarTitle">Calendar</span>
+                <div class="calendar-nav">
+                    <button onclick="NOTIFLOG.calPrevMonth()" aria-label="Previous month"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
+                    <button onclick="NOTIFLOG.calNextMonth()" aria-label="Next month"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
+                </div>
+            </div>
+            <div class="calendar-grid" id="nlCalendarGrid"></div>
+            <button class="btn btn-primary nl-date-apply" id="nlDateApply" onclick="NOTIFLOG.applyCustomRange()" disabled data-i18n="notiflog.range_apply">Apply</button>
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../shared/auth.js"></script>
+    <script src="../shared/pwa-init.js?v=index1"></script>
+    <script src="../shared/core.js?v=20"></script>
+    <script src="../shared/update-flow.js"></script>
+    <!-- surveillance.js owns the SurvSettings module that backs the Telegram
+         tier toggles. We load it here so the v2TelegramSendStartPing /
+         v2TelegramTierGroup controls hooked into surveillance.js wiring
+         keep firing without a per-page bridge. -->
+    <script src="../shared/surveillance.js?v=survtoggle1"></script>
+    <script src="../shared/notif-log.js?v=3"></script>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+
+
+        // Preview-mode escape hatch: when the page is loaded off a local dev
+        // server (no real auth backend), the requireAuth() bounce to
+        // /login.html would 404 and create a redirect loop. PREVIEW_MODE
+        // covers both:
+        //   - port 8000 static server (no API at all → loads PREVIEW_REGISTRY)
+        //   - file:// (no server at all)
+        // ?devPwa=1 hits dev/preview-server.py on port 8443 which DOES
+        // implement the API, so we want fetches to go through but still
+        // need to skip the auth redirect.
+        var DEV_PWA_MODE = /[?&]devPwa=1\b/.test(window.location.search);
+        var PREVIEW_MODE =
+            window.location.protocol === 'file:' ||
+            (window.location.port === '8000' &&
+             (window.location.hostname === 'localhost' ||
+              window.location.hostname === '127.0.0.1'));
+        // PREVIEW_MODE drives the in-memory registry fallback. DEV_PWA_MODE
+        // hits real endpoints. Auth redirect must be skipped in either case.
+        var SKIP_AUTH_REDIRECT = PREVIEW_MODE || DEV_PWA_MODE;
+
+        if (!SKIP_AUTH_REDIRECT && typeof BYDAuth !== 'undefined' && BYDAuth.requireAuth) {
+            BYDAuth.requireAuth();
+        }
+        if (typeof BYD !== 'undefined' && BYD.core) {
+            BYD.i18n.init().then(function () {
+                BYD.core.init();
+                // Hydrate the Telegram tab — paints toggle states from
+                // /api/surveillance/config + queries telegram pairing state.
+                if (window.SurvSettings && SurvSettings.initTelegramOnly) {
+                    SurvSettings.initTelegramOnly();
+                }
+                // Telegram delivery preferences (critical / connectivity /
+                // motion text / videos) — persisted via /api/telegram/preferences.
+                if (window.TelegramPrefs) TelegramPrefs.load();
+                // Vehicle layout (LHD / RHD). Lives in the same vehicle
+                // config section as model + body color, so it goes through
+                // /api/models/selected.
+                if (window.DriveSidePicker) DriveSidePicker.load();
+                // Tyre pressure limits — own section of the unified config,
+                // read by the notification path and Vehicle Control alike.
+                if (window.TyreLimits) TyreLimits.load();
+                // Paint-drop guard for the toggle sliders is now done inside
+                // each save handler (TelegramPrefs.save and SurvSettings._
+                // persistTelegramFields), where the authoritative state is
+                // known. Hooking onchange globally would race those repaints.
+            });
+        }
+
+        // ===== Telegram delivery preferences module =====
+        // Lives here (not in shared/surveillance.js) because the four toggles
+        // are notification-page-local — they don't bind to surveillance config
+        // and don't need the heavier SurvSettings init flow. Load + save go
+        // through /api/telegram/preferences (same endpoint telegram.html
+        // uses for autoStartAccOff, partial-merge body).
+        window.TelegramPrefs = (function () {
+            'use strict';
+            function $(id) { return document.getElementById(id); }
+            // Resolve an i18n key with a sane English fallback. Falling back
+            // to the raw key (the previous default) showed "telegram.prefs_
+            // saved" as the toast text inside the WebView whenever the
+            // catalog hadn't finished loading, which is worse UX than just
+            // showing the English string.
+            function tr(k, fb) {
+                var v = (window.BYD && BYD.i18n && BYD.i18n.t) ? BYD.i18n.t(k) : null;
+                return v || fb || k;
+            }
+            function toast(msg, kind) {
+                if (window.BYD && BYD.utils && BYD.utils.toast) BYD.utils.toast(msg, kind || 'info');
+            }
+            // Re-paint the four delivery checkboxes from the in-memory state
+            // — same Chrome-58-WebView paint-drop guard the surveillance
+            // tier toggles use. Called after every save attempt so the
+            // visual state always matches what we just sent / what we're
+            // reverting to.
+            function _repaint(state) {
+                var ids = ['tgPrefCriticalAlerts','tgPrefConnectivity','tgPrefMotionText','tgPrefVideoUploads','tgPrefTyreAlerts'];
+                ids.forEach(function (id) {
+                    if (!(id in state)) return;
+                    var el = $(id); if (!el) return;
+                    var slider = el.parentNode && el.parentNode.querySelector('.toggle-slider');
+                    var want = !!state[id];
+                    el.checked = !want;
+                    if (slider) { void slider.offsetHeight; }
+                    el.checked = want;
+                });
+            }
+            function load() {
+                fetch('/api/telegram/status', { cache: 'no-store' })
+                    .then(function (r) { return r.json(); })
+                    .then(function (s) {
+                        // Paint via _repaint so the slider visually updates
+                        // on Chrome 58 WebView. Plain `.checked = true` on
+                        // a freshly-rendered checkbox doesn't re-evaluate
+                        // the `:checked + .toggle-slider` rule until the
+                        // element is interacted with — slider stays in the
+                        // OFF position even though .checked is true. The
+                        // flip-reflow-restore inside _repaint forces the
+                        // style recompute.
+                        _repaint({
+                            tgPrefCriticalAlerts: s.criticalAlerts !== false,
+                            tgPrefConnectivity:   !!s.connectivityUpdates,
+                            tgPrefMotionText:     s.motionText !== false,
+                            tgPrefVideoUploads:   !!s.videoUploads,
+                            // Default ON (matches UnifiedTelegramConfig), so an
+                            // older daemon that omits the field doesn't paint
+                            // the toggle off and imply alerts are disabled.
+                            tgPrefTyreAlerts:     s.tyreAlerts !== false
+                        });
+                    })
+                    .catch(function () { /* status endpoint unreachable — leave defaults */ });
+            }
+            function save() {
+                // Snapshot the visual state we're about to send so we can
+                // both replay it on success (paint-drop guard) and revert
+                // on failure.
+                var pending = {
+                    tgPrefCriticalAlerts: $('tgPrefCriticalAlerts') && $('tgPrefCriticalAlerts').checked,
+                    tgPrefConnectivity:   $('tgPrefConnectivity')   && $('tgPrefConnectivity').checked,
+                    tgPrefMotionText:     $('tgPrefMotionText')     && $('tgPrefMotionText').checked,
+                    tgPrefVideoUploads:   $('tgPrefVideoUploads')   && $('tgPrefVideoUploads').checked,
+                    tgPrefTyreAlerts:     $('tgPrefTyreAlerts')     && $('tgPrefTyreAlerts').checked
+                };
+                var body = {
+                    criticalAlerts:      pending.tgPrefCriticalAlerts,
+                    connectivityUpdates: pending.tgPrefConnectivity,
+                    motionText:          pending.tgPrefMotionText,
+                    videoUploads:        pending.tgPrefVideoUploads,
+                    tyreAlerts:          pending.tgPrefTyreAlerts
+                };
+                fetch('/api/telegram/preferences', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                }).then(function (r) { return r.json(); }).then(function (data) {
+                    if (data && data.success) {
+                        _repaint(pending);
+                        toast(tr('telegram.prefs_saved', 'Preferences saved'), 'success');
+                    } else {
+                        toast(tr('telegram.prefs_save_failed', 'Could not save preferences'), 'error');
+                    }
+                }).catch(function () {
+                    toast(tr('telegram.prefs_save_failed', 'Could not save preferences'), 'error');
+                });
+            }
+            return { load: load, save: save };
+        }());
+
+        // ===== Vehicle layout (LHD / RHD) =====
+        // Pure-JS radio control over /api/models/selected. The vehicle
+        // section already round-trips modelId + color; we piggy-back the
+        // driveSide field on the same endpoint so users have a single
+        // place to think about the car's persisted properties.
+        //
+        // Why a custom radio instead of <input type="radio"> — the page is
+        // ES5 + Chrome 58 in the WebView, where the native radio's
+        // appearance can't be themed reliably without a wrapper, and the
+        // existing notif-toggle vocabulary is binary. A two-pill picker
+        // matches "you'll only ever pick one" while still painting from
+        // theme tokens. The current selection is mirrored to aria-checked
+        // on every render.
+        window.DriveSidePicker = (function () {
+            'use strict';
+            // null until the first /api/models/selected response — keeps
+            // both radios visually unselected during the load window so a
+            // transient network failure can't paint RHD on top of an LHD-
+            // configured car. The server's getVehicle() backfills "rhd"
+            // for never-saved configs, so a successful GET always returns
+            // a concrete "lhd"/"rhd"; null on the client therefore means
+            // "we haven't talked to the server yet" rather than "no
+            // preference exists". paint() handles null by leaving both
+            // radios off + aria-checked=false (an indeterminate radiogroup,
+            // permitted by WAI-ARIA).
+            var current = null;
+            var inFlight = false;
+            // Set true the moment the user clicks a radio. Late /api/models/
+            // selected responses (slow tunnel, retry, etc.) will then NOT
+            // clobber the just-saved value — load() respects the user's
+            // intent. Cleared only when the picker is unmounted, which
+            // doesn't happen on this page.
+            var userActed = false;
+            function tr(k, fb) {
+                var v = (window.BYD && BYD.i18n && BYD.i18n.t) ? BYD.i18n.t(k) : null;
+                return v || fb || k;
+            }
+            function toast(msg, kind) {
+                if (window.BYD && BYD.utils && BYD.utils.toast) BYD.utils.toast(msg, kind || 'info');
+            }
+            function paint() {
+                var radios = document.querySelectorAll('#driveSideCard .notif-radio');
+                // Roving tabindex per WAI-ARIA radiogroup pattern: only ONE
+                // radio in the group is reachable via Tab. The 0 lives on
+                // the selected radio; if nothing is selected (current=null
+                // during load or after a failed load), it parks on the
+                // first radio so keyboard users can still reach the group.
+                var firstFocusableIdx = 0;
+                for (var k = 0; k < radios.length; k++) {
+                    if (radios[k].getAttribute('data-side') === current) {
+                        firstFocusableIdx = k;
+                        break;
+                    }
+                }
+                for (var i = 0; i < radios.length; i++) {
+                    var r = radios[i];
+                    var on = (current !== null) && (r.getAttribute('data-side') === current);
+                    r.classList.toggle('on', on);
+                    r.setAttribute('aria-checked', on ? 'true' : 'false');
+                    r.classList.toggle('disabled', inFlight);
+                    r.setAttribute('tabindex', i === firstFocusableIdx ? '0' : '-1');
+                }
+            }
+            function load() {
+                var url = '/api/models/selected';
+                var fetcher = (typeof BYDAuth !== 'undefined' && BYDAuth.fetch)
+                    ? BYDAuth.fetch.bind(BYDAuth) : fetch;
+                fetcher(url, { cache: 'no-store' })
+                    .then(function (r) { return r.ok ? r.json() : null; })
+                    .then(function (j) {
+                        // Race guard: if the user clicked a radio while the
+                        // GET was in flight (or the GET completed after a
+                        // pick() POST already updated state), don't clobber
+                        // the user's value with the older server snapshot.
+                        if (userActed) { paint(); return; }
+                        if (j && (j.driveSide === 'lhd' || j.driveSide === 'rhd')) {
+                            current = j.driveSide;
+                        }
+                        // No else-branch for 200-without-driveSide:
+                        // handleGetSelected (ModelsApiHandler.java) always
+                        // emits driveSide via vehicle.optString(..,"rhd"),
+                        // so the only path here is the network error one
+                        // below.
+                        paint();
+                    })
+                    .catch(function () {
+                        if (userActed) { paint(); return; }
+                        // Surface the failure so the user knows the picker
+                        // isn't reflecting persisted state. Without this
+                        // the picker would render two unselected radios
+                        // with zero indication that anything went wrong.
+                        toast(tr('notif.drive_load_failed', 'Could not load vehicle layout'), 'error');
+                        paint();
+                    });
+            }
+            function pick(side) {
+                if (inFlight) return;
+                if (side !== 'lhd' && side !== 'rhd') return;
+                if (side === current) return;
+                var prev = current;
+                current = side;
+                inFlight = true;
+                // Latch BEFORE the network call so a concurrently-resolving
+                // load() can't clobber the in-flight optimistic paint.
+                userActed = true;
+                paint();
+                // Watchdog: if BYDAuth.fetch chains through auth-redirect logic
+                // that never resolves (rare, but possible with a half-dead
+                // tunnel), the picker would otherwise stay disabled forever.
+                // 10s is generous for the head unit's slow tunnel; matches
+                // the page's notif-status banners showing tunnel issues.
+                var settled = false;
+                var watchdog = setTimeout(function () {
+                    if (settled) return;
+                    settled = true;
+                    inFlight = false;
+                    current = prev;
+                    paint();
+                    toast(tr('notif.drive_save_failed', 'Could not save vehicle layout'), 'error');
+                }, 10000);
+                var fetcher = (typeof BYDAuth !== 'undefined' && BYDAuth.fetch)
+                    ? BYDAuth.fetch.bind(BYDAuth) : fetch;
+                fetcher('/api/models/selected', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ driveSide: side })
+                }).then(function (r) {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.json();
+                }).then(function (data) {
+                    if (settled) return;
+                    settled = true;
+                    clearTimeout(watchdog);
+                    inFlight = false;
+                    // Server uses two response shapes today: success returns
+                    // {"ok":true} (handleSetSelected line 343) and errors
+                    // return {"success":false,"error":...} (HttpResponse.
+                    // sendJsonError). Treat anything that's not an explicit
+                    // failure marker as success — survives a future server-
+                    // side envelope change without breaking the picker.
+                    var isFailure = !data || data.ok === false || data.success === false;
+                    if (!isFailure) {
+                        toast(tr('notif.drive_saved', 'Vehicle layout saved'), 'success');
+                    } else {
+                        current = prev;
+                        toast(tr('notif.drive_save_failed', 'Could not save vehicle layout'), 'error');
+                    }
+                    paint();
+                }).catch(function () {
+                    if (settled) return;
+                    settled = true;
+                    clearTimeout(watchdog);
+                    inFlight = false;
+                    current = prev;
+                    paint();
+                    toast(tr('notif.drive_save_failed', 'Could not save vehicle layout'), 'error');
+                });
+            }
+            // Resolve any node inside the card to its side ("lhd" or "rhd").
+            // Walks up to the nearest ancestor carrying data-side so users
+            // can click anywhere on the row (label, sub-text, radio dot)
+            // and still trigger pick(). Returns null when the click landed
+            // on the section header or padding outside any row.
+            function sideFor(node, card) {
+                var el = node;
+                while (el && el !== card) {
+                    if (el.getAttribute && el.getAttribute('data-side')) {
+                        return el.getAttribute('data-side');
+                    }
+                    el = el.parentNode;
+                }
+                return null;
+            }
+            // Delegate from the card so we don't bind per-row listeners and
+            // race the i18n hydration (which may swap nodes' text content).
+            document.addEventListener('DOMContentLoaded', function () {
+                var card = document.getElementById('driveSideCard');
+                if (!card) return;
+                card.addEventListener('click', function (e) {
+                    var side = sideFor(e.target, card);
+                    if (side) pick(side);
+                });
+                // Keyboard support — space / enter on the focused radio.
+                // Arrow keys cycle the selection; that's the WAI-ARIA radio
+                // pattern and what users coming from native form radios
+                // expect. Tab moves out of the group as a whole.
+                card.addEventListener('keydown', function (e) {
+                    // All keyboard interactions require a radio to actually
+                    // hold focus — without that idx>=0 gate, a focused
+                    // descendant (impossible today since only the radios
+                    // carry tabindex, but defensive) could trigger pick()
+                    // on Space/Enter via sideFor's row-walk.
+                    var radios = card.querySelectorAll('.notif-radio');
+                    var focused = document.activeElement;
+                    var idx = -1;
+                    for (var i = 0; i < radios.length; i++) {
+                        if (radios[i] === focused) { idx = i; break; }
+                    }
+                    if (idx < 0) return;
+                    if (e.key === ' ' || e.key === 'Enter') {
+                        e.preventDefault();
+                        pick(focused.getAttribute('data-side'));
+                    } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        radios[(idx + 1) % radios.length].focus();
+                    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        radios[(idx - 1 + radios.length) % radios.length].focus();
+                    }
+                });
+            });
+            return { load: load, pick: pick };
+        }());
+
+        // ===== Tyre pressure limits =====
+        // Five kPa integers (per-axle min/max + a shared critical floor) over
+        // /api/tyres/limits. Explicit Save rather than save-on-change: these
+        // are four interdependent numbers, and persisting a half-typed value
+        // would briefly arm a nonsense threshold on the notification path.
+        // The server clamps and enforces the invariants too — this module
+        // validates locally only to give immediate feedback.
+        window.TyreLimits = (function () {
+            'use strict';
+            var MIN = 80, MAX = 600;
+            var DEFAULTS = {
+                frontLow: 234, frontHigh: 310,
+                rearLow: 234, rearHigh: 310,
+                criticalLow: 152
+            };
+            var FIELDS = {
+                frontLow: 'tyreFrontLow', frontHigh: 'tyreFrontHigh',
+                rearLow: 'tyreRearLow', rearHigh: 'tyreRearHigh',
+                criticalLow: 'tyreCriticalLow'
+            };
+            var inFlight = false;
+            function $(id) { return document.getElementById(id); }
+            // vars are passed through to BYD.i18n.t for {name} interpolation, and
+            // applied to the fallback too so the English text stays correct when
+            // the catalog hasn't loaded.
+            function tr(k, fb, vars) {
+                var v = (window.BYD && BYD.i18n && BYD.i18n.t) ? BYD.i18n.t(k, vars) : null;
+                var s = v || fb || k;
+                if (vars) {
+                    for (var name in vars) {
+                        if (!vars.hasOwnProperty(name)) continue;
+                        s = s.replace('{' + name + '}', vars[name]);
+                    }
+                }
+                return s;
+            }
+            function toast(msg, kind) {
+                if (window.BYD && BYD.utils && BYD.utils.toast) BYD.utils.toast(msg, kind || 'info');
+            }
+            // The user's display unit ('kpa' | 'psi' | 'bar'). Kept in sync
+            // with BYD.units.pressureMode so the rest of the page (and every
+            // other page, via /status polling) renders pressure identically.
+            var displayUnit = (window.BYD && BYD.units && BYD.units.pressureMode)
+                ? BYD.units.pressureMode : 'psi';
+
+            // Format a kPa value in the conversion-echo unit. The echo's job
+            // is a cross-check against the kPa inputs, so when the display
+            // unit IS kPa it echoes PSI (the historical behaviour) rather
+            // than repeating the same number.
+            function echoUnit() { return displayUnit === 'kpa' ? 'psi' : displayUnit; }
+            function conv(kPa) {
+                if (echoUnit() === 'bar') return (kPa / 100).toFixed(2);
+                return (kPa * 0.1450377).toFixed(1);
+            }
+            function convLabel() { return echoUnit() === 'bar' ? 'bar' : 'PSI'; }
+
+            function paint(vals) {
+                for (var key in FIELDS) {
+                    if (!FIELDS.hasOwnProperty(key)) continue;
+                    var el = $(FIELDS[key]);
+                    if (el && typeof vals[key] === 'number') el.value = vals[key];
+                }
+                paintConversions();
+            }
+
+            // Echo the entered kPa in the display unit so a user working
+            // from a PSI/bar placard can verify the numbers without
+            // converting by hand. Reads the live inputs (not the saved
+            // state) so it tracks typing.
+            function paintConversions() {
+                var v = readInputs();
+                var f = $('tyreFrontConv'), r = $('tyreRearConv'), c = $('tyreCriticalConv');
+                if (f) f.textContent = (v.frontLow !== null && v.frontHigh !== null)
+                    ? conv(v.frontLow) + ' – ' + conv(v.frontHigh) + ' ' + convLabel() : ' ';
+                if (r) r.textContent = (v.rearLow !== null && v.rearHigh !== null)
+                    ? conv(v.rearLow) + ' – ' + conv(v.rearHigh) + ' ' + convLabel() : ' ';
+                if (c) c.textContent = (v.criticalLow !== null)
+                    ? conv(v.criticalLow) + ' ' + convLabel() : ' ';
+            }
+
+            function paintUnitSeg() {
+                var seg = $('tyreUnitSeg');
+                if (!seg) return;
+                var btns = seg.querySelectorAll('.notif-seg-btn');
+                for (var i = 0; i < btns.length; i++) {
+                    btns[i].setAttribute('aria-checked',
+                        btns[i].getAttribute('data-unit') === displayUnit ? 'true' : 'false');
+                }
+            }
+
+            function applyUnit(unit, persist) {
+                var previous = displayUnit;
+                displayUnit = unit;
+                if (window.BYD && BYD.units) BYD.units.pressureMode = unit;
+                paintUnitSeg();
+                paintConversions();
+                if (!persist) return;
+                // Revert the optimistic repaint if the POST fails — otherwise
+                // this page renders a unit the server never accepted and the
+                // next /status poll fights it back anyway.
+                function revert() {
+                    applyUnit(previous, false);
+                    toast(tr('notif.tyre_unit_save_failed', 'Could not save display unit'), 'error');
+                }
+                // Persist immediately (no Save press) -- the segments behave
+                // like the min-severity control, and the unit is independent
+                // of the (validated, Save-gated) numeric limits.
+                var fetcher = (typeof BYDAuth !== 'undefined' && BYDAuth.fetch)
+                    ? BYDAuth.fetch.bind(BYDAuth) : fetch;
+                fetcher('/api/tyres/limits', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pressureUnit: unit })
+                }).then(function (r) { return r.ok ? r.json() : null; })
+                  .then(function (j) {
+                    if (!j || j.success === false) {
+                        revert();
+                        return;
+                    }
+                    toast(tr('notif.tyre_unit_saved', 'Display unit saved'), 'success');
+                }).catch(revert);
+            }
+
+            // null for a blank / non-integer field so validate() can tell
+            // "empty" from a real 0.
+            function readInputs() {
+                var out = {};
+                for (var key in FIELDS) {
+                    if (!FIELDS.hasOwnProperty(key)) continue;
+                    var el = $(FIELDS[key]);
+                    var raw = el ? el.value.trim() : '';
+                    var n = /^-?\d+$/.test(raw) ? parseInt(raw, 10) : NaN;
+                    out[key] = isNaN(n) ? null : n;
+                }
+                return out;
+            }
+
+            function mark(key, bad) {
+                var el = $(FIELDS[key]);
+                if (!el) return;
+                if (bad) el.classList.add('invalid');
+                else el.classList.remove('invalid');
+            }
+
+            /** @return an error string, or null when the values are usable. */
+            function validate(v) {
+                var err = null;
+                for (var key in FIELDS) {
+                    if (!FIELDS.hasOwnProperty(key)) continue;
+                    var bad = v[key] === null || v[key] < MIN || v[key] > MAX;
+                    mark(key, bad);
+                    if (bad && !err) {
+                        // Bounds are interpolated, not baked into the string, so
+                        // retuning MIN/MAX can't leave every locale quoting stale
+                        // numbers (the server's equivalent message is already
+                        // placeholder-driven).
+                        err = tr('notif.tyre_err_range',
+                                 'Enter a whole number between {min} and {max} kPa.',
+                                 { min: MIN, max: MAX });
+                    }
+                }
+                if (err) return err;
+                // Crossed pairs would invert the comparison and either alert
+                // constantly or never.
+                if (v.frontHigh <= v.frontLow) {
+                    mark('frontLow', true); mark('frontHigh', true);
+                    return tr('notif.tyre_err_order', 'The maximum must be higher than the minimum.');
+                }
+                if (v.rearHigh <= v.rearLow) {
+                    mark('rearLow', true); mark('rearHigh', true);
+                    return tr('notif.tyre_err_order', 'The maximum must be higher than the minimum.');
+                }
+                // A critical floor above an axle minimum makes the warning band
+                // unreachable for that axle.
+                if (v.criticalLow > Math.min(v.frontLow, v.rearLow)) {
+                    mark('criticalLow', true);
+                    return tr('notif.tyre_err_critical', 'The critical value must not exceed either axle minimum.');
+                }
+                return null;
+            }
+
+            // Re-run validation on every keystroke and repaint ALL five rings from
+            // the result. Clearing only the edited field's ring (the previous
+            // approach) left its partner stuck red after a cross-field failure:
+            // "max must be higher than min" marks BOTH inputs, so fixing the min
+            // cleared the min but left a now-perfectly-valid max ringed until the
+            // next Save. Rings are only ever CLEARED here, never newly shown —
+            // showing errors mid-typing would flag every half-entered number.
+            function reflectValidity() {
+                var v = readInputs();
+                var before = {};
+                var key;
+                for (key in FIELDS) {
+                    if (!FIELDS.hasOwnProperty(key)) continue;
+                    var el = $(FIELDS[key]);
+                    before[key] = !!(el && el.className.indexOf('invalid') >= 0);
+                }
+                // validate() repaints every ring as a side effect; capture whether
+                // anything was already flagged so we can avoid introducing new
+                // rings for fields the user hasn't finished typing.
+                validate(v);
+                for (key in FIELDS) {
+                    if (!FIELDS.hasOwnProperty(key)) continue;
+                    if (!before[key]) mark(key, false);
+                }
+            }
+
+            function setBusy(busy) {
+                inFlight = busy;
+                var save = $('tyreLimitsSave'), reset = $('tyreLimitsReset');
+                if (save) save.classList.toggle('disabled', busy);
+                if (reset) reset.classList.toggle('disabled', busy);
+            }
+
+            function load() {
+                // Paint the defaults first so the fields are never empty during
+                // the fetch — an empty numeric field reads as "unset", which
+                // would be wrong (a limit is always in force).
+                paint(DEFAULTS);
+                var fetcher = (typeof BYDAuth !== 'undefined' && BYDAuth.fetch)
+                    ? BYDAuth.fetch.bind(BYDAuth) : fetch;
+                fetcher('/api/tyres/limits', { cache: 'no-store' })
+                    .then(function (r) { return r.ok ? r.json() : null; })
+                    .then(function (j) {
+                        // Unit first, then limits: paint(limits) repaints the
+                        // conversion echoes, which must use the loaded unit.
+                        if (j && (j.pressureUnit === 'kpa' || j.pressureUnit === 'psi'
+                                || j.pressureUnit === 'bar')) {
+                            applyUnit(j.pressureUnit, false);
+                        }
+                        if (j && j.limits) paint(j.limits);
+                    })
+                    .catch(function () {
+                        // Leave the defaults painted and say so, rather than
+                        // implying these are the persisted values.
+                        var hint = $('tyreLimitsHint');
+                        if (hint) hint.textContent =
+                            tr('notif.tyre_load_failed', 'Could not load saved limits — showing defaults.');
+                    });
+            }
+
+            function save() {
+                if (inFlight) return;
+                var v = readInputs();
+                var err = validate(v);
+                var hint = $('tyreLimitsHint');
+                if (err) {
+                    if (hint) hint.textContent = err;
+                    toast(err, 'error');
+                    return;
+                }
+                if (hint) hint.textContent = '';
+                setBusy(true);
+                var fetcher = (typeof BYDAuth !== 'undefined' && BYDAuth.fetch)
+                    ? BYDAuth.fetch.bind(BYDAuth) : fetch;
+                fetcher('/api/tyres/limits', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(v)
+                }).then(function (r) {
+                    if (!r.ok) throw new Error('HTTP ' + r.status);
+                    return r.json();
+                }).then(function (data) {
+                    setBusy(false);
+                    if (!data || data.success === false || data.ok === false) {
+                        var m = (data && data.error)
+                            ? data.error
+                            : tr('notif.tyre_save_failed', 'Could not save tyre limits');
+                        if (hint) hint.textContent = m;
+                        toast(m, 'error');
+                        return;
+                    }
+                    // Repaint from the server's echo: it clamps, so the stored
+                    // value can legitimately differ from what was typed and the
+                    // user should see what actually took effect.
+                    if (data.limits) paint(data.limits);
+                    toast(tr('notif.tyre_saved', 'Tyre limits saved'), 'success');
+                }).catch(function () {
+                    setBusy(false);
+                    var m = tr('notif.tyre_save_failed', 'Could not save tyre limits');
+                    if (hint) hint.textContent = m;
+                    toast(m, 'error');
+                });
+            }
+
+            // Repopulate the fields with the shipped defaults. Deliberately
+            // does NOT persist — the user still has to press Save, so a
+            // mis-tap is recoverable by navigating away.
+            function reset() {
+                if (inFlight) return;
+                paint(DEFAULTS);
+                for (var key in FIELDS) {
+                    if (FIELDS.hasOwnProperty(key)) mark(key, false);
+                }
+                var hint = $('tyreLimitsHint');
+                if (hint) hint.textContent =
+                    tr('notif.tyre_reset_hint', 'Defaults restored — press Save to apply.');
+            }
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var save_ = $('tyreLimitsSave'), reset_ = $('tyreLimitsReset');
+                if (save_) save_.addEventListener('click', save);
+                if (reset_) reset_.addEventListener('click', reset);
+                for (var key in FIELDS) {
+                    if (!FIELDS.hasOwnProperty(key)) continue;
+                    var el = $(FIELDS[key]);
+                    if (!el) continue;
+                    el.addEventListener('input', paintConversions);
+                    el.addEventListener('input', reflectValidity);
+                }
+                // Unit segments: delegated click, tap = apply + persist.
+                var seg = $('tyreUnitSeg');
+                if (seg) {
+                    seg.addEventListener('click', function (e) {
+                        var btn = e.target && e.target.closest
+                            ? e.target.closest('.notif-seg-btn') : null;
+                        if (!btn) return;
+                        var unit = btn.getAttribute('data-unit');
+                        if (unit && unit !== displayUnit) applyUnit(unit, true);
+                    });
+                }
+                paintUnitSeg();
+            });
+
+            return { load: load, save: save, reset: reset };
+        }());
+
+        // ==================== ORIGIN GATE ====================
+        // Dev escape hatch: ?devPwa=1 lets the page run its full flow against
+        // a localhost preview server (dev/preview-server.py). Chrome treats
+        // localhost as a secure context for SW + push, so the install +
+        // subscribe + UI flow all behave like production.
+        var DEV_PWA = /[?&]devPwa=1\b/.test(window.location.search);
+        var ORIGIN_OK = (function () {
+            if (DEV_PWA) return true;
+            var host = window.location.hostname || '';
+            var loopback = host === '127.0.0.1' || host === 'localhost' || host === '0.0.0.0';
+            var insecure = !window.isSecureContext;
+            var cloudflare = /[a-z0-9-]*\.trycloudflare\.com/i.test(host);
+            return !(loopback || insecure || cloudflare);
+        })();
+        var notZrok  = !/\.share\.zrok\.io$/i.test(window.location.hostname);
+
+        if (notZrok) {
+            var b = document.getElementById('originBanner');
+            if (b) b.style.display = '';
+        }
+        if (!ORIGIN_OK) {
+            ['enableBtn', 'testBtn', 'disableBtn'].forEach(function (id) {
+                var x = document.getElementById(id);
+                if (x) { x.classList.add('disabled'); x.disabled = true; }
+            });
+        }
+
+        var state = {
+            categories: [],
+            currentSubscriptionId: null,
+            muted: new Set(),
+            // Whether state.muted reflects this device's SAVED preferences
+            // (loadSubscriptions found our row) vs. is still the empty
+            // pre-load default. Until prefs are loaded, renderCategories falls
+            // back to each category's registry `defaultEnabled` so a
+            // default-off category (surveillance notice, doors) doesn't flash
+            // ON before the saved prefs arrive. Mirrors the server, which now
+            // seeds a new subscription's mutes from defaultEnabled.
+            mutedLoaded: false,
+            minSeverity: 'info',
+            backendReady: false
+        };
+
+        function showStatus(kind, message) {
+            var el = document.getElementById('status');
+            if (!el) return;
+            el.className = 'notif-status ' + kind;
+            el.textContent = message;
+            el.style.display = '';
+        }
+        function hideStatus() {
+            var el = document.getElementById('status');
+            if (el) el.style.display = 'none';
+        }
+
+        // TypeError is what fetch() throws on DNS failure / connection
+        // refused / ERR_NAME_NOT_RESOLVED. Distinguish that from HTTP-level
+        // failures so we can surface "tunnel unreachable" once instead of
+        // letting every caller spam its own generic "could not load" toast
+        // when the zrok host stops resolving.
+        function isNetworkError(e) {
+            return e && (e.name === 'TypeError' || /Failed to fetch|NetworkError|ERR_NAME_NOT_RESOLVED/i.test(e.message || ''));
+        }
+        var _tunnelBannerShown = false;
+        function showTunnelUnreachable() {
+            if (_tunnelBannerShown) return;
+            _tunnelBannerShown = true;
+            showStatus('error', BYD.i18n.t('notif.tunnel_unreachable'));
+        }
+
+        // ES5-safe property walks. Optional chaining (`?.`) is ES2020 and
+        // throws SyntaxError on the BYD head-unit's Chrome 58 WebView; a
+        // single `?.` anywhere in this <script> block aborts the ENTIRE
+        // block at parse time, which is what kept SurvSettings.initTelegram
+        // Only() and TelegramPrefs.load() from ever running inside the
+        // shell — the toggles rendered in their HTML default state (OFF)
+        // because nothing painted them from the server response.
+        function isPwaInstalled() {
+            var standaloneMq = (typeof window !== 'undefined' && window.matchMedia)
+                ? window.matchMedia('(display-mode: standalone)') : null;
+            if (standaloneMq && standaloneMq.matches) return true;
+            return !!(window && window.navigator && window.navigator.standalone === true);
+        }
+
+        async function getPushSubscription() {
+            var sw = (typeof navigator !== 'undefined' && navigator.serviceWorker) || null;
+            var reg = sw ? await sw.getRegistration() : null;
+            var pm = (reg && reg.pushManager) || null;
+            var sub = pm ? await pm.getSubscription() : null;
+            return { reg: reg, sub: sub };
+        }
+
+        async function permissionLabel() {
+            if (!ORIGIN_OK) {
+                return BYD.i18n.t('notif.perm_zrok_required');
+            }
+            if (typeof Notification === 'undefined') {
+                if (!isPwaInstalled()) return BYD.i18n.t('notif.perm_unsupported_install');
+                return BYD.i18n.t('notif.perm_unsupported');
+            }
+            const { sub } = await getPushSubscription();
+            const perm = Notification.permission;
+            if (perm === 'denied') return BYD.i18n.t('notif.perm_denied');
+            // Notification.permission can be granted even when subscription has been removed
+            if (sub) return BYD.i18n.t('notif.perm_granted');
+            return BYD.i18n.t('notif.perm_default');
+        }
+
+        async function refreshPermissionUI() {
+            var stateEl = document.getElementById('permissionState');
+            var rowEl = document.getElementById('permissionRow');
+            if (stateEl) stateEl.textContent = await permissionLabel();
+            if (rowEl) {
+                rowEl.classList.remove('granted', 'denied', 'default');
+                if (!ORIGIN_OK) {
+                    rowEl.classList.add('denied');
+                } else if (typeof Notification !== 'undefined') {
+                    rowEl.classList.add(Notification.permission);
+                }
+            }
+            // When origin can't host a service worker, every action button stays
+            // disabled. The earlier ORIGIN_OK block already added the disabled
+            // class — don't undo it here.
+            if (!ORIGIN_OK) return;
+
+            const { sub } = await getPushSubscription();
+            var enableBtn = document.getElementById('enableBtn');
+            var disableBtn = document.getElementById('disableBtn');
+            if (typeof Notification === 'undefined' || Notification.permission === 'denied') {
+                if (enableBtn) { enableBtn.classList.add('disabled'); enableBtn.disabled = true; }
+            } else if (sub) {
+                if (enableBtn) enableBtn.style.display = 'none';
+                if (disableBtn) disableBtn.style.display = '';
+            } else {
+                if (enableBtn) enableBtn.style.display = '';
+                if (disableBtn) disableBtn.style.display = 'none';
+            }
+        }
+
+        // Static preview registry — used only in PREVIEW_MODE so the layout
+        // can be reviewed off a plain static server (no /api routes available).
+        // Production reads the real JSON via /api/notifications/categories
+        // which is itself fed from app/src/main/assets/notifications-categories.json.
+        var PREVIEW_REGISTRY = {
+            version: 1,
+            categories: [
+                { id: 'surveillance.motion', label: 'Motion detected (legacy)', group: 'Surveillance',
+                  defaultEnabled: false, severity: 'auto',
+                  defaultClickUrl: '/events.html?filter=sentry',
+                  note: 'Legacy single-stream category, kept for backwards compatibility. Prefer the three Notice / Alert / Critical tiers below.' },
+                { id: 'surveillance.motion.notice', label: 'Surveillance — Notice', group: 'Surveillance',
+                  defaultEnabled: false, severity: 'info',
+                  defaultClickUrl: '/events.html?filter=sentry',
+                  note: 'Routine motion or passing-by. Off by default — turn on if you want a record of every event.' },
+                { id: 'surveillance.motion.alert', label: 'Surveillance — Alert', group: 'Surveillance',
+                  defaultEnabled: true, severity: 'warn',
+                  defaultClickUrl: '/events.html?filter=sentry',
+                  note: 'Person near the vehicle, vehicle approaching, or close-range activity.' },
+                { id: 'surveillance.motion.critical', label: 'Surveillance — Critical', group: 'Surveillance',
+                  defaultEnabled: true, severity: 'critical',
+                  defaultClickUrl: '/events.html?filter=sentry',
+                  note: 'Person at very close range or sustained dwell at the vehicle. Drop-everything alert.' },
+                { id: 'surveillance.proximity', label: 'Proximity alert', group: 'Surveillance',
+                  defaultEnabled: true, severity: 'auto',
+                  defaultClickUrl: '/events.html?filter=proximity',
+                  note: 'Range and trigger depend on Recording settings' },
+                { id: 'vehicle.health.tyre.pressure', label: 'Tyre pressure alarm', group: 'Vehicle',
+                  defaultEnabled: true, severity: 'warn',
+                  defaultClickUrl: '/vehicle-control.html',
+                  note: 'Underpressure or overpressure detected by TPMS' },
+                { id: 'vehicle.health.tyre.leak', label: 'Tyre leak detected', group: 'Vehicle',
+                  defaultEnabled: true, severity: 'auto',
+                  defaultClickUrl: '/vehicle-control.html',
+                  note: 'Slow or fast leak detected by TPMS sensor' },
+                { id: 'vehicle.security.door.opened', label: 'Door opened', group: 'Security',
+                  defaultEnabled: false, severity: 'warn',
+                  defaultClickUrl: '/vehicle-control.html',
+                  note: 'Fires when any door, hood, or trunk is opened while parked (ACC OFF)' },
+                { id: 'vehicle.security.door.closed', label: 'Door closed', group: 'Security',
+                  defaultEnabled: false, severity: 'info',
+                  defaultClickUrl: '/vehicle-control.html',
+                  note: 'Fires when any door, hood, or trunk is closed while parked (ACC OFF)' },
+                { id: 'vehicle.charging.started', label: 'Charging started', group: 'Charging',
+                  defaultEnabled: true, severity: 'info',
+                  defaultClickUrl: '/vehicle-control.html',
+                  note: 'Fires when the BMS reports a charging session has begun' },
+                { id: 'vehicle.charging.stopped', label: 'Charging stopped', group: 'Charging',
+                  defaultEnabled: true, severity: 'info',
+                  defaultClickUrl: '/vehicle-control.html',
+                  note: 'Debounced 10s to ride out brief gaps during plug-in or DC charger handshakes' },
+                { id: 'vehicle.charging.full', label: 'Charging complete', group: 'Charging',
+                  defaultEnabled: true, severity: 'warn', bypassQuietHours: true,
+                  defaultClickUrl: '/vehicle-control.html',
+                  note: 'Fires once per session when the pack reaches near-full or the BMS marks the session FINISHED. Suppressed if you plug in an already-full car. Bypasses quiet hours so you wake up to an unplug reminder.' },
+                { id: 'vehicle.charging.fault', label: 'Charging fault', group: 'Charging',
+                  defaultEnabled: true, severity: 'critical',
+                  defaultClickUrl: '/vehicle-control.html',
+                  note: 'AC, DC charger, charging gun, or C10 breakdown reported by BMS' }
+            ]
+        };
+
+        async function loadCategories() {
+            var container = document.getElementById('categoriesContainer');
+
+            // In preview mode, skip the network call and render the static
+            // registry directly so the layout populates without a backend.
+            if (PREVIEW_MODE) {
+                state.categories = PREVIEW_REGISTRY.categories;
+                state.backendReady = false;
+                renderCategories();
+                return;
+            }
+
+            try {
+                var r = await BYDAuth.fetch('/api/notifications/categories');
+                if (r.status === 503) {
+                    state.backendReady = false;
+                    var bb = document.getElementById('backendBanner');
+                    if (bb) bb.style.display = '';
+                    if (container) container.innerHTML = '<div class="notif-card"><div class="empty-state">' + escapeHtml(BYD.i18n.t('notif.backend_not_ready')) + '</div></div>';
+                    return;
+                }
+                if (!r.ok) throw new Error('HTTP ' + r.status);
+                var meta = await r.json();
+                state.categories = meta.categories || [];
+                state.backendReady = true;
+                renderCategories();
+            } catch (e) {
+                if (container) container.innerHTML = '<div class="notif-card"><div class="empty-state">' + escapeHtml(BYD.i18n.t('notif.categories_load_failed')) + '</div></div>';
+                if (isNetworkError(e)) {
+                    showTunnelUnreachable();
+                } else {
+                    showStatus('error', BYD.i18n.t('notif.categories_load_error', {error: (e && e.message ? e.message : e)}));
+                }
+            }
+        }
+
+        function severityClass(sev) {
+            if (sev === 'critical') return 'critical';
+            if (sev === 'warn') return 'warn';
+            if (sev === 'auto') return 'auto';
+            return '';
+        }
+
+        function severityTooltip(sev) {
+            switch (sev) {
+                case 'critical': return BYD.i18n.t('notif.sev_critical');
+                case 'warn':     return BYD.i18n.t('notif.sev_warn');
+                case 'auto':     return BYD.i18n.t('notif.sev_auto');
+                default:         return BYD.i18n.t('notif.sev_info');
+            }
+        }
+
+
+        // Used when the registry doesn't ship a `note` for a category.
+        // Keep the wording short and concrete — describes what triggers it
+        // (the head unit's detection logic), not what it does (push it).
+        function categoryDescription(id) {
+            switch (id) {
+                case 'surveillance.motion':
+                    return 'Fires when the surveillance engine detects motion near the parked car. Severity scales with detection confidence.';
+                case 'surveillance.proximity':
+                    return 'Fires when proximity radar detects an object close to the vehicle. RED (<0.5 m) is critical, YELLOW (<0.8 m) is warn.';
+                case 'surveillance.recording.finalized':
+                    return 'Fires after a recording is written to disk and is ready to view. Off by default.';
+                case 'vehicle.health.tyre.pressure':
+                    return 'Fires when the TPMS reports underpressure or overpressure on any wheel.';
+                case 'vehicle.health.tyre.leak':
+                    return 'Fires when the TPMS detects a slow or fast leak. Fast leaks are pushed as critical.';
+                case 'vehicle.security.door.opened':
+                    return 'Fires when a door, hood, or trunk is opened while the car is parked (ACC OFF).';
+                case 'vehicle.security.door.closed':
+                    return 'Fires when a door, hood, or trunk is closed while the car is parked (ACC OFF).';
+                default:
+                    return '';
+            }
+        }
+
+        function renderCategories() {
+            var container = document.getElementById('categoriesContainer');
+            if (!container) return;
+            container.innerHTML = '';
+
+            // Hide categories that are kept in the registry for backwards-
+            // compatibility but shouldn't be user-visible. The legacy
+            // "surveillance.motion" single-stream category is superseded
+            // by the Notice / Alert / Critical tier set below it.
+            var HIDDEN_IDS = { 'surveillance.motion': true };
+            var visible = state.categories.filter(function (c) {
+                return !HIDDEN_IDS[c.id];
+            });
+
+            if (visible.length === 0) {
+                container.innerHTML = '<div class="notif-card"><div class="empty-state">' + escapeHtml(BYD.i18n.t('notif.no_categories')) + '</div></div>';
+                return;
+            }
+
+            // Group by 'group'
+            var groups = {};
+            var order = [];
+            visible.forEach(function (c) {
+                var g = c.group || 'Other';
+                if (!groups[g]) { groups[g] = []; order.push(g); }
+                groups[g].push(c);
+            });
+
+            order.forEach(function (g) {
+                var section = document.createElement('div');
+                section.className = 'notif-section';
+                section.innerHTML = '<h2>' + escapeHtml(g) + '</h2>';
+                var card = document.createElement('div');
+                card.className = 'notif-card';
+
+                // Toggles are interactive only when this device actually has
+                // a registered push subscription. Otherwise the per-category
+                // preference has nowhere to apply, so render them inactive.
+                var hasSubscription = !!state.currentSubscriptionId;
+                groups[g].forEach(function (c) {
+                    // Enabled = subscribed AND not muted. Before this device's
+                    // saved prefs have loaded (mutedLoaded=false), fall back to
+                    // the registry's defaultEnabled so a default-off category
+                    // doesn't briefly render ON — matching the server, which
+                    // seeds a new subscription's mutes from defaultEnabled.
+                    var muted = state.mutedLoaded
+                        ? state.muted.has(c.id)
+                        : (c.defaultEnabled === false);
+                    var enabled = hasSubscription && !muted;
+                    var row = document.createElement('div');
+                    row.className = 'notif-row';
+                    var description = c.note || categoryDescription(c.id);
+                    var toggleClasses = ['notif-toggle'];
+                    if (enabled) toggleClasses.push('on');
+                    if (!hasSubscription) toggleClasses.push('inactive');
+                    row.innerHTML =
+                        '<div class="notif-row-text">' +
+                            '<div class="notif-row-label">' + escapeHtml(c.label) +
+                                '<span class="notif-sev-pill ' + severityClass(c.severity) + '" tabindex="0">' +
+                                    escapeHtml(c.severity || 'info') +
+                                    '<span class="notif-sev-tooltip">' +
+                                        escapeHtml(severityTooltip(c.severity)) +
+                                    '</span>' +
+                                '</span>' +
+                            '</div>' +
+                            (description ? '<div class="notif-row-note">' + escapeHtml(description) + '</div>' : '') +
+                        '</div>' +
+                        '<div class="' + toggleClasses.join(' ') + '" data-cat="' + escapeAttr(c.id) + '" role="switch" aria-checked="' + enabled + '" aria-disabled="' + (!hasSubscription) + '" tabindex="0"></div>';
+                    card.appendChild(row);
+                });
+                section.appendChild(card);
+                container.appendChild(section);
+            });
+
+            container.querySelectorAll('.notif-toggle').forEach(function (t) {
+                t.addEventListener('click', function () { onToggle(t.dataset.cat, t); });
+            });
+        }
+
+        async function onToggle(catId, el) {
+            if (!state.currentSubscriptionId) {
+                showStatus('warn', BYD.i18n.t('notif.enable_first'));
+                return;
+            }
+            if (state.muted.has(catId)) state.muted.delete(catId);
+            else state.muted.add(catId);
+            el.classList.toggle('on');
+
+            var muted = Array.from(state.muted);
+            try {
+                await BYDAuth.fetch('/api/push/preferences', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: state.currentSubscriptionId,
+                        mutedCategories: muted
+                    })
+                });
+            } catch (e) {
+                if (isNetworkError(e)) showTunnelUnreachable();
+                else showStatus('error', BYD.i18n.t('notif.save_pref_failed'));
+            }
+        }
+
+        // Paint the minimum-importance segmented control from state. Disabled
+        // (and shows the "enable first" hint) until this device is subscribed,
+        // mirroring the category toggles.
+        function renderMinSeverity() {
+            var seg = document.getElementById('minSeveritySeg');
+            var hint = document.getElementById('minSeverityHint');
+            if (!seg) return;
+            var hasSubscription = !!state.currentSubscriptionId;
+            var current = (state.minSeverity || 'info').toLowerCase();
+            var btns = seg.querySelectorAll('.notif-seg-btn');
+            for (var i = 0; i < btns.length; i++) {
+                var on = btns[i].getAttribute('data-sev') === current;
+                btns[i].setAttribute('aria-checked', on ? 'true' : 'false');
+            }
+            if (hasSubscription) seg.classList.remove('disabled');
+            else seg.classList.add('disabled');
+            if (hint) hint.style.display = hasSubscription ? 'none' : '';
+        }
+
+        async function setMinSeverity(sev) {
+            if (!state.currentSubscriptionId) {
+                showStatus('warn', BYD.i18n.t('notif.enable_first'));
+                return;
+            }
+            sev = (sev || 'info').toLowerCase();
+            if (sev !== 'info' && sev !== 'warn' && sev !== 'critical') return;
+            if (sev === (state.minSeverity || 'info').toLowerCase()) return;
+            var prev = state.minSeverity;
+            state.minSeverity = sev;      // optimistic
+            renderMinSeverity();
+            function revert() {
+                // Only revert if nothing newer superseded this request. A rapid
+                // second tap (info→warn→critical) launches concurrent POSTs;
+                // without this guard a failed EARLIER request would clobber a
+                // later value the UI already moved to. We only own the revert
+                // when the displayed value is still the one WE set.
+                if ((state.minSeverity || 'info').toLowerCase() !== sev) return;
+                state.minSeverity = prev;
+                renderMinSeverity();
+            }
+            try {
+                var r = await BYDAuth.fetch('/api/push/preferences', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: state.currentSubscriptionId,
+                        minSeverity: sev
+                    })
+                });
+                // BYDAuth.fetch only throws on 401/network — a 400/404/500
+                // (e.g. the sub row was removed on another device) resolves
+                // normally, so check r.ok explicitly or the UI would keep
+                // claiming a floor the server never accepted.
+                if (!r || !r.ok) {
+                    revert();
+                    showStatus('error', BYD.i18n.t('notif.save_pref_failed'));
+                }
+            } catch (e) {
+                // Revert so the UI never claims a floor the server didn't take.
+                revert();
+                if (isNetworkError(e)) showTunnelUnreachable();
+                else showStatus('error', BYD.i18n.t('notif.save_pref_failed'));
+            }
+        }
+
+        (function wireMinSeverity() {
+            var seg = document.getElementById('minSeveritySeg');
+            if (!seg) return;
+            seg.addEventListener('click', function (ev) {
+                var btn = ev.target;
+                while (btn && btn !== seg && !btn.getAttribute('data-sev')) {
+                    btn = btn.parentNode;
+                }
+                if (btn && btn.getAttribute && btn.getAttribute('data-sev')) {
+                    setMinSeverity(btn.getAttribute('data-sev'));
+                }
+            });
+        })();
+
+        // SHA-256 first 12 bytes of endpoint, base64url no-padding — matches
+        // SubscriptionStore.idForEndpoint on the server.
+        async function localIdForEndpoint(endpoint) {
+            try {
+                if (!window.crypto || !window.crypto.subtle) return null;
+                var enc = new TextEncoder().encode(endpoint);
+                var hash = await crypto.subtle.digest('SHA-256', enc);
+                var bytes = new Uint8Array(hash).slice(0, 12);
+                var bin = '';
+                for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+                return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+            } catch (e) { return null; }
+        }
+
+        async function loadSubscriptions() {
+            try {
+                var r = await BYDAuth.fetch('/api/push/subscriptions');
+                if (r.status === 503) return;
+                if (!r.ok) return;
+                var data = await r.json();
+                var subs = data.subscriptions || [];
+
+                // Resolve which row corresponds to THIS browser BEFORE rendering
+                // so the row UI can flag it. Without that flag the user has no
+                // way to tell which row is theirs and may click "Remove" on a
+                // peer device when they meant to disable here.
+                var localId = null;
+                if ('serviceWorker' in navigator) {
+                    try {
+                        const { reg, sub } = await getPushSubscription();
+                        if (sub) localId = await localIdForEndpoint(sub.endpoint);
+                    } catch (_) { /* localId stays null */ }
+                }
+
+                // Fall back to the id the /subscribe call returned (stored as
+                // currentSubscriptionId) when the service worker isn't
+                // controlling yet and getPushSubscription() couldn't derive the
+                // endpoint hash. Same value (server idForEndpoint == the derived
+                // localId), so this correctly flags "this device" AND lets us
+                // resolve our row to load the real prefs — without it, a freshly
+                // enabled device leaves currentSubscriptionId set but mutedLoaded
+                // false and state.muted empty, so the control stays stuck in the
+                // disabled paint and a category toggle would persist a mute set
+                // that's missing the server-seeded defaults.
+                if (!localId) localId = state.currentSubscriptionId;
+
+                renderDevices(subs, localId);
+
+                if (!localId) return;
+                var found = subs.find(function (s) { return s.id === localId; });
+                if (found) {
+                    state.currentSubscriptionId = found.id;
+                    state.muted = new Set(found.mutedCategories || []);
+                    state.mutedLoaded = true;
+                    state.minSeverity = found.minSeverity || 'info';
+                    renderCategories();
+                    renderMinSeverity();
+                }
+            } catch (e) {
+                // Network-level failure (zrok host stopped resolving while
+                // the page is still open). Surface ONE banner instead of
+                // letting the caller's silent catch eat it — the page is
+                // otherwise functionless until the tunnel is back.
+                if (isNetworkError(e)) showTunnelUnreachable();
+                /* otherwise swallow — page still works without subs list */
+            }
+        }
+
+        function renderDevices(subs, localId) {
+            var card = document.getElementById('devicesCard');
+            if (!card) return;
+            if (!subs.length) {
+                card.innerHTML = '<div class="empty-state">' + escapeHtml(BYD.i18n.t('notif.no_devices')) + '</div>';
+                return;
+            }
+            card.innerHTML = '';
+            subs.forEach(function (s) {
+                var row = document.createElement('div');
+                row.className = 'device-row';
+                var lastSeen = s.lastSeenAt
+                    ? new Date(s.lastSeenAt).toLocaleString()
+                    : BYD.i18n.t('notif.device_never');
+                var isThis = localId && s.id === localId;
+                // "(this device)" tag is rendered as a small subdued chip so
+                // the user can pick the right row to remove. It's also the
+                // signal removeDevice() uses to do a FULL local+server
+                // unsubscribe instead of the previous server-only path.
+                var thisDeviceTag = isThis
+                    ? ' <span class="device-row-self" data-i18n="notif.device_this_device">(this device)</span>'
+                    : '';
+                var btnLabel = isThis
+                    ? BYD.i18n.t('notif.device_remove_this')
+                    : BYD.i18n.t('notif.device_remove');
+                row.innerHTML =
+                    '<div class="device-row-top">' +
+                        '<div>' +
+                            '<div class="device-row-label">' + escapeHtml(s.label || BYD.i18n.t('notif.unnamed_device')) + thisDeviceTag + '</div>' +
+                            '<div class="device-row-meta">' + escapeHtml(BYD.i18n.t('notif.device_last_seen', {time: lastSeen})) + '</div>' +
+                        '</div>' +
+                        '<button class="notif-btn danger" data-id="' + escapeAttr(s.id) + '"' +
+                            (isThis ? ' data-self="1"' : '') + '>' +
+                            escapeHtml(btnLabel) + '</button>' +
+                    '</div>';
+                card.appendChild(row);
+            });
+            card.querySelectorAll('button[data-id]').forEach(function (b) {
+                b.addEventListener('click', function () {
+                    removeDevice(b.dataset.id, b.dataset.self === '1');
+                });
+            });
+        }
+
+        async function removeDevice(id, isThisDevice) {
+            if (!confirm(BYD.i18n.t('notif.remove_device_confirm'))) return;
+            try {
+                if (isThisDevice && window.OverdrivePush) {
+                    // Full unsubscribe path: clears the browser-side push
+                    // manager subscription AND the server row. Without this,
+                    // removing your own row used to leave the browser
+                    // holding a live subscription that any subsequent
+                    // /api/push/subscribe POST would resurrect server-side.
+                    await window.OverdrivePush.unsubscribe();
+                    await loadSubscriptions();
+                } else {
+                    // Peer-device removal: server-only is correct (we can't
+                    // reach into another phone's PushManager). The new
+                    // server-side tombstone (TOMBSTONE_WINDOW_MS) prevents
+                    // that device from re-subscribing silently — when its
+                    // pwa-init.js runs, postSubscription returns 410 and
+                    // the local self-heal aborts.
+                    var resp = await BYDAuth.fetch('/api/push/unsubscribe', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id: id })
+                    });
+                    if (!resp.ok) {
+                        showStatus('error', BYD.i18n.t('notif.remove_device_failed'));
+                        return;
+                    }
+                    var body = null;
+                    try { body = await resp.json(); } catch (_) {}
+                    if (body && body.success === false) {
+                        showStatus('error', BYD.i18n.t('notif.remove_device_failed'));
+                        return;
+                    }
+                    await loadSubscriptions();
+                    // Tell the user the tombstone is in effect — without
+                    // this banner the user has no way to know that the peer
+                    // device is now blocked from silently re-registering
+                    // for the next 30 min, which is exactly the guarantee
+                    // they wanted when they clicked Remove.
+                    showStatus('ok', BYD.i18n.t('notif.remove_device_tombstoned'));
+                }
+            } catch (e) {
+                if (isNetworkError(e)) showTunnelUnreachable();
+                else showStatus('error', BYD.i18n.t('notif.remove_device_failed'));
+            }
+        }
+
+        var enableBtnEl = document.getElementById('enableBtn');
+        if (enableBtnEl) enableBtnEl.addEventListener('click', async function () {
+            hideStatus();
+            if (!ORIGIN_OK) return;
+            if (!window.OverdrivePush) {
+                showStatus('error', BYD.i18n.t('notif.pwa_not_loaded'));
+                return;
+            }
+            try {
+                var result = await window.OverdrivePush.requestAndSubscribe();
+                if (!result.ok) {
+                    // subscribe-failed is the only reason that carries a
+                    // browser-level DOMException — Samsung Internet without
+                    // GMS, Brave with shields, Edge when WNS is offline. The
+                    // user can't fix any of those from our UI, but they CAN
+                    // see why and try a different browser. For other reasons
+                    // (permission-denied, no-vapid-key, backend-unreachable,
+                    // register-failed) the static toast text is enough.
+                    if (result.reason === 'subscribe-failed' && result.error) {
+                        showStatus('error', BYD.i18n.t('notif.subscribe_browser_error', {error: result.error}));
+                    } else {
+                        var reasonText = result.error ? (result.reason + ' (' + result.error + ')') : result.reason;
+                        showStatus('error', BYD.i18n.t('notif.enable_could_not', {reason: reasonText}));
+                    }
+                    return;
+                }
+                state.currentSubscriptionId = result.id;
+                await refreshPermissionUI();
+                await loadSubscriptions();
+                // loadSubscriptions re-renders when it resolves our row, but it
+                // early-returns if /subscriptions is unreachable (503/!ok). Paint
+                // here too so the just-enabled control leaves its disabled state
+                // even on that path — symmetric with the disable handler.
+                renderCategories();
+                renderMinSeverity();
+                showStatus('ok', BYD.i18n.t('notif.enable_success'));
+            } catch (e) {
+                showStatus('error', BYD.i18n.t('notif.enable_failed', {error: (e && e.message ? e.message : e)}));
+            }
+        });
+
+        var disableBtnEl = document.getElementById('disableBtn');
+        if (disableBtnEl) disableBtnEl.addEventListener('click', async function () {
+            hideStatus();
+            try {
+                if (window.OverdrivePush) await window.OverdrivePush.unsubscribe();
+                state.currentSubscriptionId = null;
+                // Reset per-device prefs so the category toggles revert to the
+                // registry default paint and the min-importance control shows
+                // its disabled state — loadSubscriptions early-returns without a
+                // localId, so re-render both here.
+                state.mutedLoaded = false;
+                state.muted = new Set();
+                state.minSeverity = 'info';
+                await refreshPermissionUI();
+                await loadSubscriptions();
+                renderCategories();
+                renderMinSeverity();
+                showStatus('ok', 'Notifications disabled on this device.');
+            } catch (e) {
+                showStatus('error', 'Disable failed: ' + (e && e.message ? e.message : e));
+            }
+        });
+
+        var testBtnEl = document.getElementById('testBtn');
+        if (testBtnEl) testBtnEl.addEventListener('click', async function () {
+            hideStatus();
+            try {
+                // Send this device's id so the server delivers the test ONLY
+                // here (and bypasses this device's mute/floor so the test isn't
+                // hidden by a default-muted category or a raised floor). Only
+                // include id when we actually have one — a JSON null would be
+                // read as the string "null" by the server's optString and match
+                // no device. With no id the server broadcasts to all, prefs
+                // honoured (the pre-existing behaviour).
+                var testBody = { severity: 'info' };
+                if (state.currentSubscriptionId) testBody.id = state.currentSubscriptionId;
+                var r = await BYDAuth.fetch('/api/push/test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testBody)
+                });
+                if (r.status === 503) {
+                    showStatus('warn', 'Backend not initialized. Reserve a Zrok URL first.');
+                    return;
+                }
+                if (!r.ok) {
+                    showStatus('error', 'Test failed: HTTP ' + r.status);
+                    return;
+                }
+                showStatus('ok', 'Test sent. Check your notification center.');
+            } catch (e) {
+                if (isNetworkError(e)) showTunnelUnreachable();
+                else showStatus('error', 'Test failed: ' + (e && e.message ? e.message : e));
+            }
+        });
+
+        function escapeHtml(s) {
+            return String(s == null ? '' : s)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+        function escapeAttr(s) { return escapeHtml(s); }
+
+        // ===== Notification Log tab wiring =====
+        // The Log tab reads persisted history via NOTIFLOG (notif-log.js). Two
+        // hooks: (1) lazy-load the log the first time the tab becomes active so
+        // the page's first paint stays cheap; (2) hide the always-visible
+        // Vehicle-layout picker and Tyre-limits card while the Log tab is
+        // active (both are untagged so app-tabs keeps them on every tab
+        // otherwise). Also refresh the log's relative timestamps whenever the
+        // user returns to it.
+        function nlSyncChrome(activeId) {
+            var hideOnLog = ['driveSideSection', 'tyreLimitsSection'];
+            for (var i = 0; i < hideOnLog.length; i++) {
+                var el = document.getElementById(hideOnLog[i]);
+                if (el) el.style.display = (activeId === 'log') ? 'none' : '';
+            }
+            if (activeId === 'log' && window.NOTIFLOG) {
+                if (!NOTIFLOG.loaded) NOTIFLOG.ensureLoaded();
+                else NOTIFLOG.load();
+            }
+        }
+        document.addEventListener('ot-tabs:active-changed', function (ev) {
+            var id = (ev && ev.detail) ? ev.detail.id : null;
+            if (id) nlSyncChrome(id);
+        });
+
+        // Resolve the active tab on load and sync chrome SYNCHRONOUSLY (no
+        // awaits) so the untagged Vehicle-layout picker can never paint on — or
+        // get stuck on — the Log tab if the async bootstrap below stalls or
+        // throws. Mirrors app-tabs' EXACT resolution: #hash wins, then the
+        // saved tab (key "ot-active-tab-<basename>"), then the first manifest
+        // tab. app-tabs fires no event on its initial mount, so we resolve it
+        // ourselves. Runs again on DOMContentLoaded in case the DOM/app-tabs
+        // bar isn't ready yet when this inline script executes.
+        function nlResolveInitialTab() {
+            try {
+                var tabs = window.OT_TABS || [];
+                function tabExists(id) { for (var i = 0; i < tabs.length; i++) { if (tabs[i].id === id) return true; } return false; }
+                var basename = (location.pathname || '').split('/').pop() || 'index';
+                var hash = (location.hash || '').replace(/^#/, '');
+                var saved = null;
+                try { saved = localStorage.getItem('ot-active-tab-' + basename); } catch (e) {}
+                var activeNow = (hash && tabExists(hash)) ? hash
+                    : (saved && tabExists(saved)) ? saved
+                    : (tabs.length ? tabs[0].id : null);
+                if (activeNow) nlSyncChrome(activeNow);
+            } catch (e) { /* ignore */ }
+        }
+        nlResolveInitialTab();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', nlResolveInitialTab);
+        }
+
+        (async function () {
+            // Languages might not be available yet
+            await BYD.i18n.init();
+            await refreshPermissionUI();
+            await loadCategories();
+            if (state.backendReady) await loadSubscriptions();
+            // Paint the min-importance control once after load. loadSubscriptions
+            // already re-paints it when this device has a saved row; this covers
+            // the no-subscription-yet case (renders it in the disabled state).
+            renderMinSeverity();
+        })();
+    </script>
+</body>
+</html>

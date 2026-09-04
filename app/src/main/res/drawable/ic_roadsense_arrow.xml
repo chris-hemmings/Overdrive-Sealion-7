@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense direction arrow — points UP (0° = dead ahead); the overlay rotates it
+  by the hazard's signed relative bearing (R-OVL-2). Refined navigation chevron
+  (Google-Maps-style "kite" with a notched tail) rather than a flat triangle:
+  reads as a heading indicator, legible at a glance + at speed. Filled, tinted at
+  runtime by severity colour.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <!-- Kite arrowhead: sharp nose at top, swept sides, concave tail notch so it
+         reads directional (not a plain triangle). -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M24,5
+            L39,38
+            C39,39.5 37.6,40.5 36.3,39.8
+            L24,33.5
+            L11.7,39.8
+            C10.4,40.5 9,39.5 9,38
+            Z" />
+</vector>

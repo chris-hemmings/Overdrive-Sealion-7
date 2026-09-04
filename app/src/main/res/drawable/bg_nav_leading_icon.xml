@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Soft tonal disc behind a leading list-row glyph (search results + route
+  options). Gives each row a Google-Maps-style "icon chip" so the glyph reads
+  as a deliberate affordance rather than floating in the row. Uses
+  ?attr/colorSurfaceContainerHigh so it lifts a touch above the dropdown /
+  sheet surface in both day and night.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="?attr/colorSurfaceContainerHigh" />
+</shape>

@@ -1,0 +1,144 @@
+package com.overdrive.app.server;
+
+import com.overdrive.app.config.ConfigBackupService;
+import com.overdrive.app.updater.AppUpdater;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.OutputStream;
+
+/**
+ * Settings Backup / Restore API — the WEB surface of the backup feature.
+ *
+ * This handler runs IN the camera-daemon process (UID 2000, same as the HTTP
+ * server), so it calls the shared {@link ConfigBackupService} core DIRECTLY —
+ * exactly as {@link UpdateApiHandler} calls {@link AppUpdater} directly. The
+ * EXPORT_CONFIG / REPLACE_CONFIG IPC commands in {@link SurveillanceIpcServer}
+ * exist for the OTHER-process surfaces (app UID, Telegram daemon); all three
+ * funnel through the one core, so nothing is duplicated.
+ *
+ * Endpoints (all require AuthMiddleware JWT — /api/backup/* is a non-public
+ * path, so a token is enforced in EVERY access mode, tunnel included):
+ *   GET  /api/backup/export          → the bundle JSON (UI saves it as a file)
+ *   POST /api/backup/import/preview  → {valid, message, warnings[]} — no write
+ *   POST /api/backup/import?confirm=true → applies the bundle atomically
+ *
+ * Backup/restore are allowed over the tunnel (public mode) by design choice —
+ * they rely on JWT auth alone, unlike OTA install which additionally blocks
+ * public mode. The export bundle DOES contain device key material + encrypted
+ * credentials, so the UI warns the user to keep the file private.
+ *
+ * SAME-DEVICE only: the UI states this, validateBundle warns on model/firmware
+ * mismatch, and the bundle carries the device-id so secrets survive a reset.
+ */
+public class ConfigBackupApiHandler {
+
+    public static boolean handle(String method, String path, String body, OutputStream out) throws Exception {
+        if (path.startsWith("/api/backup/export") && method.equals("GET")) {
+            handleExport(path, out);
+            return true;
+        }
+        if (path.equals("/api/backup/import/preview") && method.equals("POST")) {
+            handleImport(body, out, /* preview */ true, path);
+            return true;
+        }
+        if (path.startsWith("/api/backup/import") && method.equals("POST")) {
+            handleImport(body, out, /* preview */ false, path);
+            return true;
+        }
+        return false;
+    }
+
+    // ================== export ==================
+
+    private static void handleExport(String path, OutputStream out) throws Exception {
+        // JWT-gated (AuthMiddleware) in every mode. Allowed over the tunnel by
+        // design — the bundle holds credentials, so the UI warns to keep it
+        // private, but no public-mode block here (owner's choice).
+        // ?trips=true opts the (large-ish, location-bearing) trip history into
+        // the bundle; default is settings-only.
+        boolean includeTrips = path != null && path.contains("trips=true");
+        try {
+            JSONObject bundle = ConfigBackupService.buildBundle(
+                    AppUpdater.getInstalledVersion(),
+                    deviceModel(),
+                    System.currentTimeMillis(),
+                    includeTrips);
+            HttpResponse.sendJson(out, bundle.toString());
+        } catch (Exception e) {
+            HttpResponse.sendJsonError(out, "Could not build backup: " + e.getMessage());
+        }
+    }
+
+    // ================== import / preview ==================
+
+    private static void handleImport(String body, OutputStream out, boolean preview, String path)
+            throws Exception {
+        // JWT-gated (AuthMiddleware) in every mode; allowed over the tunnel by
+        // design. A destructive write still needs an explicit confirm=true
+        // (mirrors /api/update/install). Preview never writes, so it's exempt.
+        // Parse the query param properly (not a substring match) so a stray
+        // "confirm=true" inside another value can't satisfy the gate.
+        if (!preview && !hasConfirmTrue(path)) {
+            HttpResponse.sendJsonError(out, "Restore requires confirmation.");
+            return;
+        }
+        if (body == null || body.trim().isEmpty()) {
+            HttpResponse.sendJsonError(out, "No backup data received.");
+            return;
+        }
+
+        JSONObject bundle;
+        try {
+            // Body is the bundle JSON directly (the UI POSTs the parsed file).
+            bundle = new JSONObject(body);
+        } catch (Exception e) {
+            HttpResponse.sendJsonError(out, "File is not a valid Overdrive backup.");
+            return;
+        }
+
+        String appVer = AppUpdater.getInstalledVersion();
+        String model = deviceModel();
+
+        ConfigBackupService.ApplyResult result = preview
+                ? ConfigBackupService.validateBundle(bundle, appVer, model)
+                : ConfigBackupService.applyBundle(bundle, appVer, model);
+
+        JSONObject r = new JSONObject();
+        r.put("valid", result.getSuccess());
+        r.put("success", result.getSuccess());
+        r.put("message", result.getMessage());
+        r.put("warnings", new JSONArray(result.getWarnings()));
+        if (!preview && result.getSuccess()) {
+            // The webapp shows "restarting services" and re-polls /api/status;
+            // listeners already fired the single coordinated reload inside
+            // saveConfig. No daemon kill needed for a settings-only restore.
+            r.put("reloadRecommended", true);
+        }
+        HttpResponse.sendJson(out, r.toString());
+    }
+
+    /** Exact-match the {@code confirm=true} query parameter (no substring match). */
+    private static boolean hasConfirmTrue(String path) {
+        if (path == null) return false;
+        int q = path.indexOf('?');
+        if (q < 0) return false;
+        for (String param : path.substring(q + 1).split("&")) {
+            String[] kv = param.split("=", 2);
+            if (kv.length == 2 && "confirm".equals(kv[0]) && "true".equals(kv[1])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static String deviceModel() {
+        try {
+            String m = android.os.Build.MODEL;
+            return (m == null || m.isEmpty()) ? "unknown" : m;
+        } catch (Exception e) {
+            return "unknown";
+        }
+    }
+}

@@ -1,0 +1,1534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title data-i18n="app.surveillance_title">Surveillance - OverDrive</title>
+    <link rel="icon" type="image/webp" href="../shared/app-icon-dark.webp">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="../shared/app-icon-dark.webp">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#00876C">
+    <script src="../shared/theme.js?v=6"></script>
+    <script src="../shared/app-shell.js?v=5"></script>
+    <!--
+      Per-page bottom-tab manifest. Five tabs grouped by user task:
+        General   — mode toggle + schedule + deterrent (when/how surveillance runs)
+        Detection — detection settings, ROI zones, safe locations (what + where)
+        Recording — pre/post buffer, codec, fps (how events are captured)
+        Storage   — limit, location, BYD dashcam cleanup (where files live)
+        Advanced  — developer / debug switches
+      BYD Cloud account is its own page (byd-cloud.html) — accessed from the
+      sidebar Integrations group, since it belongs with ABRP and MQTT.
+      Cards are tagged via `data-tab` attributes on each <div class="card">.
+    -->
+    <script>
+        window.OT_TABS = [
+            { id: 'general',   label: 'General',   i18n: 'surveillance.tab_general',   svg: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>' },
+            { id: 'detection', label: 'Detection', i18n: 'surveillance.tab_detection', svg: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>' },
+            { id: 'recording', label: 'Recording', i18n: 'surveillance.tab_recording', svg: '<path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2"/>' },
+            { id: 'oem',       label: 'Dashcam',   i18n: 'surveillance.tab_oem',     svg: '<rect x="3" y="6" width="14" height="12" rx="2"/><path d="M17 10l4-2v8l-4-2"/><circle cx="10" cy="12" r="2.5"/>' },
+            { id: 'storage',   label: 'Storage',   i18n: 'surveillance.tab_storage',   svg: '<line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>' }
+        ];
+    </script>
+    <script src="../shared/app-tabs.js"></script>
+    <link rel="stylesheet" href="../shared/styles.css?v=25">
+    <style>
+        /* Per-camera detection toggles — 2-column on tablets, single column on
+           narrow phones so the toggle never runs out of room next to the label. */
+        .surv-camera-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            padding-bottom: 16px;
+        }
+        @media (max-width: 540px) {
+            .surv-camera-grid { grid-template-columns: 1fr; gap: 4px; }
+        }
+        /* BYD Cloud credential inputs — let them stretch on narrow viewports
+           rather than the inline 240px/200px caps that make the field look
+           tiny with a wrapped label above. */
+        @media (max-width: 540px) {
+            .byd-input { max-width: none !important; width: 100%; }
+            .byd-pin-input { max-width: 100% !important; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/jmuxer@2.0.4/dist/jmuxer.min.js"></script>
+    <link rel="stylesheet" href="../shared/leaflet.css" />
+    <script src="../shared/leaflet.js"></script>
+    <script src="../shared/SotaPlayer.js?v=13"></script>
+    <script src="../shared/Decoder.js"></script>
+    <script src="../shared/YUVCanvas.js"></script>
+    <script src="../shared/Player.js"></script>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <!-- App shell sidebar (rendered by ../shared/app-shell.js) -->
+        <div id="app-shell-mount"></div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="mobile-header">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+                    </svg>
+                </button>
+                <span style="font-weight:600;" data-i18n="surveillance.mobile_title">Surveillance</span>
+                <div style="width:40px;"></div>
+            </div>
+
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="surveillance.page_title">Surveillance Settings</h1>
+                <div class="header-actions">
+                    <div class="header-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span id="currentTime">--:--</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-body">
+                <!-- Surveillance Mode -->
+                <div class="card" data-tab="general">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            <span data-i18n="surveillance.mode">Surveillance Mode</span>
+                        </div>
+                        <span class="status-badge inactive" id="survStatusBadge" data-i18n="status.off">OFF</span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Operating mode: ON+OFF (keep working while parked) vs ON only (sleep after car off) -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.operating_mode">Operating Mode</div>
+                                <div class="setting-desc" data-i18n="surveillance.operating_mode_desc">Whether Overdrive keeps running after the car is turned off. On Only fully shuts Overdrive down when you park; while-driving features (dashcam, trips, charging) are unaffected.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group" id="operatingModeBtns">
+                                    <button class="btn-toggle" data-value="onAndOff" onclick="SurvSettings.setOperatingMode('onAndOff')" data-i18n="surveillance.operating_mode_on_off">On &amp; Off</button>
+                                    <button class="btn-toggle" data-value="onOnly" onclick="SurvSettings.setOperatingMode('onOnly')" data-i18n="surveillance.operating_mode_on_only">On Only</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="operatingModeHint" data-i18n="surveillance.operating_mode_hint_on_off">Overdrive keeps watching while parked — surveillance and background monitoring stay active. Uses a little battery overnight.</div>
+
+                        <!-- Shown only in "On Only" mode: the settings below govern
+                             post-vehicle-OFF surveillance, which is disabled when the head
+                             unit is set to sleep after the car is off. Visibility driven by
+                             SurvSettings.applyOperatingModeUI(). -->
+                        <div class="info-box-note" id="postOffDisabledNotice" style="display:none;margin-top:12px;">
+                            <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            <div class="info-note" data-i18n="surveillance.operating_mode_postoff_disabled_note">These settings control surveillance after the car is off. In On Only mode Overdrive shuts down when parked, so they don't apply. Switch to On &amp; Off to use them.</div>
+                        </div>
+
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.enable">Enable Surveillance</div>
+                                <div class="setting-desc" data-i18n="surveillance.enable_desc">Monitor cameras for motion and object detection</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="survEnabled" onchange="SurvSettings.toggleSurveillance()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Arm mode: Lock (arm on door-lock) vs Power (arm on power-off) -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.arm_mode">Arm Mode</div>
+                                <div class="setting-desc" data-i18n="surveillance.arm_mode_desc">When surveillance arms after the car powers off. Both modes honor safe locations and schedules.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group" id="armModeBtns">
+                                    <button class="btn-toggle" data-value="lock" onclick="SurvSettings.setArmMode('lock')" data-i18n="surveillance.arm_lock">On Lock</button>
+                                    <button class="btn-toggle" data-value="power" onclick="SurvSettings.setArmMode('power')" data-i18n="surveillance.arm_power">On Power-Off</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="armModeHint" data-i18n="surveillance.arm_hint_lock">Arms when you lock the doors and disarms when you unlock (so it won't record you). If your car can't report lock status, it arms 60s after power-off as a fallback.</div>
+
+                        <!-- ACC-OFF mode: Smart (motion + AI events) vs Continuous (plain rolling) -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.accoff_mode">ACC-OFF Mode</div>
+                                <div class="setting-desc" data-i18n="surveillance.accoff_mode_desc">Smart records motion-triggered events. Continuous records the whole time the car is parked, with no filters and no AI.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group" id="accOffModeBtns">
+                                    <button class="btn-toggle" data-value="smart" onclick="SurvSettings.setAccOffMode('smart')" data-i18n="surveillance.accoff_smart">Smart</button>
+                                    <button class="btn-toggle" data-value="continuous" onclick="SurvSettings.setAccOffMode('continuous')" data-i18n="surveillance.accoff_continuous">Continuous</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="accOffModeHint" data-i18n="surveillance.accoff_hint_smart">Motion + AI gating. Recordings begin only when something moves and AI confirms a person, vehicle, or other relevant object.</div>
+
+                        <!-- Keep USB ports powered while parked. Default ON. Off lets the
+                             head unit sleep on the next ACC-OFF cycle to save the 12V
+                             battery. IMPORTANT: the SD-card slot shares the USB power
+                             domain on this platform, so turning USB power off also powers
+                             down the SD card while parked — surveillance must then record
+                             to Internal storage. The toggle/confirm flow enforces this. -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.keep_usb_power">Keep USB powered while parked</div>
+                                <div class="setting-desc" data-i18n="surveillance.keep_usb_power_desc">Keeps the USB ports powered after the car is switched off (for example to charge a phone or power an accessory). Turn off to let the head unit sleep and save the 12V battery. Note: the SD-card slot shares the USB power rail, so turning this off also powers down the SD card while parked — surveillance will record to Internal storage instead. Takes effect the next time the car is switched off.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="survKeepUsbPower" onchange="SurvSettings.toggleKeepUsbPower()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Parked cellular keep-alive. Default OFF (opt-in): on some
+                             models the data module sleeps a while after the car is
+                             switched off, which drops cellular while WiFi survives.
+                             When ON the daemon re-asserts the mobile-data master switch
+                             each parked tick. Only armed if mobile data was already on
+                             at park entry, so it never enables data by itself. -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.mobile_data_keepalive">Keep mobile data awake while parked</div>
+                                <div class="setting-desc" data-i18n="surveillance.mobile_data_keepalive_desc">On some models the mobile data module goes to sleep a while after the car is switched off, so the car drops off the network while parked. Turn this on to keep it awake. It is recommended to leave this off unless you actually lose cellular while parked, because keeping the connection alive uses extra battery and mobile data. Only takes effect if mobile data is already on when you park. Takes effect the next time the car is switched off.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="survMobileDataKeepAlive" onchange="SurvSettings.toggleMobileDataKeepAlive()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Shown only while USB power is OFF: SD card is unpowered while
+                             parked, so surveillance records to Internal. Visibility driven
+                             by SurvSettings.updateUsbPowerStorageNotice(). Belongs to the
+                             Keep-USB toggle above — keep them adjacent. -->
+                        <div class="info-box-warning" id="survUsbPowerStorageNotice" style="display:none;margin-top:12px;">
+                            <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            <div class="info-note" data-i18n="surveillance.usb_off_storage_notice">USB power is off, so the SD card is unpowered while parked. Surveillance records to Internal storage until USB power is turned back on.</div>
+                        </div>
+
+                        <!-- Low-power-while-parked toggle. Default OFF (byte-identical
+                             to today until opted in). When ON, drops the camera to a low
+                             idle frame rate while parked+armed with nothing happening, and
+                             ramps back to full rate the instant motion is detected — so
+                             detection is unchanged, only the idle capture rate drops.
+                             Drives BOTH the surveillance camera (camera.surveillanceIdleThrottle)
+                             and the OEM dashcam (oemDashcam.idleThrottleWhenParked) together.
+                             Persisted immediately (no Apply) via toggleLowPowerMode(). -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.low_power_mode">Low-power mode while parked</div>
+                                <div class="setting-desc" data-i18n="surveillance.low_power_mode_desc">Saves battery while parked by running the camera at a low frame rate (about 5 fps) when nothing is happening, then instantly ramping back to full quality the moment motion is detected. Motion and object detection are unaffected — the same events are caught — but the recorded footage during quiet periods is choppier to save power. Takes effect while the car is parked and surveillance is armed.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="survLowPowerMode" onchange="SurvSettings.toggleLowPowerMode()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- HV-battery SoC cutoff for parked surveillance. At/below this %,
+                             SocCutoffMonitor arms a 60s grace then self-shuts-down to protect
+                             the traction pack. 0 = Off (never auto-stops on SoC). Persists to
+                             power.lowSocCutoffPercent — the exact key SocCutoffMonitor reads.
+                             oninput previews the label only; onchange (drag end) saves.
+                             Placed after the USB toggle+its warning so both parked-power
+                             settings sit together, before the Status/Events readout. -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.low_soc_cutoff">Low-battery cutoff</div>
+                                <div class="setting-desc" data-i18n="surveillance.low_soc_cutoff_desc">Stop surveillance and let the car sleep when the main battery drops to this level, protecting it from over-discharge. Set to Off to never stop on battery level.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="lowSocCutoffValue">10%</span>
+                                    <input type="range" class="slider" id="lowSocCutoffSlider" min="0" max="30" step="1" value="10"
+                                           oninput="SurvSettings.previewLowSocCutoff(this.value)" onchange="SurvSettings.updateLowSocCutoff(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="lowSocCutoffHint" data-i18n="surveillance.low_soc_cutoff_hint">Higher values protect the battery more but end surveillance sooner. Off keeps watching until the battery is critically low.</div>
+
+                        <div class="info-box">
+                            <div class="info-row"><span class="label" data-i18n="surveillance.status_label">Status</span><span class="value" id="survState" data-i18n="common.idle">Idle</span></div>
+                            <div class="info-row">
+                                <span class="label" data-i18n="surveillance.events_today">Events Today</span>
+                                <a href="events.html?filter=sentry" class="value link-value" id="eventsToday">0 →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Safe Locations -->
+                <div class="card" data-tab="detection">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span data-i18n="surveillance.safe_locations">Safe Locations</span>
+                            <span class="status-badge inactive" id="safeLocBadge" data-i18n="status.off">OFF</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.safe_disable">Disable at Safe Locations</div>
+                                <div class="setting-desc" data-i18n="surveillance.safe_desc">Camera won't start when parked here</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="safeLocEnabled" onchange="SafeLocations.toggleFeature()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="safeLocContent" style="display:none;">
+                            <!-- Status -->
+                            <div class="info-box" id="safeLocStatusBox" style="margin-top:8px;">
+                                <div class="info-row">
+                                    <span class="label" data-i18n="surveillance.status_label">Status</span>
+                                    <span class="value safe-loc-status is-pending" id="safeLocStatus">--</span>
+                                </div>
+                                <div class="info-row">
+                                    <span class="label" data-i18n="surveillance.gps_label">GPS</span>
+                                    <span class="value" id="safeLocGps">--</span>
+                                </div>
+                            </div>
+
+                            <!-- Map with live edit circle -->
+                            <div style="margin-top:12px;">
+                                <div id="safeLocMap" style="height:260px; border-radius:12px; border:1px solid var(--card-border); position:relative; overflow:hidden; z-index:1;"></div>
+                            </div>
+
+                            <!-- Radius Slider -->
+                            <div class="safe-zone-radius-control">
+                                <div class="safe-zone-radius-header">
+                                    <span class="safe-zone-radius-title" data-i18n="surveillance.zone_radius">Zone Radius</span>
+                                    <span class="safe-zone-radius-value" id="safeLocRadiusValue">150m</span>
+                                </div>
+                                <input type="range" class="slider safe-zone-radius-slider" id="safeLocRadiusSlider" min="15" max="500" step="5" value="150"
+                                    oninput="SafeLocations.updateEditCircleRadius(this.value)">
+                                <div class="safe-zone-range-labels">
+                                    <span>15m</span>
+                                    <span>500m</span>
+                                </div>
+                            </div>
+
+                            <!-- Add Button -->
+                            <button class="btn btn-primary" style="width:100%; margin-top:12px;" onclick="SafeLocations.addCurrentZone()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                                <span data-i18n="surveillance.add_zone">Add this zone</span>
+                            </button>
+
+                            <!-- Saved Zones List -->
+                            <div class="safe-zone-list-title" data-i18n="safe_loc.saved_zones">Saved zones</div>
+                            <div class="safe-zone-list" id="safeLocZoneList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detection Settings -->
+                <div class="card" data-tab="detection">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                            <span data-i18n="surveillance.detection_settings">Detection Settings</span>
+                            <span class="unsaved-indicator" id="detectionUnsaved" data-i18n="surveillance.unsaved">● unsaved</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Environment Preset -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.env_preset">Environment Preset</div>
+                                <div class="setting-desc" data-i18n="surveillance.env_desc">Quick preset for your parking situation</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group" id="envPresetBtns">
+                                    <button class="btn-toggle" data-value="outdoor" onclick="SurvSettings.setEnvironmentPreset('outdoor')" data-i18n="surveillance.env_outdoor">Outdoor</button>
+                                    <button class="btn-toggle" data-value="garage" onclick="SurvSettings.setEnvironmentPreset('garage')" data-i18n="surveillance.env_garage">Garage</button>
+                                    <button class="btn-toggle" data-value="street" onclick="SurvSettings.setEnvironmentPreset('street')" data-i18n="surveillance.env_street">Street</button>
+                                    <button class="btn-toggle" data-value="custom" id="envPresetCustom" style="opacity:0.7;cursor:default;" data-i18n="surveillance.env_custom">Custom</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="envPresetHint" data-i18n="surveillance.env_hint.outdoor">Standard filtering for open parking lots and driveways. Handles sun, clouds, and headlights.</div>
+
+                        <!-- Sensitivity -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.sensitivity">Sensitivity</div>
+                                <div class="setting-desc" data-i18n="surveillance.sensitivity_desc">How easily motion is detected</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="v2SensitivityValue" data-i18n="surveillance.v2_sens_label.3">3 — Default</span>
+                                    <input type="range" class="slider" id="v2SensitivitySlider" min="1" max="5" value="3" oninput="SurvSettings.updateV2Sensitivity(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="v2SensitivityHint" data-i18n="surveillance.v2_sens_hint.3">Balanced — detects a person approaching within about 3 meters.</div>
+
+                        <!-- Detection Zone -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.det_zone">Detection Zone</div>
+                                <div class="setting-desc" data-i18n="surveillance.det_zone_desc">How far from the car motion triggers an alert</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group" id="detectionZoneBtns">
+                                    <button class="btn-toggle" data-value="close" onclick="SurvSettings.setDetectionZone('close')" data-i18n="surveillance.det_close">Close (~3m)</button>
+                                    <button class="btn-toggle active" data-value="normal" onclick="SurvSettings.setDetectionZone('normal')" data-i18n="surveillance.det_normal">Normal (~6m)</button>
+                                    <button class="btn-toggle" data-value="extended" onclick="SurvSettings.setDetectionZone('extended')" data-i18n="surveillance.det_extended">Extended (full frame)</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="detectionZoneHint" data-i18n="surveillance.zone_hint.normal">Standard detection band. Roughly the bottom two-thirds of each camera's view (typically within ~6m on the rear camera). Default for everyday parking.</div>
+
+                        <!-- Loitering Time -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.loitering_time">Loitering Time</div>
+                                <div class="setting-desc" data-i18n="surveillance.loitering_time_desc">How long someone must stay near the car before recording starts</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="loiteringTimeValue">3s</span>
+                                    <input type="range" class="slider" id="loiteringTimeSlider" min="1" max="10" value="3" oninput="SurvSettings.updateLoiteringTime(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="loiteringTimeHint" data-i18n="surveillance.loitering_time_hint">Higher values ignore people just walking past. Lower values are more responsive.</div>
+
+                        <!-- Approach Trigger -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.approach_trigger">Approach Trigger</div>
+                                <div class="setting-desc" data-i18n="surveillance.approach_trigger_desc">Record sooner when the camera AI confirms a real person or vehicle approaching — without waiting out the full loitering time</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="approachTriggerValue">2s</span>
+                                    <input type="range" class="slider" id="approachTriggerSlider" min="0" max="10" value="2" oninput="SurvSettings.updateApproachTrigger(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="approachTriggerHint" data-i18n="surveillance.approach_trigger_hint">Set to Off to require the full loitering time for every event. Lower values record walk-ups faster (only fires when the AI sees a real person/vehicle).</div>
+
+                        <!-- Shadow Filter -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.shadow_filter">Shadow Filter</div>
+                                <div class="setting-desc" data-i18n="surveillance.shadow_filter_desc">Filters out tree shadows, cloud shadows, and other lighting changes that cause false recordings</div>
+                            </div>
+                            <div class="setting-control">
+                                <select class="select-control" id="shadowFilterSelect" onchange="SurvSettings.updateShadowFilter(this.value)">
+                                    <option value="0" data-i18n="surveillance.shadow_off">Off</option>
+                                    <option value="1" data-i18n="surveillance.shadow_light">Light</option>
+                                    <option value="2" selected data-i18n="surveillance.shadow_normal">Normal</option>
+                                    <option value="3" data-i18n="surveillance.shadow_aggressive">Aggressive</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="shadowFilterHint" data-i18n="surveillance.shadow_hint.2">Normal works well for most outdoor parking. Use Aggressive if parked under trees with heavy shadow movement.</div>
+
+                        <!-- Motion salience: record on strong motion even when AI is unsure -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.motion_salience">Record on strong motion</div>
+                                <div class="setting-desc" data-i18n="surveillance.motion_salience_desc">Trigger on large, close, moving objects even when the AI can't identify them</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="v2MotionSalience" onchange="SurvSettings.updateMotionSalience()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="motionSalienceHint" data-i18n="surveillance.motion_salience_hint">Catches events the AI misses — someone walking right up to the car in poor light, or a large vehicle pulling in close, where object recognition returns nothing. Only fires when the movement is big, close, and travels steadily across the scene for about a second, so wind-blown branches, shadows, rain and headlight sweeps are still ignored. Expect some extra recordings with no identified person or vehicle: these are kept even with "Discard non-actor recordings" on, because a clip the AI couldn't classify is the last one worth deleting automatically.</div>
+
+                        <!-- Aggressively discard non-actor recordings -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.discard_empty_motion">Discard non-actor recordings</div>
+                                <div class="setting-desc" data-i18n="surveillance.discard_empty_motion_desc">Aggressively drop recordings where no real person or vehicle was tracked</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="v2DiscardEmptyMotion" onchange="SurvSettings.updateDiscardEmptyMotion()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="discardEmptyMotionHint" data-i18n="surveillance.discard_empty_motion_hint">Good if you get false alerts from shadows or tree-branch movement — these clips are deleted automatically when nothing real was tracked. Caution: in low light or unclear conditions it can occasionally discard a real threat the AI failed to identify. Leave off if you'd rather keep every recording.</div>
+
+                        <!-- Also discard at night (sub-toggle of the above) -->
+                        <div class="setting-row" id="discardEmptyMotionNightRow" style="padding-left:16px;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.discard_empty_motion_night">Also discard at night</div>
+                                <div class="setting-desc" data-i18n="surveillance.discard_empty_motion_night_desc">Extend the filter to dark scenes using motion shape instead of brightness</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="v2DiscardEmptyMotionNight" onchange="SurvSettings.updateDiscardEmptyMotionAtNight()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="discardEmptyMotionNightHint" data-i18n="surveillance.discard_empty_motion_night_hint">By default the filter only runs in daylight, because in the dark the AI can miss a real person entirely. With this on, night clips are discarded only when the motion looks like wind-blown foliage or a lighting change (headlights, reflections) and never translated across the scene like a person would. Higher chance of dropping a real night-time event than the daytime filter — leave off if in doubt.</div>
+
+                        <!-- Camera Controls -->
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.camera_controls">Camera Controls</div>
+                                <div class="setting-desc" data-i18n="surveillance.camera_controls_desc">Enable or disable detection per camera</div>
+                            </div>
+                        </div>
+                        <div class="surv-camera-grid">
+                            <div class="setting-row" style="border-bottom:none;padding:8px 0;">
+                                <div class="setting-info"><div class="setting-name" style="font-size:13px;" data-i18n="surveillance.camera_front">Front</div></div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="v2CameraFront" checked onchange="SurvSettings.updateV2Cameras()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="setting-row" style="border-bottom:none;padding:8px 0;">
+                                <div class="setting-info"><div class="setting-name" style="font-size:13px;" data-i18n="surveillance.camera_right">Right</div></div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="v2CameraRight" checked onchange="SurvSettings.updateV2Cameras()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="setting-row" style="border-bottom:none;padding:8px 0;">
+                                <div class="setting-info"><div class="setting-name" style="font-size:13px;" data-i18n="surveillance.camera_left">Left</div></div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="v2CameraLeft" checked onchange="SurvSettings.updateV2Cameras()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="setting-row" style="border-bottom:none;padding:8px 0;">
+                                <div class="setting-info"><div class="setting-name" style="font-size:13px;" data-i18n="surveillance.camera_rear">Rear</div></div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="v2CameraRear" checked onchange="SurvSettings.updateV2Cameras()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-hint" id="cameraControlsHint" data-i18n="surveillance.camera_controls_hint">Disable cameras facing a wall or busy road to reduce false alerts.</div>
+
+                        <!-- Side-cam Boost -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.sidecam_boost">Side-cam Boost</div>
+                                <div class="setting-desc" data-i18n="surveillance.sidecam_boost_desc">Override sensitivity and detection zone for the left and right cameras only. Useful when neighbours pull into adjacent stalls and the front/rear settings are too conservative to catch them.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="sideCamBoostEnabled" onchange="SurvSettings.updateSideCamBoost()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="sideCamBoostControls" style="display:none;padding-bottom:16px;">
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <div class="setting-name" style="font-size:13px;" data-i18n="surveillance.sidecam_sens">Side sensitivity</div>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="slider-control">
+                                        <span class="slider-value" id="sideCamSensValue" data-i18n="surveillance.v2_sens_label.4">4</span>
+                                        <input type="range" class="slider" id="sideCamSensSlider" min="1" max="5" value="4" oninput="SurvSettings.updateSideCamSens(this.value)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-row" style="border-bottom:none;">
+                                <div class="setting-info">
+                                    <div class="setting-name" style="font-size:13px;" data-i18n="surveillance.sidecam_zone">Side zone</div>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="btn-group" id="sideCamZoneBtns">
+                                        <button class="btn-toggle" data-value="close" onclick="SurvSettings.setSideCamZone('close')" data-i18n="surveillance.det_close">Close</button>
+                                        <button class="btn-toggle" data-value="normal" onclick="SurvSettings.setSideCamZone('normal')" data-i18n="surveillance.det_normal">Normal</button>
+                                        <button class="btn-toggle active" data-value="extended" onclick="SurvSettings.setSideCamZone('extended')" data-i18n="surveillance.det_extended">Extended</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Object Detection -->
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.detect_objects">Detect Objects</div>
+                                <div class="setting-desc" data-i18n="surveillance.detect_objects_desc">AI identifies what triggered the motion</div>
+                            </div>
+                        </div>
+                        <div class="checkbox-row">
+                            <label class="checkbox-item active"><input type="checkbox" id="detectPerson" checked onchange="SurvSettings.updateDetection()"><span data-i18n="surveillance.detect_person">Person</span></label>
+                            <label class="checkbox-item active"><input type="checkbox" id="detectCar" checked onchange="SurvSettings.updateDetection()"><span data-i18n="surveillance.detect_vehicle">Vehicle</span></label>
+                            <label class="checkbox-item"><input type="checkbox" id="detectBike" onchange="SurvSettings.updateDetection()"><span data-i18n="surveillance.detect_bike">Bike</span></label>
+                            <label class="checkbox-item"><input type="checkbox" id="detectAnimal" onchange="SurvSettings.updateDetection()"><span data-i18n="surveillance.detect_animal">Animal</span></label>
+                        </div>
+                        <div class="setting-hint" data-i18n="surveillance.detect_objects_hint">Select which objects YOLO AI should identify. Motion detection triggers regardless — AI classifies what was detected.</div>
+
+                        <!-- Telegram delivery moved to notifications.html (Telegram tab).
+                             Same input IDs (v2TelegramSendStartPing, v2TelegramTierGroup,
+                             v2TelegramNotices/Alerts/Critical) are preserved over there
+                             so SurvSettings bindings keep firing without any glue. -->
+                    </div>
+                </div>
+
+                <!-- Developer / debug toggles. Originally split onto a dedicated
+                     Advanced tab; folded back into Detection (the motion-detection
+                     diagnostics are conceptually adjacent). Input IDs preserved so
+                     SurvSettings.updateV2Dev() / loadConfig() bindings keep working. -->
+                <div class="card" data-tab="detection">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                            <span data-i18n="surveillance.developer">Developer</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n-attr="title:surveillance.motion_heatmap_title" title="Shows colored blocks on the live stream indicating where motion is detected." data-i18n="surveillance.motion_heatmap">Motion Heatmap</div>
+                                <div class="setting-desc" data-i18n="surveillance.motion_heatmap_desc">Overlay motion detection zones on stream</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch" data-i18n-attr="title:surveillance.motion_heatmap_title" title="Shows colored blocks on the live stream indicating where motion is detected.">
+                                    <input type="checkbox" id="v2MotionHeatmap" onchange="SurvSettings.updateV2Dev()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n-attr="title:surveillance.filter_debug_log_title" title="Logs detailed filter decisions for each detection." data-i18n="surveillance.filter_debug_log">Filter Debug Log</div>
+                                <div class="setting-desc" data-i18n="surveillance.filter_debug_log_desc">Log detailed filter decisions</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch" data-i18n-attr="title:surveillance.filter_debug_log_title" title="Logs detailed filter decisions for each detection.">
+                                    <input type="checkbox" id="v2FilterDebugLog" onchange="SurvSettings.updateV2Dev()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detection Zones (Per-Camera ROI) -->
+                <div class="card" data-tab="detection">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M3 9h18"/></svg>
+                            <span data-i18n="surveillance.detection_zones_title">Detection Zones</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-hint" style="margin-bottom:12px;" data-i18n="surveillance.detection_zones_hint">Limit motion detection to specific areas of each camera. When off, the full camera frame is used for detection.</div>
+
+                        <!-- Camera tabs + unsaved indicator -->
+                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+                            <div class="btn-group" id="roiCameraTabs" style="flex:1;">
+                                <button class="btn-toggle active" onclick="RoiEditor.selectCamera(0)" data-i18n="surveillance.camera_front">Front</button>
+                                <button class="btn-toggle" onclick="RoiEditor.selectCamera(1)" data-i18n="surveillance.camera_right">Right</button>
+                                <button class="btn-toggle" onclick="RoiEditor.selectCamera(2)" data-i18n="surveillance.camera_rear">Rear</button>
+                                <button class="btn-toggle" onclick="RoiEditor.selectCamera(3)" data-i18n="surveillance.camera_left">Left</button>
+                            </div>
+                            <span class="unsaved-indicator" id="roiUnsaved" style="display:none;flex-shrink:0;" data-i18n="surveillance.unsaved">● unsaved</span>
+                        </div>
+
+                        <!-- Per-camera ROI toggle -->
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.roi_enable">Enable Zone</div>
+                                <div class="setting-desc" data-i18n="surveillance.roi_enable_desc">Draw a detection zone for this camera</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="roiEnabled" onchange="RoiEditor.toggleRoi()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Drawing content (hidden when ROI disabled) -->
+                        <div id="roiDrawingContent" style="display:none;">
+                            <!-- Canvas container — 4:3 aspect ratio, responsive -->
+                            <div id="roiCanvasContainer" style="position:relative; width:100%; height:0; padding-bottom:75%; background:var(--bg-base); border-radius:8px; overflow:hidden; border:1px solid var(--border-default); z-index:0;">
+                                <canvas id="roiCanvas" style="position:absolute; top:0; left:0; width:100%; height:100%; display:block; touch-action:none; cursor:crosshair;"></canvas>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div style="display:flex; gap:8px; margin-top:8px;">
+                                <button class="btn btn-primary" style="flex:1;" onclick="RoiEditor.save()" data-i18n="surveillance.roi_save">Save Zone</button>
+                                <button class="btn" style="flex:0 0 auto; background:var(--bg-secondary); color:var(--text-primary); border:1px solid var(--card-border); padding:8px 12px; font-size:12px;" onclick="RoiEditor.selectAll()" data-i18n="surveillance.roi_all">All</button>
+                                <button class="btn" style="flex:0 0 auto; background:var(--bg-secondary); color:var(--text-primary); border:1px solid var(--card-border); padding:8px 12px; font-size:12px;" onclick="RoiEditor.clear()" data-i18n="surveillance.roi_none">None</button>
+                            </div>
+                        </div>
+
+                        <!-- ROI status (always visible) -->
+                        <div style="margin-top:8px; font-size:12px; color:var(--text-muted);" id="roiStatus">Front: Full frame (ROI off)</div>
+                    </div>
+                </div>
+
+                <!-- Surveillance Schedule -->
+                <div class="card" data-tab="general">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <span data-i18n="surveillance.schedule_title">Surveillance Schedule</span>
+                            <span class="status-badge inactive" id="scheduleBadge" data-i18n="status.off">OFF</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.schedule_enable">Enable Schedule</div>
+                                <div class="setting-desc" data-i18n="surveillance.schedule_enable_desc">Only activate sentry during specific days and hours</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="scheduleEnabled" onchange="ScheduleEditor.toggle()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div id="scheduleContent" style="display:none;">
+                            <div class="setting-hint" style="margin-bottom:12px;" data-i18n="surveillance.schedule_hint">Add time windows when surveillance should be active. Outside these windows, sentry mode won't start even if ACC is off.</div>
+
+                            <div id="scheduleRulesList"></div>
+
+                            <button class="btn" style="width:100%; margin-top:8px; background:var(--bg-secondary); color:var(--text-primary); border:1px solid var(--card-border);" onclick="ScheduleEditor.addRule()" data-i18n="surveillance.schedule_add_window">+ Add Time Window</button>
+
+                            <div style="margin-top:12px;">
+                                <button class="btn btn-primary" id="scheduleSaveBtn" style="width:100%;" onclick="ScheduleEditor.save()" data-i18n="surveillance.schedule_save">Save Schedule</button>
+                            </div>
+                            
+                            <div style="margin-top:8px; font-size:12px; color:var(--text-muted);" id="scheduleSummary"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Screen Deterrent — placed BEFORE cloud deterrent because
+                     it works out-of-the-box without any external service. -->
+                <div class="card" data-tab="general">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                            <span data-i18n="surveillance.screen_deterrent_title">Screen Deterrent</span>
+                        </div>
+                        <span class="status-badge inactive" id="screenDeterrentBadge" data-i18n="surveillance.screen_deterrent_off_badge">OFF</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.screen_deterrent_enable">Display warning on motion</div>
+                                <div class="setting-desc" data-i18n="surveillance.screen_deterrent_enable_desc">Wake the head-unit screen and show a fullscreen warning when motion is detected. Works without BYD Cloud.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="screenDeterrentEnabled" onchange="SurvSettings.updateScreenDeterrent('enabled', this.checked)">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.screen_deterrent_duration">Tail duration</div>
+                                <div class="setting-desc" data-i18n="surveillance.screen_deterrent_duration_desc">How long the warning stays visible after motion stops. While motion continues, the warning stays up.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="screenDeterrentDurationValue">8s</span>
+                                    <input type="range" class="slider" id="screenDeterrentDurationSlider" min="3" max="30" value="8" oninput="SurvSettings.previewScreenDeterrentDuration(this.value)" onchange="SurvSettings.updateScreenDeterrent('duration', this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Custom content: message OR image (mutually exclusive).
+                             Stacked with explicit OR divider + override banner so
+                             the mutex is unmissable. -->
+                        <div style="margin-top:8px; padding:12px; border:1px solid var(--card-border); border-radius:12px; background:var(--bg-secondary);">
+                            <div style="font-size:13px; font-weight:600; color:var(--text-primary); margin-bottom:8px;" data-i18n="surveillance.screen_deterrent_content_heading">Custom content</div>
+                            <div style="font-size:12px; color:var(--text-muted); margin-bottom:12px;" data-i18n="surveillance.screen_deterrent_content_help">Pick ONE: a custom message overlaid on the default red screen, OR your own image, GIF or MP4 clip. The uploaded asset always wins if both are set.</div>
+
+                            <!-- Override banner: shown when image is set -->
+                            <div id="screenDeterrentOverrideBanner" style="display:none; padding:10px 12px; border:1px solid var(--warning); background:rgba(245,158,11,0.12); border-radius:8px; margin-bottom:12px;">
+                                <div style="display:flex; align-items:center; gap:8px; color:var(--warning); font-size:13px;">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px; height:16px; flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                    <span data-i18n="surveillance.screen_deterrent_override_banner">An asset is set — the custom message is being ignored. Remove the asset to use a message instead.</span>
+                                </div>
+                            </div>
+
+                            <!-- Message option -->
+                            <div class="setting-row" style="border-bottom:none; padding:6px 0;">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="surveillance.screen_deterrent_message">Custom message</div>
+                                    <div class="setting-desc" data-i18n="surveillance.screen_deterrent_message_desc">Replaces "YOU ARE ON CAMERA" on the default red screen.</div>
+                                </div>
+                                <div class="setting-control">
+                                    <input type="text" id="screenDeterrentMessage" maxlength="120" class="md-input" oninput="SurvSettings.queueScreenDeterrentMessage(this.value)" placeholder="YOU ARE ON CAMERA" style="padding-top:14px; padding-bottom:14px; line-height:1.2;">
+                                </div>
+                            </div>
+
+                            <!-- OR divider -->
+                            <div style="display:flex; align-items:center; gap:8px; margin:8px 0; color:var(--text-muted); font-size:11px; font-weight:600; letter-spacing:0.08em;">
+                                <div style="flex:1; height:1px; background:var(--card-border);"></div>
+                                <span data-i18n="surveillance.screen_deterrent_or">OR</span>
+                                <div style="flex:1; height:1px; background:var(--card-border);"></div>
+                            </div>
+
+                            <!-- Image option -->
+                            <div class="setting-row" style="border-bottom:none; padding:6px 0;">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="surveillance.screen_deterrent_image">Custom image, GIF or video</div>
+                                    <div class="setting-desc" data-i18n="surveillance.screen_deterrent_image_desc">PNG / JPG / WebP / GIF up to 8 MB, or an MP4 clip up to 10 s, 1080p and 10 MB. Video loops while the warning is visible; audio is not played.</div>
+                                    <div class="setting-desc" style="margin-top: 12px; color: var(--text-primary);">
+                                        <div style="font-weight:600; margin-bottom:8px;" data-i18n="surveillance.themes_title">Themes by Giovanni Mirulla</div>
+                                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                                            <!-- Theme 1 -->
+                                            <div style="border:1px solid var(--card-border); border-radius:8px; padding:8px; background:var(--bg-base); width: 140px; text-align: center;">
+                                                <div style="font-size:12px; font-weight:600; margin-bottom:8px;">Sentry 1</div>
+                                                <button type="button" class="btn btn-primary" style="width:100%; font-size:12px; padding:6px 0;" onclick="SurvSettings.downloadAndSetTheme('https://raw.githubusercontent.com/yash-srivastava/Overdrive-release/refs/heads/main/themes/sentry1.gif', 'sentry1.gif', this)">
+                                                    <span data-i18n="surveillance.download_set">Download &amp; Set</span>
+                                                </button>
+                                            </div>
+                                            <!-- Theme 2 -->
+                                            <div style="border:1px solid var(--card-border); border-radius:8px; padding:8px; background:var(--bg-base); width: 140px; text-align: center;">
+                                                <div style="font-size:12px; font-weight:600; margin-bottom:8px;">Sentry 2</div>
+                                                <button type="button" class="btn btn-primary" style="width:100%; font-size:12px; padding:6px 0;" onclick="SurvSettings.downloadAndSetTheme('https://raw.githubusercontent.com/yash-srivastava/Overdrive-release/refs/heads/main/themes/sentry2.gif', 'sentry2.gif', this)">
+                                                    <span data-i18n="surveillance.download_set">Download &amp; Set</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-control">
+                                    <input type="file" id="screenDeterrentFile" accept="image/png,image/jpeg,image/webp,image/gif,video/mp4" style="display:none;" onchange="SurvSettings.uploadScreenDeterrentImage(this.files[0])">
+                                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('screenDeterrentFile').click()" id="screenDeterrentUploadBtn">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                        <span id="screenDeterrentUploadLabel" data-i18n="surveillance.screen_deterrent_upload">Upload</span>
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" id="screenDeterrentClearBtn" onclick="SurvSettings.clearScreenDeterrentImage()" style="display:none; margin-left:8px; color:var(--danger); border-color:var(--danger);">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+                                        <span data-i18n="surveillance.screen_deterrent_remove">Remove asset</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="screenDeterrentPreview" style="display:none; margin-top:12px; text-align:center;">
+                                <img id="screenDeterrentPreviewImg" alt="" style="max-width:100%; max-height:180px; border-radius:8px; border:1px solid var(--card-border); background:var(--bg-secondary);" />
+                                <video id="screenDeterrentPreviewVideo" muted loop playsinline controls preload="auto" style="display:none; max-width:100%; max-height:180px; border-radius:8px; border:1px solid var(--card-border); background:var(--bg-secondary);"></video>
+                                <div id="screenDeterrentPreviewLabel" style="font-size:12px; color:var(--text-muted); margin-top:4px;" data-i18n="surveillance.screen_deterrent_preview_label">Current asset</div>
+                                <button type="button" class="btn btn-secondary" style="margin-top:8px; font-size:12px;" onclick="SurvSettings.testScreenDeterrent()">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                                    <span data-i18n="surveillance.test_on_screen">Test on Screen</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="setting-hint" data-i18n="surveillance.screen_deterrent_hint">The screen wakes only while ACC is off. When the car turns on, the deterrent is suppressed.</div>
+                    </div>
+                </div>
+
+                <!-- Cloud Deterrent (was: Deterrent Action) -->
+                <div class="card" data-tab="general">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            <span data-i18n="surveillance.deterrent_title">Cloud Deterrent</span>
+                        </div>
+                        <span class="status-badge inactive" id="deterrentBadge" data-i18n="surveillance.deterrent_silent_badge">SILENT</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.deterrent_on_motion">On motion detected</div>
+                                <div class="setting-desc" data-i18n="surveillance.deterrent_on_motion_desc">Action to take via BYD Cloud when a threat is confirmed. Requires BYD Cloud account setup.</div>
+                            </div>
+                            <div class="setting-control">
+                                <select class="select-control" id="deterrentAction" onchange="SurvSettings.updateDeterrent(this.value)">
+                                    <option value="silent" data-i18n="surveillance.deterrent_silent_option">Silent (record only)</option>
+                                    <option value="flash_lights" data-i18n="surveillance.deterrent_flash_option">Flash lights</option>
+                                    <option value="find_car" data-i18n="surveillance.deterrent_horn_option">Horn + lights</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="setting-hint" data-i18n="surveillance.deterrent_hint_v2">Flash Lights and Horn + Lights use BYD's cloud API. BYD Cloud account setup required — set it up on the BYD Cloud page (sidebar → Integrations → BYD Cloud).</div>
+                        <div id="deterrentWarning" class="info-box" style="display:none; border-color:var(--warning); background:rgba(245,158,11,0.08); margin-top:8px;">
+                            <div style="display:flex; align-items:center; gap:8px; color:var(--warning);">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                <span style="font-size:13px;"><span data-i18n="surveillance.deterrent_warning_v2">BYD Cloud account setup required.</span> <a href="byd-cloud.html" style="color:var(--warning); text-decoration:underline;" data-i18n="surveillance.deterrent_warning_link">Open BYD Cloud →</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Place Tagging (reverse geocoding) — General tab.
+                     This card controls the "surveillance" flow only — sentry
+                     and proximity-while-parked event clips. Dashcam tagging
+                     lives on recording.html. The custom Nominatim URL is
+                     shared between both pages and surfaces here too so a
+                     privacy-paranoid user setting up sentry surveillance
+                     can find it without bouncing between pages. -->
+                <div class="card" data-tab="general">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span data-i18n="surveillance.geocoding_title">Place Tagging</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.geocoding_enabled_name">Tag sentry events with place names</div>
+                                <div class="setting-desc" data-i18n="surveillance.geocoding_enabled_desc">Reverse-geocode the event-start GPS into a district/city label and save it next to each clip's sidecar. Off by default to keep parked-at-home addresses out of shared notifications.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="survGeocodingEnabled" onchange="SurvSettings.toggleGeocodingEnabled()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.geocoding_online_name">Use online resolver</div>
+                                <div class="setting-desc" data-i18n="surveillance.geocoding_online_desc">Falls back to OpenStreetMap Nominatim when on-device geocoding cannot name a location. Sends only the event-start coordinates and your device language.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="survGeocodingOnline" onchange="SurvSettings.toggleGeocodingOnline()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info" style="flex:1 1 auto;">
+                                <div class="setting-name" data-i18n="surveillance.geocoding_custom_url_name">Custom Nominatim URL</div>
+                                <div class="setting-desc" data-i18n="surveillance.geocoding_custom_url_desc">Optional. Point to a self-hosted instance to skip the public OSM endpoint entirely. Shared with dashcam settings.</div>
+                            </div>
+                            <div class="setting-control">
+                                <input type="url" id="survGeocodingCustomUrl" class="text-input" inputmode="url" placeholder="https://nominatim.example.com" onchange="SurvSettings.saveGeocodingCustomUrl()" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recording Settings -->
+                <div class="card" data-tab="recording">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="currentColor"/></svg>
+                            <span data-i18n="surveillance.recording_settings_title">Recording Settings</span>
+                            <span class="unsaved-indicator" id="recordingUnsaved" data-i18n="surveillance.unsaved">● unsaved</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="recording.pre_event_buffer">Pre-event Buffer</div>
+                                <div class="setting-desc" data-i18n="surveillance.pre_event_buffer_desc">Seconds captured before motion event</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="preRecValue">5s</span>
+                                    <input type="range" class="slider" id="preRecSlider" min="2" max="15" value="5" oninput="SurvSettings.updatePreRec(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="recording.post_event_buffer">Post-event Buffer</div>
+                                <div class="setting-desc" data-i18n="surveillance.post_event_buffer_desc">Seconds captured after motion stops</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="postRecValue">10s</span>
+                                    <input type="range" class="slider" id="postRecSlider" min="5" max="30" value="10" oninput="SurvSettings.updatePostRec(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name">
+                                    <span data-i18n="surveillance.recording_quality">Surveillance Quality</span>
+                                </div>
+                                <div class="setting-desc" data-i18n="surveillance.recording_quality_desc">Quality for parked (ACC-off) surveillance recording — independent of the driving dashcam quality. Higher tiers preserve more detail at the cost of more storage.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group btn-group-vertical" id="survQualityBtns">
+                                    <button class="btn-toggle" data-value="ECONOMY"  onclick="SurvSettings.setRecordingQuality('ECONOMY')">
+                                        <span class="tier-name" data-i18n="recording.tier_economy">Economy</span>
+                                    </button>
+                                    <button class="btn-toggle" data-value="STANDARD" onclick="SurvSettings.setRecordingQuality('STANDARD')">
+                                        <span class="tier-name" data-i18n="recording.tier_standard">Standard</span>
+                                    </button>
+                                    <button class="btn-toggle active" data-value="HIGH" onclick="SurvSettings.setRecordingQuality('HIGH')">
+                                        <span class="tier-name" data-i18n="recording.tier_high">High</span>
+                                    </button>
+                                    <button class="btn-toggle" data-value="PREMIUM" onclick="SurvSettings.setRecordingQuality('PREMIUM')">
+                                        <span class="tier-name" data-i18n="recording.tier_premium">Premium</span>
+                                    </button>
+                                    <button class="btn-toggle" data-value="MAX" onclick="SurvSettings.setRecordingQuality('MAX')">
+                                        <span class="tier-name" data-i18n="recording.tier_max">Max</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name">
+                                    <span data-i18n="recording.codec">Video Codec</span>
+                                </div>
+                                <div class="setting-desc" data-i18n="recording.codec_desc">H.265 produces 50% smaller files</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group" id="codecBtns">
+                                    <button class="btn-toggle active" data-value="H264" onclick="SurvSettings.setCodec('H264')">H.264</button>
+                                    <button class="btn-toggle" data-value="H265" onclick="SurvSettings.setCodec('H265')">H.265</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name">
+                                    <span data-i18n="surveillance.camera_fps">Surveillance FPS</span>
+                                </div>
+                                <div class="setting-desc" data-i18n="surveillance.camera_fps_desc_split">Frame rate for parked (ACC-off) surveillance — independent of the driving dashcam. Lower saves power &amp; storage while parked.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group" id="survFpsBtns">
+                                    <button class="btn-toggle" data-value="10" onclick="SurvSettings.setFps(10)">10</button>
+                                    <button class="btn-toggle active" data-value="15" onclick="SurvSettings.setFps(15)">15</button>
+                                    <button class="btn-toggle" data-value="20" onclick="SurvSettings.setFps(20)">20</button>
+                                    <button class="btn-toggle" data-value="25" onclick="SurvSettings.setFps(25)">25</button>
+                                    <button class="btn-toggle" data-value="30" onclick="SurvSettings.setFps(30)">30</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Clip Duration — shared key (recording.segmentDurationMinutes)
+                             read by both axes; same control as the recording page. -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name">
+                                    <span data-i18n="recording.clip_duration">Clip Duration</span>
+                                    <span class="setting-badge" data-i18n="recording.applies_next_rotation">Next clip</span>
+                                </div>
+                                <div class="setting-desc" data-i18n="recording.clip_duration_desc">Length of each recorded video segment. Applies to both driving (ACC on) and parked surveillance (ACC off) recordings, on the next segment rotation.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group" id="survClipDurationBtns">
+                                    <button class="btn-toggle active" data-value="2" onclick="SurvSettings.setClipDuration(2)" data-i18n="recording.clip_2min">2 min</button>
+                                    <button class="btn-toggle" data-value="5" onclick="SurvSettings.setClipDuration(5)" data-i18n="recording.clip_5min">5 min</button>
+                                    <button class="btn-toggle" data-value="10" onclick="SurvSettings.setClipDuration(10)" data-i18n="recording.clip_10min">10 min</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-box-note">
+                            <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            <div class="info-note" data-i18n="recording.clip_duration_warning">
+                                Longer clips mean fewer, larger files — but an in-progress clip is only finalized when it rotates. On sudden power loss (e.g. battery cut on impact) the current clip can be lost, so a 10-minute setting risks up to 10 minutes of unsaved footage vs 2. Keep 2 min if your vehicle can lose power abruptly.
+                            </div>
+                        </div>
+                        <div class="info-box">
+                            <div class="info-row">
+                                <span class="label" data-i18n="recording.active_estimate">At your settings</span>
+                                <span class="value" id="survActiveEstimate">— Mbps · — / hr · ~—</span>
+                            </div>
+                            <div class="info-row" style="font-size: 0.85em; opacity: 0.7;">
+                                <span class="label" data-i18n="recording.native_resolution">Native</span>
+                                <span class="value">2560×1920 mosaic · 4 × 1280×960 cameras</span>
+                            </div>
+                            <div class="info-row" id="survFpsClampRow" style="display: none; font-size: 0.85em;">
+                                <span class="label" data-i18n="recording.fps_actual">Measured FPS</span>
+                                <span class="value" id="survFpsActual">—</span>
+                            </div>
+                        </div>
+                        <div class="timeline-visual">
+                            <div class="timeline-segment timeline-pre" id="timelinePre" data-i18n="surveillance.timeline_pre">PRE</div>
+                            <div class="timeline-segment timeline-event" data-i18n="surveillance.timeline_event">EVENT</div>
+                            <div class="timeline-segment timeline-post" id="timelinePost" data-i18n="surveillance.timeline_post">POST</div>
+                        </div>
+                        <div class="timeline-labels">
+                            <span id="preLabel">5s before</span><span data-i18n="surveillance.timeline_motion_detected">Motion Detected</span><span id="postLabel">10s after</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sentry Recording Layout — the independent counterpart to
+                     the dashcam layout on the recording page. Saves
+                     immediately (not via the Apply button), mirroring the
+                     dashcam layout card. Reuses the recording.layout_* i18n
+                     strings (already translated everywhere). -->
+                <div class="card" data-tab="recording">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/>
+                            </svg>
+                            <span data-i18n="recording.layout_title">Recording Layout</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name">
+                                    <span data-i18n="recording.layout_label">Camera Layout</span>
+                                    <span class="setting-badge" data-i18n="recording.applies_live">Applies live</span>
+                                </div>
+                                <div class="setting-desc" data-i18n="recording.layout_desc">Standard records the four 360 cameras as a 2×2 grid. Dashcam puts the forward road view across the top with the 360 left, rear and right cameras along the bottom. Telemetry overlay is preserved either way.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group btn-group-vertical" id="survLayoutBtns">
+                                    <button class="btn-toggle active" data-value="standard" onclick="SurvSettings.setSurveillanceLayout('standard')">
+                                        <span class="tier-name" data-i18n="recording.layout_standard">Standard (360 grid)</span>
+                                    </button>
+                                    <button class="btn-toggle" data-value="dashcam" onclick="SurvSettings.setSurveillanceLayout('dashcam')">
+                                        <span class="tier-name" data-i18n="recording.layout_dashcam">Dashcam (forward + sides)</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-row" style="border-bottom:none;" id="survWindshieldRow">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="recording.layout_use_windshield_label">Use Windshield Camera in Dashcam Layout</div>
+                                <div class="setting-desc" data-i18n="recording.layout_use_windshield_desc">When available, use the dedicated windshield camera for the top dashcam view. Falls back to the 360 front camera if the stream cannot be opened.</div>
+                                <div class="setting-desc" id="survWindshieldCameraInfo" style="display:none;"></div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="survUseWindshield" onchange="SurvSettings.toggleSurveillanceWindshield()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Surveillance telemetry overlay. Separate master toggle AND
+                     separate field selection from the ACC-on recording overlay;
+                     both live in the same `telemetry-overlay` API. -->
+                <div class="card" data-tab="recording">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                            </svg>
+                            <span data-i18n="recording.telemetry_overlay_title">Telemetry Overlay</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- No divider: the picker below is a sub-control of this
+                             toggle, and :last-child now binds to the picker. -->
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.telemetry_show_label">Show on Sentry Recordings</div>
+                                <div class="setting-desc" data-i18n="surveillance.telemetry_show_desc">Burn vehicle data into ACC-off surveillance event clips. Separate from the ACC-on recording overlay.</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="survTelemetryOverlayEnabled" onchange="SurvSettings.toggleSurvTelemetryOverlay()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="setting-row telemetry-fields" id="telemetryFieldsSurveillance" style="display:none;">
+                            <div class="setting-info" style="width:100%;">
+                                <div class="setting-name" data-i18n="recording.telemetry_fields_label">Fields to burn in</div>
+                                <div class="setting-desc" data-i18n="surveillance.telemetry_fields_desc">Choose what the overlay draws on surveillance clips.</div>
+                                <div class="telemetry-fields-grid" id="telemetryFieldsSurveillanceGrid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fisheye Correction (Fitzgibbon division-model rectifier).
+                     SHARED with the recording page — same unified-config key
+                     (recording.rectifyStrength). Editing on either page
+                     affects ACC-on dashcam AND ACC-off surveillance clips.
+                     Hidden on dilink4 cars: HAL emits a clean 2x2 mosaic
+                     natively and the legacy-mode shader branch is not
+                     exercised on those firmwares. -->
+                <div class="card" data-tab="recording" id="survRectifyCard">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="9"/>
+                                <path d="M3 12h18"/>
+                                <path d="M12 3c2.5 3 2.5 15 0 18"/>
+                                <path d="M12 3c-2.5 3-2.5 15 0 18"/>
+                            </svg>
+                            <span data-i18n="recording.rectify_title">Fisheye Correction</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="recording.rectify_label">Correction Strength</div>
+                                <div class="setting-desc" data-i18n="recording.rectify_desc">Straightens the residual fisheye barrel curve in recordings and surveillance clips. 0 = off (raw HAL output). Higher values pull peripheral pixels inward.</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="survRectifyValue">Off</span>
+                                    <input type="range" class="slider" id="survRectifySlider" min="0" max="100" step="1" value="0" oninput="SurvSettings.updateRectifyStrength(this.value)">
+                                </div>
+                                <!-- Range labels constrained to the 120px slider track
+                                     and right-anchored under the slider (not flushed
+                                     to the full row width). Mirrors the recording-page
+                                     card layout. -->
+                                <div class="slider-range-labels" style="width:120px;margin-left:auto;padding:0;">
+                                    <span data-i18n="recording.rectify_min">Off</span>
+                                    <span data-i18n="recording.rectify_max">Max</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- OEM Dashcam — surveillance-mode picker. Mirrors the
+                     recording.html layout but binds to surveillanceMode.
+                     Off | Continuous | Smart. Smart = follow pano motion
+                     detection (write dvr_*.mp4 alongside event_*.mp4 on
+                     each surveillance trigger). -->
+                <div class="card" data-tab="oem" id="oemDashcamMainCard">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 17h18l-3-9H6l-3 9z"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/>
+                                <path d="M9 8V5a3 3 0 0 1 6 0v3"/>
+                            </svg>
+                            <span data-i18n="oem_dashcam.title">OEM Dashcam</span>
+                        </div>
+                        <span class="status-badge inactive" id="oemPipelineBadge" data-i18n="oem_dashcam.status_idle" role="status" aria-live="polite" aria-atomic="true" style="opacity:0;">Idle</span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Camera-ID-unset state. -->
+                        <div class="setting-row" id="oemDashcamIdUnsetRow" style="display:none;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="oem_dashcam.id_unset_title">Camera ID not configured</div>
+                                <div class="setting-desc" data-i18n="oem_dashcam.id_unset_desc">Open the camera-mapping dialog from the Android settings to pick which AVMCamera id is the forward dashcam sensor. Auto = pano XOR 1; on Seal/Han pano is id 1 so OEM dashcam defaults to id 0.</div>
+                            </div>
+                        </div>
+
+                        <div class="setting-row" id="oemSurvModeRow" style="border-bottom:none;padding-bottom:12px;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="oem_dashcam.surveillance_mode_title">Surveillance behaviour</div>
+                                <div class="setting-desc" data-i18n="oem_dashcam.surveillance_mode_desc">Controls when the forward dashcam sensor writes dvr_*.mp4 in response to surveillance (parked-car motion / sentry).</div>
+                            </div>
+                        </div>
+                        <div class="mode-selector" role="radiogroup" aria-busy="true" data-hydrating="true" data-i18n-attr="aria-label:oem_dashcam.mode_picker_aria_surveillance" aria-label="OEM Dashcam surveillance mode" aria-controls="oemPipelineStatusHint">
+                            <label class="mode-option">
+                                <input type="radio" name="oemSurveillanceMode" value="off" checked onchange="SurvSettings.setOemSurveillanceMode('off')" aria-describedby="oemSurvModeDesc_off">
+                                <div class="mode-card mode-card-active">
+                                    <span class="mode-icon" aria-hidden="true">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                                    </span>
+                                    <span class="mode-body">
+                                        <span class="mode-name" data-i18n="oem_dashcam.mode_off">Off</span>
+                                        <span class="mode-desc" id="oemSurvModeDesc_off" data-i18n="oem_dashcam.mode_off_desc_surveillance">Don't record from the OEM forward sensor on surveillance. Pano sentry keeps writing event_*.mp4 normally.</span>
+                                    </span>
+                                    <span class="mode-radio" aria-hidden="true"></span>
+                                </div>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="oemSurveillanceMode" value="continuous" onchange="SurvSettings.setOemSurveillanceMode('continuous')" aria-describedby="oemSurvModeDesc_continuous">
+                                <div class="mode-card">
+                                    <span class="mode-icon" aria-hidden="true">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 8-6 4 6 4V8Z"/><rect width="14" height="12" x="2" y="6" rx="2"/><circle cx="9" cy="12" r="1.5" fill="currentColor"/></svg>
+                                    </span>
+                                    <span class="mode-body">
+                                        <span class="mode-name" data-i18n="oem_dashcam.mode_continuous">Continuous</span>
+                                        <span class="mode-desc" id="oemSurvModeDesc_continuous" data-i18n="oem_dashcam.mode_continuous_desc_surveillance">Always record dvr_*.mp4 the whole time the car is parked, regardless of motion. Will burn through storage fastest.</span>
+                                    </span>
+                                    <span class="mode-radio" aria-hidden="true"></span>
+                                </div>
+                            </label>
+                            <label class="mode-option">
+                                <input type="radio" name="oemSurveillanceMode" value="smart" onchange="SurvSettings.setOemSurveillanceMode('smart')" aria-describedby="oemSurvModeDesc_smart">
+                                <div class="mode-card">
+                                    <span class="mode-icon" aria-hidden="true">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4"/><path d="M12 18v4"/><path d="M4.93 4.93l2.83 2.83"/><path d="M16.24 16.24l2.83 2.83"/><path d="M2 12h4"/><path d="M18 12h4"/><path d="M4.93 19.07l2.83-2.83"/><path d="M16.24 7.76l2.83-2.83"/><circle cx="12" cy="12" r="3"/></svg>
+                                    </span>
+                                    <span class="mode-body">
+                                        <span class="mode-name" data-i18n="oem_dashcam.mode_smart">Smart</span>
+                                        <span class="mode-desc" id="oemSurvModeDesc_smart" data-i18n="oem_dashcam.mode_smart_desc_surveillance">Mirror pano motion detection: when surveillance fires (motion + AI confirms a person/vehicle), write dvr_*.mp4 alongside event_*.mp4. Honors the same Safe Locations, Schedule, and per-camera filters as the pano sentry.</span>
+                                    </span>
+                                    <span class="mode-radio" aria-hidden="true"></span>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div class="setting-row" id="oemPipelineStatusRow" style="border-bottom:none;">
+                            <div class="setting-info" style="flex:1 1 auto;">
+                                <div class="setting-name" id="oemPipelineStatus" data-i18n="oem_dashcam.status_idle">Idle</div>
+                                <div class="setting-desc" id="oemPipelineStatusHint" data-i18n="oem_dashcam.status_hint_off">Pick Continuous or Smart above to enable surveillance recording on the OEM forward sensor.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Native DVR (com.byd.cdr) — same surface as recording.html. -->
+                <div class="card" data-tab="oem" id="oemNativeDvrCard" style="display:none;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="6" width="20" height="12" rx="2"/>
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M7 6V4"/><path d="M17 6V4"/>
+                            </svg>
+                            <span data-i18n="oem_dashcam.native_dvr_title">Native DVR app (com.byd.cdr)</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row" style="border-bottom:none;">
+                            <div class="setting-info" style="flex:1 1 auto;">
+                                <div class="setting-desc" data-i18n="oem_dashcam.native_dvr_explainer">The factory dashcam app records to /sdcard/DCIM/BYDCam and opens AVMCamera on every ACC ON. Disabling lets OverDrive own the camera without contention.</div>
+                                <div class="setting-name" id="oemNativeDvrStatusLabel" style="margin-top:8px;" data-i18n="oem_dashcam.native_dvr_status_enabled">Status: Enabled</div>
+                            </div>
+                            <div class="setting-control">
+                                <button class="btn btn-primary" id="oemNativeDvrToggleBtn" onclick="SurvSettings.toggleOemNativeDvr()" data-i18n="oem_dashcam.native_dvr_disable">Disable native DVR</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Surveillance Storage -->
+                <div class="card" data-tab="storage">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" x2="2" y1="12" y2="12"/>
+                                <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+                                <line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/>
+                            </svg>
+                            <span data-i18n="surveillance.storage_title">Surveillance Storage</span>
+                            <span class="unsaved-indicator" id="storageUnsaved" data-i18n="surveillance.unsaved">● unsaved</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Storage Location Selection -->
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="trip.settings.storage_location">Storage Location</div>
+                                <div class="setting-desc" data-i18n="surveillance.storage_location_desc">Choose where to save surveillance events</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="btn-group" id="survStorageTypeBtns">
+                                    <button class="btn-toggle active" data-value="INTERNAL" onclick="SurvSettings.setStorageType('INTERNAL')" data-i18n="trip.settings.storage_internal">Internal</button>
+                                    <button class="btn-toggle" data-value="SD_CARD" onclick="SurvSettings.setStorageType('SD_CARD')" id="btnSurvSdCard" data-i18n="trip.settings.storage_sd">SD card</button>
+                                    <button class="btn-toggle" data-value="USB" onclick="SurvSettings.setStorageType('USB')" id="btnSurvUsb" data-i18n="trip.settings.storage_usb">USB</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- SD Card Status -->
+                        <div class="sd-card-status" id="survSdCardStatus" style="display:none;">
+                            <div class="sd-status-row">
+                                <span class="sd-status-dot" id="survSdStatusDot"></span>
+                                <span class="sd-status-text" id="survSdStatusText" data-i18n="recording.sd_checking">SD Card: Checking...</span>
+                            </div>
+                            <div class="sd-space-info" id="survSdSpaceInfo" style="display:none;">
+                                <span id="survSdFree">-- free</span> / <span id="survSdTotal">-- total</span>
+                            </div>
+                        </div>
+                        <!-- USB Drive Status -->
+                        <div class="sd-card-status" id="survUsbStatus" style="display:none;">
+                            <div class="sd-status-row">
+                                <span class="sd-status-dot" id="survUsbStatusDot"></span>
+                                <span class="sd-status-text" id="survUsbStatusText" data-i18n="recording.usb_checking">USB: Checking...</span>
+                            </div>
+                            <div class="sd-space-info" id="survUsbSpaceInfo" style="display:none;">
+                                <span id="survUsbFree">-- free</span> / <span id="survUsbTotal">-- total</span>
+                            </div>
+                        </div>
+                        <div class="setting-row" style="border-bottom:none;padding-bottom:8px;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="surveillance.storage_usage">Storage Usage</div>
+                                <div class="setting-desc" id="survStoragePath" data-i18n="surveillance.events_saved_to_default">Events saved to Overdrive/surveillance</div>
+                                <!-- Fallback warning: configured external volume (SD/USB) isn't
+                                     mounted (often because USB power is off and the SD rides that
+                                     rail) or is full, so clips silently land on internal storage.
+                                     Shown by surveillance.js updateStorageTypeUI; hidden otherwise. -->
+                                <div class="setting-desc storage-fallback-warning" id="survStorageFallbackWarning" style="display:none"></div>
+                            </div>
+                        </div>
+                        <div class="storage-bar">
+                            <div class="storage-fill" id="survStorageFill" style="width: 0%"></div>
+                        </div>
+                        <div class="storage-info">
+                            <span id="survStorageUsed" data-i18n="surveillance.size_used_dash">-- used</span>
+                            <span id="survStorageLimit" data-i18n="surveillance.size_limit_dash">-- limit</span>
+                        </div>
+                        <div class="setting-row" style="margin-top:16px;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="recording.storage_limit">Storage Limit</div>
+                                <div class="setting-desc" data-i18n="recording.storage_limit_desc">Auto-delete oldest when limit reached</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="survLimitValue">500 MB</span>
+                                    <input type="range" class="slider" id="survLimitSlider" min="100" max="100000" step="100" value="500" oninput="SurvSettings.updateSurvLimit(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slider-range-labels">
+                            <span id="survLimitMin" data-i18n="surveillance.limit_min_default">100 MB</span>
+                            <span id="survLimitMax" data-i18n="surveillance.limit_max_default">100 GB</span>
+                        </div>
+                        <!-- Combined-limit advisory — see recording.html for the
+                             rationale; same shared renderer, same server payload. -->
+                        <div class="storage-fallback-banner" id="survBudgetBanner" style="display:none;" role="status" aria-live="polite">
+                            <span class="sd-status-dot" style="background:#f0a020;"></span>
+                            <span data-budget-text></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BYD Dashcam Cleanup (shown when SD card selected) -->
+                <div class="card" data-tab="storage" id="cdrCleanupCard" style="display:none;">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                            </svg>
+                            <span data-i18n="recording.cdr_title">BYD Dashcam Auto-Cleanup</span>
+                            <span class="status-badge" id="cdrCleanupBadge" data-i18n="status.off">OFF</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="recording.cdr_auto_delete">Auto-Delete Old Dashcam Files</div>
+                                <div class="setting-desc" data-i18n="recording.cdr_auto_delete_desc">Free up SD card space by removing oldest BYD dashcam recordings</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="cdrCleanupEnabled" onchange="SurvSettings.toggleCdrCleanup()">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <!-- Recommend banner (shown only when API says recommendAutoCleanup) -->
+                        <div class="info-box-warning" id="cdrRecommendBanner" style="display:none;">
+                            <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            <div class="info-row" style="color:var(--warning);">
+                                <span class="label" data-i18n="recording.cdr_recommend_label_v2">Recommended</span>
+                                <span class="value" data-i18n="recording.cdr_recommend_text">Overdrive uses SD — enable cleanup to keep space free</span>
+                            </div>
+                        </div>
+                        <!-- CDR Status -->
+                        <div class="info-box" id="cdrInfoBox">
+                            <div class="info-row"><span class="label" data-i18n="recording.cdr_path">Dashcam Path</span><span class="value" id="cdrPath">--</span></div>
+                            <div class="info-row"><span class="label" data-i18n="recording.cdr_usage">Dashcam Usage</span><span class="value" id="cdrUsage">--</span></div>
+                            <div class="info-row"><span class="label" data-i18n="recording.cdr_files">Files</span><span class="value" id="cdrFileCount">--</span></div>
+                            <div class="info-row"><span class="label" data-i18n="recording.cdr_protected">Protected</span><span class="value" id="cdrProtected">--</span></div>
+                            <div class="info-row"><span class="label" data-i18n="recording.cdr_deletable">Deletable</span><span class="value" id="cdrDeletable">--</span></div>
+                            <div class="info-row"><span class="label" data-i18n="recording.cdr_bg_monitor">Background monitor</span><span class="value" id="cdrMonitoring">--</span></div>
+                            <div class="info-row"><span class="label" data-i18n="recording.cdr_last_cleanup">Last cleanup</span><span class="value" id="cdrLastCleanup">--</span></div>
+                        </div>
+                        <div class="setting-row" style="margin-top:12px;">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="recording.cdr_reserved">Reserved Space for Overdrive</div>
+                                <div class="setting-desc" data-i18n="recording.cdr_reserved_desc">Keep this much free on SD card</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="cdrReservedValue">2 GB</span>
+                                    <input type="range" class="slider" id="cdrReservedSlider" min="100" max="20000" step="100" value="2000" oninput="SurvSettings.updateCdrReserved(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="recording.cdr_protect_recent">Protect Recent Files</div>
+                                <div class="setting-desc" data-i18n="recording.cdr_protect_recent_desc">Don't delete dashcam files newer than this</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="cdrProtectedValue">24h</span>
+                                    <input type="range" class="slider" id="cdrProtectedSlider" min="0" max="168" step="12" value="24" oninput="SurvSettings.updateCdrProtected(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="recording.cdr_min_keep">Keep Minimum Files</div>
+                                <div class="setting-desc" data-i18n="recording.cdr_min_keep_desc">Always keep at least this many newest files</div>
+                            </div>
+                            <div class="setting-control">
+                                <div class="slider-control">
+                                    <span class="slider-value" id="cdrMinKeepValue">10</span>
+                                    <input type="range" class="slider" id="cdrMinKeepSlider" min="0" max="50" step="5" value="10" oninput="SurvSettings.updateCdrMinKeep(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Manual Cleanup Button -->
+                        <button class="btn btn-danger" style="width:100%;margin-top:12px;" onclick="SurvSettings.triggerCdrCleanup()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;" aria-hidden="true"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                            <span data-i18n="recording.cdr_cleanup_now_v2">Clean up now</span>
+                        </button>
+                        <!-- Stats -->
+                        <div class="info-box" style="margin-top:12px;">
+                            <div class="info-row"><span class="label" data-i18n="recording.cdr_total_freed">Total Freed</span><span class="value" id="cdrTotalFreed">--</span></div>
+                            <div class="info-row"><span class="label" data-i18n="recording.cdr_files_deleted">Files Deleted</span><span class="value" id="cdrTotalDeleted">--</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Fixed Footer Bar -->
+        <div class="footer-bar" id="footerBar">
+            <button class="btn btn-primary" id="btnApply" disabled onclick="SurvSettings.applySettings()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><polyline points="20 6 9 17 4 12"/></svg>
+                <span data-i18n="common.apply_changes">Apply Changes</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../shared/auth.js"></script>
+    <script src="../shared/pwa-init.js?v=index1"></script>
+    <script src="../shared/core.js?v=20"></script>
+    <script src="../shared/update-flow.js"></script>
+    <script src="../shared/storage-budget.js?v=8"></script>
+    <script src="../shared/surveillance.js?v=survvideo1"></script>
+    <script src="../shared/safe-locations.js?v=2"></script>
+    <script src="../shared/roi-schedule.js"></script>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+        BYD.i18n.init().then(function () {
+            BYD.core.init();
+            SurvSettings.init();
+            SafeLocations.init();
+            RoiEditor.init();
+            ScheduleEditor.init();
+        });
+    </script>
+</body>
+</html>

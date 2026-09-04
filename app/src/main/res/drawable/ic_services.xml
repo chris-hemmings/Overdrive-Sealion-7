@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded: memory (CPU chip, 24px, weight 400, fill 0).
+     Used as the dashboard "Background services" tile icon — distinct from
+     ic_integrations (network hub) and ic_daemons (also a hub). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M360-360h240v-240H360v240ZM160-120q-33 0-56.5-23.5T80-200v-160h80v-160H80v-80h80v-160H80v-80h80v-40q0-33 23.5-56.5T240-880h40v-80h80v80h160v-80h80v80h160v-80h80v80h40q33 0 56.5 23.5T880-720v40h80v80h-80v160h80v80h-80v160h80v80h-80v40q0 33-23.5 56.5T800-80h-40v80h-80v-80H520v80h-80v-80H280v80h-80v-80h-40Zm640-680H160v640h640v-640ZM280-280h400v-400H280v400Z"/>
+    </group>
+</vector>

@@ -1,0 +1,74 @@
+# Crowdin configuration for Overdrive.
+#
+# Project: https://crowdin.com/project/overdrive
+# Free Open Source plan (project is MIT-licensed and public).
+#
+# Used by:
+#   - Crowdin GitHub integration (auto-imports source changes, opens PRs with
+#     translations against this repo's main branch)
+#   - The crowdin CLI (manual upload/download from a developer laptop)
+#
+# Auth:
+#   The CLI reads CROWDIN_PERSONAL_TOKEN from the environment. Generate one at
+#   https://crowdin.com/settings#api-key and export it before running CLI commands.
+#   Do NOT commit the token here.
+
+project_id: "902765"
+api_token_env: CROWDIN_PERSONAL_TOKEN
+base_path: "."
+preserve_hierarchy: true
+
+# Placeholders used below:
+#   %two_letters_code%  ISO 639-1 lowercase language tag (de, es, fr, ...).
+#                       Matches our JSON file naming for most locales.
+#   %locale%            BCP-47 with region (zh-CN, pt-BR). Used in overrides
+#                       for the four CJK / regional variants we ship.
+#   %android_code%      Android values-* qualifier (zh-rCN, pt-rBR, nb, de, ...)
+#                       — matches our values-{qualifier}/ directory layout.
+#
+# language_mapping overrides ensure the four region-qualified locales (Chinese
+# Simplified/Traditional, Brazilian Portuguese, Norwegian Bokmål) land at the
+# filename Overdrive's runtime expects — not Crowdin's default zh-CN.json,
+# pt-PT.json, etc., which would mismatch our LocaleManager fallback chain.
+
+files:
+  # ─── Web catalog (consumed by the WebView shell via /i18n/{lang}.json) ───
+  - source: /app/src/main/assets/web/i18n/en.json
+    translation: /app/src/main/assets/web/i18n/%two_letters_code%.json
+    type: json
+    update_option: update_as_unapproved
+    languages_mapping:
+      two_letters_code:
+        zh-CN: zh-CN
+        zh-TW: zh-TW
+        pt-BR: pt-BR
+        nb: nb
+
+  # ─── Server-side error / SRT strings (Messages.java + SrtWriter.java) ───
+  - source: /app/src/main/assets/server-i18n/en.json
+    translation: /app/src/main/assets/server-i18n/%two_letters_code%.json
+    type: json
+    update_option: update_as_unapproved
+    languages_mapping:
+      two_letters_code:
+        zh-CN: zh-CN
+        zh-TW: zh-TW
+        pt-BR: pt-BR
+        nb: nb
+
+  # ─── Native Android XML (res/values-{lang}/strings.xml) ───
+  # Use %two_letters_code% (de, fr, it, ...) to match our language-only
+  # values-* directories, then override the four region-distinct locales
+  # to add the Android "rXX" region tag (zh-rCN, zh-rTW, pt-rBR).
+  # This mirrors the JSON section's mapping pattern that already works.
+  - source: /app/src/main/res/values/strings.xml
+    translation: /app/src/main/res/values-%two_letters_code%/strings.xml
+    type: android
+    update_option: update_as_unapproved
+    translate_attributes: 0
+    languages_mapping:
+      two_letters_code:
+        zh-CN: zh-rCN
+        zh-TW: zh-rTW
+        pt-BR: pt-rBR
+        nb: nb

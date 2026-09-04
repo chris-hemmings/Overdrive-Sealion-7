@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense hazard marker — SPEED BREAKER (24dp, single-color, tint-driven).
+
+  Concept: a rounded BUMP / hump sitting on the road baseline with two
+  short UP-ARROWS rising off its crest = "raised obstacle, lift over it."
+  Authored in the Material Symbols 960-unit grid (x:0..960, y:-960..0,
+  baseline y=0; larger magnitude = higher on screen), scaled by the same
+  0.025 <group> transform as the rest of the icon set.
+
+  fillColor=white so a tint (or addImage tinted bitmap) drives the color.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+
+        <!-- The hump: a broad half-dome sitting on the baseline. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M120,-220 Q120,-470 480,-470 Q840,-470 840,-220 L840,-180 Q840,-160 820,-160 L140,-160 Q120,-160 120,-180 Z" />
+
+        <!-- Left up-arrow rising off the crest. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M330,-540 L420,-540 L375,-660 Z" />
+        <!-- Right up-arrow rising off the crest. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M540,-540 L630,-540 L585,-660 Z" />
+    </group>
+</vector>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded: bolt (24px, weight 400, fill 0) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M422-232l207-248H469l29-227-185 275h139l-30 200ZM360-80l40-280H240q-20 0-29-17.5t3-33.5l276-409q8-12 21.5-16t27.5 1q14 5 21.5 17t4.5 27l-37 290h147q21 0 30 19t-4 36L412-95q-9 11-22.5 14T360-80Zm111-369Z"/>
+    </group>
+</vector>

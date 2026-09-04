@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SOTA WebView host.
+
+  Composition:
+    - Full-bleed WebView
+    - Loading overlay : centered M3 progress + caption
+    - Error overlay   : icon + headline + body + tonal retry button
+
+  Both overlays use ?attr/colorBackground so they blend with the rest of
+  the shell while the page is loading or unreachable.
+
+  Preserved IDs (WebViewFragment.kt findViewById targets):
+    webView, loadingOverlay, errorOverlay, btnRetry
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground">
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- ==================== LOADING OVERLAY ==================== -->
+    <LinearLayout
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:indeterminateTint="?attr/colorPrimary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/webview_loading"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+
+    <!-- ==================== ERROR OVERLAY ==================== -->
+    <LinearLayout
+        android:id="@+id/errorOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?android:attr/colorBackground"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="48dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_signal_disconnected"
+            app:tint="?attr/colorOnSurfaceVariant" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:accessibilityHeading="true"
+            android:gravity="center"
+            android:text="@string/webview_camera_daemon_not_running"
+            android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/webview_start_camera_daemon"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRetry"
+            style="@style/Widget.Overdrive.M3.Button.Tonal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/action_retry" />
+    </LinearLayout>
+</FrameLayout>

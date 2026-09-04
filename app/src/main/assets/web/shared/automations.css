@@ -1,0 +1,813 @@
+/*
+ * Overdrive — Automation visuals.
+ *
+ * Chrome 58 / Android 7.1 floor (BYD DiLink head-unit WebView), assets ship
+ * raw with no build step. Two hard constraints drive the choices here:
+ *   - flex `gap:` is Chrome 84+ and is SILENTLY IGNORED on-car, so every
+ *     intra-row spacing uses sibling margins (`> * + *`), the same idiom the
+ *     charging / notifications pages use.
+ *   - `:has()` is Chrome 105+, so the "dim Save while the form is invalid"
+ *     affordance is driven by a JS-toggled `.is-disabled` class (see
+ *     automations.js `_syncSaveDisabled`), NOT a `:has(.invalid)` selector.
+ * All colours / radii come from the shared design tokens (design-tokens.css)
+ * — no raw hex, no ad-hoc pixel radii.
+ */
+
+/* ===== LIST SECTION HEADER ===== */
+.automations-section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.automations-section-head > * + * { margin-left: 12px; }   /* flex gap ignored on Chrome-58 */
+/* Multiple trailing buttons in a section header (Groups: Export / Import / New).
+   Wraps on a narrow head unit rather than squeezing the title. */
+.automations-section-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+.automations-section-actions > * + * { margin-left: 8px; }
+.automations-section-title {
+    font-size: 12px; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* ===== LIST SORT ROW ===== */
+/* Mirrors .community-sort-row / .community-sort-select (community-automations.css)
+   so the two automation surfaces read identically. Duplicated (not reused) so this
+   stylesheet stays self-contained — the community CSS is a separate feature file. */
+.automations-sort-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.automations-sort-row > * + * { margin-left: 10px; }   /* flex gap ignored on Chrome-58 */
+.automations-sort-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+.automations-sort-select {
+    flex: 1;
+    max-width: 280px;
+    padding: 9px 12px;
+    border-radius: var(--radius-md, 12px);
+    background: var(--bg-elevated, #1a1a1a);
+    border: 1px solid var(--border-default, #333);
+    color: var(--text-primary, #fff);
+    font-size: 14px;
+    font-family: inherit;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.automations-sort-select:focus {
+    outline: none;
+    border-color: var(--primary, #3b82f6);
+}
+.automations-sort-select option {
+    background: var(--bg-elevated, #1a1a1a);
+    color: var(--text-primary, #fff);
+}
+[dir="rtl"] .automations-sort-row > * + * { margin-left: 0; margin-right: 10px; }
+
+/* ===== EMPTY STATE ===== */
+.empty-state { text-align: center; padding: 48px 24px; color: var(--text-muted); }
+.empty-state svg { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.4; }
+.empty-state p { font-size: 14px; margin-bottom: 6px; color: var(--text-secondary); }
+.empty-state .empty-state-hint { font-size: 13px; margin-bottom: 20px; color: var(--text-muted); }
+
+/* ===== STRING FIELD WITH WARNING (e.g. shell-command action) ===== */
+/* Wraps a string input + an amber caution box, matching the key-mapping shell
+   field. The wrapper carries the .variable-input class the form adds, so its
+   type-change teardown (querySelectorAll('.variable-input').remove()) still
+   clears it correctly. */
+/* The wrapper stands in for a full-width textarea in the flex .inputs row, so it
+   must claim the full row (overriding the default 0 0 25% / responsive 50% that
+   every direct .inputs child otherwise gets) and stack the field above the
+   warning. Without the !important-strength override via a more specific selector,
+   the shell field is squeezed into a quarter-width column and the warning
+   overlaps it — the reported misalignment. */
+.form-grid .row .inputs > .string-with-warning {
+    flex: 0 0 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0;
+    padding: 0 5px;
+    box-sizing: border-box;
+}
+/* field → warning box (flex gap ignored on Chrome-58). */
+.form-grid .row .inputs > .string-with-warning > * + * { margin-top: 8px; }
+/* The textarea now lives inside the wrapper, so the `.inputs > textarea`
+   full-width rule no longer reaches it — restore its size here. */
+.string-with-warning > textarea {
+    width: 100%;
+    min-height: 6em;
+    resize: vertical;
+    box-sizing: border-box;
+}
+.field-warning {
+    display: flex; align-items: flex-start;
+    padding: 8px 12px; border-radius: 10px;
+    background: rgba(255, 179, 0, 0.10);
+    border: 1px solid rgba(255, 179, 0, 0.35);
+    font-size: 12px; line-height: 1.45; color: var(--text-secondary);
+}
+/* icon → text (flex gap ignored on Chrome-58, which butted the glyph against the copy). */
+.field-warning > * + * { margin-left: 8px; }
+/* min-width:0 so the message wraps inside the box instead of widening the row. */
+.field-warning > span { min-width: 0; }
+.field-warning svg { width: 16px; height: 16px; flex: none; color: #ffb300; margin-top: 1px; }
+
+/* Neutral (info) note — same shape as .field-warning but calm blue, used for the
+   "How variables work" help under the Set Variable action / Variable condition. */
+.field-help {
+    display: flex; align-items: flex-start;
+    padding: 8px 12px; border-radius: 10px; margin-top: 8px;
+    background: rgba(59, 130, 246, 0.10);
+    border: 1px solid rgba(59, 130, 246, 0.30);
+    font-size: 12px; line-height: 1.5; color: var(--text-secondary);
+}
+/* icon → prose (flex gap ignored on Chrome-58). The icon-less variants of this box
+   (zone hint, .cloud-warning) hold a bare text node, so this matches nothing there. */
+.field-help > * + * { margin-left: 8px; }
+/* min-width:0 so the prose wraps inside the box rather than widening its row. */
+.field-help > div { min-width: 0; }
+.field-help svg { width: 16px; height: 16px; flex: none; color: #3b82f6; margin-top: 1px; }
+.field-help p { margin: 0 0 4px; }
+.field-help p:last-child { margin-bottom: 0; }
+.field-help code {
+    font-family: var(--font-mono, monospace); font-size: 11px;
+    padding: 0 3px; border-radius: 4px; background: rgba(127,127,127,0.18);
+}
+
+/* ===== ICON BUTTONS (automation-specific — no shared equivalent) ===== */
+.icon-btn {
+    background: none; border: 1px solid var(--border-default); border-radius: var(--radius-sm); padding: 6px;
+    color: var(--text-secondary); cursor: pointer; font-size: 12px;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; flex-shrink: 0;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.icon-btn svg { width: 16px; height: 16px; display: block; }
+.icon-btn:hover { background: var(--bg-elevated); color: var(--text-primary); border-color: var(--border-default); }
+.icon-btn.danger { color: var(--danger); }
+.icon-btn.danger:hover { border-color: var(--danger); background: rgba(239,68,68,0.08); color: var(--danger); }
+
+/* ===== FORM ===== */
+.form-grid input, .form-grid select, .form-grid textarea {
+    padding: 10px 12px; background: var(--bg-elevated); border: 1px solid var(--border-default);
+    border-radius: var(--radius-sm); color: var(--text-primary); font-size: 14px; font-family: inherit;
+}
+/* Selects need appearance:none + a custom chevron, or Chrome 58 (the head-unit
+   WebView) paints the native OS control chrome — a clashing default arrow and
+   system-styled popup that doesn't match the app. Mirrors .select-control in
+   styles.css so the automation dropdowns look identical to the key-mapping ones. */
+.form-grid select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 32px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+.form-grid select:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.15);
+}
+.form-grid select option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    padding: 8px;
+}
+
+/* Native <input type=time> (createTimeInput) inherits the .form-grid input box
+   above, but Chrome-58 WebKit paints the INTERNAL time chrome (digits, spin
+   buttons, the clock icon) in default light-theme colours that clash with the
+   dark M3 UI. Recolour those pseudo-elements to match. The box (bg/border/radius)
+   is already correct via the shared .form-grid input rule. */
+.form-grid input.time { cursor: pointer; }
+/* Recolour ONLY the digit text of the native time field so it reads on the dark
+   theme. Deliberately DO NOT style ::-webkit-inner-spin-button or
+   ::-webkit-calendar-picker-indicator — touching those on the Chrome-58 head-unit
+   WebView can suppress the native time popup (regression seen when they were
+   restyled/hidden). The field box (bg/border/radius) is already themed by the
+   shared .form-grid input rule; the native picker opens on tap as normal. */
+.form-grid input.time::-webkit-datetime-edit,
+.form-grid input.time::-webkit-datetime-edit-hour-field,
+.form-grid input.time::-webkit-datetime-edit-minute-field,
+.form-grid input.time::-webkit-datetime-edit-ampm-field,
+.form-grid input.time::-webkit-datetime-edit-text,
+.form-grid input.time::-webkit-datetime-edit-fields-wrapper {
+    color: var(--text-primary);
+}
+.form-grid input.time:focus {
+    outline: none;
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.15);
+}
+.form-grid .label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    line-height: 1.2;
+}
+.form-grid .description {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin-top: 2px;
+}
+.form-grid .form-empty {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+.form-grid .section {
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+.form-grid .section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.form-grid .invalid {
+    border-color: var(--danger);
+}
+/* `:has()` is Chrome 105+ (head unit is Chrome 58); the disabled-Save look is
+   driven by the .is-disabled class automations.js toggles when a field is
+   invalid. Mirrors .btn-primary:disabled. */
+#formCard #saveBtn.is-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+.form-grid .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 8px 0;
+}
+.form-grid .row .inputs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 5px;
+    flex: 1;
+    align-items: center;
+}
+/* Inter-input spacing is a sibling margin (flex gap is ignored on Chrome-58); the
+   negative row inset cancels the outermost children's side margins so the grid stays
+   flush with the card edge. */
+.form-grid .row .inputs { margin-left: -5px; margin-right: -5px; }
+.form-grid .row .inputs > *, .form-grid .row > .input {
+    /* INTRINSIC wrapping, not viewport breakpoints. The old rule stepped
+       25% → 50% → 100% on @media (max-width), which asks "how wide is the SCREEN?"
+       when the real question is "how wide is THIS cell?" — and the two diverge badly,
+       because a cell sits inside the sidebar offset, .page-body padding, .card padding
+       and (for a nested If/Loop or condition group) one or more .nested-actions /
+       .condition-group insets. At the head unit's landscape width the media query
+       picked the 50% branch while the actual space suited one field per line, and every
+       nesting level shrank the cell further with no floor to stop it.
+       `flex: 1 1 200px` instead means: take 200px if you can, share the surplus, wrap
+       when you can't — so the row reflows on ACTUAL available width at any nesting
+       depth, on a 360px phone, and on a desktop browser, with no breakpoints to keep in
+       sync. min-width lets a cell dip slightly under the basis before wrapping rather
+       than overflowing the card (which is overflow:hidden, so overflow would CLIP). */
+    flex: 1 1 200px;
+    min-width: 160px;
+    max-width: 100%;
+    margin: 5px;
+    box-sizing: border-box;
+}
+/* A textarea (and the shell field's wrapper) always claims its own full line —
+   flex-basis:100% beats the 200px basis above and forces a wrap on both sides. */
+.form-grid .row .inputs > textarea {
+    flex: 1 1 100%;
+    margin: 10px 0;
+    min-height: 6em;
+    resize: vertical;
+}
+/* Very narrow cabins / phones in portrait: drop the floor so a single field can still
+   fit its line instead of being forced wider than the card. */
+@media (max-width: 420px) {
+    .form-grid .row .inputs > *, .form-grid .row > .input {
+        flex: 1 1 100%;
+        min-width: 0;
+    }
+}
+/* Every dropdown/field in an inputs row fills its flex cell, so a row of
+   type + value selects (e.g. Play Audio: sound + channel + loop) all render the
+   SAME width instead of each sizing to its longest option — a Chrome-58 flex
+   quirk where equal flex-basis still lets intrinsic content width leak through. */
+.form-grid .row .inputs > .input,
+.form-grid .row .inputs > select,
+.form-grid .row .inputs > input {
+    width: 100%;
+    min-width: 0;
+}
+.form-grid .row .inputs > .type-selector {
+    display: flex;
+    align-items: center;
+}
+/* The type-selector shares its cell between the dropdown and an optional info icon;
+   let the dropdown take the remaining space so it lines up in width with the sibling
+   value dropdowns. */
+.form-grid .row .inputs > .type-selector > select,
+.form-grid .row .inputs > .type-selector > .input {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.form-grid .row .inputs > .type-selector > .description-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--text-muted);
+    cursor: pointer;
+    flex: 0 0 auto;
+    /* The glyph stays 20px, but the TAP target grows to 34px via padding that is pulled
+       back out with negative margins, so the icon is reachable on a moving car without
+       changing the row's visual metrics. box-sizing:content-box keeps the SVG at its
+       declared 20px rather than shrinking it to fit the padding. The side values are the
+       original 3px gap minus the 7px padding (= -4px), preserving the previous spacing. */
+    box-sizing: content-box;
+    padding: 7px;
+    margin: -7px -4px;
+    -webkit-tap-highlight-color: transparent;
+}
+.form-grid .row .inputs > .type-selector > .description-icon:hover { color: var(--text-primary); }
+.description-tooltip {
+    position: absolute;
+    background: var(--panel-overlay-bg-strong);
+    border: 1px solid var(--brand-primary);
+    border-radius: var(--radius-md);
+    padding: 12px 16px;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 9999;
+    transition: opacity 0.15s;
+    min-width: 200px;
+    max-width: 260px;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    color: var(--text-primary);
+    font-size: 13px;
+    line-height: 1.4;
+}
+/* Ambient-colour swatch grid — matches the Vehicle Control page's colour picker
+   (round chips + active ring) instead of the old drag-a-gradient slider. The value
+   stored is still the 1-based palette index; this is just a friendlier front-end. */
+.form-grid .row .inputs > .colour-swatches {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 0 6px;
+    padding: 4px 0;
+    border: none;
+    background: none;
+    height: auto;
+}
+.form-grid .row .inputs > .colour-swatches .colour-swatch {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    /* child margins for spacing — flex `gap` is unsupported on Chrome-58 WebView */
+    margin: 3px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-transition: all .15s; transition: all .15s;
+}
+.form-grid .row .inputs > .colour-swatches .colour-swatch:hover {
+    -webkit-transform: scale(1.15); transform: scale(1.15);
+}
+.form-grid .row .inputs > .colour-swatches .colour-swatch.active {
+    border-color: var(--vc-text-primary, #fff);
+    box-shadow: 0 0 6px currentColor;
+    -webkit-transform: scale(1.1); transform: scale(1.1);
+}
+.description-tooltip.visible {
+    opacity: 1;
+}
+/* MQTT twin line inside the signal tooltip — a quiet footnote under the description,
+   separated by the same hairline the panels use. Muted caption + monospace key so the
+   telemetry key is copyable-looking without competing with the description text. */
+.description-tooltip .description-mqtt {
+    margin-top: 8px;
+    padding-top: 6px;
+    border-top: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.12));
+    font-size: 12px;
+    color: var(--text-muted);
+}
+.description-tooltip .description-mqtt code {
+    font-family: ui-monospace, Menlo, Consolas, monospace;
+    color: var(--text-secondary);
+    /* wrap rather than overflow the 260px tooltip: an `area`-addressed signal lists
+       several keys, and Chrome-58 has no `overflow-wrap: anywhere`. */
+    word-break: break-all;
+}
+.form-grid .row .inputs > .type-selector > .input {
+    flex: 1;
+}
+.form-grid .delete-container {
+    margin-left: auto;
+    align-items: center;
+    display: flex;
+    margin-bottom: 5px;
+}
+/* Row actions (move up / move down / delete) sit together; sibling margin gives the
+   gap since Chrome-58 ignores flex gap. */
+.form-grid .delete-container > * + * { margin-left: 6px; }
+/* Reorder arrows reuse .icon-btn; brand-tint on hover, and the disabled end arrow
+   (.unknown) is dimmed + non-interactive by the shared .unknown rule below. */
+.form-grid .move-up:hover, .form-grid .move-down:hover {
+    border-color: var(--brand-primary); color: var(--brand-primary);
+}
+.form-grid .move-up.unknown, .form-grid .move-down.unknown { pointer-events: none; }
+.form-grid .add-button {
+    margin-top: 12px;
+}
+.form-grid .unknown {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Form action row (Cancel / Save). Sibling-margin gap for Chrome-58. */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+}
+.form-actions > * + * { margin-left: 12px; }
+
+/* ===== AUTOMATION LIST CARDS ===== */
+/* Space stacked list cards like the shared `.card + .card` rhythm. */
+#automationList > * + * { margin-top: 16px; }
+#automationList .card.disabled {
+    opacity: 0.6;
+}
+#automationList .header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px;
+    word-break: break-word;
+}
+/* icon actions / info spacing via sibling margins (flex gap ignored on Chrome-58). */
+#automationList .header > * + * { margin-left: 6px; }
+#automationList .info {
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-primary);
+}
+#automationList .actions {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+@media (max-width: 773px) {
+    /* Four action buttons wrap to two-per-row on narrow devices. */
+    #automationList .actions {
+        max-width: 84px;
+    }
+}
+#automationList .actions > * {
+    margin-left: 6px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+#automationList .body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px 16px;
+}
+#automationList .body > * + * { margin-left: 8px; }
+#automationList .status-text {
+    display: inline-flex;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+#automationList .status-text > * + * { margin-left: 8px; }
+#automationList .status-dot.manual {
+    background: var(--warning);
+    animation: none;
+}
+.automation-mode-select {
+    min-width: 132px;
+    max-width: 168px;
+}
+.automation-form-mode-select {
+    min-width: 180px;
+}
+@media (max-width: 420px) {
+    #automationList .body {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    #automationList .body > * + * {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    .automation-mode-select {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+/* Nested condition groups — a bordered card per group so the (A AND B) OR (…)
+   structure reads visually. Purely presentational; the flat conditions above are
+   unaffected. */
+.condition-groups { margin-top: 12px; }
+.condition-group.card {
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 10px;
+    background: var(--surface-2, rgba(255,255,255,0.03));
+}
+.condition-group-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+.condition-group-header .label { font-weight: 600; }
+.condition-group .logic-select { margin-bottom: 8px; }
+/* Both nested rows also carry the `row` class, so their .inputs children already get
+   `margin: 5px` from the generic `.form-grid .row .inputs > *` rule. The `gap: 8px`
+   these two used to declare was therefore dead on the Chrome-58 head unit AND
+   double-counted (5px margins + 8px gap = 13px) on modern engines — the two surfaces
+   disagreed. Dropping it leaves the SAME sibling-margin spacing the flat rows use, so
+   nested and flat rows line up identically everywhere. */
+.condition-group-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+.condition-group-row > * + * { margin-left: 8px; }   /* inputs → delete button */
+.condition-group-row .inputs { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; }
+.add-group-button { margin-top: 4px; }
+
+/* Nested action editors (loop body, if then/else). Indented bordered block so the
+   nesting reads clearly. Independent of the flat action rows. */
+.nested-actions {
+    margin: 8px 0 4px 0;
+    padding: 10px;
+    border-left: 3px solid var(--accent, #4a90d9);
+    border-radius: 0 8px 8px 0;
+    background: var(--surface-2, rgba(255,255,255,0.03));
+}
+.nested-actions-label {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: var(--text-secondary);
+}
+.nested-action-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+.nested-action-row > * + * { margin-left: 8px; }   /* inputs → reorder/delete controls */
+.nested-action-row .inputs { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; }
+
+/* Dynamic condition-value editor (expression engine). The value box gains a small
+   segmented mode toggle: Value (constant) / Variable (${var:…}) / Signal (${signal:…}).
+   Purely additive — a constant condition looks the same, just with the toggle above. */
+.cond-value-wrap {
+    /* Column: the compact segmented toggle sits ABOVE the value body. As a .inputs
+       flex cell it is stretched to the cell width, so align children to the start
+       (Chrome-58: flex `gap` is ignored — child margins provide the 4px stack gap). */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+/* Location-zone picker: a dropdown of Safe Location zones + "none", with an inline
+   create form (name / lat / long / radius). Column stack; margins stand in for flex gap
+   (Chrome-58 ignores `gap`). */
+.zone-picker { display: flex; flex-direction: column; align-items: stretch; }
+.zone-new-form { display: flex; flex-wrap: wrap; margin-top: 6px; }
+.zone-new-form:empty { display: none; }
+.zone-field { display: flex; flex-direction: column; margin-right: 8px; margin-bottom: 6px; }
+.zone-field > span { font-size: 11px; opacity: 0.75; margin-bottom: 2px; }
+.zone-field > .input { min-width: 120px; }
+.zone-error { flex-basis: 100%; color: #ff6b6b; font-size: 12px; min-height: 14px; }
+.zone-picker .field-help { margin-top: 4px; }
+
+/* Per-attribute selectors of a chosen signal (side / area / seat / units …), used by both
+   the condition-RHS signal picker and the flow actions' LHS address picker. Row-wrapped so
+   a 2-attribute signal (seat climate: type + area) stays on one line when it fits.
+   margin-top stands in for the column gap — Chrome-58 ignores flex `gap`. */
+.cond-signal-attrs {
+    display: flex;
+    flex-wrap: wrap;
+}
+.cond-signal-attrs:empty { display: none; }   /* no attributes → no empty gap under the select */
+.cond-signal-attr {
+    margin-top: 4px;
+    margin-right: 6px;
+}
+
+/* ===== LIVE SIGNAL HINT =====
+   "reads X right now" + the signal's allowed values, under a signal picker. Read-only
+   affordance: muted, non-interactive, and it collapses when no signal is chosen so an
+   unconfigured row looks exactly as it did before. */
+.signal-hint {
+    /* FULL-WIDTH BLOCK, always below the picker — never a flex sibling beside it.
+       .cond-value-body is `display:flex` (a ROW), so an un-styled hint div became a second
+       column and squeezed the signal <select> into a narrow strip. flex-basis:100% +
+       order:99 pushes it onto its own line after the control, in both that row container
+       and the column container used by the flow-action picker. */
+    flex: 0 0 100%;
+    order: 99;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 6px;
+    padding: 6px 8px;
+    border-radius: 6px;
+    /* Theme-tracking well over the card. Deliberately NOT the `var(--surface-2, …)`
+       pattern used by some siblings here: --surface-2 is undefined in design-tokens.css,
+       so those silently fall back to white-alpha and nearly vanish on the light theme. */
+    background: var(--surface-container-high);
+    font-size: 11px;
+    line-height: 1.45;
+}
+.signal-hint:empty { display: none; }
+.signal-hint-now { display: flex; align-items: baseline; }
+.signal-hint-label {
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-secondary, #9aa);
+    margin-right: 6px;
+}
+.signal-hint-value {
+    font-weight: 600;
+    /* Tabular-ish: a ticking number must not reflow the row on every poll. */
+    font-variant-numeric: tabular-nums;
+}
+.signal-hint-value.unknown { font-weight: 400; opacity: 0.55; font-style: italic; }
+.signal-hint-vocab, .signal-hint-mqtt {
+    color: var(--text-secondary, #9aa);
+    margin-top: 2px;
+    word-break: break-word;
+}
+/* 11px, not 10px: the page's smallest existing label is 12px, and this is read at
+   arm's length in a car. */
+.signal-hint-mqtt { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 11px; }
+.cond-mode-toggle {
+    /* inline-flex + align-self:flex-start so the pill HUGS its 2-3 buttons instead of
+       stretching to the full cell width (that stretch was the "elongated dark
+       background" — the tinted track ran the whole row with the buttons bunched left).
+       margin-bottom stands in for the column gap (Chrome-58 has no flex gap). */
+    display: inline-flex;
+    align-self: flex-start;
+    max-width: 100%;
+    background: var(--surface-2, rgba(255,255,255,0.05));
+    border-radius: 6px;
+    padding: 2px;
+    margin-bottom: 4px;
+    box-sizing: border-box;
+}
+.cond-mode-btn {
+    font-size: 11px;
+    line-height: 1.2;
+    padding: 3px 8px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary, #9aa);
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+/* Even spacing between the segmented buttons without flex gap (Chrome-58). */
+.cond-mode-toggle > .cond-mode-btn + .cond-mode-btn { margin-left: 2px; }
+.cond-mode-btn.active {
+    background: var(--accent, #4a90d9);
+    color: #fff;
+}
+/* Body fills the cell width so the value input/select lines up with sibling
+   dropdowns in the row, while the toggle above stays compact. */
+/* flex-wrap so the full-width .signal-hint below the control can move to its own line
+   instead of competing with the input for horizontal space. */
+.cond-value-body { display: flex; flex-wrap: wrap; width: 100%; }
+.cond-value-body > .input,
+.cond-value-body > select,
+.cond-value-body > input { width: 100%; min-width: 0; box-sizing: border-box; }
+.cond-ref-input, .cond-ref-signal { min-width: 0; width: 100%; }
+/* A condition row carrying the Value/Variable/Signal editor: that cell is a 2-line
+   stack (a small mode toggle above the input) and is taller than the sibling
+   type/comparator selects. The default `.inputs { align-items: center }` floats those
+   1-line selects to the MIDDLE of the tall cell, so the value box reads below them — the
+   reported "strip misaligns / box moves down". Top-align the row so the toggle and the
+   sibling selects share the same top edge; the value input then sits one line under the
+   toggle as a tidy 2-row cell (no centering drift, no brittle magic offsets). */
+.form-grid .row .inputs.has-cond-value { align-items: flex-start; }
+
+/* Cloud-dependency warning banner — shown at the top of the automation form when a
+   cloud-only action (lock/unlock/flash/find-car) is used but BYD Cloud isn't set up. */
+.cloud-warning {
+    margin: 0 0 12px 0;
+    padding: 10px 12px;
+    border-left: 3px solid var(--warn, #e0a030);
+    border-radius: 0 8px 8px 0;
+    background: var(--warn-bg, rgba(224,160,48,0.12));
+    color: var(--text-primary, #e8e8e8);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* ── Action Groups ──────────────────────────────────────────────────────────
+   Saved-group list cards + the group editor's name field. Chrome-58 safe: plain
+   flexbox with explicit margins (no flex `gap`), no :is()/:has()/logical props. */
+
+/* Group list card: name/meta on the left, Edit + Delete on the right, vertically
+   centred with even spacing. Mirrors the app's card look (matches the binding rows
+   on the key-mapping page). */
+.group-card { margin-bottom: 10px; }
+.group-card .group-card-body {
+    display: flex;
+    align-items: center;
+    padding: 12px 14px;
+}
+.group-card .group-card-info {
+    flex: 1 1 auto;
+    min-width: 0;               /* let long names ellipsize instead of shoving buttons */
+    margin-right: 12px;
+}
+.group-card .group-card-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary, #e8e8e8);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.group-card .group-card-meta {
+    font-size: 12px;
+    color: var(--text-secondary, #9aa);
+    margin-top: 2px;
+}
+.group-card .group-card-actions {
+    display: flex;
+    align-items: center;
+    flex: none;
+}
+/* Edit (text btn) then Delete (icon btn) — even gap without flex gap. */
+.group-card .group-card-actions > * + * { margin-left: 8px; }
+.group-card .group-card-actions .btn { flex: none; }
+.group-card .group-card-actions .icon-btn { flex: none; }
+
+/* Group editor name row — label above a FULL-WIDTH input, matching the Add-tab
+   name box and the rest of the form fields (was rendering at content width). */
+.form-grid .name-row {
+    display: block;
+    margin: 8px 0 16px 0;
+}
+.form-grid .name-row > .label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary, #9aa);
+    margin-bottom: 6px;
+}
+/* Full-width name inputs — the Add-automation name box (.name-section > .name-input)
+   and the group editor name box (.name-row > .input) both sit OUTSIDE a .inputs flex
+   row, so the generic "inputs > input { width:100% }" rule never reached them and they
+   fell back to intrinsic width (the reported inconsistent/narrow box). Pin them full
+   width to line up with every other field. */
+.form-grid .name-section .name-input,
+.form-grid .name-row > .input {
+    width: 100%;
+    box-sizing: border-box;
+}
+.form-grid .name-section .row-label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-secondary, #9aa);
+    margin-bottom: 6px;
+}
+
+/* ── RTL ──────────────────────────────────────────────────────────────────────
+   Mirror the horizontal sibling-margin shims that stand in for flex `gap`. `gap` is
+   direction-aware; a bare margin-left is not, so under <html dir="rtl"> (Arabic
+   ships — see RTL_LANGS in core.js) the icon/label space would sit on the wrong side.
+   Covers the shims added for the info/warning notes and the two nested editor rows;
+   the pre-existing shims above keep their current behaviour. */
+[dir="rtl"] .field-warning > * + *,
+[dir="rtl"] .field-help > * + *,
+[dir="rtl"] .condition-group-row > * + *,
+[dir="rtl"] .nested-action-row > * + *,
+[dir="rtl"] .automations-section-actions > * + * { margin-left: 0; margin-right: 8px; }
+/* Same reason, on the live-signal hint's label→value pair (a flex row, so RTL
+   reverses the order and a bare margin-right would land on the outer edge). */
+[dir="rtl"] .signal-hint-label { margin-right: 0; margin-left: 6px; }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Background for an inactive quick-action chip in the expanded
+     overlay. Subtle filled pill so the chip reads as a tappable target
+     against the pill body. selected=true paints a solid brand-tinted
+     fill so the currently-active mode stands out.
+
+     Direct @color refs (not ?attr theme attributes) because the
+     overlay is inflated against a plain Service context with no theme
+     attached — theme-attr lookups would fail at inflation. The
+     brand_primary / overlay_pill_stroke tokens are mirrored in
+     values-night so this still flips correctly with the app theme. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/brand_primary" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/overlay_pill_stroke" />
+            <corners android:radius="14dp" />
+        </shape>
+    </item>
+</selector>

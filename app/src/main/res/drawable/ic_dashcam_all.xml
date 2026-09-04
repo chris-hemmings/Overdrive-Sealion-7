@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dashcam layout map: full-width front band over three lower thirds
+     (Left / Rear / Right), all regions solid. "All cameras" affordance
+     shown on the video player's quadrant selector for dashcam clips. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M3,3h18v9h-18z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M3,14h5v7h-5z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M9.5,14h5v7h-5z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M16,14h5v7h-5z" />
+</vector>

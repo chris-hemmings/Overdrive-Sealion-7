@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- EV charging station glyph (bolt), 24dp, tintable (drawn white into the POI pin). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurface">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M11,20l5,-9h-3V4l-5,9h3z" />
+</vector>

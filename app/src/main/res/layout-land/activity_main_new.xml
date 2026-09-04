@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Modern M3 shell — LANDSCAPE variant.
+
+  Target device: BYD Seal 15.6" rotatable infotainment.
+    Landscape = 1920x1080 px ≈ 960dp x 540dp (at 320dpi).
+    The OS reserves a TOP system bar and a BOTTOM system bar (BYD launcher
+    bars). The app gets only the strip in between.
+
+  fitsSystemWindows="true" on the root makes the framework pad the root by
+  the system-bar insets, so our content automatically lives between the two
+  bars without having to know their exact heights.
+
+  Layout = navigation rail (left, scrollable) + main stage on the right.
+  The right side stacks: compact MaterialToolbar → optional URL bar → nav
+  host. Toolbar uses a denser ?actionBarSize equivalent so vertical real
+  estate stays with the actual page content.
+
+  ID `drawerLayout` was historically referenced; the rail-based shell does
+  not use a drawer. MainActivity tolerates its absence (findViewById
+  fallback).
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shellRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:attr/colorBackground"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <!-- ============================================================== -->
+        <!--  Navigation rail — scrollable so all 8 destinations reach in   -->
+        <!--  the height-constrained landscape strip between BYD's two      -->
+        <!--  system bars. Without scroll, "Diagnostics" + "Settings" got   -->
+        <!--  clipped off the bottom.                                       -->
+        <!-- ============================================================== -->
+        <com.overdrive.app.ui.widget.SwipeExpandableRailScrollView
+            android:id="@+id/navigationRailScroll"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="?attr/colorSurfaceContainerLow"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            android:overScrollMode="ifContentScrolls">
+
+            <LinearLayout
+                android:id="@+id/navigationRail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingBottom="12dp">
+
+                <!-- Accessible alternative to the horizontal expand/collapse swipe.
+                     MainActivity rotates + translates this as the rail expands
+                     (see the portrait variant's note); one chevron asset only. -->
+                <ImageButton
+                    android:id="@+id/railExpandButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="4dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/rail_expand"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_chevron_right"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <include
+                    android:id="@+id/railDestDashboard"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestAssistant"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestLive"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestRecordings"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestVehicle"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestSeatPositions"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestProjection"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestTrips"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestCharging"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestAutomations"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestKeyMapping"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestIntegrations"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestRoadSense"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestMap"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestNetwork"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestDiagnostics"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <include
+                    android:id="@+id/railDestSettings"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!-- Hairline divider separating primary destinations
+                     from the meta entry (About). -->
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="?attr/colorOutlineVariant" />
+
+                <include
+                    android:id="@+id/railDestAbout"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!-- Fill any spare height before the secondary actions. When
+                     destinations exceed the viewport this collapses to zero
+                     and the whole rail remains vertically scrollable. -->
+                <Space
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <View
+                    android:layout_width="40dp"
+                    android:layout_height="1dp"
+                    android:layout_marginVertical="4dp"
+                    android:background="?attr/colorOutlineVariant" />
+
+                <!-- Secondary actions use the same compact/expanded row
+                     treatment as destinations and stay grouped at the end. -->
+                <include
+                    android:id="@+id/railLanguageButton"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <include
+                    android:id="@+id/railHelpButton"
+                    layout="@layout/item_rail_destination"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </com.overdrive.app.ui.widget.SwipeExpandableRailScrollView>
+
+        <!-- ============================================================== -->
+        <!--  Main stage — toolbar (compact) → URL bar → fragment host.     -->
+        <!-- ============================================================== -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appBarLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorSurface"
+                app:elevation="0dp"
+                app:liftOnScroll="false">
+
+                <!--
+                  Compact toolbar (48dp) for landscape. The default
+                  ?actionBarSize is 56dp portrait / 48dp landscape on most
+                  themes, but pinning it explicitly avoids the larger
+                  Material3 64dp from eating the page's vertical budget.
+                -->
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="?attr/colorSurface"
+                    app:titleTextAppearance="@style/TextAppearance.Material3.TitleMedium">
+
+                    <!--
+                      Status pill (landscape variant). Same view shape as the
+                      portrait toolbar so MainActivity bindings (urlBar,
+                      statusIndicator, urlStatusDot, tvCurrentUrl, btnCopyUrl)
+                      all resolve identically. It starts hidden until a tunnel
+                      is genuinely starting or running.
+                    -->
+                    <LinearLayout
+                        android:id="@+id/urlBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginEnd="12dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/statusPill"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/status_pill_background"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center_vertical"
+                            android:minHeight="48dp"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="14dp"
+                            android:paddingVertical="6dp"
+                            android:visibility="gone">
+
+                            <View
+                                android:id="@+id/urlStatusDot"
+                                android:layout_width="8dp"
+                                android:layout_height="8dp"
+                                android:background="@drawable/status_dot_offline" />
+
+                            <View
+                                android:id="@+id/statusIndicator"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:id="@+id/tvCurrentUrl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:ellipsize="middle"
+                                android:fontFamily="monospace"
+                                android:maxWidth="320dp"
+                                android:singleLine="true"
+                                android:text="@string/dashboard_no_tunnel"
+                                android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                                android:textColor="?attr/colorPrimary"
+                                android:textIsSelectable="true" />
+
+                            <ImageButton
+                                android:id="@+id/btnCopyUrl"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:layout_marginStart="6dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:contentDescription="@string/cd_copy_url"
+                                android:padding="4dp"
+                                android:src="@drawable/ic_copy"
+                                app:tint="?attr/colorOnSurfaceVariant" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </com.google.android.material.appbar.MaterialToolbar>
+
+                <!-- Overdrive accent stripe (mirrors portrait + web app bar). -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="3dp"
+                    android:background="@drawable/toolbar_accent_stripe" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/navHostFragment"
+                android:name="androidx.navigation.fragment.NavHostFragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:defaultNavHost="true"
+                app:navGraph="@navigation/nav_graph" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

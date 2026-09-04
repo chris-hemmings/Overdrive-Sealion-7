@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense hazard marker — UNKNOWN (24dp, single-color, tint-driven).
+
+  Concept: the same perspective ROAD band as ic_roadsense, with a bold
+  QUESTION MARK floating above it = "hazard detected, type unclassified."
+  Authored in the Material Symbols 960-unit grid (x:0..960, y:-960..0,
+  baseline y=0; larger magnitude = higher on screen), scaled by the same
+  0.025 <group> transform as the rest of the icon set.
+
+  fillColor=white so a tint (or addImage tinted bitmap) drives the color.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+
+        <!-- Question-mark hook (top region). -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M392,-590 Q380,-700 480,-720 Q600,-744 624,-650 Q640,-588 580,-548 Q512,-505 510,-450 L440,-450 Q438,-540 512,-588 Q556,-616 548,-654 Q540,-688 488,-680 Q448,-672 452,-590 Z" />
+        <!-- Question-mark dot. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M475,-405 m-44,0 a44,44 0 1,0 88,0 a44,44 0 1,0 -88,0 Z" />
+
+        <!-- Road band (bottom region). -->
+        <path
+            android:fillColor="@android:color/white"
+            android:fillType="evenOdd"
+            android:pathData="M338,-320 L622,-320 L820,-150 Q834,-128 808,-128 L152,-128 Q126,-128 140,-150 L338,-320 Z M468,-300 L460,-220 L500,-220 L492,-300 Z" />
+    </group>
+</vector>

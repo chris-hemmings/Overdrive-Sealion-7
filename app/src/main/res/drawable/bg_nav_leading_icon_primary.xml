@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Tonal disc behind a route-option's leading directions glyph. Uses the
+  theme's primary-container so the route icon reads as a positive,
+  navigation-flavoured accent (paired with a colorPrimary-tinted glyph) in
+  both day and night.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="?attr/colorPrimaryContainer" />
+</shape>

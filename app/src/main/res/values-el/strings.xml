@@ -1,0 +1,1176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Υπέρβαση</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">Διατηρεί την εποπτεία οχημάτων Overdrive ενεργή στο παρασκήνιο. Αυτή η υπηρεσία δεν διαβάζει ή δεν αλληλεπιδρά με το περιεχόμενο οθόνης.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">Ακύρωση</string>
+    <string name="action_clear_plain">Εκκαθάριση</string>
+    <string name="action_select_all">Επιλογή όλων</string>
+    <string name="action_select_all_short">Όλα</string>
+    <string name="action_delete">Διαγραφή</string>
+    <string name="action_share">Κοινοποίηση</string>
+    <string name="action_done">ΕΓΙΝΕ</string>
+    <string name="action_remind_me_later">ΕΜΦΑΝΙΣΗ ΜΕ ΑΡΓΟΤΕΡΑ</string>
+    <string name="action_retry">Επανάληψη</string>
+    <string name="action_run">Εκτέλεση</string>
+    <string name="action_clear_output">Καθαρισμός Εξόδου</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">Κάμερα</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">QR Code</string>
+    <string name="cd_show_hide_token">Εμφάνιση/Απόκρυψη Token</string>
+    <string name="cd_copy_token">Αντιγραφή Διακριτικού</string>
+    <string name="cd_copy_url">Αντιγραφή URL</string>
+    <string name="cd_clear_logs">Εκκαθάριση αρχείων καταγραφής</string>
+    <string name="cd_expand_collapse">Ανάπτυξη/κατάρρευση</string>
+    <string name="cd_recording_status">Καταγραφή κατάστασης</string>
+    <string name="cd_trip_tracking_status">Κατάσταση παρακολούθησης διαδρομής</string>
+    <string name="cd_mic_status">Κατάσταση λήψης μικροφώνου</string>
+    <string name="cd_video_thumbnail">Μικρογραφία βίντεο</string>
+    <string name="cd_play">Αναπαραγωγή</string>
+    <string name="cd_back">Πίσω</string>
+    <string name="cd_play_pause">Αναπαραγωγή/Παύση</string>
+    <string name="cd_player_prev">Προηγούμενη εγγραφή</string>
+    <string name="cd_player_next">Επόμενη εγγραφή</string>
+    <string name="cd_player_maximize">Μεγιστοποίηση παίκτη</string>
+    <string name="cd_player_minimize">Έξοδος πλήρους οθόνης</string>
+    <string name="cd_player_mute">Εναλλαγή ήχου</string>
+    <string name="cd_player_quadrant_all">Εμφάνιση όλων των φωτογραφικών μηχανών</string>
+    <string name="cd_player_quadrant_front">Εμφάνιση μπροστινής κάμερας</string>
+    <string name="cd_player_quadrant_right">Εμφάνιση δεξιάς κάμερας</string>
+    <string name="cd_player_quadrant_rear">Εμφάνιση πίσω κάμερας</string>
+    <string name="cd_player_quadrant_left">Εμφάνιση αριστερής κάμερας</string>
+    <string name="cd_delete">Διαγραφή</string>
+    <string name="cd_share">Κοινοποίηση</string>
+    <string name="cd_expand">Ανάπτυξη</string>
+    <string name="cd_configure">Ρύθμιση</string>
+    <string name="cd_download_log">Αρχείο καταγραφής λήψεων</string>
+    <string name="cd_reset">Reset</string>
+    <string name="cd_battery">Μπαταρία</string>
+    <string name="cd_step_completed">Το βήμα ολοκληρώθηκε</string>
+    <string name="cd_permission_granted">Χορηγήθηκε άδεια</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">REC</string>
+    <string name="overlay_trip_inactive_label">TRIP</string>
+    <string name="overlay_mic_inactive_label">MIC</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">Διακοπή καταγραφής</string>
+    <string name="overlay_mode_continuous_cd">Συνεχής καταγραφή</string>
+    <string name="overlay_mode_drive_cd">Εγγραφή σε λειτουργία οδηγού</string>
+    <string name="overlay_mode_proximity_cd">Καταγραφή εγγύτητας-φυλακής</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">12:34:56</string>
+    <string name="log_entry_default_tag">[TAG]</string>
+    <string name="log_entry_default_message">Καταγραφή μηνύματος εδώ</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">Όνομα Δαίμονα</string>
+    <string name="daemon_card_default_status">Μήνυμα κατάστασης</string>
+    <string name="daemon_card_subprocesses">SUBPROCESSES</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">Καταγραφή</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">Σύνδεση…</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">Δεν βρέθηκε κανένα πρόγραμμα περιήγησης. Σύνδεσμος αντιγράφησε: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">Δημιουργία URL σύνδεσης</string>
+    <string name="tailscale_scan_to_login">Σάρωση για σύνδεση</string>
+    <string name="tailscale_qr_waiting">Waiting for login URL…</string>
+    <string name="tailscale_enable_proxy">Ενεργοποίηση Διαμεσολαβητή Κλίμακας Ουράς</string>
+    <string name="tailscale_proxy_explainer">Δρομολόγια MQTT μέσω Tailscale ώστε να μπορείτε να φτάσετε σε έναν ιδιωτικό μεσίτη στο tailnet σας χωρίς προώθηση λιμένων.</string>
+    <string name="tailscale_proxy_warning">Ενώ είναι ενεργοποιημένο, MQTT σε δημόσιους μεσίτες (HiveMQ, AWS IoT, κλπ.) θα αποτύχει - Tailscale μόνο διαδρομές προς την ουρά σας. Η αποθήκευση θα επανεκκινήσει το δαίμονα.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">Λειτουργία Εισροής</string>
+    <string name="camera_mode_subtitle">Επιλέξτε τη διαδρομή που ταιριάζει με τη μονάδα κεφαλής σας. Η προεπιλογή ταιριάζει στα περισσότερα μοντέλα BYD. DiLink 4 απαιτείται στα νεότερα τελειώματα (Han / Tang 2024+) όπου το AVM HAL εκπέμπει ένα μωσαϊκό 2x2.</string>
+    <string name="camera_mode_option_default">Προεπιλογή — λειτουργεί στο Seal, Atto, Dolphin (περισσότερα αυτοκίνητα)</string>
+    <string name="camera_mode_option_dilink4">DiLink 4 — νεότερες παραλλαγές Han / Tang</string>
+    <string name="camera_mode_current_default">Τρέχουσα: Προεπιλογή</string>
+    <string name="camera_mode_current_dilink4">Τρέχουσα: DiLink 4</string>
+    <string name="camera_mode_save">Εφαρμογή &amp; επανεκκίνηση</string>
+    <string name="camera_mode_hint">Αλλάζοντας τη λειτουργία επανεκκινεί τον δαίμονα κάμερας. Αν το βίντεο φαίνεται λάθος (squished, λείπουν τετράδια, κόκκινη επικάλυψη), δοκιμάστε την άλλη λειτουργία.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">DiLink 4 Τεταρτημορίων Tweaks</string>
+    <string name="camera_dilink4_tweaks_subtitle">Ρύθμιση του οχήματος για τη διαδρομή 4 DiLink. Ισχύει μόνο όταν επιλέγεται παραπάνω η λειτουργία DiLink 4.</string>
+    <string name="camera_dilink4_save">Εφαρμογή</string>
+    <string name="camera_dilink4_hint">Εναλλαγή αυτών μόνο αν το HAL χρωματίσει ένα κόκκινο \"βαθμονόμηση απέτυχε\" χρώμιο πάνω από τη ροή. Η επανεκκίνηση του δαίμονα εφαρμόζει την αλλαγή.</string>
+    <string name="camera_dilink4_red_mask_label">Καταστολή κόκκινης επικάλυψης βαθμονόμησης (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">Προσθέτει ένα πέρασμα σκίασης θραύσματος, το οποίο ανιχνεύει τα φωτεινά κόκκινα εικονοστοιχεία HAL \"η βαθμονόμηση απέτυχε\" και τα αντικαθιστά με ένα γειτονικό δείγμα (ή γκρι φωτεινότητας όταν το πανό είναι πολύ μεγάλο για να ζωγραφίζει). Καλλυντικά μόνο - δεν επηρεάζει την υποκείμενη κατάσταση βαθμονόμησης.</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">Επιλογή Κάμερας</string>
+    <string name="camera_selection_subtitle">Επιλέξτε πηγή πανοραμικής φωτογραφικής μηχανής</string>
+    <string name="camera_current_auto">Τρέχον: Αυτόματο</string>
+    <string name="camera_option_auto">Αυτόματο (ανίχνευση κατά την εκκίνηση)</string>
+    <string name="camera_option_0">Φωτογραφική μηχανή 0 — Atto trims</string>
+    <string name="camera_option_1">Κάμερα 1 — Σφραγίδα (προεπιλογή)</string>
+    <string name="camera_option_2">Φωτογραφική Μηχανή 2</string>
+    <string name="camera_option_3">Κάμερα 3</string>
+    <string name="camera_option_4">Κάμερα 4</string>
+    <string name="camera_option_5">Κάμερα 5</string>
+    <string name="camera_selection_hint">Αυτόματη επιλογή της σωστής κάμερας για την περικοπή σας σε κάθε εκκίνηση. Κάμερα 1 = σφραγίδα BYD, Κάμερα 0 = Περικοπές Atto. Επανεκκίνηση του δαίμονα μετά την αλλαγή του αναγνωριστικού κάμερας για να τεθεί σε ισχύ η ρύθμιση.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">Αναγνωριστικό Κάμερας Coem Dashcam</string>
+    <string name="camera_oem_dashcam_hint">Επιλέξτε το id AVMCamera που δείχνει στον προς τα εμπρός αισθητήρα dashcam . Dashcam είναι το OPPOSITE του πάνω: Σφραγίδα / Han pano = 1 → dashcam = 0; Atto / Tang pano = 0 → dashcam = 1. Αφήστε το Auto για να αφήσει OverDrive επιλογή.</string>
+    <string name="camera_oem_dashcam_auto_resolved">Αυτόματη — χρήση id %1$d (pano is id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">Auto — pano id είναι %1$d, δεν μπορεί να εμφυσήσει dashcam</string>
+    <string name="camera_oem_dashcam_save">Αποθήκευση</string>
+    <string name="camera_concurrent_probe_label">Δοκιμή υποστήριξης διπλής κάμερας κατά την επόμενη εκκίνηση</string>
+    <string name="camera_concurrent_probe_subtitle">Εφάπαξ έλεγχος που ανοίγει και τις δύο κάμερες ταυτόχρονα για να επιβεβαιώσει αυτό το όχημα μπορεί να τρέξει pano + dashcam ταυτόχρονα. Εκτελείται μία φορά στην επόμενη επανεκκίνηση ενώ σταθμεύσετε. Αφήστε απενεργοποιημένες τις εγγραφές εκτός και αν οι εγγραφές φαίνονται λανθασμένες - δεν απαιτείται και μπορεί να διακόψει σύντομα μια εγγραφή αν είναι ενεργή κατά την εκτέλεση.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">Κάμερα 0 — Σφραγίδα / Han (προεπιλογή)</string>
+    <string name="camera_oem_option_1">Κάμερα 1 — Atto / Tang</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">Χαρτογράφηση Κάμερας</string>
+    <string name="camera_role_label">Χαρτογράφηση ρόλων</string>
+    <string name="camera_candidate_previous">Προηγούμενο</string>
+    <string name="camera_candidate_next">Επόμενο</string>
+    <string name="camera_preview_unavailable">Μη διαθέσιμη προεπισκόπηση. Δοκιμάστε έναν άλλο υποψήφιο ή ανανεώστε το παράθυρο διαλόγου μετά την επανεκκίνηση του δαίμονα.</string>
+    <string name="camera_mapping_save">Αποθήκευση</string>
+    <string name="camera_mapping_clear">Εκκαθάριση ρόλου</string>
+    <string name="camera_mapping_saved">Η χαρτογράφηση κάμερας αποθηκεύτηκε.</string>
+    <string name="camera_mapping_cleared">Η χαρτογράφηση ρόλου κάμερας εκκαθαρίστηκε.</string>
+    <string name="camera_mapping_summary_format">Πανοραμική ροή: Κάμερα %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">Πανοραμική ροή: Αυτόματος εντοπισμός παλαιού τύπου</string>
+    <string name="camera_mapping_current_format">Τρέχουσα χαρτογράφηση: %1$s</string>
+    <string name="camera_mapping_current_none">Τρέχουσα χαρτογράφηση: Αυτόματη / προεπιλογή</string>
+    <string name="camera_mapping_hint">Το OverDrive διατηρεί από προεπιλογή τη συμπεριφορά εκκίνησης παλαιού τύπου, αλλά τώρα σας επιτρέπει τη βαθμονόμηση της συγχωνευμένης πανοραμικής λωρίδας σωστά. Προεπισκόπηση κάθε ακατέργαστη συγχωνευμένη φέτα, χαρτογραφήστε τους λογικούς 360 ρόλους στη φέτα που στην πραγματικότητα δείχνει εμπρός/δεξιά/πίσω/αριστερά στο όχημά σας, και ο δαίμονας θα επαναχρησιμοποιήσει αυτή τη διάταξη για την εγγραφή, τη ροή, και την Τεχνητή Νοημοσύνη μετά την επανεκκίνηση.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">Σάρωση για σύνδεση</string>
+    <string name="dashboard_qr_waiting">Waiting for tunnel…</string>
+    <string name="dashboard_daemons_running_default">0/5 Εκτελείται</string>
+    <string name="dashboard_device_id_loading">…</string>
+    <string name="dashboard_access_code">Κωδικός Πρόσβασης</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">Επαναδημιουργία Διακριτικού</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">Ξεκινώντας</string>
+    <string name="setup_guide_subtitle">Τρία γρήγορα βήματα για να πάρετε την καλύτερη εμπειρία:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2</string>
+    <string name="setup_step_three_label">3</string>
+    <string name="setup_language_title">Διαλέξτε Τη Γλώσσα Σας</string>
+    <string name="setup_language_body">Προεπιλογές για τη γλώσσα της μονάδας κεφαλής σας. Πατήστε για να επιλέξετε μια διαφορετική από την εφαρμογή OverDrive και τη διοχέτευση ιστού.</string>
+    <string name="setup_language_button">Επιλογή Γλώσσας</string>
+    <string name="setup_autostart_title">Απενεργοποίηση Περιορισμού Αυτόματης Εκκίνησης</string>
+    <string name="setup_autostart_body">Πατήστε παρακάτω για να ανοίξετε το BYD Auto-Start. Βρείτε OverDrive στη λίστα και αποεπιλέξτε το πλαίσιο. BYD σκουπίζει αυτό σε κάθε εγκατάσταση - θα το ξανακάνετε μετά από ενημερώσεις.</string>
+    <string name="setup_autostart_button">Αυτόματη Εκκίνηση Byd</string>
+    <string name="setup_overlay_title">Να Επιτρέπεται Η Προβολή Σε Άλλες Εφαρμογές</string>
+    <string name="setup_overlay_body">Ενεργοποιήστε αυτήν την επιλογή για την εμφάνιση μιας κυμαινόμενης ένδειξης κατάστασης για την καταγραφή και την παρακολούθηση διαδρομής πάνω από άλλες εφαρμογές.</string>
+    <string name="setup_overlay_button">Άνοιγμα Ρυθμίσεων Επικάλυψης</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">Κλείσιμο</string>
+    <string name="language_picker_title">Γλώσσα</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">%1$d διαθέσιμες γλώσσες</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">Επιλέξτε μια γλώσσα</string>
+    <string name="language_auto_title">Αυτόματο</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">Ακολουθήστε το σύστημα · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · Αυτόματα</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">$</string>
+    <string name="adb_command_hint">Εισάγετε εντολή…</string>
+    <string name="adb_preset_commands_header">Προκαθορισμένες εντολές</string>
+    <string name="adb_output_header">Έξοδος</string>
+    <string name="adb_output_ready">$ Ready for commands…</string>
+    <string name="adb_console_hero_title">Κονσόλα ADB</string>
+    <string name="adb_console_hero_subtitle">Εκτέλεση εντολών κελύφους στη συσκευή</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">Φόρτωση…</string>
+    <string name="webview_camera_daemon_not_running">Ο Δαίμονας Κάμερας Δεν Εκτελείται</string>
+    <string name="webview_start_camera_daemon">Εκκίνηση του δαίμονα φωτογραφικής μηχανής από την οθόνη δαίμων για πρόσβαση σε αυτή τη σελίδα.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">Ενεργοποίηση Διακριτικού</string>
+    <string name="zrok_token_storage_note">Το διακριτικό αποθηκεύεται με ασφάλεια και μοιράζεται μεταξύ των διεργασιών εφαρμογής και δαίμονα.</string>
+    <string name="zrok_reset_environment">Επαναφορά Περιβάλλοντος Zrok</string>
+    <string name="zrok_reset_environment_desc">Αφαιρεί το περιβάλλον και το διακριτικό. Θα πρέπει να ενεργοποιήσετε ξανά με το διακριτικό σας (χρησιμοποιεί μια υποδοχή συσκευής).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">Επαναφορά Δεδομένων</string>
+    <string name="reset_subtitle">Εκκαθάριση συσσωρευμένων δεδομένων ανά κατηγορία</string>
+    <string name="reset_warning">Αυτό δεν μπορεί να αναιρεθεί. Οι εγγραφές, οι διαδρομές και το ιστορικό της μπαταρίας θα διαγραφούν οριστικά.</string>
+    <string name="reset_cat_trips">Δρομολόγια</string>
+    <string name="reset_cat_trips_desc">Ιστορικό ταξιδιών, διαδρομές, εβδομαδιαία/μηνιαία δρομολόγια</string>
+    <string name="reset_cat_soc_history">SoC &amp; 12V ιστορία</string>
+    <string name="reset_cat_soc_history_desc">SoC δείγματα, συνεδρίες φόρτισης, αρχεία καταγραφής τάσης</string>
+    <string name="reset_cat_soh">Βελτίωση SoH</string>
+    <string name="reset_cat_soh_desc">Ανιχνεύει εκ νέου την ονομαστική χωρητικότητα, επανασπορά εκτίμηση από BMS</string>
+    <string name="reset_cat_abrp_token">ABRP διακριτικό</string>
+    <string name="reset_cat_abrp_token_desc">Απενεργοποιεί την τηλεμετρία ABRP μέχρι να επανασυζευγθεί</string>
+    <string name="reset_cat_byd_cloud">BYD διαπιστευτήρια Cloud</string>
+    <string name="reset_cat_byd_cloud_desc">Όνομα χρήστη, κλειδί σύνδεσης, VIN - Απαιτείται επανασύνδεση</string>
+    <string name="reset_cat_recordings">Εγγραφές (βίντεο)</string>
+    <string name="reset_cat_recordings_desc">Όλα τα MP4s στο φάκελο εγγραφών</string>
+    <string name="reset_cat_sentry_events">Εκδηλώσεις επιτήρησης</string>
+    <string name="reset_cat_sentry_events_desc">Κλιπ συμβάντων επιτήρησης και πλευρές JSON</string>
+    <string name="reset_cat_proximity">Καταγραφές εγγύτητας</string>
+    <string name="reset_cat_proximity_desc">Ραντάρ προκληθεί από συμβάν MP4s</string>
+    <string name="reset_cat_trip_files">Τηλεμετρικά αρχεία ταξιδιού</string>
+    <string name="reset_cat_trip_files_desc">Περάστε την τηλεμετρία JSON στο δίσκο</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">Οποιαδήποτε</string>
+    <string name="recording_lib_chip_person">Πρόσωπο</string>
+    <string name="recording_lib_chip_vehicle">Όχημα</string>
+    <string name="recording_lib_chip_bike">Ποδήλατο</string>
+    <string name="recording_lib_chip_animal">Ζώο</string>
+    <string name="recording_lib_chip_alert">Ειδοποίηση</string>
+    <string name="recording_lib_chip_critical">Κρίσιμο</string>
+    <string name="recording_lib_selected_count_zero">0 επιλεγμένα</string>
+    <string name="recording_lib_no_recordings">Δεν υπάρχουν εγγραφές</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">Φίλτρο</string>
+    <string name="recording_lib_filter_button_active">Φίλτρο · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">Φίλτρο εγγραφών</string>
+    <string name="recording_lib_filter_apply">Εφαρμογή</string>
+    <string name="recording_lib_filter_reset">Reset</string>
+    <string name="recording_lib_filter_section_what">Τι</string>
+    <string name="recording_lib_filter_section_severity">Σοβαρότητα</string>
+    <string name="recording_lib_filter_section_type">Τύπος</string>
+    <string name="recording_lib_filter_section_place">Τόπος</string>
+    <string name="recording_lib_place_search_hint">Search places…</string>
+    <string name="recording_lib_chip_type_normal">Κανονικό</string>
+    <string name="recording_lib_chip_type_proximity">Εγγύτητα</string>
+    <string name="recording_lib_date_today">Σήμερα</string>
+    <string name="recording_lib_date_yesterday">Χθες</string>
+    <string name="recording_lib_clip_count">%1$d clips</string>
+    <string name="recording_lib_clip_count_one">%1$d clip</string>
+    <string name="recording_lib_pick_date">Επιλέξτε μια ημερομηνία</string>
+    <string name="recording_lib_date_all_days">Όλες οι ημέρες</string>
+    <string name="cd_clear_date_filter">Εμφάνιση όλων των ημερών</string>
+    <string name="recording_lib_section_morning">Πρωί</string>
+    <string name="recording_lib_section_afternoon">Απόγευμα</string>
+    <string name="recording_lib_section_evening">Βράδυ</string>
+    <string name="recording_lib_section_night">Νύχτα</string>
+    <string name="cd_previous_day">Προηγούμενη ημέρα</string>
+    <string name="cd_next_day">Επόμενη ημέρα</string>
+    <string name="cd_open_filters">Άνοιγμα φίλτρων</string>
+    <string name="cd_clear_filter">Καθαρισμός φίλτρου</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">Δεν ταιριάζουν οι εγγραφές</string>
+    <string name="recording_lib_empty_body">Δοκιμάστε να προσαρμόσετε το εύρος ημερομηνιών ή τα φίλτρα τσιπ.</string>
+    <string name="recording_lib_empty_clear_filters">Εκκαθάριση φίλτρων</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">Τίποτα δεν έχει καταγραφεί ακόμα</string>
+    <string name="recording_lib_empty_disk_body">Οι συλλήψεις θα εμφανιστούν εδώ μόλις ο αγωγός dashcam ή επιτήρησης γράψει ένα κλιπ.</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">Δημιουργία ευρετηρίου βιβλιοθήκης</string>
+    <string name="recording_lib_building_index_body">Μια στιγμή ενώ ο δαίμονας σαρώνει τις ηχογραφήσεις σας.</string>
+    <string name="recording_lib_building_index_progress">Ευρετήριο %1$d του %2$d κλιπ…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">CAM</string>
+    <string name="recording_lib_type_event">EVENT</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">ΚΑΕ</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">Κοινή χρήση %1$d εγγραφών</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">Εγγραφή</string>
+    <string name="player_time_zero">0:00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">Υπηρεσίες παρασκηνίου</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">Υπηρεσίες φόρτωσης…</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d του %2$d τρέχει</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">Preparing update…</string>
+    <string name="update_percent_zero">0%</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">Υγεία Μπαταρίας</string>
+    <string name="battery_health_subtitle">Κατάσταση της υγείας</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">Waiting for data…</string>
+    <string name="battery_health_source">Πηγή</string>
+    <string name="battery_health_method">Μέθοδος</string>
+    <string name="battery_health_capacity">Χωρητικότητα</string>
+    <string name="battery_health_samples">Δείγματα</string>
+    <string name="battery_health_last_updated">Τελευταία Ενημέρωση</string>
+    <string name="battery_health_reset">Επαναφορά Εκτίμησης SOH</string>
+    <string name="battery_health_reset_desc">Καθαρίζει όλα τα δεδομένα και επαναξιολογεί από την αρχή. Χρησιμοποιήστε αν η μπαταρία αντικαταστάθηκε ή η ανάγνωση φαίνεται λανθασμένη.</string>
+    <string name="soh_dialog_model_label">Μοντέλο</string>
+    <string name="soh_dialog_pack_capacity_label">Χωρητικότητα πακέτου</string>
+    <string name="soh_dialog_estimated_capacity_label">Αποτελεσματική ικανότητα</string>
+    <string name="soh_dialog_calibration_anchor_label">Τελευταία βαθμονομημένη</string>
+    <string name="soh_dialog_source_user">σύνολο χρήστη</string>
+    <string name="soh_dialog_source_auto">αυτόματη ανίχνευση</string>
+    <string name="soh_dialog_model_not_selected">Δεν έχει επιλεγεί</string>
+    <string name="soh_dialog_capacity_not_detected">Δεν ανιχνεύθηκε</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% στο %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">Παρατηρήθηκε πλήρης φόρτιση</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh παρατηρήθηκε σε πλήρη (%2$d/%3$d δείγματα)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh παρατηρήθηκε στο πλήρες (συλλογή %2$d/%3$d δείγματα)</string>
+    <string name="soh_dialog_frame_mismatch_title">Ασυμφωνία πλαισίου χωρητικότητας πακέτου</string>
+    <string name="soh_dialog_frame_mismatch_format">Το όχημα αναφέρει %1$.1f kWh με πλήρη φόρτιση αλλά χωρητικότητα πακέτου έχει οριστεί σε %2$.1f kWh. Ο παραπάνω αριθμός μπορεί να αντικατοπτρίζει μια αναντιστοιχία μονάδας (πινακίδα vs χρησιμοποιήσιμη), όχι πραγματική υποβάθμιση. Σκεφτείτε την είσοδο %1$.1f kWh για να ταιριάξετε με αυτό που αναφέρει το όχημα.</string>
+    <string name="soh_dialog_use_observed_value">Χρήση παρατηρούμενης τιμής</string>
+    <string name="soh_dialog_use_observed_value_pending">Αποθήκευση…</string>
+    <string name="toast_soh_observed_value_saved">Η χωρητικότητα του πακέτου ενημερώθηκε σε %1$.1f kWh.</string>
+    <string name="toast_soh_observed_value_failed">Δεν ήταν δυνατή η ενημέρωση της χωρητικότητας του πακέτου (%1$s).</string>
+    <string name="diagnostics_battery_needs_review">Χρειάζεται αναθεώρηση</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">Εντάξει</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="one">%d recording deleted</item>
+        <item quantity="other">%d recordings deleted</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="one">Διαγραφή %d Εγγραφή</item>
+        <item quantity="other">Διαγραφή %d Εγγραφών</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="one">Αυτό θα διαγράψει μόνιμα την εγγραφή %d . Αυτό δεν μπορεί να αναιρεθεί.</item>
+        <item quantity="other">Αυτό θα διαγράψει μόνιμα τις εγγραφές %d Αυτό δεν μπορεί να αναιρεθεί.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">Ενημερώθηκε στο %1$s</string>
+    <string name="toast_update_install_failed">Η εγκατάσταση της ενημέρωσης απέτυχε: %1$s</string>
+    <string name="toast_checking_for_updates">Checking for updates…</string>
+    <string name="toast_app_up_to_date">App is up to date (%1$s)</string>
+    <string name="toast_update_check_failed">Έλεγχος ενημερώσεων απέτυχε: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">Διαθέσιμη ενημέρωση</string>
+    <string name="update_dialog_subtitle">Μια νεότερη έκδοση είναι έτοιμη για εγκατάσταση</string>
+    <string name="update_dialog_current">Τρέχουσα: v%1$s</string>
+    <string name="update_dialog_new">Νέο: v%1$s</string>
+    <string name="update_dialog_current_label">Εγκατεστημένο</string>
+    <string name="update_dialog_new_label">Νέα έκδοση</string>
+    <string name="update_dialog_whats_new">Τι νέο υπάρχει</string>
+    <string name="update_dialog_install_now">Εγκατάσταση τώρα</string>
+    <string name="update_dialog_later">Αργότερα</string>
+    <string name="update_picker_title">Επιλέξτε μια έκδοση</string>
+    <string name="update_picker_subtitle">Εγκαταστήστε οποιαδήποτε δημοσιευμένη έκδοση — νεότερη ή παλαιότερη έκδοση</string>
+    <string name="update_picker_empty">Καμία έκδοση δεν έχει δημοσιευθεί ακόμα.</string>
+    <string name="update_picker_current_suffix">%1$s (εγκατεστημένο)</string>
+    <string name="update_picker_older_suffix">%1$s (παλαιότερο)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">Ενημέρωση Overdrive</string>
+    <string name="update_step_downloading">Downloading update…</string>
+    <string name="update_step_verifying">Verifying download…</string>
+    <string name="update_step_stopping">Διακοπή δαιμόνων…</string>
+    <string name="update_step_installing">Installing update…</string>
+    <string name="update_step_installed">Η ενημέρωση εγκαταστάθηκε</string>
+    <string name="update_step_restarting">Restarting app…</string>
+    <string name="update_step_queued">Starting update…</string>
+    <string name="update_error_title">Η ενημέρωση απέτυχε</string>
+    <string name="update_error_daemon_down">Ο δαίμονας κάμερας δεν εκτελείται. Ξεκινήστε τον από την οθόνη των δαίμων και δοκιμάστε ξανά την ενημέρωση.</string>
+    <string name="update_error_start_failed">Δεν ήταν δυνατή η εκκίνηση της ενημέρωσης: %1$s</string>
+    <string name="update_error_lost_headunit">Η χαμένη επαφή με την κεφαλή μονάδα πριν την εγκατάσταση τελειώσει. Σε ένα τούνελ? Ελέγξτε το Telegram για το νέο URL, ή χρησιμοποιήστε το τοπικό IP.</string>
+    <string name="update_hide">Απόκρυψη</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">Ενημέρωση καναλιού</string>
+    <string name="settings_update_channel_alpha">Άλφα</string>
+    <string name="settings_update_channel_braveheart">Braveheart</string>
+    <string name="settings_update_channel_alpha_desc">Η σταθερή έκδοση. Κάθε δημοσιευμένη έκδοση διατηρείται - επιλέξτε οποιαδήποτε για εγκατάσταση (υποβαθμίσεις επιτρέπεται). Συνιστάται για καθημερινή χρήση.</string>
+    <string name="settings_update_channel_braveheart_desc">Bleeding-edge builds, delivered the moment they\'re published. You get new features first, but they may be unstable or buggy. If something breaks, open the Daemons screen, tap a daemon\'s log, choose \"Upload &amp; get a code\", and share the code with us on the community channels.</string>
+    <string name="settings_update_channel_save_failed">Δεν ήταν δυνατή η αποθήκευση του καναλιού ενημέρωσης</string>
+    <string name="settings_update_channel_braveheart_toast">Εναλλαγή σε Braveheart. Οι κατασκευές μπορεί να είναι ασταθείς — αν κάτι σπάσει, στείλτε το αρχείο καταγραφής δαίμονα και αναφέρετέ το στο Discord/GitHub/WhatsApp.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">Απαιτείται άδεια αποθήκευσης για εγγραφές</string>
+    <string name="toast_url_copied_short">Το URL αντιγράφηκε!</string>
+    <string name="toast_camera_set_to_auto">Κάμερα ρυθμισμένη σε Αυτόματο</string>
+    <string name="toast_failed_to_save_short">Αποτυχία αποθήκευσης</string>
+    <string name="toast_failed_with_message">Απέτυχε: %1$s</string>
+    <string name="toast_camera_id_set">Ρύθμιση \' %1$d κάμερας\' — επόμενος κύκλος ACC</string>
+    <string name="toast_clearing_camera_config">Ρύθμιση κάμερας εκκαθάρισης…</string>
+    <string name="toast_restarting_camera_daemon">Επανεκκίνηση δαίμονα φωτογραφικής μηχανής…</string>
+    <string name="toast_camera_daemon_restarting">Επανεκκίνηση δαίμονα κάμερας με πλήρη καθετήρα</string>
+    <string name="toast_camera_restart_failed">Η ρύθμιση εκκαθαρίστηκε αλλά η επανεκκίνηση του δαίμονα απέτυχε. Παρακαλώ επανεκκινήστε χειροκίνητα.</string>
+    <string name="toast_camera_settings_saved_restarting">Οι ρυθμίσεις της φωτογραφικής μηχανής αποθηκεύτηκαν - επανεκκίνηση του δαίμονα κάμερας…</string>
+    <string name="toast_camera_settings_restart_failed">Οι ρυθμίσεις της φωτογραφικής μηχανής αποθηκεύτηκαν, αλλά η επανεκκίνηση του δαίμονα απέτυχε. Παρακαλώ επανεκκινήστε την χειροκίνητα.</string>
+    <string name="toast_failed_with_message_x">Απέτυχε: %1$s</string>
+    <string name="toast_soh_reset_success">Επαναφορά εκτίμησης SOH - θα επαναϋπολογίσει από τα επόμενα δεδομένα</string>
+    <string name="toast_soh_reset_failed_no_daemon">Επαναφορά απέτυχε - ο δαίμονας δεν ανταποκρίνεται και το αρχείο δεν είναι εγγράψιμο</string>
+    <string name="toast_soh_reset_failed_with_message">Η επαναφορά απέτυχε: %1$s</string>
+    <string name="toast_select_at_least_one_category">Επιλέξτε τουλάχιστον μία κατηγορία</string>
+    <string name="toast_reset_failed_with_error">Η επαναφορά απέτυχε: %1$s</string>
+    <string name="toast_traffic_monitor_changing">Εποπτεία κίνησης %1$s…</string>
+    <string name="dialog_close">Κλείσιμο</string>
+    <string name="dialog_reset">Reset</string>
+    <string name="dialog_delete">Διαγραφή</string>
+    <string name="dialog_save">Αποθήκευση</string>
+    <string name="dialog_enable">Ενεργοποίηση</string>
+    <string name="dialog_disable">Απενεργοποίηση</string>
+    <string name="dialog_keep_enabled">Διατήρηση Ενεργοποιημένης</string>
+    <string name="dialog_keep_disabled">Διατήρηση Απενεργοποιημένων</string>
+    <string name="dialog_regenerate">Αναδημιουργία</string>
+    <string name="dialog_reset_selected">Επαναφορά Επιλεγμένων</string>
+    <string name="dialog_reset_soh_title">Επαναφορά Εκτίμηση SOH?</string>
+    <string name="dialog_reset_soh_message">Αυτό θα καθαρίσει όλα τα δεδομένα SOH και θα αναγκάσει εκ νέου εκτίμηση από το μηδέν.\n\nΧρησιμοποιήστε αυτό εάν:\n• Η μπαταρία αντικαταστάθηκε\n• Η ανάγνωση SOH φαίνεται εσφαλμένη\n• Θέλετε να επαναρυθμίσετε το\n\nΤο σύστημα θα επαναρυθμίσει από την επόμενη διαθέσιμη πηγή δεδομένων (OEM, βαθμονόμηση φορτίου, ή στιγμιαία ανάγνωση).</string>
+    <string name="dialog_reset_following_title">Επαναφέρετε τα παρακάτω?</string>
+    <string name="dialog_reset_following_message">Αυτό δεν μπορεί να αναιρεθεί.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Reset complete</string>
+    <string name="dialog_traffic_cannot_check_title">Αδυναμία Ελέγχου Κατάστασης</string>
+    <string name="dialog_traffic_cannot_check_message">Η σύνδεση ADB δεν είναι ακόμα έτοιμη.\n\nΗ εφαρμογή χρειάζεται πρόσβαση ADB για να διαχειριστεί τα πακέτα συστήματος. Παρακαλώ διασφαλίστε:\n\n• Εντοπισμός σφαλμάτων USB είναι ενεργοποιημένη στις Επιλογές Προγραμματιστή\n• Η προτροπή εξουσιοδότησης ADB έχει γίνει αποδεκτή\n\nΗ κατάσταση θα ενημερωθεί αυτόματα μόλις συνδεθεί.</string>
+    <string name="dialog_traffic_disable_title">Απενεργοποιήστε Την Παρακολούθηση Κυκλοφορίας Byd?</string>
+    <string name="dialog_traffic_disable_message">Το BYD Traffic Monitor (com.byd.trafficmonitor) είναι μια ενσωματωμένη εφαρμογή συστήματος που παρακολουθεί συνεχώς τις συνθήκες οδικής κυκλοφορίας στο παρασκήνιο.\n\nΓιατί να το απενεργοποιήσετε?\n\n• Καταναλώνει δεδομένα κινητής τηλεφωνίας (ακόμη και όταν σταθμεύσετε)\n• Χρησιμοποιεί CPU και μπαταρία στο παρασκήνιο\n• Δεν χρειάζεται αν χρησιμοποιείτε ξεχωριστή εφαρμογή πλοήγησης\n• Μπορεί να παρεμβαίνει στη χρήση δικτύου της Dashcam\'s\n\nΑυτό είναι ασφαλές για απενεργοποίηση - επηρεάζει μόνο την ενσωματωμένη επικάλυψη κίνησης στο χάρτη. Η πλοήγησή σας, Bluetooth, και όλες οι άλλες λειτουργίες αυτοκινήτων παραμένουν ανεπηρέαστες.\n\nΑπαιτείται μια σκληρή επανεκκίνηση μετά την απενεργοποίηση (κρατήστε πατημένο το κουμπί κεντρικής κονσόλας 5 δευτερόλεπτα).</string>
+    <string name="dialog_traffic_enable_title">Ενεργοποίηση BYD Traffic Monitor?</string>
+    <string name="dialog_traffic_enable_message">The BYD Traffic Monitor is currently disabled.\n\nRe-enabling it will restore the built-in traffic overlay on the navigation map. Note that it will run in the background and consume mobile data.\n\nA hard reboot is required after enabling (hold center console button 5 seconds).</string>
+    <string name="dialog_traffic_status_title">Εποπτεία Κυκλοφορίας %1$s</string>
+    <string name="dialog_traffic_reboot_message">Η αλλαγή έχει εφαρμοστεί.\n\nΠαρακαλώ εκτελέστε μια σκληρή επανεκκίνηση τώρα:\nΠατήστε και κρατήστε πατημένο το κεντρικό κουμπί της κονσόλας για 5 δευτερόλεπτα.</string>
+    <string name="traffic_monitor_loading">Παρακολούθηση Κυκλοφορίας: Έλεγχος…</string>
+    <string name="traffic_monitor_tap_to_check">Παρακολούθηση κυκλοφορίας (πατήστε για έλεγχο)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">Δρομολόγια</string>
+    <string name="reset_label_soc_history">SoC + 12V ιστορικό</string>
+    <string name="reset_label_soh">Βελτίωση SoH</string>
+    <string name="reset_label_abrp_token">ABRP διακριτικό</string>
+    <string name="reset_label_byd_cloud">BYD διαπιστευτήρια Cloud</string>
+    <string name="reset_label_recordings">Εγγραφές</string>
+    <string name="reset_label_sentry_events">Εκδηλώσεις επιτήρησης</string>
+    <string name="reset_label_proximity">Καταγραφές εγγύτητας</string>
+    <string name="reset_label_trip_files">Τηλεμετρικά αρχεία ταξιδιού</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">Ο κωδικός πρόσβασης αντιγράφηκε</string>
+    <string name="dialog_regenerate_token_title">Επαναδημιουργία Διακριτικού</string>
+    <string name="dialog_regenerate_token_message">Αυτό θα ακυρώσει το τρέχον token. Όλες οι ενεργές συνεδρίες θα αποσυνδεθούν. Συνέχεια?</string>
+    <string name="toast_token_regenerated_logged_out">Νέο διακριτικό δημιουργήθηκε. Όλες οι συνεδρίες αποσυνδέθηκαν.</string>
+    <string name="toast_token_regenerated_restart">Αναγέννηση Token. Ο δαίμονας μπορεί να χρειαστεί επανεκκίνηση για να εφαρμοστεί.</string>
+    <string name="toast_token_regenerated_no_notify">Το διακριτικό αναγεννηθεί. Δεν ήταν δυνατή η ειδοποίηση του δαίμονα.</string>
+    <string name="toast_token_regenerated">Το διακριτικό αναγεννήθηκε</string>
+    <string name="dashboard_no_tunnel">Δεν εκτελείται δρομολόγηση</string>
+    <string name="dashboard_starting_zrok">Έναρξη σήραγγας Zrok…</string>
+    <string name="dashboard_starting_cloudflared">Έναρξη Cloudflared tunnel…</string>
+    <string name="dashboard_starting_tailscale">Εκκίνηση Tailscale tunnel…</string>
+    <string name="dashboard_waiting_url">Αναμονή για δρομολόγηση URL…</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d Run</string>
+    <string name="tunnel_label_cloudflared">Cloudflared</string>
+    <string name="tunnel_label_zrok">Zrok</string>
+    <string name="tunnel_label_tailscale">Κλίμακα Ουράς</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">Δαίμονας Κάμερας</string>
+    <string name="daemon_name_surveillance">Surveillance Daemon</string>
+    <string name="daemon_name_acc_surveillance">Επιτήρηση ACC</string>
+    <string name="daemon_name_singbox">Διακομιστής μεσολάβησης Sing-box</string>
+    <string name="daemon_name_cloudflared">Νεφελώδης Σήραγγα</string>
+    <string name="daemon_name_zrok">Σήραγγα Zrok</string>
+    <string name="daemon_name_tailscale">Σήραγγα Κλίμακας Ουράς</string>
+    <string name="daemon_name_telegram">Telegram Bot</string>
+    <string name="clip_label_access_code">Κωδικός Πρόσβασης</string>
+    <string name="clip_label_url">URL</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">Δεν απαιτείται ρύθμιση παραμέτρων για το %1$s</string>
+    <string name="dialog_zrok_token_title">Διακριτικό Σήραγγας Zrok</string>
+    <string name="dialog_zrok_token_message">Εισάγετε Zrok σας ενεργοποίηση token.\nΑποκτήστε ένα στο: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">Το διακριτικό δεν μπορεί να είναι κενό</string>
+    <string name="dialog_tailscale_settings_title">Ρυθμίσεις Tunnel Κλίμακας Ουράς</string>
+    <string name="dialog_tailscale_settings_message">Configure tailscale</string>
+    <string name="tailscale_failed_login_url">Αποτυχία δημιουργίας url σύνδεσης</string>
+    <string name="tailscale_logged_in_relogin">Συνδεδεμένος. Κάντε κλικ για να συνδεθείτε σε διαφορετικό λογαριασμό</string>
+    <string name="dialog_tailscale_proxy_enable_title">Ενεργοποίηση Tailscale Proxy?</string>
+    <string name="dialog_tailscale_proxy_enable_message">Αυτές οι διαδρομές MQTT μέσω του Tailscale ώστε να μπορείτε να φτάσετε σε έναν ιδιωτικό μεσίτη στο ράφι σας χωρίς προώθηση θυρών.\n\nΕνώ είναι ενεργοποιημένο:\n• MQTT σε μια επιχείρηση μεσίτη tailnet (π.χ. Κουνούπια σε μια συσκευή στο ράφι σας)\n• MQTT σε δημόσιους μεσίτες (HiveMQ, AWS IoT, κλπ. θα αποτύχει — Tailscale μόνο διαδρομές προς το tailnet\n• Ο δαίμονας Tailscale θα κάνει επανεκκίνηση για να εφαρμόσει την αλλαγή\n• Άλλη κίνηση εφαρμογών και το υπόλοιπο της συσκευής δεν επηρεάζεται\n\nΜπορείτε να το απενεργοποιήσετε οποιαδήποτε στιγμή.</string>
+    <string name="dialog_zrok_reset_title">Επαναφορά Περιβάλλοντος Zrok</string>
+    <string name="dialog_zrok_reset_message">Αυτό θα:\n• Σταματήστε τη σήραγγα zrok αν εκτελείται\n• Αφαιρέστε το περιβάλλον zrok από αυτήν τη συσκευή\n• Διαγράψτε το αποθηκευμένο διακριτικό\n\nΘα πρέπει να εισάγετε ξανά το διακριτικό σας και να το ενεργοποιήσετε ξανά. Αυτό χρησιμοποιεί μία από τις 5 υποδοχές της συσκευής σας στο zrok.io.\n\nΕίσαι σίγουρος?</string>
+    <string name="toast_resetting_zrok">Επαναφορά του περιβάλλοντος zrok…</string>
+    <string name="toast_zrok_reset_success">Επαναφορά περιβάλλοντος Zrok. Εισαγάγετε ένα νέο διακριτικό για να το ρυθμίσετε.</string>
+    <string name="toast_zrok_reset_partial">Επαναφορά περιβάλλοντος (το αρχείο token μπορεί να χρειαστεί χειροκίνητη εκκαθάριση)</string>
+    <string name="toast_zrok_reset_warnings">Επαναφορά περιβάλλοντος (με προειδοποιήσεις: %1$s)</string>
+    <string name="zrok_no_token_configured">Δεν έχει ρυθμιστεί token. Πιέστε για ρύθμιση.</string>
+    <string name="dialog_tailscale_reset_title">Επαναφορά Περιβαλλοντικού Κλίμακας Ουράς</string>
+    <string name="dialog_tailscale_reset_message">This will:\n• Stop the tailscale tunnel if running\n• Remove the tailscale environment from this device\n• You will still need to remove the device from the tailscale console\n\nYou will need to log in again.\n\nAre you sure?</string>
+    <string name="toast_resetting_tailscale">Resetting tailscale environment…</string>
+    <string name="toast_tailscale_reset_success">Επαναφορά περιβάλλοντος σε κλίμακα ουράς. Συνδεθείτε για να ρυθμίσετε ξανά.</string>
+    <string name="toast_tailscale_reset_warnings">Επαναφορά περιβάλλοντος κλίμακας ουράς (με προειδοποιήσεις: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">Διακομιστής μεσολάβησης σε κλίμακα ουράς</string>
+    <string name="toast_tailscale_proxy_disabled">Διαμεσολαβητής σε κλίμακα ουράς απενεργοποιήθηκε</string>
+    <string name="toast_tailscale_proxy_save_failed">Αποτυχία αποθήκευσης ρυθμίσεων διαμεσολαβητή</string>
+    <string name="toast_zrok_token_saved">Το διακριτικό αποθηκεύτηκε</string>
+    <string name="toast_zrok_token_save_failed">Αποτυχία αποθήκευσης διακριτικού</string>
+    <string name="toast_zrok_token_deleted">Το διακριτικό διαγράφηκε</string>
+    <string name="toast_zrok_token_delete_failed">Αποτυχία διαγραφής διακριτικού</string>
+    <string name="toast_fetching_log">Λήψη %1$s log…</string>
+    <string name="toast_log_empty_or_missing">Το αρχείο καταγραφής είναι κενό ή δεν βρέθηκε</string>
+    <string name="toast_log_empty">Το αρχείο καταγραφής είναι κενό</string>
+    <string name="toast_daemon_manager_unavailable">Ο διαχειριστής δαίμονα δεν είναι έτοιμος, δοκιμάστε ξανά σε μια στιγμή</string>
+    <string name="toast_log_save_failed">Αποτυχία αποθήκευσης καταγραφής: %1$s</string>
+    <string name="toast_log_not_found">Το αρχείο καταγραφής δεν βρέθηκε ή δεν είναι αναγνώσιμο</string>
+    <string name="log_share_title">Καταγραφή %1$s - %2$s</string>
+    <string name="log_share_chooser">Κοινοποίηση Καταγραφής %1$s</string>
+    <string name="log_header_title">=== Καταγραφή %1$s==</string>
+    <string name="log_header_source">Πηγή: %1$s</string>
+    <string name="log_header_exported">Εξήχθησαν: %1$s</string>
+    <string name="log_header_truncated">ΣΗΜΕΙΩΣΗ: Καταργήστε τις τελευταίες 10000 γραμμές (συνολικά: %1$d γραμμές)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">Αποστολή αρχείου καταγραφής %1$s</string>
+    <string name="logs_send_title_plain">Αποστολή αρχείου καταγραφής δαίμονα</string>
+    <string name="logs_send_subtitle">%1$s · επιλέξτε πώς να μας το στείλετε</string>
+    <string name="logs_send_upload">Upload &amp; get a code</string>
+    <string name="logs_send_upload_desc">Στέλνει το αρχείο καταγραφής σε εμάς και σας δίνει ένα σύντομο κώδικα.</string>
+    <string name="logs_send_share">Κοινή χρήση αρχείου…</string>
+    <string name="logs_send_share_desc">Αποθηκεύστε ή στείλτε το αρχείο καταγραφής μόνοι σας μέσω του φύλλου κοινής χρήσης.</string>
+    <string name="logs_uploading_title">Uploading log…</string>
+    <string name="logs_uploading_subtitle">Επαναλάβετε τα μυστικά και στέλνετε με ασφάλεια</string>
+    <string name="logs_uploaded_title">Η καταγραφή ανέβηκε</string>
+    <string name="logs_uploaded_instructions">Μοιραστείτε τον κώδικα μαζί μας, μαζί με μια σημείωση για το τι κάνατε όταν έσπασε. Δημοσιεύστε το στο Discord, θέματα GitHub ή WhatsApp - οι σύνδεσμοι είναι στην οθόνη Σχετικά με.</string>
+    <string name="logs_uploaded_privacy">Μυστικά redacted · το αρχείο καταγραφής auto-expires</string>
+    <string name="logs_copy_code">Αντιγραφή κώδικα</string>
+    <string name="logs_done">Ολοκληρώθηκε</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">Σφάλμα δικτύου</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">Αδυναμία αναπαραγωγής βίντεο: %1$s</string>
+    <string name="dialog_delete_recording_title">Διαγραφή Εγγραφής</string>
+    <string name="dialog_delete_recording_message">Διαγραφή %1$s?\nΑυτό δεν μπορεί να αναιρεθεί.</string>
+    <string name="toast_recording_deleted">Η εγγραφή διαγράφηκε</string>
+    <string name="toast_recording_delete_failed">Αποτυχία διαγραφής εγγραφής</string>
+    <string name="toast_batch_delete_partial">%1$d διαγράφηκε, %2$d απέτυχε</string>
+    <string name="play_with_chooser">Παίξτε με</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">Updated to %1$s — re-confirm autostart, BYD wipes it on every install</string>
+    <string name="setup_overlay_already_granted">Χορηγήθηκε Ήδη</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">Συμβουλές &amp; Αντιμετώπιση προβλημάτων</string>
+    <string name="setup_traffic_title">Απενεργοποίηση Οθόνης Κυκλοφορίας Byd</string>
+    <string name="setup_traffic_body">Το BYD Traffic Monitor εμποδίζει εφαρμογές τρίτων να φτάσουν στο διαδίκτυο. Η απενεργοποίηση του επιτρέπει την εφαρμογή OverDrive και οποιαδήποτε άλλη εφαρμογή εγκαθιστάτε πραγματικά χρήση του δικτύου. Απαιτείται μετά μια σκληρή επανεκκίνηση.</string>
+    <string name="setup_traffic_button">Άνοιγμα Παρακολούθησης Κυκλοφορίας</string>
+    <string name="setup_camera_fix_title">Κάμερα feeds μαύρο ή λανθασμένο?</string>
+    <string name="setup_camera_fix_body">Ανοίξτε Διαγνωστικά → Κάμερα ανιχνευτή, ορίστε την κάμερα ID στο 0, αγγίξτε Αποθήκευση και, στη συνέχεια, επανεκκινήστε τον δαίμονα κάμερας. Εάν οι ροές εξακολουθούν να είναι λάθος, επαναλάβετε με την κάμερα ID 1. Αφήστε το τμήμα χαρτογράφησης ανέγγιχτο.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">Τρέχουσα: Φωτογραφική Μηχανή %1$d (Χειροκίνητο)</string>
+    <string name="camera_current_auto_label">Τρέχον: Αυτόματο</string>
+    <string name="soh_estimation_active">Ενεργός υπολογισμός</string>
+    <string name="soh_no_estimate_yet">Δεν υπάρχει ακόμη εκτίμηση — αναμονή για δεδομένα</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">Επιλέχθηκε %1$d</string>
+    <string name="video_player_playback_error">Σφάλμα αναπαραγωγής</string>
+    <string name="video_player_no_events">Δεν υπάρχουν συμβάντα</string>
+    <string name="daemon_configuration_required">Απαιτείται διαμόρφωση</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">Αναπαραγωγέας Βίντεο</string>
+    <string name="nav_page_telegram">Telegram</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">MQTT</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">Κατάσταση OverDrive</string>
+    <string name="status_overlay_notif_text">Status overlay active</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Υπερκίνηση Ενεργού</string>
+    <string name="daemon_keepalive_notif_text">Συστήματα παρακολούθησης οχημάτων</string>
+    <string name="overdrive_status_summary_title">Υπερκίνηση</string>
+    <string name="overdrive_status_summary_text">Υπηρεσίες παρασκηνίου που εκτελούνται</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">Ταμπλό</string>
+    <string name="rail_live">Ζωντανά</string>
+    <string name="rail_recordings">Εγγραφές</string>
+    <string name="rail_vehicle">Όχημα</string>
+    <string name="rail_trips">Δρομολόγια</string>
+    <string name="rail_integrations">Ενσωματώσεις</string>
+    <string name="rail_diagnostics">Διαγνωστικά</string>
+    <string name="rail_settings">Ρυθμίσεις</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">Εμφάνιση</string>
+    <string name="settings_section_recording">Εγγραφή</string>
+    <string name="settings_section_surveillance">Επιτήρηση</string>
+    <string name="settings_section_daemons">Daemons</string>
+    <string name="settings_section_privacy">Privacy &amp; data</string>
+    <string name="settings_section_overlay">Status overlay</string>
+    <string name="settings_section_security">Ασφάλεια</string>
+    <string name="settings_overlay_subtitle">Επιλέξτε ποια τμήματα του κυμαινόμενου χάπι κατάστασης παραμένουν ορατά.</string>
+    <string name="settings_overlay_camera_title">Δείκτης κάμερας</string>
+    <string name="settings_overlay_camera_subtitle">Εμφάνιση του εμβλήματος REC / PROX όσο η εγγραφή είναι ενεργή.</string>
+    <string name="settings_overlay_trip_title">Δείκτης διαδρομής</string>
+    <string name="settings_overlay_trip_subtitle">Εμφάνιση του εμβλήματος TRIP όσο εκτελείται ο εντοπισμός διαδρομής.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">Σχετικά</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">ΡΥΘΜΙΣΕΙΣ</string>
+    <string name="cd_settings_subrail">Ρυθμίσεις υπο-ράγα</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">Privacy &amp; data</string>
+    <string name="settings_privacy_body">Η επαναφορά καθαρίζει το ευρετήριο εγγραφών, τα προσωρινά αποθηκευμένα διαπιστευτήρια, την κατάσταση δαίμονα και τις προτιμήσεις στη συσκευή. Η ενέργεια δεν μπορεί να αναιρεθεί.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">Σχετικά Με OverDrive</string>
+    <string name="settings_about_version_label">Έκδοση</string>
+    <string name="settings_about_package_label">Κατασκευή</string>
+    <string name="settings_about_check_update_value">Ελέγξτε την τελευταία έκδοση του GitHub και εγκαταστήστε αν είναι νεότερη.</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">Τροφοδοτείται από ανθρώπους σαν εσάς</string>
+    <string name="settings_about_support_share_title">Ενημερώστε έναν συνιδιοκτήτη</string>
+    <string name="settings_about_support_share_value">Κάθε κοινόχρηστος σύνδεσμος βοηθά έναν άλλο ιδιοκτήτη BYD να ανακαλύψει Overdrive.</string>
+    <string name="settings_about_support_share_message">Αναχώρηση Overdrive - open-source επιτήρησης &amp; dashcam για BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">Κοινή Χρήση Overdrive</string>
+    <string name="settings_about_open_link_failed">Αδυναμία ανοίγματος συνδέσμου.</string>
+    <string name="settings_about_open_link_copied">Δεν βρέθηκε κανένα πρόγραμμα περιήγησης. Διεύθυνση αντιγράφησης: %1$s</string>
+    <string name="settings_about_support_kofi_title">Καύστε την επόμενη απελευθέρωση</string>
+    <string name="settings_about_support_kofi_value">Ένας καφές στο Ko-fi κρατάει τις καθυστερήσεις της νύχτας να πλησιάζουν.</string>
+    <string name="settings_about_license_title">Άδεια</string>
+    <string name="settings_about_license_value">MIT — ανοιχτός κώδικας. Πατήστε για να δείτε το πλήρες κείμενο.</string>
+    <string name="settings_about_source_title">Πηγαίος κώδικας</string>
+    <string name="settings_about_source_value">github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">Star us on GitHub</string>
+    <string name="settings_about_star_value">Παίρνει ένα δευτερόλεπτο. Σημαίνει πολλά.</string>
+    <string name="settings_about_thanks_title">Ευχαριστούμε</string>
+    <string name="settings_about_thanks_subtitle">Χτισμένο με τη βοήθεια συνεισφερόντων και υποστηρικτών.</string>
+    <string name="settings_about_contributors_title">Συντελεστές</string>
+    <string name="settings_about_supporters_title">Υποστηρικτές</string>
+    <string name="settings_about_thanks_empty">Λίστα συμπληρώνεται ως άτομα pitch in.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">Θέμα</string>
+    <string name="settings_theme_auto">Αυτόματο (ακολουθήστε το σύστημα)</string>
+    <string name="settings_theme_light">Φωτεινό</string>
+    <string name="settings_theme_dark">Σκοτεινό</string>
+    <string name="settings_language_label">Γλώσσα</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">Εγγραφές</string>
+    <string name="recordings_segment_dashcam">Dashcam</string>
+    <string name="recordings_segment_surveillance">Επιτήρηση</string>
+    <string name="recordings_action_settings">Ρυθμίσεις</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d σήμερα · %2$d συνολικά · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">Dashcam · %d</string>
+    <string name="recordings_segment_surveillance_count">Surveillance · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">Επιλέξτε μια εγγραφή</string>
+    <string name="recordings_preview_placeholder_body">Πατήστε οποιοδήποτε στοιχείο στα αριστερά για να το παίξετε.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">Κονσόλα ADB</string>
+    <string name="diagnostics_section_traffic">Εποπτεία κίνησης</string>
+    <string name="diagnostics_section_camera_probe">Πυροβολητής κάμερας</string>
+    <string name="diagnostics_section_battery">Υγεία μπαταρίας</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">Διάγνωση συστήματος</string>
+    <string name="diagnostics_hero_subtitle">Ζωντανή υγεία, αρχεία καταγραφής και ανιχνευτές για τη συσκευή.</string>
+    <string name="diagnostics_health_clear">Καθαρισμός όλων</string>
+    <string name="diagnostics_health_section">Υγεία</string>
+    <string name="diagnostics_health_network">Δίκτυο</string>
+    <string name="diagnostics_health_storage">Αποθήκευση</string>
+    <string name="diagnostics_health_camera">Κάμερα</string>
+    <string name="diagnostics_health_battery">Μπαταρία</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">Συνδεδεμένος</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">Σήραγγα · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">Συνδεδεμένος</string>
+    <string name="diagnostics_tunnel_state_offline">Αποσυνδεδεμένος</string>
+    <string name="diagnostics_tunnel_state_connecting">Σύνδεση</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">Κινητό</string>
+    <string name="diagnostics_network_ethernet">Ethernet</string>
+    <string name="diagnostics_network_offline">Αποσυνδεδεμένος</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">%1$d clips · Χρησιμοποιήθηκε το %2$s</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s δωρεάν</string>
+    <string name="diagnostics_logs_card_title">Ζωντανό αρχείο καταγραφής γεγονότων</string>
+    <string name="diagnostics_logs_card_subtitle">Ροή εξόδου από τις εκτελούμενες υπηρεσίες.</string>
+    <string name="diagnostics_tools_section">Εργαλεία</string>
+    <string name="diagnostics_traffic_subtitle">Παρακολουθήστε ζωντανή σύνδεση δικτύου.</string>
+    <string name="diagnostics_camera_probe_subtitle">Επιθεώρηση συνδεδεμένων ροών φωτογραφικής μηχανής.</string>
+    <string name="diagnostics_adb_subtitle">Ανοίξτε το τερματικό στη συσκευή.</string>
+    <string name="diagnostics_battery_subtitle">Επιθεωρήστε SOH κυττάρων και στατιστικά πακέτα.</string>
+    <string name="diagnostics_settings_subtitle">Προτιμήσεις εφαρμογών, θέμα και γλώσσα.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">Ενσωματώσεις</string>
+    <string name="integrations_hero_subtitle">Σύνδεση Overdrive στις υπηρεσίες σας.</string>
+    <string name="integrations_status_unknown">Πατήστε για ρύθμιση</string>
+    <string name="integrations_status_configured">Διαμορφωμένο</string>
+    <string name="integrations_status_not_set_up">Δεν έχει ρυθμιστεί</string>
+    <string name="integrations_telegram_desc">Στείλτε περιλήψεις δίσκων, ειδοποιήσεις κίνησης και ειδοποιήσεις SOS στο ιδιωτικό Telegram bot σας.</string>
+    <string name="integrations_abrp_desc">Προωθήστε ζωντανή μπαταρία και δεδομένα διαδρομής σε A Better Routeplanner για προβλέψεις φόρτισης.</string>
+    <string name="integrations_mqtt_desc">Δημοσίευση τηλεμετρίας οχημάτων στο Βοηθό Οικίας ή σε οποιονδήποτε μεσίτη MQTT.</string>
+    <string name="integrations_byd_cloud_desc">Συνδέστε τον BYD λογαριασμό σας για να ενεργοποιήσετε απομακρυσμένες εντολές, όπως κλειδαριά πόρτας, φώτα φλας και κέρατο.</string>
+    <string name="integrations_configure_button">Ρύθμιση</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">Έλεγχος ενημερώσεων</string>
+    <string name="settings_action_reset_data">Reset data…</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">Υπέρβαση</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">Στο ρολόι</string>
+    <string name="dashboard_subtitle_all_systems">Όλα τα συστήματα online</string>
+    <string name="dashboard_subtitle_some_offline">%1$d από %2$d online υπηρεσίες</string>
+    <string name="dashboard_subtitle_no_tunnel">Απομακρυσμένη πρόσβαση εκτός σύνδεσης</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">Σημερινές εγγραφές</string>
+    <string name="dashboard_metric_storage">Αποθηκευτικός χώρος που χρησιμοποιείται</string>
+    <string name="dashboard_metric_tunnel">Απομακρυσμένη πρόσβαση</string>
+    <string name="dashboard_metric_services">Υπηρεσίες παρασκηνίου</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">Όχημα</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">Εγγραφή</string>
+    <string name="dashboard_chip_recording_idle">Αδρανής</string>
+    <string name="dashboard_vehicle_tap_to_set">Πατήστε για ορισμό</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWh · %2$s</string>
+    <string name="vehicle_dialog_title">Ορισμός χωρητικότητας μπαταρίας</string>
+    <string name="vehicle_dialog_capacity_label">Χωρητικότητα</string>
+    <string name="vehicle_dialog_capacity_suffix">kWh</string>
+    <string name="vehicle_dialog_capacity_helper">15 έως 120 kWh. Αφήστε να χρησιμοποιήσετε την προεπιλογή του μοντέλου.</string>
+    <string name="vehicle_dialog_model_label">Μοντέλο</string>
+    <string name="vehicle_dialog_save">Αποθήκευση</string>
+    <string name="vehicle_dialog_reset">Επαναφορά στην αυτόματη ανίχνευση</string>
+    <string name="vehicle_dialog_invalid_capacity">Η χωρητικότητα πρέπει να είναι 15 - 120 kWh</string>
+    <string name="vehicle_dialog_summary_capacity">Χωρητικότητα: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">Αποτελεσματική: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">Μοντέλο: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">Τελευταία βαθμονόμηση: %1$.1f%% στο %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">unavailable</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s χρησιμοποιήθηκε · %2$s δωρεάν</string>
+    <string name="dashboard_metric_storage_chip_pending">Αποθήκευση —</string>
+    <string name="dashboard_tunnel_offline">Αποσυνδεδεμένος</string>
+    <string name="dashboard_tunnel_online">Συνδεδεμένος</string>
+    <string name="dashboard_tunnel_connecting">Σύνδεση…</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">Ζωντανά</string>
+    <string name="dashboard_action_live_subtitle">Άνοιγμα προβολής κάμερας</string>
+    <string name="dashboard_action_recordings">Εγγραφές</string>
+    <string name="dashboard_action_settings">Ρυθμίσεις</string>
+    <string name="dashboard_action_settings_subtitle">Προτιμήσεις και περίπου</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">Ρυθμίσεις</string>
+    <string name="settings_hero_overline">ΕΠΑΛΗΘΕΥΣΗ</string>
+    <string name="settings_hero_subtitle">Συντονιστική εμφάνιση, καταγραφή, επιτήρηση και δεδομένα της συσκευής.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">ΠΡΟΤΙΜΗΣΕΙΣ</string>
+    <string name="settings_overline_about_data">ΔΕΔΟΜΕΝΑ</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">Θέμα</string>
+    <string name="settings_quick_language_label">Γλώσσα</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">Pre/post buffers, codec, όρια αποθήκευσης.</string>
+    <string name="settings_section_surveillance_subtitle">Ζώνες ανίχνευσης, χρονοδιάγραμμα, ευαισθησία κίνησης.</string>
+    <string name="settings_section_daemons_subtitle">Cloudflared, Zrok, Telegram, MQTT δρομείς.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">Σχετικά Με OverDrive</string>
+    <string name="settings_about_row_subtitle">Έκδοση, άδεια, υποστήριξη ανάπτυξης.</string>
+    <string name="settings_reset_row_subtitle">Εκκαθάριση εγγραφών, συμβάντων ή όλων των caches.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">OverDrive %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">Θέμα, γλώσσα και οπτικές προτιμήσεις.</string>
+    <string name="settings_theme_active_auto_caption">Ακολουθεί αυτόματα το θέμα του συστήματός σας.</string>
+    <string name="settings_theme_active_light_caption">Το φωτεινό θέμα είναι πάντα ενεργό.</string>
+    <string name="settings_theme_active_dark_caption">Το σκούρο θέμα είναι πάντα ενεργό.</string>
+    <string name="settings_language_count_format">%1$d των διαθέσιμων γλωσσών %2$d</string>
+    <string name="settings_language_card_title">Εμφάνιση γλώσσας</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">On-συσκευή από προεπιλογή</string>
+    <string name="settings_privacy_stance_body">Το OverDrive λειτουργεί εξ ολοκλήρου στην κεφαλή. Καμία τηλεμετρία δεν αφήνει το αυτοκίνητό σας εκτός από τις σήραγγες και τις ενσωματώσεις που ρυθμίζετε ρητά.</string>
+    <string name="settings_privacy_overline_storage">ΤΟΠΙΚΗ ΑΠΟΘΗΚΕΥΣΗ</string>
+    <string name="settings_privacy_overline_reset">ΕΠΑΝΑΦΟΡΑ ΔΕΔΟΜΕΝΩΝ</string>
+    <string name="settings_privacy_storage_clips_label">Κλιπ στο δίσκο</string>
+    <string name="settings_privacy_storage_size_label">Συνολικό μέγεθος</string>
+    <string name="settings_privacy_storage_unavailable">Unavailable</string>
+    <string name="settings_privacy_storage_count_format">%1$d clip</string>
+    <string name="settings_privacy_storage_count_format_plural">%1$d clips</string>
+    <string name="settings_privacy_reset_subtitle">Επιλέξτε κατηγορίες: ηχογραφήσεις, εκδηλώσεις, ρυθμίσεις δαίμονα, προσωρινή αποθήκευση τηλεμετρίας…</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">Ασφάλεια</string>
+    <string name="settings_security_subtitle">Κλειδώστε την εφαρμογή OverDrive ώστε οι επιβάτες και οι βαλίτσες να μην μπορούν να την ανοίξουν χωρίς το PIN σας.</string>
+    <string name="settings_security_stance_title">Μόνο κλειδαριά UI</string>
+    <string name="settings_security_stance_body">Η επιτήρηση, η καταγραφή, η αποτροπή, οι ειδοποιήσεις και οι υπηρεσίες παρασκηνίου συνεχίζουν να λειτουργούν όσο η εφαρμογή είναι κλειδωμένη. Οι πύλες PIN είναι η διεπαφή OverDrive, τίποτα άλλο.</string>
+    <string name="settings_security_overline_lock">Κλείδωμα εφαρμογής</string>
+    <string name="settings_security_overline_recovery">Εάν ξεχάσετε το PIN σας</string>
+    <string name="settings_security_toggle_title">Απαίτηση PIN</string>
+    <string name="settings_security_toggle_subtitle_off">Απενεργοποιημένη - ο καθένας μπορεί να ανοίξει OverDrive.</string>
+    <string name="settings_security_toggle_subtitle_on">Ενεργό - Απαιτείται PIN για άνοιγμα OverDrive.</string>
+    <string name="settings_security_change_title">Αλλαγή PIN</string>
+    <string name="settings_security_change_subtitle">Επιβεβαιώστε το τρέχον PIN και μετά ορίστε ένα νέο.</string>
+    <string name="settings_security_autolock_title">Αυτόματο κλείδωμα</string>
+    <string name="settings_security_autolock_immediate">Κλείδωμα αμέσως</string>
+    <string name="settings_security_autolock_1min">Μετά από 1 λεπτό</string>
+    <string name="settings_security_autolock_5min">Μετά από 5 λεπτά</string>
+    <string name="settings_security_autolock_15min">Μετά από 15 λεπτά</string>
+    <string name="settings_security_autolock_never">Ποτέ αυτόματο κλείδωμα κατά το χρόνο</string>
+    <string name="settings_security_recovery_title">ADB ανάκτηση</string>
+    <string name="settings_security_recovery_body">Το ξεχασμένο PIN μπορεί να καθαριστεί από έναν υπολογιστή μέσω του εντοπισμού σφαλμάτων USB χωρίς επαναφορά εργοστασιακών ρυθμίσεων. Εκτελέστε αυτήν την εντολή, στη συνέχεια ανοίξτε ξανά την εφαρμογή.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">Όρισε PIN</string>
+    <string name="settings_security_dialog_set_body">Επιλέξτε ένα 4-8 ψηφίο PIN. Θα το χρειάζεστε κάθε φορά που θα ανοίξετε την εφαρμογή.</string>
+    <string name="settings_security_dialog_disable_title">Απενεργοποίηση κλειδώματος PIN?</string>
+    <string name="settings_security_dialog_disable_body">Επιβεβαιώστε το τρέχον PIN για να απενεργοποιήσετε το κλείδωμα της εφαρμογής.</string>
+    <string name="settings_security_dialog_change_step1_title">Επιβεβαίωση τρέχοντος PIN</string>
+    <string name="settings_security_dialog_change_step1_body">Εισάγετε το τρέχον PIN σας, και στη συνέχεια θα ορίσετε ένα νέο.</string>
+    <string name="settings_security_action_set">Όρισε PIN</string>
+    <string name="settings_security_action_disable">Απενεργοποίηση κλειδώματος</string>
+    <string name="settings_security_action_continue">Συνέχεια</string>
+    <string name="settings_security_pin_hint">PIN</string>
+    <string name="settings_security_pin_confirm_hint">Επιβεβαίωση PIN</string>
+    <string name="settings_security_error_length">Το PIN πρέπει να αποτελείται από 4 έως 8 ψηφία</string>
+    <string name="settings_security_error_numeric">Μόνο ψηφία</string>
+    <string name="settings_security_error_mismatch">Οι PIN δεν ταιριάζουν</string>
+    <string name="settings_security_error_wrong">Λάθος PIN</string>
+    <string name="settings_security_error_locked_out">Πάρα πολλές προσπάθειες. Δοκιμάστε ξανά σε ένα λεπτό.</string>
+    <string name="settings_security_error_persist">Δεν ήταν δυνατή η αποθήκευση του PIN. Δοκιμάστε ξανά.</string>
+    <string name="settings_security_toast_set_ok">Το PIN έχει οριστεί. Το κλείδωμα της εφαρμογής είναι ενεργό.</string>
+    <string name="settings_security_toast_disable_ok">Το κλείδωμα εφαρμογής απενεργοποιήθηκε.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">Εισαγωγή PIN</string>
+    <string name="pin_lock_title_unlocked">Ξεκλείδωτο</string>
+    <string name="pin_lock_subtitle_default">Ξεκλειδώστε το OverDrive για να συνεχίσετε.</string>
+    <string name="pin_lock_subtitle_wrong">Λάθος PIN. Δοκιμάστε ξανά.</string>
+    <string name="pin_lock_subtitle_locked_out">Πάρα πολλές προσπάθειες. Δοκιμάστε ξανά σύντομα.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">Κλειδωμένο. Δοκιμάστε ξανά στο %1$s.</string>
+    <string name="pin_lock_lockout_seconds">%1$ds</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">Ξεχάσατε το PIN σας? Εκτέλεση από έναν συνδεδεμένο υπολογιστή:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Backspace</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="one">%1$d digit entered</item>
+        <item quantity="other">%1$d digits entered</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">Καμία τοποθεσία</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">Κάμερα %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">Camera %1$d (manual)</string>
+    <string name="diagnostics_camera_value_probing">Probing…</string>
+    <string name="diagnostics_camera_value_offline">Αποσυνδεδεμένος</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">Εκκρεμή δεδομένα</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">Καλώς ήρθατε — Overdrive είναι τώρα το δεύτερο ζευγάρι των ματιών σας.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">Επιλέχθηκε %1$s (Ř%2$s) ενώ σταθμεύθηκε</string>
+    <string name="dashboard_insight_parked_charged">Επιλέχθηκε %1$s ενώ σταθμεύθηκε</string>
+    <string name="dashboard_insight_parked_drained_kwh">Χρησιμοποιήθηκε %1$s (Ř%2$s) από τη στιγμή που σταθμεύσατε</string>
+    <string name="dashboard_insight_parked_drained">Χρησιμοποιήθηκε %1$s από τη στιγμή που σταθμεύσατε</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">Τελευταία ειδοποίηση επιτήρησης: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">Τελευταία χρέωση: +%1$s στο %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">%1$d clips · Καταγράφηκε το %2$s</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f kWh</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d hr %2$d λεπτό</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="one">%1$d κλιπ που καταγράφονται σήμερα</item>
+        <item quantity="other">%1$d κλιπ που καταγράφονται σήμερα</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="one">Overdrive online για %1$d ημέρα, %2$d ώρα</item>
+        <item quantity="other">Overdrive online για %1$d ημέρες, %2$d ώρα</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="one">Overdrive online για %1$d ώρα</item>
+        <item quantity="other">Overdrive online για %1$d ώρες</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="one">%1$d λεπτά</item>
+        <item quantity="other">%1$d λεπτά</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="one">%1$d Ώρα</item>
+        <item quantity="other">%1$d Ώρα</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">Οδική Αίσθηση</string>
+    <string name="rail_hazard_map">Χάρτης</string>
+    <string name="roadsense_title">Οδική Αίσθηση</string>
+    <string name="roadsense_pill_scanning">Σάρωση</string>
+    <string name="roadsense_pill_idle">Οδική Αίσθηση</string>
+    <string name="roadsense_status_idle">Αδρανής</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">Εκμάθηση του οχήματός σας</string>
+    <string name="roadsense_cal_ready">Βαθμονομημένο όχημα</string>
+    <string name="roadsense_cal_partial">Βελτίωση βαθμονόμησης</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">Εκκαθάριση μπροστά</string>
+    <string name="roadsense_road_mapped">Οδική αντιστοίχιση · διαφανής</string>
+    <string name="roadsense_road_new">Νέος δρόμος · μάθηση</string>
+    <string name="roadsense_unit_meters">μ</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">Προειδοποίηση</string>
+    <string name="roadsense_toggle_audio">Ήχος</string>
+    <string name="roadsense_toggle_visual">Οπτική</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">Μικρός</string>
+    <string name="roadsense_sev_moderate">Μέτρια</string>
+    <string name="roadsense_sev_severe">Σοβαρή</string>
+    <string name="roadsense_type_breaker">Διακόπτης ταχύτητας</string>
+    <string name="roadsense_type_pothole">Pothole</string>
+    <string name="roadsense_type_hazard">Κίνδυνος</string>
+    <string name="roadsense_type_rough">Σκληρό τμήμα</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">%1$d χτυπά μπροστά</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">Σκληρό τμήμα · %1$d m</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">Ήταν αυτό ένας κίνδυνος?</string>
+    <string name="roadsense_confirm_reject">Δεν υπάρχει κίνδυνος</string>
+    <string name="roadsense_confirm_accept">Επιβεβαίωση</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">Επίπεδο βαθμονόμησης διαδρομής</string>
+    <string name="roadsense_cd_direction">Κατεύθυνση στο επόμενο κίνδυνο</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">ΑΡΙΣΤΕΡΟ</string>
+    <string name="blindspot_overlay_right">ΔΙΚΑΙΩΜΑ</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">Χάρτης</string>
+    <string name="roadsense_map_route_clear">Εκκαθάριση</string>
+    <string name="roadsense_map_route_unmapped">Δεν έχει χαρτογραφηθεί ακόμα</string>
+    <string name="roadsense_map_back">Πίσω</string>
+    <string name="roadsense_map_recenter">Επαναφορά στην τοποθεσία μου</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">Σοβαρότητα</string>
+    <string name="roadsense_map_type_label">Τύπος</string>
+    <string name="roadsense_map_type_unknown">Άγνωστο</string>
+    <string name="roadsense_map_confirm">Επιβεβαίωση</string>
+    <string name="roadsense_map_delete">Διαγραφή</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">Υποψήφιος</string>
+    <string name="roadsense_map_status_local">Στη συσκευή</string>
+    <string name="roadsense_map_status_cloud">Κοινόχρηστο</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% confidence · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="one">Αναφορά %1$d</item>
+        <item quantity="other">%1$d αναφορές</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">Ο κίνδυνος επιβεβαιώθηκε</string>
+    <string name="roadsense_map_deleted_toast">Ο κίνδυνος αφαιρέθηκε</string>
+    <string name="roadsense_map_action_failed">Δεν ήταν δυνατή η πρόσβαση στο RoadSense. Δοκιμάστε ξανά.</string>
+    <string name="roadsense_map_no_location">Αναμονή για διόρθωση GPS…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">Αναζήτηση προορισμού</string>
+    <string name="roadsense_map_search_action">Αναζήτηση</string>
+    <string name="roadsense_map_searching">Αναζήτηση…</string>
+    <string name="roadsense_map_no_results">Δεν βρέθηκαν μέρη</string>
+    <string name="roadsense_map_pick_destination">Επιλέξτε προορισμό</string>
+    <string name="roadsense_map_routing">Finding route…</string>
+    <string name="roadsense_map_route_failed">Αδυναμία εύρεσης διαδρομής. Δοκιμάστε ξανά.</string>
+    <string name="roadsense_map_need_key">Προσθέστε ένα κλειδί δρομολόγησης στις ρυθμίσεις του RoadSense για πλοήγηση.</string>
+    <string name="roadsense_map_rerouting">Off route — recalculating…</string>
+    <string name="roadsense_map_arrived">Έχετε φτάσει.</string>
+    <string name="roadsense_map_nav_started">Πλοήγηση στο %1$s</string>
+    <string name="roadsense_map_nav_ended">Η πλοήγηση τερματίστηκε</string>
+    <string name="roadsense_map_end_nav">Τέλος πλοήγησης</string>
+    <string name="roadsense_map_zoom_in">Μεγέθυνση</string>
+    <string name="roadsense_map_zoom_out">Σμίκρυνση</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">Ορατότητα κινδύνου</string>
+    <string name="roadsense_map_hazards_all">Εμφάνιση όλων των κινδύνων</string>
+    <string name="roadsense_map_hazards_moderate">Μέτρια και σοβαρή</string>
+    <string name="roadsense_map_hazards_severe">Σοβαρή μόνο</string>
+    <string name="roadsense_map_hazards_hidden">Απόκρυψη κινδύνων</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">Φόρτιση και καύσιμο</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">2D / 3D κτίρια</string>
+    <string name="roadsense_map_3d_on">3D κτίρια σε</string>
+    <string name="roadsense_map_3d_off">3D κτίρια κλειστά</string>
+    <string name="roadsense_map_poi_loading">Βρίσκοντας στάσεις φόρτισης και καυσίμου…</string>
+    <string name="roadsense_map_poi_none">Δεν βρέθηκαν σταθμοί κοντά</string>
+    <string name="roadsense_map_poi_need_route">Επιλέξτε πρώτα έναν προορισμό</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">Η διακοπή προστέθηκε</string>
+    <string name="roadsense_map_remove_stop_action">Αφαίρεση στάσης</string>
+    <string name="roadsense_map_poi_navigate">Πλοηγηθείτε εδώ</string>
+    <string name="roadsense_map_poi_kind_charging">Σταθμός φόρτισης</string>
+    <string name="roadsense_map_poi_kind_fuel">Σταθμός καυσίμων</string>
+    <string name="roadsense_map_poi_charging_generic">Σταθμός φόρτισης</string>
+    <string name="roadsense_map_poi_fuel_generic">Σταθμός καυσίμων</string>
+    <string name="roadsense_map_route_switched">Εναλλαγή διαδρομής</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">τότε</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">έξοδος %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">%1$d σοβαρή</string>
+    <string name="roadsense_map_pill_moderate">%1$d μέτρια</string>
+    <string name="roadsense_map_pill_minor">%1$d minor</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">Μη διαθέσιμα δεδομένα χάρτη εκτός σύνδεσης</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">Εκκαθάριση αναζήτησης</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">Επιλέξτε μια διαδρομή</string>
+    <string name="roadsense_map_routes_to">Routes to %1$s</string>
+    <string name="roadsense_map_routes_cancel">Ακύρωση</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">Διαδρομή %1$d</string>
+    <string name="roadsense_map_fastest">Ταχύτερη</string>
+    <string name="roadsense_map_start">Έναρξη</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">Η τοποθεσία σας</string>
+    <string name="roadsense_map_add_stop">Προσθήκη στάσης</string>
+    <string name="roadsense_map_add_stop_hint">Αναζήτηση στάσης για προσθήκη</string>
+    <string name="roadsense_map_stop_removed">Η διακοπή αφαιρέθηκε</string>
+    <string name="roadsense_map_remove_stop">Αφαίρεση στάσης</string>
+    <string name="roadsense_map_move_stop_up">Μετακίνηση στάσης πάνω</string>
+    <string name="roadsense_map_move_stop_down">Μετακίνηση στάσης κάτω</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">Μέχρι το %1$d επιτρέπονται οι στάσεις</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">Θέμα χάρτη</string>
+    <string name="roadsense_map_theme_auto">Θέμα χάρτη: Αυτόματο</string>
+    <string name="roadsense_map_theme_light">Θέμα χάρτη: Φως</string>
+    <string name="roadsense_map_theme_dark">Θέμα χάρτη: Σκοτεινό</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">Αρχική</string>
+    <string name="roadsense_map_saved_work">Εργασία</string>
+    <string name="roadsense_map_saved_set_home">Ορισμός Αρχικής Σελίδας</string>
+    <string name="roadsense_map_saved_set_work">Ορισμός Εργασίας</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">Αγαπημένο</string>
+    <string name="roadsense_map_save_place">Αποθήκευση τόπου</string>
+    <string name="roadsense_map_save_as_home">Αποθήκευση ως Αρχική σελίδα</string>
+    <string name="roadsense_map_save_as_work">Αποθήκευση ως εργασία</string>
+    <string name="roadsense_map_save_as_custom">Save as favourite…</string>
+    <string name="roadsense_map_saved_added">Αποθηκεύτηκε</string>
+    <string name="roadsense_map_saved_removed">Αφαιρέθηκε από αποθηκευμένο</string>
+    <string name="roadsense_map_saved_remove">Αφαίρεση</string>
+    <string name="roadsense_map_recent_remove">Αφαίρεση από πρόσφατα</string>
+    <string name="roadsense_map_recent_removed">Αφαιρέθηκε από πρόσφατα</string>
+    <string name="roadsense_map_custom_label_hint">Ετικέτα (π.χ. Γυμναστήριο, Mum\'s)</string>
+    <string name="roadsense_map_custom_label_title">Όνομα αυτού του τόπου</string>
+    <string name="roadsense_map_save">Αποθήκευση</string>
+    <string name="roadsense_map_cancel">Ακύρωση</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">Απορριφθέν pin</string>
+    <string name="roadsense_map_navigate_here">Πλοηγηθείτε εδώ</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">Αναζητήστε ένα μέρος για να ορίσετε ως %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">Η διαδρομή επαναφέρθηκε</string>
+    <!-- dialog_cloudflared_settings -->
+    <string name="cloudflared_token_storage_note">Το διακριτικό αποθηκεύεται με ασφάλεια και κοινοποιείται μεταξύ της εφαρμογής και των διεργασιών δαίμονα.</string>
+    <string name="cloudflared_token_hint">Εισαγάγετε το διακριτικό cloudflared</string>
+    <string name="cloudflare_paid_version">Έκδοση επί πληρωμή Cloudflare</string>
+    <string name="dialog_cloudflared_settings_title">🌐 Ρυθμίσεις Cloudflared</string>
+    <string name="dialog_cloudflared_settings_message">Καθορίστε εάν χρησιμοποιείτε Cloudflare επί πληρωμή ή trycloudflare. Εάν χρησιμοποιείτε Cloudflare επί πληρωμή, εισαγάγετε το διακριτικό της σήραγγας σας.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">Εάν οριστεί σε έκδοση επί πληρωμή, το διακριτικό δεν μπορεί να είναι κενό</string>
+    <string name="toast_cloudflared_saved_settings">Οι ρυθμίσεις του Cloudflared αποθηκεύτηκαν</string>
+</resources>

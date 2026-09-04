@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Small solid disc behind a via-stop's 1-based ordinal number, overlaid on the
+  itinerary row's leading-icon disc. Uses ?attr/colorPrimary so the number
+  reads as a deliberate stop index (paired with a colorOnPrimary glyph) in both
+  day and night. A thin surface-coloured rim separates it from the icon disc.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="?attr/colorPrimary" />
+    <stroke
+        android:width="1.5dp"
+        android:color="?attr/colorSurfaceContainer" />
+</shape>

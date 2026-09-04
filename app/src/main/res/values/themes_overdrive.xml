@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Material 3 themes for Overdrive — LIGHT (default) variant.
+  values-night/themes_overdrive.xml provides the dark variant.
+  values/themes.xml keeps the legacy `Theme.Overdrive` alias so existing
+  Manifest entries (android:theme="@style/Theme.Overdrive") keep working —
+  the alias points to Theme.Overdrive.M3 which is light/dark aware via
+  AppCompatDelegate.setDefaultNightMode + values-night.
+
+  All component widget styles still come from themes.xml so this file is
+  ONLY about color roles.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Theme.Overdrive.M3" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Primary -->
+        <item name="colorPrimary">@color/md_sys_color_primary</item>
+        <item name="colorOnPrimary">@color/md_sys_color_on_primary</item>
+        <item name="colorPrimaryContainer">@color/md_sys_color_primary_container</item>
+        <item name="colorOnPrimaryContainer">@color/md_sys_color_on_primary_container</item>
+
+        <!-- Secondary -->
+        <item name="colorSecondary">@color/md_sys_color_secondary</item>
+        <item name="colorOnSecondary">@color/md_sys_color_on_secondary</item>
+        <item name="colorSecondaryContainer">@color/md_sys_color_secondary_container</item>
+        <item name="colorOnSecondaryContainer">@color/md_sys_color_on_secondary_container</item>
+
+        <!-- Tertiary -->
+        <item name="colorTertiary">@color/md_sys_color_tertiary</item>
+        <item name="colorOnTertiary">@color/md_sys_color_on_tertiary</item>
+        <item name="colorTertiaryContainer">@color/md_sys_color_tertiary_container</item>
+        <item name="colorOnTertiaryContainer">@color/md_sys_color_on_tertiary_container</item>
+
+        <!-- Error -->
+        <item name="colorError">@color/md_sys_color_error</item>
+        <item name="colorOnError">@color/md_sys_color_on_error</item>
+        <item name="colorErrorContainer">@color/md_sys_color_error_container</item>
+        <item name="colorOnErrorContainer">@color/md_sys_color_on_error_container</item>
+
+        <!-- Background / surface -->
+        <item name="android:colorBackground">@color/md_sys_color_background</item>
+        <item name="colorOnBackground">@color/md_sys_color_on_background</item>
+        <item name="colorSurface">@color/md_sys_color_surface</item>
+        <item name="colorOnSurface">@color/md_sys_color_on_surface</item>
+        <item name="colorSurfaceVariant">@color/md_sys_color_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/md_sys_color_on_surface_variant</item>
+        <item name="colorSurfaceDim">@color/md_sys_color_surface_dim</item>
+        <item name="colorSurfaceBright">@color/md_sys_color_surface_bright</item>
+        <item name="colorSurfaceContainerLowest">@color/md_sys_color_surface_container_lowest</item>
+        <item name="colorSurfaceContainerLow">@color/md_sys_color_surface_container_low</item>
+        <item name="colorSurfaceContainer">@color/md_sys_color_surface_container</item>
+        <item name="colorSurfaceContainerHigh">@color/md_sys_color_surface_container_high</item>
+        <item name="colorSurfaceContainerHighest">@color/md_sys_color_surface_container_highest</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">@color/md_sys_color_outline</item>
+        <item name="colorOutlineVariant">@color/md_sys_color_outline_variant</item>
+
+        <!-- Inverse / scrim -->
+        <item name="colorSurfaceInverse">@color/md_sys_color_inverse_surface</item>
+        <item name="colorOnSurfaceInverse">@color/md_sys_color_inverse_on_surface</item>
+        <item name="colorPrimaryInverse">@color/md_sys_color_inverse_primary</item>
+        <item name="scrimBackground">@color/md_sys_color_scrim</item>
+
+        <!-- System bars -->
+        <item name="android:statusBarColor">@color/md_sys_color_surface_container</item>
+        <item name="android:navigationBarColor">@color/md_sys_color_surface_container</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:windowBackground">@color/md_sys_color_background</item>
+
+        <!-- Text colors driven by M3 roles -->
+        <item name="android:textColorPrimary">@color/md_sys_color_on_surface</item>
+        <item name="android:textColorSecondary">@color/md_sys_color_on_surface_variant</item>
+        <item name="android:textColorHint">@color/md_sys_color_outline</item>
+
+        <!-- Inherited component styles from themes.xml -->
+        <item name="materialCardViewStyle">@style/Widget.Overdrive.M3.CardView</item>
+        <item name="materialButtonStyle">@style/Widget.Overdrive.M3.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.Overdrive.M3.Button.Outlined</item>
+        <item name="toolbarStyle">@style/Widget.Overdrive.M3.Toolbar</item>
+        <item name="sliderStyle">@style/Widget.Overdrive.M3.Slider</item>
+        <item name="bottomSheetDialogTheme">@style/Theme.Overdrive.M3.BottomSheet</item>
+        <!-- Auto-pick up our M3 dialog overlay for every MaterialAlertDialogBuilder. -->
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.Overdrive.M3.MaterialAlertDialog</item>
+        <item name="alertDialogTheme">@style/ThemeOverlay.Overdrive.M3.MaterialAlertDialog</item>
+
+        <!-- App typography contract. Medium-weight display and label styles
+             improve scanability while zero tracking remains robust under font
+             scaling, long translations, and fallback fonts. -->
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Overdrive.DisplaySmall</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.Overdrive.HeadlineLarge</item>
+        <item name="textAppearanceHeadlineMedium">@style/TextAppearance.Overdrive.HeadlineMedium</item>
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.Overdrive.HeadlineSmall</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Overdrive.TitleLarge</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.Overdrive.TitleMedium</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Overdrive.LabelLarge</item>
+        <item name="textAppearanceLabelMedium">@style/TextAppearance.Overdrive.LabelMedium</item>
+    </style>
+
+    <!-- ============================================================== -->
+    <!-- Component widget overrides — used by both light + dark variants.-->
+    <!-- They reference attrs (?attr/colorSurface etc.) so they auto-flip-->
+    <!-- ============================================================== -->
+
+    <!-- Cards: restrained tonal containers without elevation shadows. -->
+    <style name="Widget.Overdrive.M3.CardView" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">?attr/colorSurfaceContainer</item>
+        <item name="cardCornerRadius">@dimen/card_radius_standard</item>
+        <item name="cardElevation">0dp</item>
+    </style>
+
+    <style name="Widget.Overdrive.M3.CardView.Outlined" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardCornerRadius">@dimen/card_radius_standard</item>
+        <item name="strokeColor">?attr/colorOutlineVariant</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <!-- Buttons share the 8dp component radius and a 48dp touch target. -->
+    <style name="Widget.Overdrive.M3.Button" parent="Widget.Material3.Button">
+        <item name="cornerRadius">@dimen/card_radius_accent</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.Overdrive.M3.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="strokeColor">?attr/colorOutline</item>
+        <item name="cornerRadius">@dimen/card_radius_accent</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Widget.Overdrive.M3.Button.Tonal" parent="Widget.Material3.Button.TonalButton">
+        <item name="cornerRadius">@dimen/card_radius_accent</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Widget.Overdrive.M3.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="cornerRadius">@dimen/card_radius_accent</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- PIN unlock keypad (PinLockActivity). M3 tonal circular key with
+         a soft surface-container fill — bright enough to read in daylight
+         on the BYD panel, calm enough to not visually dominate the dot
+         indicator above. Insets zeroed because the GridLayout cell margin
+         already provides the gap between keys. -->
+    <style name="Widget.Overdrive.M3.PinKey" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:layout_width">@dimen/pin_key_size</item>
+        <item name="android:layout_height">@dimen/pin_key_size</item>
+        <item name="android:layout_margin">@dimen/pin_key_margin</item>
+        <item name="android:textSize">@dimen/pin_key_text_size</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">?attr/colorOnSecondaryContainer</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="cornerRadius">@dimen/pin_key_corner</item>
+        <item name="backgroundTint">?attr/colorSecondaryContainer</item>
+        <item name="rippleColor">?attr/colorOnSecondaryContainer</item>
+    </style>
+
+    <!-- Icon-only action key (backspace). Inherits the tonal-key sizing
+         but draws a centred icon instead of text. iconGravity=textTop +
+         android:gravity=center keeps the glyph centred in the circle
+         (a textStart gravity with empty text would left-align the icon). -->
+    <style name="Widget.Overdrive.M3.PinKey.Action" parent="Widget.Overdrive.M3.PinKey">
+        <item name="backgroundTint">?attr/colorSurfaceContainerHigh</item>
+        <item name="iconTint">?attr/colorOnSurfaceVariant</item>
+        <item name="iconGravity">textTop</item>
+        <item name="iconPadding">0dp</item>
+        <item name="iconSize">26dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Toolbar -->
+    <style name="Widget.Overdrive.M3.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="titleTextColor">?attr/colorOnSurface</item>
+        <item name="subtitleTextColor">?attr/colorOnSurfaceVariant</item>
+        <item name="navigationIconTint">?attr/colorOnSurface</item>
+    </style>
+
+    <!-- Slider -->
+    <style name="Widget.Overdrive.M3.Slider" parent="Widget.Material3.Slider">
+        <item name="trackColorActive">?attr/colorPrimary</item>
+        <item name="trackColorInactive">?attr/colorSurfaceContainerHighest</item>
+        <item name="thumbColor">?attr/colorPrimary</item>
+        <item name="haloColor">?attr/colorPrimary</item>
+    </style>
+
+    <!-- Bottom sheet -->
+    <style name="Theme.Overdrive.M3.BottomSheet" parent="ThemeOverlay.Material3.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Widget.Overdrive.M3.BottomSheet</item>
+    </style>
+
+    <style name="Widget.Overdrive.M3.BottomSheet" parent="Widget.Material3.BottomSheet">
+        <item name="backgroundTint">?attr/colorSurfaceContainerLow</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Overdrive.LargeComponent</item>
+    </style>
+
+    <!-- Navigation Rail (M3 expressive) -->
+    <style name="Widget.Overdrive.M3.NavigationRail" parent="Widget.Material3.NavigationRailView">
+        <item name="android:background">?attr/colorSurface</item>
+        <item name="itemIconTint">?attr/colorOnSurfaceVariant</item>
+        <item name="itemTextColor">?attr/colorOnSurfaceVariant</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.Overdrive.M3.NavigationRail.ActiveIndicator</item>
+        <item name="labelVisibilityMode">labeled</item>
+    </style>
+
+    <style name="Widget.Overdrive.M3.NavigationRail.ActiveIndicator" parent="Widget.Material3.NavigationRailView.ActiveIndicator">
+        <item name="android:color">?attr/colorSecondaryContainer</item>
+        <item name="android:width">56dp</item>
+        <item name="android:height">32dp</item>
+        <item name="marginHorizontal">4dp</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Overdrive.SmallComponent</item>
+    </style>
+
+    <!-- Segmented buttons (Dashcam / Surveillance) -->
+    <style name="Widget.Overdrive.M3.SegmentedButton" parent="Widget.Material3.MaterialButtonGroup">
+        <item name="singleSelection">true</item>
+        <item name="selectionRequired">true</item>
+    </style>
+
+    <!-- ============================================================== -->
+    <!-- M3 Dialog overlay — used by MaterialAlertDialogBuilder and as the -->
+    <!-- explicit theme for any custom-view dialogs (SetupGuideDialog,    -->
+    <!-- BatteryHealth, ResetData, CameraSelection, …). All visual tokens -->
+    <!-- come from ?attr/* so it auto-flips with light / dark.            -->
+    <!-- ============================================================== -->
+    <style name="ThemeOverlay.Overdrive.M3.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.Overdrive.Title</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.Overdrive.Body</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Overdrive.M3.Button.Dialog.Primary</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Overdrive.M3.Button.Dialog.Neutral</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.Overdrive.M3.Button.Dialog.Neutral</item>
+        <item name="dialogCornerRadius">28dp</item>
+        <item name="shapeAppearanceLargeComponent">@style/ShapeAppearance.Overdrive.LargeComponent</item>
+        <!-- Surface tier: M3 spec calls for surfaceContainerHigh on the dialog -->
+        <item name="colorSurface">?attr/colorSurfaceContainerHigh</item>
+    </style>
+
+    <style name="MaterialAlertDialog.Overdrive.Title" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textAppearance">@style/TextAppearance.Material3.HeadlineSmall</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="MaterialAlertDialog.Overdrive.Body" parent="MaterialAlertDialog.Material3.Body.Text">
+        <item name="android:textAppearance">@style/TextAppearance.Material3.BodyMedium</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- Filled-tonal primary action — M3 expressive guidance for dialog
+         primary buttons. Stands out clearly against the surfaceContainerHigh
+         dialog body, much more "actionable" than a flat text button.
+         Includes minHeight + horizontal padding so the pill shape reads. -->
+    <style name="Widget.Overdrive.M3.Button.Dialog.Primary" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/card_radius_accent</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">88dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.LabelLarge</item>
+        <item name="backgroundTint">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <!-- Neutral / negative dialog action — flat text button to defer to
+         the primary CTA visually. M3 spec keeps these as TextButton. -->
+    <style name="Widget.Overdrive.M3.Button.Dialog.Neutral" parent="Widget.Material3.Button.TextButton.Dialog">
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.LabelLarge</item>
+    </style>
+
+    <!-- Custom-view dialog theme: same color/shape inheritance, but lets
+         a layout fully define its own content (used by SetupGuideDialog,
+         dialog_camera_selection, dialog_battery_health, dialog_reset_data,
+         dialog_time_window, dialog_zrok_token, dialog_tailscale_settings,
+         dialog_update_progress, dialog_roi_drawing). -->
+    <style name="Theme.Overdrive.M3.Dialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorSurface">?attr/colorSurfaceContainerHigh</item>
+        <item name="dialogCornerRadius">28dp</item>
+        <item name="android:windowBackground">@drawable/dialog_m3_background</item>
+        <item name="android:windowMinWidthMajor">68%</item>
+        <item name="android:windowMinWidthMinor">88%</item>
+        <!-- Inherit the same primary / neutral button styles so layout-driven
+             dialogs (setup guide, reset data, battery health…) get the same
+             filled-pill primary CTA + flat-text neutral as MaterialAlertDialog. -->
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.Overdrive.Title</item>
+        <item name="materialAlertDialogBodyTextStyle">@style/MaterialAlertDialog.Overdrive.Body</item>
+        <item name="materialAlertDialogTitleIconStyle">@style/MaterialAlertDialog.Overdrive.TitleIcon</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.Overdrive.M3.Button.Dialog.Primary</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.Overdrive.M3.Button.Dialog.Neutral</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.Overdrive.M3.Button.Dialog.Neutral</item>
+    </style>
+
+    <!-- Tinted, centered, M3-sized title icon used by setIcon() — keeps
+         every dialog icon at colorPrimary, 32dp square, identity-aligned. -->
+    <style name="MaterialAlertDialog.Overdrive.TitleIcon" parent="MaterialAlertDialog.Material3.Title.Icon">
+        <item name="android:tint">?attr/colorPrimary</item>
+        <item name="android:layout_width">32dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:layout_marginBottom">12dp</item>
+    </style>
+
+    <!-- Settings row helpers (used by fragment_settings.xml cards). The
+         empty parent style anchors the dotted style names. -->
+    <style name="SettingsRow" />
+
+    <style name="SettingsRow.Inner">
+        <item name="android:minHeight">56dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">20dp</item>
+    </style>
+
+    <style name="SettingsRow.Title">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Material3.TitleMedium</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="SettingsRow.Chevron">
+        <item name="android:layout_width">20dp</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:contentDescription">@null</item>
+        <item name="android:tint">?attr/colorOnSurfaceVariant</item>
+    </style>
+
+    <!-- ============================================================== -->
+    <!-- M3 type scale — medium weights with locale-safe zero tracking.  -->
+    <!-- Each style inherits from the matching Material3 token so we     -->
+    <!-- only override the bits we want to tighten; the rest (sizes,     -->
+    <!-- line heights) come from the platform spec.                      -->
+    <!-- ============================================================== -->
+
+    <style name="TextAppearance.Overdrive.DisplaySmall" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.Overdrive.HeadlineLarge" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.Overdrive.HeadlineMedium" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.Overdrive.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.Overdrive.TitleLarge" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.Overdrive.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.Overdrive.LabelLarge" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.Overdrive.LabelMedium" parent="TextAppearance.Material3.LabelMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">0</item>
+    </style>
+
+</resources>

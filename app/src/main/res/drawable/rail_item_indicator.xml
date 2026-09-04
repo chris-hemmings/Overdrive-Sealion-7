@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Selected/unselected pill behind the rail-item icon.
+
+  Selected state uses M3 colorSecondaryContainer — the M3 Expressive spec
+  for a navigation-rail active indicator. Reads as a tonal "selected"
+  signal that stays AA-contrast with the icon (tinted by
+  colorOnSecondaryContainer in the rail item tint state list) while still
+  carrying the brand identity through the secondary tone of the M3 palette.
+
+  Pressed state uses surfaceContainerHigh as a press affordance, one tier
+  lower than the active selected pill so the press is visible against an
+  unselected row.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/colorSecondaryContainer" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/colorSurfaceContainerHigh" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@android:color/transparent" />
+            <corners android:radius="16dp" />
+        </shape>
+    </item>
+</selector>

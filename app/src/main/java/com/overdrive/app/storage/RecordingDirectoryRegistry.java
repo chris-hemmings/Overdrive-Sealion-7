@@ -1,0 +1,53 @@
+package com.overdrive.app.storage;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+public final class RecordingDirectoryRegistry {
+    public static final String LEGACY_BASE =
+            "/storage/emulated/0/Android/data/com.overdrive.app/files";
+    public static final String LEGACY_RECORDINGS = LEGACY_BASE + "/recordings";
+    public static final String LEGACY_SENTRY = LEGACY_BASE + "/sentry_events";
+    public static final String LEGACY_PROXIMITY = LEGACY_BASE + "/proximity_events";
+
+    private RecordingDirectoryRegistry() {}
+
+    /**
+     * True iff {@code dir} is, or lives under, the legacy pre-registry base
+     * ({@link #LEGACY_BASE}) — which contains all three legacy roots. Used by
+     * consumers that must order legacy roots LAST (first-match-wins hero/
+     * thumbnail resolution: a colliding name must resolve to the live copy,
+     * never the stale flat legacy copy).
+     */
+    public static boolean isLegacy(File dir) {
+        if (dir == null) return false;
+        String p = dir.getAbsolutePath();
+        return p.equals(LEGACY_BASE) || p.startsWith(LEGACY_BASE + "/");
+    }
+
+    static List<File> recordings(File active, File internal, File sd, File usb) {
+        return unique(active, internal, sd, usb,
+                new File(LEGACY_RECORDINGS), new File(LEGACY_BASE));
+    }
+
+    static List<File> surveillance(File active, File internal, File sd, File usb) {
+        return unique(active, internal, sd, usb, new File(LEGACY_SENTRY));
+    }
+
+    static List<File> proximity(File active, File internal, File sd, File usb) {
+        return unique(active, internal, sd, usb, new File(LEGACY_PROXIMITY));
+    }
+
+    private static List<File> unique(File... candidates) {
+        List<File> directories = new ArrayList<>();
+        Set<String> seen = new HashSet<>();
+        for (File candidate : candidates) {
+            if (candidate == null) continue;
+            if (seen.add(candidate.getAbsolutePath())) directories.add(candidate);
+        }
+        return directories;
+    }
+}

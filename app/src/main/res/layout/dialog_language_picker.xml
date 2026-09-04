@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Language picker — real M3 BottomSheetDialog content.
+
+  No background colour is set on the root: the BottomSheetDialog theme
+  (Theme.Overdrive.BottomSheet → Widget.Overdrive.BottomSheet) provides
+  the surface tone and rounded top corners.
+
+  IDs preserved (LanguagePickerDialog.kt findViewById targets):
+    rvLanguages, btnLangPickerClose.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="12dp">
+
+    <!-- Grab handle: M3 bottom-sheet affordance -->
+    <View
+        android:layout_width="32dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:background="?attr/colorOutline" />
+
+    <!-- Title row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/page_padding_horizontal"
+        android:paddingEnd="@dimen/card_gap_vertical"
+        android:paddingTop="12dp"
+        android:paddingBottom="4dp"
+        android:baselineAligned="false">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:accessibilityHeading="true"
+                android:text="@string/language_picker_title"
+                android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+                android:textColor="?attr/colorOnSurface"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvLangPickerSubtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/language_picker_subtitle_pending"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="18 languages available" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLangPickerClose"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_close"
+            app:icon="@drawable/ic_clear"
+            app:iconTint="?attr/colorOnSurfaceVariant" />
+
+    </LinearLayout>
+
+    <!-- Language list (Auto + 18 languages, with current selection highlighted) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvLanguages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="480dp"
+        android:overScrollMode="ifContentScrolls"
+        android:paddingHorizontal="@dimen/card_gap_vertical"
+        android:paddingVertical="8dp"
+        android:clipToPadding="false"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_language_row" />
+
+</LinearLayout>

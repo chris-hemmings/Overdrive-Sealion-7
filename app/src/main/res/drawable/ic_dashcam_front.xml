@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Dashcam layout map with the full-width front band solid (Front camera =
+     top band in the dashcam composition). Lower thirds (Left / Rear / Right)
+     outlined to map where this camera sits in the frame. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M3,3h18v9h-18z" />
+    <path
+        android:fillColor="#66FFFFFF"
+        android:pathData="M3,14h5v7h-5zM4,15v5h3v-5z"
+        android:fillType="evenOdd" />
+    <path
+        android:fillColor="#66FFFFFF"
+        android:pathData="M9.5,14h5v7h-5zM10.5,15v5h3v-5z"
+        android:fillType="evenOdd" />
+    <path
+        android:fillColor="#66FFFFFF"
+        android:pathData="M16,14h5v7h-5zM17,15v5h3v-5z"
+        android:fillType="evenOdd" />
+</vector>

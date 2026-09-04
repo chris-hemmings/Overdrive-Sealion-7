@@ -1,0 +1,1372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OverDrive</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">Overdrive houdt de voertuigmonitoring actief in de achtergrond. Deze dienst leest of communiceert niet met de inhoud van het scherm.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">Annuleren</string>
+    <string name="action_clear_plain">Wissen</string>
+    <string name="action_select_all">Selecteer alle</string>
+    <string name="action_select_all_short">Allemaal .</string>
+    <string name="action_delete">Verwijderen</string>
+    <string name="action_share">Delen</string>
+    <string name="action_done">Gedaan</string>
+    <string name="action_remind_me_later">Herinner mij later.</string>
+    <string name="action_retry">Opnieuw proberen</string>
+    <string name="action_run">Rennen .</string>
+    <string name="action_clear_output">Een duidelijke uitgang</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">Camera .</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">QR-code</string>
+    <string name="cd_show_hide_token">Toon/Verberg-token</string>
+    <string name="cd_copy_token">Kopie-token</string>
+    <string name="cd_copy_url">Kopie URL</string>
+    <string name="cd_clear_logs">Schone boeken</string>
+    <string name="cd_expand_collapse">Uitbreiding/kollaps</string>
+    <string name="cd_recording_status">Opnamestatus</string>
+    <string name="cd_trip_tracking_status">Status van het volgen van reizen</string>
+    <string name="cd_mic_status">Microphone-opname status</string>
+    <string name="cd_video_thumbnail">Miniatuur van de video\'s</string>
+    <string name="cd_play">Afspelen</string>
+    <string name="cd_back">Terug</string>
+    <string name="cd_play_pause">Speel/Pause</string>
+    <string name="cd_player_prev">Vorige opname</string>
+    <string name="cd_player_next">Volgende opname</string>
+    <string name="cd_player_maximize">Maximale speler</string>
+    <string name="cd_player_minimize">Uitgang fullscreen</string>
+    <string name="cd_player_mute">Tooggeluidingsgeluid</string>
+    <string name="cd_player_quadrant_all">Alle camera\'s weergeven</string>
+    <string name="cd_player_quadrant_front">Camera aan voorzijde tonen</string>
+    <string name="cd_player_quadrant_right">Toon rechter camera</string>
+    <string name="cd_player_quadrant_rear">Camera aan de achterkant weergeven</string>
+    <string name="cd_player_quadrant_left">Toon camera links</string>
+    <string name="cd_delete">Verwijderen</string>
+    <string name="cd_share">Delen</string>
+    <string name="cd_expand">Uitbreiden</string>
+    <string name="cd_configure">Configuratie</string>
+    <string name="cd_download_log">Download log</string>
+    <string name="cd_reset">Resetten</string>
+    <string name="cd_battery">Batterij</string>
+    <string name="cd_step_completed">Voltooide stap</string>
+    <string name="cd_permission_granted">Toestemming verleend</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">REC</string>
+    <string name="overlay_trip_inactive_label">TRIP</string>
+    <string name="overlay_mic_inactive_label">MIC</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">Stop met opnemen</string>
+    <string name="overlay_mode_continuous_cd">Continue opname</string>
+    <string name="overlay_mode_drive_cd">Opname rij-modus</string>
+    <string name="overlay_mode_proximity_cd">Opname ximity-guard</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">- Ik heb geen idee.</string>
+    <string name="log_entry_default_tag">Ik heb het niet gedaan.</string>
+    <string name="log_entry_default_message">Log bericht hier</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">Daemon Naam</string>
+    <string name="daemon_card_default_status">Statusbericht</string>
+    <string name="daemon_card_subprocesses">SUPERROCESSEN</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">Boeken</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">Verbinding...</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">Geen browser gevonden. Koppeling gekopieerd: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">Login URL genereren</string>
+    <string name="tailscale_scan_to_login">Scan naar Login</string>
+    <string name="tailscale_qr_waiting">Wachtend op de inlog URL...</string>
+    <string name="tailscale_enable_proxy">Tailscale Proxy geactiveerd</string>
+    <string name="tailscale_proxy_explainer">Routes MQTT door Tailscale zodat je een private makelaar kunt bereiken op je achternet zonder port forwarding.</string>
+    <string name="tailscale_proxy_warning">MQTT naar publieke makelaars (HiveMQ, AWS IoT, enz.) zal mislukken  Tailscale alleen routes naar uw tailnet.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">Ingestiemode</string>
+    <string name="camera_mode_subtitle">Kies het pad dat bij je hoofdunit past. De standaard past bij de meeste BYD-modellen; DiLink 4 is vereist op nieuwere versieringen (Han / Tang 2024+) waarbij de AVM HAL een vooraf gesneden 2x2-mosaïek uitzendt.</string>
+    <string name="camera_mode_option_default">De standaard  werkt op Seal, Atto, Dolphin (de meeste auto\'s)</string>
+    <string name="camera_mode_option_dilink4">DiLink 4  nieuwere Han / Tang varianten</string>
+    <string name="camera_mode_current_default">Stroom: standaard</string>
+    <string name="camera_mode_current_dilink4">Stroom: DiLink 4</string>
+    <string name="camera_mode_save">Toepassingsmodus</string>
+    <string name="camera_mode_hint">Als de video er slecht uitziet (verscheurd, ontbrekende kwadranten, rode overlaai), probeer dan de andere modus.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">DiLink 4 Quadrant Tweaks</string>
+    <string name="camera_dilink4_tweaks_subtitle">Per voertuig aanpassingen voor het DiLink 4-pad. Alleen effectief wanneer de DiLink 4-modus hierboven is geselecteerd.</string>
+    <string name="camera_dilink4_save">Toepassen van tweaks</string>
+    <string name="camera_dilink4_hint">Schakel deze alleen uit als de HAL een rode \"kalibratie mislukte\" chrom over de feed schildert.</string>
+    <string name="camera_dilink4_red_mask_label">Verwijder de rode kalibratieoverlaag (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">Voegt een fragment-shader-pas toe die helderrood HAL \"kalibratie mislukte\" pixels detecteert en vervangt ze door een naburig monster (of lichtgrijz wanneer de banner te groot is om te verven).</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">Camera Selectie</string>
+    <string name="camera_selection_subtitle">Selecteer de bron van de panoramische camera</string>
+    <string name="camera_current_auto">Stroom: Auto</string>
+    <string name="camera_option_auto">Automatische (opstart detecteerbaar)</string>
+    <string name="camera_option_0">Camera 0  Atto trimmen</string>
+    <string name="camera_option_1">Camera 1  Seal (voorafgaande)</string>
+    <string name="camera_option_2">Camera 2</string>
+    <string name="camera_option_3">Camera 3</string>
+    <string name="camera_option_4">Camera 4</string>
+    <string name="camera_option_5">Camera 5</string>
+    <string name="camera_selection_hint">De camera 1 = BYD Seal, camera 0 = Atto trimmen. Restart de daemon na het wijzigen van de camera-ID voor de instelling om in werking te treden.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">OEM Dashcam cameraID</string>
+    <string name="camera_oem_dashcam_hint">Kies de AVMCamera id die wijst op de vooruit dashcam sensor. Dashcam is de pano: Seal/Han pano = 1 → dashcam = 0; Atto / Tang pano = 0 → dashcam = 1. Ga automatisch op om OverDrive te laten kiezen.</string>
+    <string name="camera_oem_dashcam_auto_resolved">Automatisch - gebruik van id %1$d (pano is id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">Auto - pano id is %1$d, kan geen infer dashcam</string>
+    <string name="camera_oem_dashcam_save">Opslaan</string>
+    <string name="camera_concurrent_probe_label">Test dual-camera ondersteuning bij volgende boot</string>
+    <string name="camera_concurrent_probe_subtitle">Eenmalige controle die beide camera\'s tegelijk opent om te bevestigen dat dit voertuig tegelijkertijd pano + dashcam kan gebruiken. Voert een keer uit bij de volgende herstart wanneer geparkeerd. Verlaat UIT tenzij opnamen er verkeerd uitzien - dit is niet nodig en kan een opname kort onderbreken als deze actief is wanneer deze wordt uitgevoerd.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">Camera 0 – Zegel / Han (standaard)</string>
+    <string name="camera_oem_option_1">Camera 1 – Atto / Tang</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">Kamerkaarten maken</string>
+    <string name="camera_role_label">Role mapping</string>
+    <string name="camera_candidate_previous">Eerder</string>
+    <string name="camera_candidate_next">Volgende</string>
+    <string name="camera_preview_unavailable">Probeer een andere kandidaat of vernieuwen door de dialoog opnieuw te openen nadat de daemon opnieuw is gestart.</string>
+    <string name="camera_mapping_save">Bewaar mapping</string>
+    <string name="camera_mapping_clear">Een duidelijke rol</string>
+    <string name="camera_mapping_saved">Camera mapping opgeslagen.</string>
+    <string name="camera_mapping_cleared">Camera rol mapping vrij.</string>
+    <string name="camera_mapping_summary_format">Panorama-stroom: camera %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">Panorama-stroom: auto-detectie / sonde van erfenis</string>
+    <string name="camera_mapping_current_format">Mapping van de stroom: %1$s</string>
+    <string name="camera_mapping_current_none">Stroomopslag: automatisch / standaard</string>
+    <string name="camera_mapping_hint">OverDrive behoudt standaard het oude startgedrag, maar nu kunt u de samengestelde panoramische strip correct kalibreren. Bekijk elke rauwe samengestelde slice, kaart de logische 360-rollen naar de slice die eigenlijk voor/rechts/achter/links op uw voertuig toont, en de daemon zal die lay-out opnieuw gebruiken voor opname, streaming en AI na het opnieuw starten.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">Scan om te verbinden</string>
+    <string name="dashboard_qr_waiting">Wachtend op de tunnel...</string>
+    <string name="dashboard_daemons_running_default">0/5 Rennen</string>
+    <string name="dashboard_device_id_loading">- Ik heb het niet gedaan .</string>
+    <string name="dashboard_access_code">Toegangscode</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">Regeneratie-token</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">Beginnen</string>
+    <string name="setup_guide_subtitle">Drie snelle stappen om de beste ervaring te krijgen:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2</string>
+    <string name="setup_step_three_label">3 Vrouwen en kinderen</string>
+    <string name="setup_language_title">Kies uw taal</string>
+    <string name="setup_language_body">Tast om een andere taal te kiezen voor de OverDrive-app en de webtunnel.</string>
+    <string name="setup_language_button">Kies taal</string>
+    <string name="setup_autostart_title">Auto-Start-beperking uitschakelen</string>
+    <string name="setup_autostart_body">Klik hieronder om BYD Auto-Start te openen. Zoek OverDrive in de lijst en verwijder het vak. BYD verwijdert dit bij elke installatie  je zult het opnieuw na updates.</string>
+    <string name="setup_autostart_button">Open BYD Auto-Start</string>
+    <string name="setup_overlay_title">Laat het weergeven via andere apps toe</string>
+    <string name="setup_overlay_body">Hiermee kan je een zwevende statusindicator tonen voor het opnemen en volgen van reizen bovenop andere apps.</string>
+    <string name="setup_overlay_button">Open overlaysinstellingen</string>
+    <!-- Onboarding guide (novice track). Parked-only, glanceable. Overdrive is a
+         protected brand name — keep it verbatim. -->
+    <!-- Shared button labels -->
+    <string name="onboarding_next">Volgende</string>
+    <string name="onboarding_back">Achterzijde</string>
+    <string name="onboarding_skip">Overslaan</string>
+    <string name="onboarding_later">Doe dit later</string>
+    <string name="onboarding_dismiss">Uitschakelen</string>
+    <string name="onboarding_exit">Rondleiding afsluiten</string>
+    <string name="onboarding_done_short">Ik snap het</string>
+    <!-- Step 0: authorize the daemon (system ADB popup) -->
+    <string name="onboarding_authorize_title">Wakker worden Overdrive</string>
+    <string name="onboarding_authorize_body">Overdrive bedient je camera\'s via een kleine helper op het apparaat. Android vraagt eenmalig om USB-foutopsporing toe te staan — tik op <b>Toestaan</b> en vink <b>Altijd toestaan vanaf dit apparaat</b> aan zodat het na elke herstart actief blijft.</string>
+    <string name="onboarding_authorize_button">Toegang toestaan</string>
+    <string name="onboarding_authorize_waiting_title">Waiting for permission…</string>
+    <string name="onboarding_authorize_waiting_body">Accepteer de Android-popup. Als je het niet ziet, wordt het mogelijk al toegekend - dit zal alleen doorgaan.</string>
+    <string name="onboarding_authorize_retry_title">Nog steeds niet verbonden</string>
+    <string name="onboarding_authorize_retry_body">The helper isn\'t running yet. The Android permission may have been dismissed. Try again and remember to check <b>Always allow</b>.</string>
+    <string name="onboarding_authorize_retry_button">Opnieuw proberen</string>
+    <string name="onboarding_mode_title">Wanneer moet Overdrive worden uitgevoerd?</string>
+    <string name="onboarding_mode_body">Kies hoe Overdrive zich gedraagt als je de auto uitschakelt.\n\n<b>In &amp; Off</b> blijft kijken terwijl ze worden geparkeerd - surveillance en achtergrondbewaking blijven actief, dus trekt de auto van de ene op de andere dag een beetje energie.\n\n<b>Alleen</b> sluit Overdrive volledig af zodra je vertrekt. Dashcam, trips en opladen werken nog steeds tijdens het rijden, en alles begint automatisch als je de auto aanzet. U kunt dit altijd wijzigen in Instellingen.</string>
+    <string name="onboarding_mode_on_off_button">Op &amp; uit</string>
+    <string name="onboarding_mode_on_only_button">Alleen aan</string>
+    <!-- Camera mapping chapter -->
+    <string name="onboarding_camera_step_label">Camera · stap %1$d van %2$d</string>
+    <string name="onboarding_camera_intro_title">Instellen van je camera\'s</string>
+    <string name="onboarding_camera_intro_body">Laten we Overdrive vertellen welke camera je 360 weergave is en welke is je dashcam. Het duurt ongeveer een minuut, en je kunt deze later wijzigen.</string>
+    <string name="onboarding_camera_intro_primary">Beginnen</string>
+    <string name="onboarding_camera_opening_title">Camera setup openen…</string>
+    <string name="onboarding_camera_opening_body">Een live preview van uw camera\'s laden. Dit kan een paar seconden duren.</string>
+    <string name="onboarding_camera_pano_title">Dit is je 360 weergave</string>
+    <string name="onboarding_camera_pano_body">Gebruik de pijlen om de doorgestikte 4-up afbeelding te vinden. Lees het vanuit de BOTTOM: linksonder is de REAR, rechts is de LEFT kant.</string>
+    <string name="onboarding_camera_dashcam_title">Zoek nu de weg-voor-camera</string>
+    <string name="onboarding_camera_dashcam_body">Stap door de camera\'s met de pijlen en stop op degene die het windschild / vooruit uitzicht toont. Noteer het nummer - je zal het hierna kiezen.</string>
+    <string name="onboarding_camera_pick_title">Kies je 360 camera</string>
+    <string name="onboarding_camera_pick_body">Kies in de bovenste kaart het nummer voor je 360- / normale camera. Niet zeker? Laat het op AUTO staan en Overdrive zoekt het zelf uit.</string>
+    <string name="onboarding_camera_pick_primary">Volgende</string>
+    <string name="onboarding_camera_pick_dash_title">Kies uw dashcam camera</string>
+    <string name="onboarding_camera_pick_dash_body">Kies in deze kaart het dashcam nummer dat je eerder hebt gevonden - of laat het op AUTO.</string>
+    <string name="onboarding_camera_save_primary">Opslaan &amp; herstart</string>
+    <string name="onboarding_camera_applying_title">Toepassen — camera\'s herstarten</string>
+    <string name="onboarding_camera_applying_body">De feed gaat donker en knippert voor ongeveer 10 seconden. Dit is normaal - hang strak.</string>
+    <string name="onboarding_camera_verify_title">Snelle controle</string>
+    <string name="onboarding_camera_verify_body">Laat de 360 weergave de gestikte afbeelding en de dashcam zien de weg vooruit? Als een feed er verkeerd uitziet, tik dan opnieuw selecteren — er is niets kapot.</string>
+    <string name="onboarding_camera_verify_ok">Lijkt rechts</string>
+    <string name="onboarding_camera_verify_repick">Kies opnieuw</string>
+    <string name="onboarding_camera_windshield_title">Road-off band bij opnames? (optioneel)</string>
+    <string name="onboarding_camera_windshield_body">Voor de OEM-dashcam indeling — de windsheldcamera als een strip op uw opname - kies Windschild in het rolmenu, kies de forward-camera en sla op. De meeste eigenaren kunnen dit overslaan.</string>
+    <string name="onboarding_camera_windshield_primary">Laat me zien</string>
+    <string name="onboarding_camera_windshield_skip">Nee, bedankt</string>
+    <!-- Vehicle profile chapter -->
+    <string name="onboarding_vehicle_title">Vertel Overdrive over je accu</string>
+    <string name="onboarding_vehicle_body">Kies uw model en wij vullen het kWh, of typ het zelf (15–120). Dit maakt de berekening van bereik en oplaadschatting nauwkeurig. U kunt het overslaan en later instellen.</string>
+    <string name="onboarding_vehicle_primary">Batterij instellen</string>
+    <!-- Dashboard orientation chapter -->
+    <string name="onboarding_dash_tiles_title">Je cockpit in een oogopslag</string>
+    <string name="onboarding_dash_tiles_body">Deze kaarten zijn knoppen - tik om Live camera\'s te openen, Opnamen, Diensten of je voertuig te openen.</string>
+    <string name="onboarding_dash_chips_title">Deze alleen de status weergeven</string>
+    <string name="onboarding_dash_chips_body">De chips bovenaan de top show opname, services en je externe link. Ze werken alleen bij - ze zijn geen knoppen.</string>
+    <string name="onboarding_dash_chips_body_land">Je live status - opname, services en externe link - wordt hier getoond. Het is alleen bijgewerkt.</string>
+    <!-- Completion -->
+    <string name="onboarding_done_title">Cockpit klaar</string>
+    <string name="onboarding_done_body">Camera\'s toegewezen en batterij ingesteld. Tik op Live om je feeds te bekijken - of de diepere instellingen op elk gewenst moment te verkennen.</string>
+    <string name="onboarding_done_primary">Voltooid</string>
+    <string name="onboarding_done_secondary">Installatie verkennen</string>
+    <!-- Expert track (chaptered walkthrough of deeper config; footguns warned, never fired) -->
+    <string name="onboarding_help_cd">Rondleiding afgelegd</string>
+    <string name="onboarding_reset_toast">Onboarding resetten - opnieuw afspelen van de handleiding</string>
+    <string name="onboarding_expert_chapter_label">Hoofdstuk %1$d van %2$d</string>
+    <string name="onboarding_expert_finish">Beëindigen</string>
+    <string name="onboarding_expert_menu_title">Rondleiding afgelegd</string>
+    <string name="onboarding_expert_menu_body">Een snelle loop door de diepere installatie — jouw voertuigprofiel, integraties, surveillance, diagnose, diensten en beveiliging. Je kunt op elk moment stoppen.</string>
+    <string name="onboarding_expert_menu_start">Rondleiding starten</string>
+    <string name="onboarding_expert_vehicle_title">Voertuig profiel</string>
+    <string name="onboarding_expert_vehicle_body">Tik op de tegel van het voertuig om de grootte en het model van de batterij in te stellen - het voorziet in nauwkeurige range en gezondheidsschattingen.</string>
+    <string name="onboarding_expert_recordings_title">Je opnamen</string>
+    <string name="onboarding_expert_recordings_body">Schakel tussen Dashcam (continu + proximity clips) en Surveillance (geparkeerde sentry gebeurtenissen) met deze schakelaar - elk bewaart zijn eigen bibliotheek. Tik op een clip om het af te spelen.</string>
+    <string name="onboarding_expert_live_title">Live camera\'s</string>
+    <string name="onboarding_expert_live_body">Open Live vanaf hier om alle camera\'s in real time te bekijken. Handig om het uitzicht voor een station te controleren of tijdens het parkeren in de buurt.</string>
+    <string name="onboarding_expert_trips_title">Trip geschiedenis</string>
+    <string name="onboarding_expert_trips_body">Rit logt elke schijf - route, afstand, duur en energieverbruik - zodat je kunt bekijken waar de auto is geweest.</string>
+    <string name="onboarding_expert_roadsense_title">RoadSense</string>
+    <string name="onboarding_expert_roadsense_body">RoadSense gebruikt de bewegingssensoren en GPS van de auto om wegrisico\'s te detecteren - bumpen, potholes, snelheidsonderbrekers - en waarschuwt je voor de nieuwe. De tabbladen dekken detectie, de gevarenkaart, waarschuwingschimes en Blind Spot. Schakel de hoofdschakelaar in om een van de te gebruiken.</string>
+    <string name="onboarding_expert_blindspot_title">Blinde Spot</string>
+    <string name="onboarding_expert_blindspot_body">Schakel Blind Spot hier in in het tabblad en wanneer je een draai signaleert een zij-camera weergave verschijnt automatisch op het scherm - links voor een linkersignaal, rechts voor rechts - en verbergt zich kort daarna dan. Het loopt alleen terwijl een draai signaal aan is.</string>
+    <string name="onboarding_expert_maps_title">Navigation</string>
+    <string name="onboarding_expert_maps_body">Open de kaart voor volledige draaiknop navigatie — zoek een bestemming, plaats voor routering en live begeleiding plus nabijgelegen interessante punten en eventuele gevaren voor de wegen heeft onderweg gelogd. Je kunt het ook automatisch projecteren op het instrument cluster wanneer je begint te rijden - dat levens wisselt op het tabblad van RoadSense.</string>
+    <string name="onboarding_expert_integrations_title">Integraties</string>
+    <string name="onboarding_expert_integrations_body">Verbind Telegram alerts, een Betere Routeplanner, MQTT of BYD Cloud. Elke kaart opent de setup in de app. De pil boven draait groen wanneer alles met elkaar verbonden is.</string>
+    <string name="onboarding_expert_bydcloud_title">BYD Cloud ontgrendelt bediening op afstand</string>
+    <string name="onboarding_expert_bydcloud_body">Het koppelen van uw BYD-account hier maakt externe vergrendeling, flash en hoorn van uw telefoon mogelijk. Behandel de gekoppelde account en toegangscode als gevoelig.</string>
+    <string name="onboarding_expert_surveillance_title">Surveillance &amp; opname</string>
+    <string name="onboarding_expert_surveillance_body">Afstemming detectie, kwaliteit en opslag hier Deze open als in-app configuratiepagina\'s van uw auto - een leeg scherm betekent gewoon dat de helper nog steeds begint.</string>
+    <string name="onboarding_expert_camprobe_title">Camera probe - voorzichtig</string>
+    <string name="onboarding_expert_camprobe_body">Deze hermaps die een fysieke camera elke rol verzorgen en de camera\'s opnieuw opstarten. Verander het alleen als een feed er verkeerd uitziet - je stelt dit eerder in de handleiding.</string>
+    <string name="onboarding_expert_traffic_title">Data monitor — vereist voor toegang op afstand</string>
+    <string name="onboarding_expert_traffic_body">BYD\'s ingebouwde Traffic Monitor blokkeert andere apps om de ingebouwde SIM van de auto te gebruiken. Als je je auto op afstand wilt bereiken via de BYD SIM, moet je hem hier uitschakelen. De hoofdunit herstart om de verandering toe te passen.</string>
+    <string name="onboarding_expert_daemons_title">Diensten - met zorg</string>
+    <string name="onboarding_expert_daemons_body">Deze schakelen tussen start en stop achtergrondservices. Hiermee schakelt u Camera, toezicht of ACC Sentry stops uit en houdt u deze uit totdat u ze weer inschakelt - zelfs na een herstart.</string>
+    <string name="onboarding_expert_security_title">Vergrendelen met een pincode</string>
+    <string name="onboarding_expert_security_body">Stel een pincode in om de app te voorzien van gedeelde voertuigen. Houd toezicht en het opnemen van lopende dingen terwijl de app vergrendeld is. Een vergeten pincode kan alleen worden gewist van een computer over USB.</string>
+    <string name="onboarding_expert_reset_title">Reset gegevens — permanent</string>
+    <string name="onboarding_expert_reset_body">Dit verwijdert opnames, gebeurtenissen en instellingen en kan niet ongedaan worden gemaakt. Het is hier als je de auto ooit verkoopt - niet een deel van het normaal gebruik.</string>
+    <string name="onboarding_expert_done_title">Dat is de rondleiding</string>
+    <string name="onboarding_expert_done_body">Je hebt de diepere instellingen gezien. Open deze handleiding op elk moment opnieuw via de helpknop.</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">Sluiten</string>
+    <string name="language_picker_title">Taal</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">%1$d beschikbare talen</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">Kies een taal</string>
+    <string name="language_auto_title">Auto\'s</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">Volgingssysteem · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · Auto</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">- $</string>
+    <string name="adb_command_hint">Kom in opdracht...</string>
+    <string name="adb_preset_commands_header">Vooraf ingestelde opdrachten</string>
+    <string name="adb_output_header">Output</string>
+    <string name="adb_output_ready">Klaar voor commando\'s...</string>
+    <string name="adb_console_hero_title">ADB Console</string>
+    <string name="adb_console_hero_subtitle">Run shell commando\'s op het apparaat</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">Het laden...</string>
+    <string name="webview_camera_daemon_not_running">Camera Daemon niet aan de slag</string>
+    <string name="webview_start_camera_daemon">Start de Camera Daemon vanaf het Daemons-scherm om toegang te krijgen tot deze pagina.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">Toegang Token</string>
+    <string name="zrok_token_storage_note">Token wordt veilig opgeslagen en gedeeld tussen app en daemon processen.</string>
+    <string name="zrok_reset_environment">Zrok omgeving opnieuw instellen</string>
+    <string name="zrok_reset_environment_desc">Verwijdert omgeving en token. Je zult opnieuw moeten activeren met je token (gebruikt een apparaat slot).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">Resetgegevens</string>
+    <string name="reset_subtitle">Verwijder de verzamelde gegevens per categorie</string>
+    <string name="reset_warning">Dit kan niet worden ongedaan gemaakt. Opnames, reizen en batterijgeschiedenis worden permanent verwijderd.</string>
+    <string name="reset_cat_trips">Ritten</string>
+    <string name="reset_cat_trips_desc">Reisgeschiedenis, routes, wekelijkse/maandelijkse rollups</string>
+    <string name="reset_cat_soc_history">Geschiedenis van SoC &amp; 12V</string>
+    <string name="reset_cat_soc_history_desc">SoC-monsters, oplaadsessies, spanningslogs</string>
+    <string name="reset_cat_soh">SoH-kalibratie</string>
+    <string name="reset_cat_soh_desc">De nominale capaciteit wordt opnieuw gedetecteerd, de raming van de nieuwe zaden van het BMS</string>
+    <string name="reset_cat_abrp_token">ABRP-token</string>
+    <string name="reset_cat_abrp_token_desc">ABRP telemetrie uitschakelt tot hersteld</string>
+    <string name="reset_cat_byd_cloud">BYD Cloud credentials</string>
+    <string name="reset_cat_byd_cloud_desc">Gebruikersnaam, inlogsleutel, VIN  herinloggen vereist</string>
+    <string name="reset_cat_recordings">Opnames (video\'s)</string>
+    <string name="reset_cat_recordings_desc">Alle MP4\'s in de opnamesmap</string>
+    <string name="reset_cat_sentry_events">Bewakingsgebeurtenissen</string>
+    <string name="reset_cat_sentry_events_desc">Bewakingsbeelden en JSON-siderauto\'s</string>
+    <string name="reset_cat_proximity">Nabijheidsopnames</string>
+    <string name="reset_cat_proximity_desc">Radar-getriggered event MP4\'s</string>
+    <string name="reset_cat_trip_files">Telemetriebestanden van de reis</string>
+    <string name="reset_cat_trip_files_desc">Telemetrie per reis JSON op schijf</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">Enige</string>
+    <string name="recording_lib_chip_person">Persoon</string>
+    <string name="recording_lib_chip_vehicle">Voertuig</string>
+    <string name="recording_lib_chip_bike">Fiets</string>
+    <string name="recording_lib_chip_animal">Dieren</string>
+    <string name="recording_lib_chip_alert">Waarschuwing</string>
+    <string name="recording_lib_chip_critical">Kritiek</string>
+    <string name="recording_lib_selected_count_zero">0 geselecteerd</string>
+    <string name="recording_lib_no_recordings">Geen opnames</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">Filter</string>
+    <string name="recording_lib_filter_button_active">Filter · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">Filteropnames</string>
+    <string name="recording_lib_filter_apply">Toepassen</string>
+    <string name="recording_lib_filter_reset">Resetten</string>
+    <string name="recording_lib_filter_section_what">Wat is dat ?</string>
+    <string name="recording_lib_filter_section_severity">Zwaarheid</string>
+    <string name="recording_lib_filter_section_type">Type</string>
+    <string name="recording_lib_filter_section_place">Plaats</string>
+    <string name="recording_lib_filter_section_storage">Opslagruimte</string>
+    <!-- Storage filter chip labels (full words; the tile badge uses the short
+         SD/USB/INT forms above). -->
+    <string name="recording_lib_storage_filter_internal">Intern</string>
+    <string name="recording_lib_storage_filter_sd">SD-kaart</string>
+    <string name="recording_lib_storage_filter_usb">USB</string>
+    <string name="recording_lib_place_search_hint">Search places…</string>
+    <string name="recording_lib_chip_type_normal">Normaal</string>
+    <string name="recording_lib_chip_type_proximity">Nabijheid</string>
+    <string name="recording_lib_date_today">Vandaag de dag</string>
+    <string name="recording_lib_date_yesterday">Gisteren .</string>
+    <string name="recording_lib_clip_count">%1$d-clips</string>
+    <string name="recording_lib_clip_count_one">%1$d clip</string>
+    <string name="recording_lib_pick_date">Kies een date.</string>
+    <string name="recording_lib_date_all_days">Alle dagen</string>
+    <string name="cd_clear_date_filter">Toon alle dagen</string>
+    <string name="recording_lib_section_morning">Morgen .</string>
+    <string name="recording_lib_section_afternoon">Goedenavond .</string>
+    <string name="recording_lib_section_evening">Af en toe .</string>
+    <string name="recording_lib_section_night">De nacht</string>
+    <string name="cd_previous_day">Vorige dag</string>
+    <string name="cd_next_day">De volgende dag.</string>
+    <string name="cd_open_filters">Open filters</string>
+    <string name="cd_clear_filter">Doorzichtig filter</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">Geen overeenkomende opnames</string>
+    <string name="recording_lib_empty_body">Probeer uw datumbereik of chip-filters aan te passen.</string>
+    <string name="recording_lib_empty_clear_filters">Filters wissen</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">Nog niets opgenomen</string>
+    <string name="recording_lib_empty_disk_body">Opnames zullen hier verschijnen zodra de dashcam of de pijpleiding een clip schrijft.</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">Bibliotheek index opbouwen</string>
+    <string name="recording_lib_building_index_body">Een moment terwijl de daemon uw opnames scant.</string>
+    <string name="recording_lib_building_index_progress">Geïndexeerde %1$d van %2$d clips…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">KAN</string>
+    <string name="recording_lib_type_event">EVENEMENT</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">OEM</string>
+    <!-- Per-clip storage tag — where the clip actually landed. Surfaces the
+         silent SD→internal fallback (SD bridged behind the USB power rail). -->
+    <string name="recording_lib_storage_sd">SA</string>
+    <string name="recording_lib_storage_usb">USB</string>
+    <string name="recording_lib_storage_internal">INT</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">Delen van %1$d opnamen</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">Opname</string>
+    <string name="player_time_zero">0:00 uur</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">Backgrounddiensten</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">Loading diensten...</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d van %2$d aan het draaien</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">Ik ben bezig met het update.</string>
+    <string name="update_percent_zero">0%</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">Batterijgezondheid</string>
+    <string name="battery_health_subtitle">Gezondheidstoestand</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">Wachtend op gegevens...</string>
+    <string name="battery_health_source">Bron</string>
+    <string name="battery_health_method">Metode</string>
+    <string name="battery_health_capacity">Capaciteit</string>
+    <string name="battery_health_samples">Voorbeelden</string>
+    <string name="battery_health_last_updated">Laatste bijgewerkt</string>
+    <string name="battery_health_reset">Reset SOH Schatting</string>
+    <string name="battery_health_reset_desc">Gebruik als de batterij is vervangen of het lezen onjuist lijkt.</string>
+    <string name="soh_dialog_model_label">Model</string>
+    <string name="soh_dialog_pack_capacity_label">Verpakkingscapaciteit</string>
+    <string name="soh_dialog_estimated_capacity_label">Effectieve capaciteit</string>
+    <string name="soh_dialog_calibration_anchor_label">Laatste kalibreerde</string>
+    <string name="soh_dialog_source_user">gebruikers-set</string>
+    <string name="soh_dialog_source_auto">automatisch gedetecteerd</string>
+    <string name="soh_dialog_model_not_selected">Niet geselecteerd</string>
+    <string name="soh_dialog_capacity_not_detected">Niet gedetecteerd</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% op %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">Geobserveerde volledige lading</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh waargenomen in het geheel (%2$d/%3$d monsters)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh waargenomen in het geheel (verzameling van %2$d/%3$d-monsters)</string>
+    <string name="soh_dialog_frame_mismatch_title">Niet-matching van het pakkapaciteitsraam</string>
+    <string name="soh_dialog_frame_mismatch_format">Het voertuig rapporteert %1$.1f kWh op volledige lading, maar de verpakkingscapaciteit is ingesteld op %2$.1f kWh. Het bovenstaande nummer kan een eenheidsoorthouding (naamplaat vs bruikbaar) weerspiegelen, niet echte degradatie. Overweeg het invoeren van %1$.1f kWh om overeen te komen met wat het voertuig rapporteert.</string>
+    <string name="soh_dialog_use_observed_value">Waargenomen waarde gebruiken</string>
+    <string name="soh_dialog_use_observed_value_pending">Opslaan…</string>
+    <string name="toast_soh_observed_value_saved">Verpakkingscapaciteit bijgewerkt naar %1$.1f kWh.</string>
+    <string name="toast_soh_observed_value_failed">De verpakkingscapaciteit (%1$s) kon niet worden bijgewerkt.</string>
+    <string name="diagnostics_battery_needs_review">Moet worden bekeken</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">OK</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="one">Verwijderde opname van %d</item>
+        <item quantity="other">Verwijderde opnames van %d</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="one">%d opname verwijderen</item>
+        <item quantity="other">Verwijder %d-opnames</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="one">Dit zal de %d-opname permanent verwijderen.</item>
+        <item quantity="other">Dit zal %d-opnames permanent verwijderen.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">Updated naar %1$s</string>
+    <string name="toast_update_install_failed">Installatie mislukt: %1$s</string>
+    <string name="toast_checking_for_updates">Ik kijk naar updates.</string>
+    <string name="toast_app_up_to_date">App is up-to-date (%1$s)</string>
+    <string name="toast_update_check_failed">Update-controle mislukt: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">Update beschikbaar</string>
+    <string name="update_dialog_subtitle">Een nieuwere versie is klaar om te installeren</string>
+    <string name="update_dialog_current">Huidige: v%1$s</string>
+    <string name="update_dialog_new">Nieuw: v%1$s</string>
+    <string name="update_dialog_current_label">Geinstalleerd</string>
+    <string name="update_dialog_new_label">Nieuwe versie</string>
+    <string name="update_dialog_whats_new">Wat is er nieuw</string>
+    <string name="update_dialog_install_now">Installeer nu</string>
+    <string name="update_dialog_later">Later</string>
+    <string name="update_picker_title">Kies een versie</string>
+    <string name="update_picker_subtitle">Installeer elke gepubliceerde build - nieuwer of ouder</string>
+    <string name="update_picker_empty">Nog geen versies gepubliceerd.</string>
+    <string name="update_picker_current_suffix">%1$s (geïnstalleerd)</string>
+    <string name="update_picker_older_suffix">%1$s (oud)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">Overdrive bijwerken</string>
+    <string name="update_step_downloading">Downloading update…</string>
+    <string name="update_step_verifying">Verifying download…</string>
+    <string name="update_step_stopping">Stopping daemons…</string>
+    <string name="update_step_installing">Installing update…</string>
+    <string name="update_step_installed">Update geïnstalleerd</string>
+    <string name="update_step_restarting">Restarting app…</string>
+    <string name="update_step_queued">Starting update…</string>
+    <string name="update_error_title">Bijwerken mislukt</string>
+    <string name="update_error_daemon_down">Camera daemon is niet actief. Start het vanaf het Daemons scherm, probeer dan opnieuw te updaten.</string>
+    <string name="update_error_start_failed">Kan de update niet starten: %1$s</string>
+    <string name="update_error_lost_headunit">Contact met het hoofd unit verloren voordat de installatie klaar is. In een tunnel? Controleer Telegram voor de nieuwe URL, of gebruik het lokale IP.</string>
+    <string name="update_hide">Verbergen</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">Kanaal bijwerken</string>
+    <string name="settings_update_channel_alpha">Transparantie</string>
+    <string name="settings_update_channel_braveheart">Braveheart</string>
+    <string name="settings_update_channel_alpha_desc">De stabiele release. Elke gepubliceerde versie wordt gehouden - kies elke te installeren (downgraden toegestaan). Aanbevolen voor dagelijks gebruik.</string>
+    <string name="settings_update_channel_braveheart_desc">Bleeding-edge builds, geleverd op het moment dat ze gepubliceerd worden. Je krijgt eerst nieuwe functies, maar ze kunnen instabiel of fout zijn. Als iets breekt, open het Daemons-scherm, tik dan op een daemonlog, kies voor \"Upload &amp; get een code\", en deel de code met ons via de community kanalen.</string>
+    <string name="settings_update_channel_save_failed">Kon updatekanaal niet opslaan</string>
+    <string name="settings_update_channel_braveheart_toast">Omgeschakeld naar Braveheart. Builds kunnen instabiel zijn - als iets breekt, stuur het daemon logboek naar Discord/GitHub/WhatsApp.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">Voor opnames vereiste opslagtoestemmingen</string>
+    <string name="toast_url_copied_short">URL gekopieerd!</string>
+    <string name="toast_camera_set_to_auto">Camera ingesteld op Auto</string>
+    <string name="toast_failed_to_save_short">Niet gespaard</string>
+    <string name="toast_failed_with_message">Niet geslaagd: %1$s</string>
+    <string name="toast_camera_id_set">Camera %1$d set  volgende ACC cyclus</string>
+    <string name="toast_clearing_camera_config">Ik maak de camera config...</string>
+    <string name="toast_restarting_camera_daemon">De camera daemon opnieuw starten...</string>
+    <string name="toast_camera_daemon_restarting">Camera daemon herstarten met volledige sonde</string>
+    <string name="toast_camera_restart_failed">Configure is verwijderd, maar de daemon herstart is gefaald.</string>
+    <string name="toast_camera_settings_saved_restarting">Camera-instellingen gespaard  herstarten camera daemon...</string>
+    <string name="toast_camera_settings_restart_failed">De camera-instellingen zijn opgeslagen, maar de daemon herstart is gefaald.</string>
+    <string name="toast_failed_with_message_x">Niet gelukt: %1$s</string>
+    <string name="toast_soh_reset_success">SOH schatting reset  zal opnieuw berekenen uit de volgende gegevens</string>
+    <string name="toast_soh_reset_failed_no_daemon">Reset mislukte  daemon niet reageren en bestand niet schrijfbaar</string>
+    <string name="toast_soh_reset_failed_with_message">Niet geslaagd: %1$s</string>
+    <string name="toast_select_at_least_one_category">Selecteer ten minste één categorie</string>
+    <string name="toast_reset_failed_with_error">Niet ingesteld: %1$s</string>
+    <string name="toast_traffic_monitor_changing">%1$s verkeersmonitor...</string>
+    <string name="dialog_close">Sluiten</string>
+    <string name="dialog_reset">Resetten</string>
+    <string name="dialog_delete">Verwijderen</string>
+    <string name="dialog_save">Opslaan</string>
+    <string name="dialog_enable">Inschakelen</string>
+    <string name="dialog_disable">Uitschakelen</string>
+    <string name="dialog_keep_enabled">Blijf toegestaan</string>
+    <string name="dialog_keep_disabled">Blijf gehandicapt</string>
+    <string name="dialog_regenerate">Regeneratie</string>
+    <string name="dialog_reset_selected">Reset geselecteerd</string>
+    <string name="dialog_reset_soh_title">SOH Schatting opnieuw instellen?</string>
+    <string name="dialog_reset_soh_message">Dit zal alle SOH-gegevens verwijderen en de herbeoordeling van het begin af dwingen.\n\n Gebruik dit als:\n• Batterij is vervangen\n• SOH-lezing lijkt onjuist\n• U wilt opnieuw kalibreren\n\nHet systeem zal opnieuw uit de volgende beschikbare gegevensbron (OEM, lading kalibratie of onmiddellijke lezing) voortkomen.</string>
+    <string name="dialog_reset_following_title">De volgende instellen?</string>
+    <string name="dialog_reset_following_message">This cannot be undone.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Volledige reset</string>
+    <string name="dialog_traffic_cannot_check_title">Kan de status niet controleren</string>
+    <string name="dialog_traffic_cannot_check_message">ADB-verbinding is nog niet klaar.\n\nDe app heeft ADB-toegang nodig om systeempakketten te beheren. Zorg ervoor dat:\n\n• USB Debugging is ingeschakeld in Developer Options\n• De ADB-autoriseringsopdracht is geaccepteerd\n\nDe status wordt automatisch bijgewerkt zodra de verbinding is gesloten.</string>
+    <string name="dialog_traffic_disable_title">BYD Traffic Monitor uitschakelen?</string>
+    <string name="dialog_traffic_disable_message">De BYD Traffic Monitor (com.byd.trafficmonitor) is een ingebouwde systeem-app die de verkeersomstandigheden in de achtergrond continu bewaakt.\n\n️ Waarom deze uitschakelen?\n\n• Verbrengt mobiele gegevens (zelfs wanneer geparkeerd)\n• Gebruikt CPU en batterij in de achtergrond\n• Niet nodig als u een aparte navigatie-app gebruikt\n• Kan het netwerkgebruik van de dashcam verstoren\n\nDit is veilig om te uitschakelen  het beïnvloedt alleen de ingebouwde verkeersoverlay op de kaart. Uw navigatie, Bluetooth, en alle andere autofuncties blijven onveranderd.\n\nEen harde herlaten is vereist na het uitschakelen (</string>
+    <string name="dialog_traffic_enable_title">BYD-verkeersmonitor weer ingeschakeld?</string>
+    <string name="dialog_traffic_enable_message">De BYD Traffic Monitor is momenteel uitgeschakeld.\n\nHet opnieuw inzetten herstelt de ingebouwde verkeersoverlay op de navigatiekaart. Merk op dat het in de achtergrond wordt uitgevoerd en mobiele gegevens verbruikt.\n\nEen harde herstart is nodig na het inzetten (houd de centrale console knop 5 seconden).</string>
+    <string name="dialog_traffic_status_title">Verkeersmonitor %1$s</string>
+    <string name="dialog_traffic_reboot_message">De wijziging is toegepast. Doe nu een harde herstart: druk op en hou de centrale console knop voor 5 seconden vast.</string>
+    <string name="traffic_monitor_loading">Verkeersmonitor: Controleer...</string>
+    <string name="traffic_monitor_tap_to_check">Verkeersmonitor (klik om te controleren)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">Ritten</string>
+    <string name="reset_label_soc_history">SoC + 12V geschiedenis</string>
+    <string name="reset_label_soh">SoH-kalibratie</string>
+    <string name="reset_label_abrp_token">ABRP-token</string>
+    <string name="reset_label_byd_cloud">BYD Cloud credentials</string>
+    <string name="reset_label_recordings">Opnames</string>
+    <string name="reset_label_sentry_events">Bewakingsgebeurtenissen</string>
+    <string name="reset_label_proximity">Nabijheidsopnames</string>
+    <string name="reset_label_trip_files">Telemetriebestanden van de reis</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">Toegangscode gekopieerd</string>
+    <string name="dialog_regenerate_token_title">Regeneratie-token</string>
+    <string name="dialog_regenerate_token_message">Hiermee wordt de huidige token ongeldig gemaakt en alle actieve sessies worden uitgeschakeld.</string>
+    <string name="toast_token_regenerated_logged_out">Alle sessies zijn ingetrokken.</string>
+    <string name="toast_token_regenerated_restart">De Daemon moet opnieuw starten.</string>
+    <string name="toast_token_regenerated_no_notify">Ik kon de daemon niet melden.</string>
+    <string name="toast_token_regenerated">Teken geregenereerd</string>
+    <string name="dashboard_no_tunnel">Geen tunnel loopt.</string>
+    <string name="dashboard_starting_zrok">Zrok tunnel starten...</string>
+    <string name="dashboard_starting_cloudflared">Het starten van Cloudflared tunnel...</string>
+    <string name="dashboard_starting_tailscale">Tailscale tunnel starten...</string>
+    <string name="dashboard_waiting_url">Wachtend op tunnel URL...</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d</string>
+    <string name="tunnel_label_cloudflared">Cloudflared</string>
+    <string name="tunnel_label_zrok">Zrok</string>
+    <string name="tunnel_label_tailscale">Tailscale</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">Camera Daemon</string>
+    <string name="daemon_name_surveillance">Bewaking Daemon</string>
+    <string name="daemon_name_acc_surveillance">ACC Bewaking</string>
+    <string name="daemon_name_singbox">Sing-box Proxy</string>
+    <string name="daemon_name_cloudflared">Cloudflared Tunnel</string>
+    <string name="daemon_name_zrok">Zrok Tunnel</string>
+    <string name="daemon_name_tailscale">Tailscale Tunnel</string>
+    <string name="daemon_name_telegram">Telegram Bot</string>
+    <string name="clip_label_access_code">Toegangscode</string>
+    <string name="clip_label_url">URL</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">Geen configuratie nodig voor %1$s</string>
+    <string name="dialog_zrok_token_title">Zrok Tunnel Token</string>
+    <string name="dialog_zrok_token_message">Voer je Zrok activeren token in.\nKrijg er een op: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">De token mag niet leeg zijn</string>
+    <string name="dialog_tailscale_settings_title">Tailscale Tunnelinstellingen</string>
+    <string name="dialog_tailscale_settings_message">Configure tailscale</string>
+    <string name="tailscale_failed_login_url">Login-url niet gecreëerd</string>
+    <string name="tailscale_logged_in_relogin">Login. Klik om in te loggen op een ander account</string>
+    <string name="dialog_tailscale_proxy_enable_title">Tailscale Proxy activeren?</string>
+    <string name="dialog_tailscale_proxy_enable_message">Dit routes MQTT via Tailscale zodat u een private makelaar kunt bereiken op uw tailnet zonder port forwarding.\n\nTerwijl geactiveerd:\n• MQTT naar een tailnet makelaar werkt (bijv. Mosquitto op een apparaat op uw tailnet)\n• MQTT naar openbare makelaars (HiveMQ, AWS IoT, enz.) zal falen  Tailscale alleen routes naar uw tailnet\n• De Tailscale daemon zal opnieuw starten om de verandering toe te passen\n• Andere app en de rest van het apparaat verkeer worden niet beïnvloed\n\nJe kunt dit op elk moment uitschakelen.</string>
+    <string name="dialog_zrok_reset_title">Zrok omgeving opnieuw instellen</string>
+    <string name="dialog_zrok_reset_message">Dit zal:\n• de zrok-tunnel stoppen als het loopt\n• de zrok-omgeving van dit apparaat verwijderen\n• de opgeslagen token verwijderen\n\nJe zult je token opnieuw moeten invoeren en opnieuw moeten activeren. Dit maakt gebruik van een van je 5 apparaat slots op zrok.io.\n\nBen je zeker?</string>
+    <string name="toast_resetting_zrok">Zrok-omgeving opnieuw instellen...</string>
+    <string name="toast_zrok_reset_success">Zrok omgeving opnieuw instellen.</string>
+    <string name="toast_zrok_reset_partial">Omgeving opnieuw instellen (tokenbestand kan handmatig worden gereinigd)</string>
+    <string name="toast_zrok_reset_warnings">Omgevingsreset (met waarschuwingen: %1$s)</string>
+    <string name="zrok_no_token_configured">Geen token geconfigureerd.</string>
+    <string name="dialog_tailscale_reset_title">Tailscale omgeving opnieuw instellen</string>
+    <string name="dialog_tailscale_reset_message">Dit zal:\n• de tailscale tunnel stoppen als het loopt\n• de tailscale omgeving van dit apparaat verwijderen\n• U zult het apparaat nog steeds moeten verwijderen van de tailscale console\n\nU zult opnieuw moeten inloggen.\n\nZijn u zeker?</string>
+    <string name="toast_resetting_tailscale">Tailscale-omgeving wordt opnieuw ingesteld…</string>
+    <string name="toast_tailscale_reset_success">Tailscale omgeving opnieuw instellen.</string>
+    <string name="toast_tailscale_reset_warnings">Tailscale omgeving opnieuw instellen (met waarschuwingen: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">Tailscale proxy geactiveerd</string>
+    <string name="toast_tailscale_proxy_disabled">Tailscale proxy uitgeschakeld</string>
+    <string name="toast_tailscale_proxy_save_failed">Proxy-instellingen niet opgeslagen</string>
+    <string name="toast_zrok_token_saved">Gewaarborgd token</string>
+    <string name="toast_zrok_token_save_failed">Niet gespaard token</string>
+    <string name="toast_zrok_token_deleted">Verwijderde token</string>
+    <string name="toast_zrok_token_delete_failed">Het verwijderen van de token is niet gelukt</string>
+    <string name="toast_fetching_log">%1$s log halen...</string>
+    <string name="toast_log_empty_or_missing">Logbestand is leeg of niet gevonden</string>
+    <string name="toast_log_empty">Logbestand is leeg</string>
+    <string name="toast_daemon_manager_unavailable">Daemon manager niet klaar, probeer het nog eens in een moment</string>
+    <string name="toast_log_save_failed">Het log niet opgeslagen: %1$s</string>
+    <string name="toast_log_not_found">Logbestand niet gevonden of onleesbaar</string>
+    <string name="log_share_title">%1$s Log - %2$s</string>
+    <string name="log_share_chooser">Deel %1$s Log</string>
+    <string name="log_header_title">=== %1$s Log ===</string>
+    <string name="log_header_source">Bron: %1$s</string>
+    <string name="log_header_exported">Export: %1$s</string>
+    <string name="log_header_truncated">NOTA: Boekenwerk verkorst tot 10000 lijnen (totaal: %1$d lijnen)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">Verstuur %1$s log</string>
+    <string name="logs_send_title_plain">Diemon logboek versturen</string>
+    <string name="logs_send_subtitle">%1$s · kies hoe je het naar ons kunt sturen</string>
+    <string name="logs_send_upload">Upload &amp; en haal een code op</string>
+    <string name="logs_send_upload_desc">Stuurt het logboek naar ons en geeft u een korte code. Makkelijkste voor ondersteuning.</string>
+    <string name="logs_send_share">Share file…</string>
+    <string name="logs_send_share_desc">Sla het logboek zelf op of verstuur het via het share sheet.</string>
+    <string name="logs_uploading_title">Uploading log…</string>
+    <string name="logs_uploading_subtitle">secreten opslaan en veilig verzenden</string>
+    <string name="logs_uploaded_title">Log geüpload</string>
+    <string name="logs_uploaded_instructions">Deel deze code met ons, samen met een notitie over wat je deed toen deze in elkaar ging. Plaats het op Discord, GitHub Issues of WhatsApp — links staan op het Overzicht-scherm.</string>
+    <string name="logs_uploaded_privacy">Geheim Redact · de log automatisch verloopt</string>
+    <string name="logs_copy_code">Code kopiëren</string>
+    <string name="logs_done">Voltooid</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">Netwerk fout</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">Kan geen video afspelen: %1$s</string>
+    <string name="dialog_delete_recording_title">Verwijder de opname</string>
+    <string name="dialog_delete_recording_message">%1$s verwijderen? Dit kan niet worden ongedaan gemaakt.</string>
+    <string name="toast_recording_deleted">Opname verwijderd</string>
+    <string name="toast_recording_delete_failed">Het is niet gelukt de opname te verwijderen</string>
+    <string name="toast_batch_delete_partial">%1$d verwijderd, %2$d mislukt</string>
+    <string name="play_with_chooser">Speel met</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">Bijgewerkt naar %1$s - herbevestig autostart, BYD wast het op elke installatie</string>
+    <string name="setup_overlay_already_granted">Al toegekend</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">Tips &amp; probleemoplossing</string>
+    <string name="setup_traffic_title">BYD Traffic Monitor uitschakelen</string>
+    <string name="setup_traffic_body">De BYD Traffic Monitor blokkeert dat apps van derden internet bereiken. Het uitschakelen ervan stelt OverDrive en alle andere apps die u installeert in staat het netwerk daadwerkelijk te gebruiken.</string>
+    <string name="setup_traffic_button">Open verkeersmonitor</string>
+    <string name="setup_camera_fix_title">Is de camera zwart of onjuist?</string>
+    <string name="setup_camera_fix_body">Open Diagnostics → Camera probe, stel Camera ID op 0, tik op Save, en start dan de camera daemon opnieuw. Als de feeds nog steeds verkeerd zijn, herhaal met Camera ID 1. Laat het mapping-gedeelte ongerept.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">Stroom: camera %1$d (handleiding)</string>
+    <string name="camera_current_auto_label">Stroom: Auto</string>
+    <string name="soh_estimation_active">Schatting actief</string>
+    <string name="soh_no_estimate_yet">Nog geen schatting  wacht op gegevens</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">%1$d geselecteerd</string>
+    <string name="video_player_playback_error">Afspelenfout</string>
+    <string name="video_player_no_events">Geen gebeurtenissen</string>
+    <string name="daemon_configuration_required">Vereiste configuratie</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">Video-speler</string>
+    <string name="nav_page_telegram">Telegram</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">MQTT</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">OverDrive Status</string>
+    <string name="status_overlay_notif_text">Statusoverlay actief</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Overdrive actief</string>
+    <string name="daemon_keepalive_notif_text">Toezicht op voertuigsystemen</string>
+    <string name="overdrive_status_summary_title">Overdrive</string>
+    <string name="overdrive_status_summary_text">Achtergrond-services worden uitgevoerd</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">Dashboard</string>
+    <string name="rail_live">Leven</string>
+    <string name="rail_recordings">Opnames</string>
+    <string name="rail_vehicle">Voertuig</string>
+    <string name="rail_projection">Projectie</string>
+    <string name="rail_trips">Ritten</string>
+    <string name="rail_charging">Opladen</string>
+    <string name="rail_automations">Automatiseringen</string>
+    <string name="rail_key_mapping">Sleutel toewijzen</string>
+    <string name="rail_integrations">Integratie</string>
+    <string name="rail_diagnostics">Diagnostiek</string>
+    <string name="rail_settings">Instellingen</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">Uiterlijk</string>
+    <string name="settings_section_recording">Opname</string>
+    <string name="settings_section_surveillance">Bewaking</string>
+    <string name="settings_section_daemons">Deemonen</string>
+    <string name="settings_section_privacy">Privacy &amp; gegevens</string>
+    <string name="settings_section_overlay">Statusoverlay</string>
+    <string name="settings_section_security">Beveiliging</string>
+    <string name="settings_overlay_subtitle">Kies welke segmenten van de drijvende statuspil zichtbaar blijven.</string>
+    <string name="settings_overlay_camera_title">Camera indicator</string>
+    <string name="settings_overlay_camera_subtitle">Toon het REC / PROX- badge terwijl de opname actief is.</string>
+    <string name="settings_overlay_trip_title">Indiceert Trip</string>
+    <string name="settings_overlay_trip_subtitle">Toon het TRIP-badge terwijl de ontdekking van reizen loopt.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">Over</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">Instellingen</string>
+    <string name="cd_settings_subrail">Opstelling sub-rail</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">Privacy &amp; gegevens</string>
+    <string name="settings_privacy_body">Reset verwijdert de opname index, geheugen credentials, daemon staat, en de voorkeuren op het apparaat.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">Over OverDrive</string>
+    <string name="settings_about_version_label">Versie</string>
+    <string name="settings_about_package_label">Bouwen</string>
+    <string name="settings_about_check_update_value">Controleer de nieuwste GitHub-release en installeer indien nieuwer.</string>
+    <!-- Backup & Restore (same-device). The backup file contains credentials +
+         the device key, so the copy warns the user to keep it private. -->
+    <string name="settings_backup_export_title">Exporteer instellingen</string>
+    <string name="settings_backup_export_value">Een reservekopiebestand van uw huidige instellingen opslaan. Houd het privé - het bevat uw inloggegevens.</string>
+    <string name="settings_backup_import_title">Instellingen herstellen</string>
+    <string name="settings_backup_import_value">Een back-upbestand van dezelfde hoofdeenheid laden.</string>
+    <string name="settings_backup_default_filename">overdrive-backup.json</string>
+    <string name="settings_backup_exporting">Building backup…</string>
+    <string name="settings_backup_export_failed">Back-up exporteren mislukt</string>
+    <string name="settings_backup_saved">Back-up opgeslagen</string>
+    <string name="settings_backup_saved_to">Back-up opgeslagen in %1$s</string>
+    <string name="settings_backup_save_failed">Kon het back-up bestand niet opslaan</string>
+    <string name="settings_backup_pick_file">Kies een back-up om te herstellen</string>
+    <string name="settings_backup_no_files">Geen reservekopiebestanden gevonden. Exporteer er één, of kopieer een backup .json naar %1$s, en probeer het dan opnieuw.</string>
+    <string name="settings_backup_read_failed">Kon het bestand niet lezen</string>
+    <string name="settings_backup_invalid_file">Dat bestand is geen geldige Overdrive back-up</string>
+    <string name="settings_backup_restoring">Restoring…</string>
+    <string name="settings_backup_restored">Instellingen hersteld</string>
+    <string name="settings_backup_restore_failed">Herstellen mislukt</string>
+    <string name="settings_backup_daemon_down">De camera-service moet worden uitgevoerd om een back-up te maken of te herstellen. Start het vanaf Daemons en probeer het opnieuw.</string>
+    <string name="settings_backup_restore_confirm_title">Instellingen herstellen?</string>
+    <string name="settings_backup_restore_confirm_msg">Dit vervangt uw huidige instellingen van Overdrive met de back-up en herlaadt services. Het werkt alleen op dezelfde hoofdeenheid waarop de back-up is gemaakt.</string>
+    <string name="settings_backup_restore_confirm_btn">Herstellen</string>
+    <string name="settings_backup_restart_hint">Instellingen hersteld. Herstart de cameradaemon (Daemons → Camera → Herstart) om ervoor te zorgen dat elke herstelde instelling wordt toegepast.</string>
+    <string name="settings_backup_trips_prompt">Inclusief je reisgeschiedenis (afstand, energie, kosten, scores, start- en eindlocaties)? Gedetailleerde telemetrie wordt niet meegenomen. Het bestand zal je locatiegeschiedenis bevatten - houd het privé.</string>
+    <string name="settings_backup_settings_only">Alleen instellingen</string>
+    <string name="settings_backup_with_trips">Inclusief ritten</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">Aangedreven door mensen als jij.</string>
+    <string name="settings_about_support_share_title">Vertel het een andere eigenaar</string>
+    <string name="settings_about_support_share_value">Elke gedeelde link helpt een andere eigenaar van BYD om Overdrive te ontdekken.</string>
+    <string name="settings_about_support_share_message">Bekijk Overdrive  open source surveillance &amp; dashcam voor BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">Deel Overdrive</string>
+    <string name="settings_about_open_link_failed">Ik kon de link niet openen.</string>
+    <string name="settings_about_open_link_copied">Geen browser gevonden. URL gekopieerd: %1$s</string>
+    <string name="settings_about_support_kofi_title">Brandstof voor de volgende release</string>
+    <string name="settings_about_support_kofi_value">Een koffie op Ko-Fi houdt de late-night commits aan de komst.</string>
+    <string name="settings_about_license_title">Vergunning</string>
+    <string name="settings_about_license_value">MIT  open source. Tik om de volledige tekst te bekijken.</string>
+    <string name="settings_about_source_title">Broncode</string>
+    <string name="settings_about_source_value">Github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">Geef een op GitHub</string>
+    <string name="settings_about_star_value">Het duurt even, het betekent veel.</string>
+    <string name="settings_about_thanks_title">Met dank aan</string>
+    <string name="settings_about_thanks_subtitle">Gebouwd met hulp van bijdragers en ondersteuners.</string>
+    <string name="settings_about_contributors_title">Bijdragers</string>
+    <string name="settings_about_supporters_title">Ondersteuners</string>
+    <string name="settings_about_thanks_empty">De lijst vult zich naarmate mensen meedoen.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">Thema</string>
+    <string name="settings_theme_auto">Automatisch (volgensysteem)</string>
+    <string name="settings_theme_light">Licht</string>
+    <string name="settings_theme_dark">Duister</string>
+    <string name="settings_language_label">Taal</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">Opnames</string>
+    <string name="recordings_segment_dashcam">Dashcam</string>
+    <string name="recordings_segment_surveillance">Bewaking</string>
+    <string name="recordings_action_settings">Instellingen</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d vandaag · %2$d totaal · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">Dashcam · %d</string>
+    <string name="recordings_segment_surveillance_count">Bewaking · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">Selecteer een opname</string>
+    <string name="recordings_preview_placeholder_body">Tik op elk item aan de linkerkant om het te spelen.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">ADB Console</string>
+    <string name="diagnostics_section_traffic">Verkeersmonitor</string>
+    <string name="diagnostics_section_camera_probe">Camera-sonde</string>
+    <string name="diagnostics_section_battery">Batterijgezondheid</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">Diagnostiek van het systeem</string>
+    <string name="diagnostics_hero_subtitle">Live gezondheid, logs, en sondes voor het apparaat.</string>
+    <string name="diagnostics_health_clear">Het is duidelijk.</string>
+    <string name="diagnostics_health_section">Gezondheid</string>
+    <string name="diagnostics_health_network">Netwerk</string>
+    <string name="diagnostics_health_storage">Opberging</string>
+    <string name="diagnostics_health_camera">Camera .</string>
+    <string name="diagnostics_health_battery">Batterij</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">Online</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">Tunnel · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">Online</string>
+    <string name="diagnostics_tunnel_state_offline">Offline</string>
+    <string name="diagnostics_tunnel_state_connecting">Verbinding</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">Bewegbaar</string>
+    <string name="diagnostics_network_ethernet">Ethernet</string>
+    <string name="diagnostics_network_offline">Offline</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">Gebruikte %1$d-clips · %2$s</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s vrij</string>
+    <string name="diagnostics_logs_card_title">Live evenementen log</string>
+    <string name="diagnostics_logs_card_subtitle">Streaming-output van de uitgevoerde diensten.</string>
+    <string name="diagnostics_tools_section">Tools</string>
+    <string name="diagnostics_traffic_subtitle">Bekijk de live netwerk doorvoer.</string>
+    <string name="diagnostics_camera_probe_subtitle">Controleer de aangesloten camera-stromen.</string>
+    <string name="diagnostics_adb_subtitle">Maak de terminal open.</string>
+    <string name="diagnostics_battery_subtitle">Controleer cel SOH en pak statistieken.</string>
+    <string name="diagnostics_settings_subtitle">Appvoorkeuren, thema en taal.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">Integratie</string>
+    <string name="integrations_hero_subtitle">Verbind Overdrive met uw diensten.</string>
+    <string name="integrations_status_unknown">Tik om te configureren</string>
+    <string name="integrations_status_configured">Geconfigureerd</string>
+    <string name="integrations_status_not_set_up">Niet ingesteld</string>
+    <string name="integrations_telegram_desc">Stuur schijf samenvattingen, bewegingsmeldingen en SOS-meldingen naar je privé-bot Telegram.</string>
+    <string name="integrations_abrp_desc">Stuur de batterij en de route data naar een betere routeplanner voor laadvoorspellingen.</string>
+    <string name="integrations_mqtt_desc">Vermeld de telemetrie van het voertuig bij Home Assistant of een MQTT-makelaar.</string>
+    <string name="integrations_byd_cloud_desc">Verbind je BYD-app-account om externe opdrachten zoals deurslot, lichtflits en claxon mogelijk te maken.</string>
+    <string name="integrations_configure_button">Configuratie</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">Controleer of er updates zijn</string>
+    <string name="settings_action_reset_data">- Dataten opnieuw instellen.</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">OverDrive</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">Op wacht</string>
+    <string name="dashboard_subtitle_all_systems">Alle systemen online</string>
+    <string name="dashboard_subtitle_some_offline">%1$d van %2$d diensten online</string>
+    <string name="dashboard_subtitle_no_tunnel">Afgelegen toegang offline</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">De opnames van vandaag .</string>
+    <string name="dashboard_metric_storage">Gebruikte opslag</string>
+    <string name="dashboard_metric_tunnel">Afstandsbeveiliging</string>
+    <string name="dashboard_metric_services">Backgrounddiensten</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">Voertuig</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">Aan het opnemen</string>
+    <string name="dashboard_chip_recording_idle">Inactief</string>
+    <string name="dashboard_vehicle_tap_to_set">Tast om te instellen</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWh · %2$s</string>
+    <string name="vehicle_dialog_title">Stel de batterijcapaciteit</string>
+    <string name="vehicle_dialog_capacity_label">Capaciteit (kWh)</string>
+    <string name="vehicle_dialog_capacity_suffix">kWh</string>
+    <string name="vehicle_dialog_capacity_helper">15 tot 120 kWh. Laat het model standaard gebruiken.</string>
+    <string name="vehicle_dialog_model_label">Model</string>
+    <string name="vehicle_dialog_save">Opslaan</string>
+    <string name="vehicle_dialog_reset">Herstellen op automatische detectie</string>
+    <string name="vehicle_dialog_invalid_capacity">De capaciteit moet 15 - 120 kWh zijn.</string>
+    <string name="vehicle_dialog_summary_capacity">Capaciteit: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">Effectief: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">Model: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">Laatste kalibreerde: %1$.1f%% op %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">niet beschikbaar</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s gebruikt · %2$s vrij</string>
+    <string name="dashboard_metric_storage_chip_pending">Opberging </string>
+    <string name="dashboard_tunnel_offline">Offline</string>
+    <string name="dashboard_tunnel_online">Online</string>
+    <string name="dashboard_tunnel_connecting">Verbinding...</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">Een live kijkje .</string>
+    <string name="dashboard_action_live_subtitle">Open beeld van de camera</string>
+    <string name="dashboard_action_recordings">Opnames</string>
+    <string name="dashboard_action_settings">Instellingen</string>
+    <string name="dashboard_action_settings_subtitle">Voorkeuren en over</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">Instellingen</string>
+    <string name="settings_hero_overline">Overdreven</string>
+    <string name="settings_hero_subtitle">Opname, bewaking en gegevens op het apparaat afstemmen.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">Voorbeelden</string>
+    <string name="settings_overline_about_data">Over en DATA</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">Thema</string>
+    <string name="settings_quick_language_label">Taal</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">Pre/post buffers, codec, opslaglimieten.</string>
+    <string name="settings_section_surveillance_subtitle">Detectiezonen, schema, bewegingsgevoeligheid.</string>
+    <string name="settings_section_daemons_subtitle">Cloudflared, Zrok, Telegram, MQTT hardlopers.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">Over OverDrive</string>
+    <string name="settings_about_row_subtitle">Versie, licentie, ondersteuning ontwikkeling.</string>
+    <string name="settings_reset_row_subtitle">Klaar opnames, gebeurtenissen of alle cache\'s.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">OverDrive %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">Thema, taal en visuele voorkeuren.</string>
+    <string name="settings_theme_active_auto_caption">Auto volgt uw systeem thema.</string>
+    <string name="settings_theme_active_light_caption">Het licht thema is altijd aan.</string>
+    <string name="settings_theme_active_dark_caption">Het duistere thema is altijd aan.</string>
+    <string name="settings_language_count_format">%1$d van de beschikbare talen %2$d</string>
+    <string name="settings_language_card_title">Vertoontaal</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">Op het apparaat standaard</string>
+    <string name="settings_privacy_stance_body">OverDrive loopt volledig op de hoofdunit. Geen telemetrie verlaat je auto behalve via de tunnels en integraties die je expliciet configureert.</string>
+    <string name="settings_privacy_overline_storage">LOCALE opslag</string>
+    <string name="settings_privacy_overline_reset">DATA Reset</string>
+    <string name="settings_privacy_storage_clips_label">Clips op schijf</string>
+    <string name="settings_privacy_storage_size_label">Totale grootte</string>
+    <string name="settings_privacy_storage_unavailable">Niet beschikbaar</string>
+    <string name="settings_privacy_storage_count_format">%1$d clip</string>
+    <string name="settings_privacy_storage_count_format_plural">%1$d-clips</string>
+    <string name="settings_privacy_reset_subtitle">Kies categorieën: opnames, evenementen, daemon config, cache telemetrie...</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">Beveiliging</string>
+    <string name="settings_security_subtitle">Vergrendel de OverDrive app zodat passagiers en radiatorkranen deze niet kunnen openen zonder uw pincode.</string>
+    <string name="settings_security_stance_title">Alleen UI Vergrendeling</string>
+    <string name="settings_security_stance_body">Surveillance, opname, afschrikking, waarschuwingen en achtergronddiensten blijven actief terwijl de app is vergrendeld. De pincode verbindt de OverDrive interface en niets anders.</string>
+    <string name="settings_security_overline_lock">App vergrendeling</string>
+    <string name="settings_security_overline_recovery">Als je je pincode bent vergeten</string>
+    <string name="settings_security_toggle_title">Pincode vereisen</string>
+    <string name="settings_security_toggle_subtitle_off">Uit - iedereen kan OverDrive openen.</string>
+    <string name="settings_security_toggle_subtitle_on">Op — PIN vereist om OverDrive te openen.</string>
+    <string name="settings_security_change_title">Pincode wijzigen</string>
+    <string name="settings_security_change_subtitle">Bevestig huidige pincode en stel daarna een nieuwe in.</string>
+    <string name="settings_security_autolock_title">Automatisch vergrendelen</string>
+    <string name="settings_security_autolock_immediate">Onmiddellijk vergrendelen</string>
+    <string name="settings_security_autolock_1min">Na 1 minuut</string>
+    <string name="settings_security_autolock_5min">Na 5 minuten</string>
+    <string name="settings_security_autolock_15min">Na 15 minuten</string>
+    <string name="settings_security_autolock_never">Nooit automatisch vergrendelen op tijd</string>
+    <string name="settings_security_recovery_title">ADB herstel</string>
+    <string name="settings_security_recovery_body">Vergeten PIN kan worden gewist van een host machine via USB debugging zonder terugzetten naar fabrieksinstellingen. Voer deze opdracht uit en heropen de app.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">Pincode instellen</string>
+    <string name="settings_security_dialog_set_body">Kies een 4-8-cijferige PIN. U heeft dit nodig elke keer als u de app opent.</string>
+    <string name="settings_security_dialog_disable_title">PIN-vergrendeling uitschakelen?</string>
+    <string name="settings_security_dialog_disable_body">Bevestig uw huidige pincode om de app vergrendeling uit te schakelen.</string>
+    <string name="settings_security_dialog_change_step1_title">Huidige pincode bevestigen</string>
+    <string name="settings_security_dialog_change_step1_body">Voer je huidige pincode in en dan stel je een nieuwe in.</string>
+    <string name="settings_security_action_set">Pincode instellen</string>
+    <string name="settings_security_action_disable">Vergrendeling uitschakelen</string>
+    <string name="settings_security_action_continue">Doorgaan</string>
+    <string name="settings_security_pin_hint">Pincode</string>
+    <string name="settings_security_pin_confirm_hint">Pincode bevestigen</string>
+    <string name="settings_security_error_length">Pincode moet uit 4 tot 8 cijfers bestaan</string>
+    <string name="settings_security_error_numeric">Alleen cijfers</string>
+    <string name="settings_security_error_mismatch">Pincodes komen niet overeen</string>
+    <string name="settings_security_error_wrong">Onjuiste pincode</string>
+    <string name="settings_security_error_locked_out">Te veel pogingen. Probeer het straks opnieuw.</string>
+    <string name="settings_security_error_persist">Kan de pincode niet opslaan. Probeer het opnieuw.</string>
+    <string name="settings_security_toast_set_ok">Pincode ingesteld. App lock is ingeschakeld.</string>
+    <string name="settings_security_toast_disable_ok">App-vergrendeling uitgeschakeld.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">Pincode invoeren</string>
+    <string name="pin_lock_title_unlocked">Ontgrendeld</string>
+    <string name="pin_lock_subtitle_default">Ontgrendel OverDrive om door te gaan.</string>
+    <string name="pin_lock_subtitle_wrong">Verkeerde pincode. Probeer het opnieuw.</string>
+    <string name="pin_lock_subtitle_locked_out">Te veel pogingen. Probeer het snel opnieuw.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">Vergrendeld. Probeer het opnieuw in %1$s.</string>
+    <string name="pin_lock_lockout_seconds">%1$dsec</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">Pincode vergeten? Uitvoeren vanaf een verbonden computer:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Achtergrond</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="one">%1$d cijfers ingevoerd</item>
+        <item quantity="other">%1$d cijfers ingevoerd</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">Geen locatie</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">Camera %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">Camera %1$d (handmatig)</string>
+    <string name="diagnostics_camera_value_probing">Onderzoeken...</string>
+    <string name="diagnostics_camera_value_offline">Offline</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">Opwaartse gegevens</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">Welkom  Overdrive is nu je tweede oogpar.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">%1$s (≈%2$s) opgepikt tijdens het parkeren</string>
+    <string name="dashboard_insight_parked_charged">%1$s opgepikt tijdens het parkeren.</string>
+    <string name="dashboard_insight_parked_drained_kwh">Gebruikte %1$s (≈%2$s) sinds je geparkeerd hebt</string>
+    <string name="dashboard_insight_parked_drained">Gebruikte %1$s sinds je geparkeerd hebt.</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">Laatste waarschuwing: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">Laatste lading: +%1$s in %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">%1$d clips · %2$s opgenomen</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f kWh</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d hr %2$d min</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="one">%1$d clip opgenomen vandaag</item>
+        <item quantity="other">%1$d clips opgenomen vandaag</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="one">Overdrive online voor %1$d dag, %2$d uur</item>
+        <item quantity="other">Overdrive online voor %1$d dagen, %2$d uur</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="one">Overdrive online voor %1$d uur</item>
+        <item quantity="other">%1$d uur online overdrive</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="one">%1$d min</item>
+        <item quantity="other">%1$d min</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="one">%1$d hr</item>
+        <item quantity="other">%1$d hr</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">RoadSense</string>
+    <string name="rail_hazard_map">Kaart</string>
+    <string name="roadsense_title">RoadSense</string>
+    <string name="roadsense_pill_scanning">Scannen</string>
+    <string name="roadsense_pill_idle">RoadSense</string>
+    <string name="roadsense_status_idle">Inactief</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">Uw voertuig leren</string>
+    <string name="roadsense_cal_ready">Voertuig gekalibreerd</string>
+    <string name="roadsense_cal_partial">Verbeter kalibratie</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">Vooruit wissen</string>
+    <string name="roadsense_road_mapped">Verkeerskaart · helder</string>
+    <string name="roadsense_road_new">Nieuwe weg · leren</string>
+    <string name="roadsense_unit_meters">min</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">Waarschuwen</string>
+    <string name="roadsense_toggle_audio">Geluid</string>
+    <string name="roadsense_toggle_visual">Visueel</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">Klein</string>
+    <string name="roadsense_sev_moderate">Matig</string>
+    <string name="roadsense_sev_severe">Ernstig</string>
+    <string name="roadsense_type_breaker">Snelheid onderbreker</string>
+    <string name="roadsense_type_pothole">Pothoek</string>
+    <string name="roadsense_type_hazard">Risico</string>
+    <string name="roadsense_type_rough">Ruwe sectie</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">%1$d stapels vooruit</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">Ruwe sectie · %1$d m</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">Was dit een gevaar?</string>
+    <string name="roadsense_confirm_reject">Geen gevaar</string>
+    <string name="roadsense_confirm_accept">Bevestigen</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">Route kalibratieniveau</string>
+    <string name="roadsense_cd_direction">Richting naar volgend gevaar</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">LINKS</string>
+    <string name="blindspot_overlay_right">RECHTS</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">Kaart</string>
+    <string name="roadsense_map_route_clear">Verwijderen</string>
+    <string name="roadsense_map_route_unmapped">Nog niet toegewezen</string>
+    <string name="roadsense_map_back">Achterzijde</string>
+    <string name="roadsense_map_recenter">Herhaal op mijn locatie</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">Ernstigheid</string>
+    <string name="roadsense_map_type_label">Type</string>
+    <string name="roadsense_map_type_unknown">onbekend</string>
+    <string name="roadsense_map_confirm">Bevestigen</string>
+    <string name="roadsense_map_delete">Verwijderen</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">Aanvrager</string>
+    <string name="roadsense_map_status_local">Op apparaat</string>
+    <string name="roadsense_map_status_cloud">Gedeeld</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% vertrouwen · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="one">%1$d rapport</item>
+        <item quantity="other">%1$d rapporten</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">Risico bevestigd</string>
+    <string name="roadsense_map_deleted_toast">Risico verwijderd</string>
+    <string name="roadsense_map_action_failed">RoadSense kon niet worden bereikt. Probeer het opnieuw.</string>
+    <string name="roadsense_map_no_location">Waiting for GPS fix…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">Zoek bestemming</string>
+    <string name="roadsense_map_search_action">Zoeken</string>
+    <string name="roadsense_map_searching">Searching…</string>
+    <string name="roadsense_map_no_results">Geen plaatsen gevonden</string>
+    <string name="roadsense_map_search_network">Kan de zoekdienst niet bereiken. Controleer je verbinding of proxy en probeer het opnieuw.</string>
+    <string name="roadsense_map_pick_destination">Kies bestemming</string>
+    <string name="roadsense_map_routing">Route vinden…</string>
+    <string name="roadsense_map_route_failed">Kon geen route vinden. Probeer het opnieuw.</string>
+    <string name="roadsense_map_need_key">Voeg een routing key toe in RoadSense instellingen om te navigeren.</string>
+    <string name="roadsense_map_route_key_rejected">Route sleutel geweigerd. Controleer je sleutel in de RoadSense instellingen.</string>
+    <string name="roadsense_map_route_network">Netwerk te langzaam om een route te vinden. Controleer je verbinding en probeer het opnieuw.</string>
+    <string name="roadsense_map_route_http">Fout in de routing service (%1$d). Probeer het binnenkort opnieuw.</string>
+    <string name="roadsense_map_rerouting">Route uitschakelen - opnieuw berekenen…</string>
+    <string name="roadsense_map_arrived">U bent gearriveerd.</string>
+    <string name="roadsense_map_nav_started">Navigeer naar %1$s</string>
+    <string name="roadsense_map_nav_ended">Navigatie beëindigd</string>
+    <string name="roadsense_map_end_nav">Einde navigatie</string>
+    <string name="roadsense_map_zoom_in">Zoom in</string>
+    <string name="roadsense_map_zoom_out">Zoom uit</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">Zichtbaarheid gevarenrisico</string>
+    <string name="roadsense_map_hazards_all">Toon alle gevaren</string>
+    <string name="roadsense_map_hazards_moderate">Matig en ernstig</string>
+    <string name="roadsense_map_hazards_severe">Alleen Ernstig</string>
+    <string name="roadsense_map_hazards_hidden">Risico\'s verbergen</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">Opladen en brandstof</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">2D / 3D-gebouwen</string>
+    <string name="roadsense_map_3d_on">3D gebouwen op</string>
+    <string name="roadsense_map_3d_off">3D gebouwen uit</string>
+    <string name="roadsense_map_poi_loading">Oplad- en brandstofstops vinden…</string>
+    <string name="roadsense_map_poi_none">Geen zenders gevonden in de buurt</string>
+    <string name="roadsense_map_poi_need_route">Kies eerst een bestemming</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">Stop toegevoegd</string>
+    <string name="roadsense_map_remove_stop_action">Stoplocatie verwijderen</string>
+    <string name="roadsense_map_poi_navigate">Hier navigeren</string>
+    <string name="roadsense_map_poi_kind_charging">Opladen station</string>
+    <string name="roadsense_map_poi_kind_fuel">Brandstof station</string>
+    <string name="roadsense_map_poi_charging_generic">Opladen station</string>
+    <string name="roadsense_map_poi_fuel_generic">Brandstof station</string>
+    <string name="roadsense_map_route_switched">Gewisselde route</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">dan</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">verlaten %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">%1$d ernstig</string>
+    <string name="roadsense_map_pill_moderate">%1$d gematigd</string>
+    <string name="roadsense_map_pill_minor">%1$d klein</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">Kaartgegevens niet offline beschikbaar</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">Zoekopdracht wissen</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">Kies een route</string>
+    <string name="roadsense_map_routes_to">Routes naar %1$s</string>
+    <string name="roadsense_map_routes_cancel">annuleren</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">Route %1$d</string>
+    <string name="roadsense_map_fastest">Snelste</string>
+    <string name="roadsense_map_start">Beginnen</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">Uw locatie</string>
+    <string name="roadsense_map_add_stop">Stoppen toevoegen</string>
+    <string name="roadsense_map_add_stop_hint">Zoek een stop om toe te voegen</string>
+    <string name="roadsense_map_stop_removed">Stop verwijderd</string>
+    <string name="roadsense_map_remove_stop">Stoplocatie verwijderen</string>
+    <string name="roadsense_map_move_stop_up">Verplaats stop omhoog</string>
+    <string name="roadsense_map_move_stop_down">Verplaats stop naar beneden</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">Tot %1$d stops toegestaan</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">Map thema</string>
+    <string name="roadsense_map_theme_auto">Kaart thema: automatisch</string>
+    <string name="roadsense_map_theme_light">Kaart thema: licht</string>
+    <string name="roadsense_map_theme_dark">Kaart thema: donker</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">Startpagina</string>
+    <string name="roadsense_map_saved_work">Werk</string>
+    <string name="roadsense_map_saved_set_home">Thuis instellen</string>
+    <string name="roadsense_map_saved_set_work">Stel werk in</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">Favoriete</string>
+    <string name="roadsense_map_save_place">Plaats opslaan</string>
+    <string name="roadsense_map_save_as_home">Opslaan als Home</string>
+    <string name="roadsense_map_save_as_work">Opslaan als werk</string>
+    <string name="roadsense_map_save_as_custom">Opslaan als favoriet…</string>
+    <string name="roadsense_map_saved_added">Opgeslagen</string>
+    <string name="roadsense_map_saved_removed">Verwijderd uit opgeslagen</string>
+    <string name="roadsense_map_saved_remove">Verwijderen</string>
+    <string name="roadsense_map_recent_remove">Verwijder uit recente apps</string>
+    <string name="roadsense_map_recent_removed">Verwijderd uit recenten</string>
+    <string name="roadsense_map_custom_label_hint">Label (bijv. Gym, Mum\'s)</string>
+    <string name="roadsense_map_custom_label_title">Noem deze plaats</string>
+    <string name="roadsense_map_save">Opslaan</string>
+    <string name="roadsense_map_cancel">annuleren</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">Achtergelaten pin</string>
+    <string name="roadsense_map_navigate_here">Hier navigeren</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">Zoek een plaats om in te stellen als %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">Rit hersteld</string>
+    <!-- Cloudflared paid-tunnel settings -->
+    <string name="cloudflared_token_storage_note">Token wordt veilig opgeslagen en gedeeld tussen app en daemon processen.</string>
+    <string name="cloudflared_token_hint">Voer cloudflared token in</string>
+    <string name="cloudflare_paid_version">Cloudflare Betaalde Versie</string>
+    <string name="dialog_cloudflared_settings_title">🌐 Cloudflared Settings</string>
+    <string name="dialog_cloudflared_settings_message">Bepaal of je betaald Cloudflare of trycloudflare. Als je betaalde Cloudflare gebruikt, voer dan je tunneltoken in.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">Als je op de betaalde versie hebt gezet, mag de token niet leeg zijn</string>
+    <string name="toast_cloudflared_token_invalid">Ongeldige sleutel: gebruik alleen letters, cijfers en . _ - = tekens</string>
+    <string name="toast_cloudflared_saved_settings">Cloudflared instellingen opgeslagen</string>
+    <!-- Projection screen -->
+    <string name="projection_hero_title">Projectie</string>
+    <string name="projection_hero_subtitle">Stuur een app naar het bestuurderscluster en spiegel het hier.</string>
+    <string name="projection_pick_app">Kies een app om te projecteren</string>
+    <string name="projection_cast">Cast naar cluster</string>
+    <string name="projection_stop">Stoppen</string>
+    <string name="projection_cast_failed">Kon die app niet naar het cluster casten.</string>
+    <string name="projection_status_idle">Niet aan het projecten.</string>
+    <string name="projection_status_live">Live mirror - tik en veeg om te bedienen.</string>
+    <string name="projection_status_preview">Voorbeeldmodus (verlaagde framesnelheid voor dit voertuig).</string>
+    <string name="projection_status_none">Nog niets geprojecteerd - kies een app en cast.</string>
+    <string name="projection_status_unsupported">Live mirror wordt niet ondersteund in dit voertuig. De app wordt nog geprojecteerd op het cluster.</string>
+    <string name="projection_note_single_app">Er kan één app tegelijk worden geprojecteerd op het cluster.</string>
+    <string name="projection_adjust_bounds">Gebied aanpassen</string>
+    <string name="projection_done_adjusting">Voltooid</string>
+    <string name="projection_bounds_hint_idle">Spiegelgebied</string>
+    <string name="projection_status_adjust">Sleep om te verplaatsen · sleep een hoek om het formaat te wijzigen.</string>
+    <string name="projection_scale_title">Schalen</string>
+    <string name="projection_scale_desc">Hoe het instrumentenpaneel het spiegelgebied vult.</string>
+    <string name="projection_scale_fit">Passend</string>
+    <string name="projection_scale_fill">Uitrekken</string>
+    <string name="projection_scale_zoom">Zoom</string>
+    <string name="projection_autostart_title">Automatisch starten bij inschakelen</string>
+    <string name="projection_autostart_desc">Cast de laatst gebruikte app automatisch naar het instrumentenpaneel telkens wanneer de auto wordt ingeschakeld. (De spiegel opent wanneer je dit scherm bezoekt.)</string>
+    <string name="projection_autostart_need_app">Cast eerst een app en schakel dit daarna in.</string>
+    <string name="projection_autostart_conflict_title">RoadSense gebruikt het instrumentenpaneel</string>
+    <string name="projection_autostart_conflict_body">RoadSense is ingesteld om de kaart automatisch naar het instrumentenpaneel van de bestuurder te projecteren wanneer de auto wordt ingeschakeld. Het instrumentenpaneel kan maar één ding tegelijk tonen. Dat uitschakelen en in plaats daarvan deze app automatisch starten?</string>
+    <string name="projection_autostart_conflict_confirm">Deze app gebruiken</string>
+    <string name="projection_app_uninstalled">Die app is niet meer geïnstalleerd.</string>
+    <string name="projection_status_service_down">De spiegelservice is niet gereed — herstart de app (of de camera-daemon) en probeer het opnieuw.</string>
+    <string name="cd_replay_status">Onmiddellijke afspelen status</string>
+    <string name="recording_lib_type_replay">HERHALING</string>
+    <string name="settings_overlay_replay_title">Direct afspelen indicator</string>
+    <string name="settings_overlay_replay_subtitle">Toon de CLIP badge: groen tijdens een replay records, blauw voor 5 keer opgeslagen, rood wanneer het mislukt. Verschijnt alleen als er een herhalingskoppeling of automatisering bestaat.</string>
+    <string name="recordings_segment_replays">Herhalingen</string>
+    <string name="recordings_segment_replays_count">Herhalingen · %d</string>
+    <string name="vehicle_model_seagull">BYD Seagull</string>
+    <string name="projection_window_title">Venster groeperen</string>
+    <string name="projection_window_desc">Positioneer de cast app op het chauffeurscluster. Voorinstellingen klikken op veelgebruikte lay-outs; Het formaat van het venster laat je het vrij slepen.</string>
+    <string name="projection_preset_full">Volledig</string>
+    <string name="projection_preset_left">Linkerscherm helft</string>
+    <string name="projection_preset_right">Rechts de helft</string>
+    <string name="projection_preset_center">Gecentreerd</string>
+    <string name="projection_lock_aspect">clusteraspect behouden</string>
+</resources>

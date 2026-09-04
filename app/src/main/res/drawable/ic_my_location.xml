@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded: my_location (24px, weight 400, fill 0).
+     Used by the RoadSense map recenter / locate FAB. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M480-280q-83 0-141.5-58.5T280-480q0-83 58.5-141.5T480-680q83 0 141.5 58.5T680-480q0 83-58.5 141.5T480-280Zm0-80q50 0 85-35t35-85q0-50-35-85t-85-35q-50 0-85 35t-35 85q0 50 35 85t85 35ZM440-800v-40q0-17 11.5-28.5T480-880q17 0 28.5 11.5T520-840v40q0 17-11.5 28.5T480-760q-17 0-28.5-11.5T440-800Zm0 640v-40q0-17 11.5-28.5T480-240q17 0 28.5 11.5T520-200v40q0 17-11.5 28.5T480-120q-17 0-28.5-11.5T440-160Zm360-360q-17 0-28.5-11.5T760-520q0-17 11.5-28.5T800-560h40q17 0 28.5 11.5T880-520q0 17-11.5 28.5T840-480h-40Zm-640 0q-17 0-28.5-11.5T120-520q0-17 11.5-28.5T160-560h40q17 0 28.5 11.5T240-520q0 17-11.5 28.5T200-480h-40Z"/>
+    </group>
+</vector>

@@ -1,0 +1,1333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OverDrive</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">ทำให้ระบบตรวจสอบรถยนต์ Overdrive ทำงานในพื้นหลังตลอดเวลา บริการนี้จะไม่อ่านหรือโต้ตอบกับเนื้อหาบนหน้าจอ</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">ยกเลิก</string>
+    <string name="action_clear_plain">ล้างข้อมูล</string>
+    <string name="action_select_all">เลือกทั้งหมด</string>
+    <string name="action_select_all_short">ทั้งหมด</string>
+    <string name="action_delete">ลบ</string>
+    <string name="action_share">แชร์</string>
+    <string name="action_done">เสร็จสิ้น</string>
+    <string name="action_remind_me_later">เตือนฉันภายหลัง</string>
+    <string name="action_retry">ลองใหม่</string>
+    <string name="action_run">ทำงาน</string>
+    <string name="action_clear_output">ล้างผลลัพธ์</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">กล้อง</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">คิวอาร์โค้ด</string>
+    <string name="cd_show_hide_token">แสดง/ซ่อน Token</string>
+    <string name="cd_copy_token">คัดลอก Token</string>
+    <string name="cd_copy_url">คัดลอก URL</string>
+    <string name="cd_clear_logs">ล้าง Log</string>
+    <string name="cd_expand_collapse">ขยาย/พับเก็บ</string>
+    <string name="cd_recording_status">สถานะการบันทึก</string>
+    <string name="cd_trip_tracking_status">สถานะการติดตามทริป</string>
+    <string name="cd_mic_status">สถานะไมโครโฟน</string>
+    <string name="cd_video_thumbnail">ภาพตัวอย่างวิดีโอ</string>
+    <string name="cd_play">เล่น</string>
+    <string name="cd_back">ย้อนกลับ</string>
+    <string name="cd_play_pause">เล่น/หยุดชั่วคราว</string>
+    <string name="cd_player_prev">วิดีโอก่อนหน้า</string>
+    <string name="cd_player_next">วิดีโอถัดไป</string>
+    <string name="cd_player_maximize">ขยายเต็มจอ</string>
+    <string name="cd_player_minimize">ออกจากการแสดงเต็มจอ</string>
+    <string name="cd_player_mute">เปิด/ปิดเสียง</string>
+    <string name="cd_player_quadrant_all">แสดงกล้องทั้งหมด</string>
+    <string name="cd_player_quadrant_front">แสดงกล้องหน้า</string>
+    <string name="cd_player_quadrant_right">แสดงกล้องด้านขวา</string>
+    <string name="cd_player_quadrant_rear">แสดงกล้องหลัง</string>
+    <string name="cd_player_quadrant_left">แสดงกล้องด้านซ้าย</string>
+    <string name="cd_delete">ลบ</string>
+    <string name="cd_share">แชร์</string>
+    <string name="cd_expand">ขยาย</string>
+    <string name="cd_configure">ตั้งค่า</string>
+    <string name="cd_download_log">ดาวน์โหลด Log</string>
+    <string name="cd_reset">รีเซ็ต</string>
+    <string name="cd_battery">แบตเตอรี่</string>
+    <string name="cd_step_completed">ขั้นตอนเสร็จสิ้น</string>
+    <string name="cd_permission_granted">อนุญาตแล้ว</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">REC</string>
+    <string name="overlay_trip_inactive_label">ทริป</string>
+    <string name="overlay_mic_inactive_label">MIC</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">หยุดบันทึก</string>
+    <string name="overlay_mode_continuous_cd">การบันทึกต่อเนื่อง</string>
+    <string name="overlay_mode_drive_cd">การบันทึกในโหมดขับขี่</string>
+    <string name="overlay_mode_proximity_cd">การบันทึกเฝ้าระวังสิ่งเข้าใกล้</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">12:34:56</string>
+    <string name="log_entry_default_tag">[TAG]</string>
+    <string name="log_entry_default_message">ข้อความ Log</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">ชื่อ Daemon</string>
+    <string name="daemon_card_default_status">ข้อความสถานะ</string>
+    <string name="daemon_card_subprocesses">โปรแกรมย่อย</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">บันทึก</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">กำลังเชื่อมต่อ…</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">ไม่พบเบราว์เซอร์ คัดลอกลิงก์แล้ว: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">สร้าง URL เข้าสู่ระบบ</string>
+    <string name="tailscale_scan_to_login">สแกนเพื่อเข้าสู่ระบบ</string>
+    <string name="tailscale_qr_waiting">กำลังรอ URL เข้าสู่ระบบ…</string>
+    <string name="tailscale_enable_proxy">เปิดใช้งาน Tailscale Proxy</string>
+    <string name="tailscale_proxy_explainer">กำหนดให้ MQTT เชื่อมต่อผ่าน Tailscale เพื่อให้คุณเข้าถึง Broker ส่วนตัวในเครือข่าย Tailnet ได้โดยไม่ต้อง Forward Port</string>
+    <string name="tailscale_proxy_warning">หากเปิดใช้งานโหมดนี้ MQTT จะไม่สามารถเชื่อมต่อ Broker สาธารณะ (เช่น HiveMQ, AWS IoT) ได้ — Tailscale จะทำงานเฉพาะในเครือข่าย Tailnet เท่านั้น การบันทึกจะทำให้ระบบเบื้องหลัง (Daemon) รีสตาร์ท</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">โหมดการรับภาพจากกล้อง</string>
+    <string name="camera_mode_subtitle">เลือกรูปแบบที่ตรงกับหน้าจอรถของคุณ ค่าเริ่มต้นจะรองรับ BYD ส่วนใหญ่ ส่วน DiLink 4 จำเป็นสำหรับรุ่นใหม่ (Han / Tang 2024+) ที่ระบบของรถส่งภาพรวม 4 มุมมาให้แล้ว</string>
+    <string name="camera_mode_option_default">ค่าเริ่มต้น — รองรับ Seal, Atto, Dolphin (รถส่วนใหญ่)</string>
+    <string name="camera_mode_option_dilink4">DiLink 4 — สำหรับ Han / Tang รุ่นใหม่</string>
+    <string name="camera_mode_current_default">ปัจจุบัน: ค่าเริ่มต้น</string>
+    <string name="camera_mode_current_dilink4">ปัจจุบัน: DiLink 4</string>
+    <string name="camera_mode_save">บันทึกโหมด</string>
+    <string name="camera_mode_hint">การเปลี่ยนโหมดจะทำให้ระบบกล้องเบื้องหลัง (Daemon) รีสตาร์ท หากภาพวิดีโอแสดงผลผิดปกติ (ภาพบีบ, กล้องบางมุมหายไป, หรือมีแถบสีแดง) กรุณาลองเปลี่ยนโหมดการรับภาพ</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">ปรับแต่งมุมกล้อง DiLink 4</string>
+    <string name="camera_dilink4_tweaks_subtitle">ปรับแต่งภาพเฉพาะสำหรับโหมด DiLink 4 จะมีผลก็ต่อเมื่อเลือกโหมด DiLink 4 ไว้ด้านบน</string>
+    <string name="camera_dilink4_save">บันทึกการปรับแต่ง</string>
+    <string name="camera_dilink4_hint">เปิดใช้งานเฉพาะเมื่อระบบของรถแสดงแถบสีแดง \"Calibration Failed\" ทับบนภาพ ระบบเบื้องหลังจะรีสตาร์ทเพื่อใช้การตั้งค่านี้</string>
+    <string name="camera_dilink4_red_mask_label">ซ่อนแถบแจ้งเตือน Calibration (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">ใช้ Shader ตรวจจับพิกเซลแถบสีแดง \"Calibration Failed\" ของรถ แล้วแทนที่ด้วยสีรอบข้าง (หรือสีเทาหากแถบมีขนาดใหญ่เกินไป) เป็นเพียงการปรับแต่งการแสดงผล ไม่มีผลกับการ Calibrate ของตัวรถจริง</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">เลือกกล้อง</string>
+    <string name="camera_selection_subtitle">เลือกแหล่งภาพกล้องรอบคัน</string>
+    <string name="camera_current_auto">ปัจจุบัน: อัตโนมัติ</string>
+    <string name="camera_option_auto">อัตโนมัติ (ตรวจจับเมื่อเปิดเครื่อง)</string>
+    <string name="camera_option_0">กล้อง 0 — รุ่น Atto</string>
+    <string name="camera_option_1">กล้อง 1 — รุ่น Seal (ค่าเริ่มต้น)</string>
+    <string name="camera_option_2">กล้อง 2</string>
+    <string name="camera_option_3">กล้อง 3</string>
+    <string name="camera_option_4">กล้อง 4</string>
+    <string name="camera_option_5">กล้อง 5</string>
+    <string name="camera_selection_hint">โหมด \'อัตโนมัติ\' จะเลือกกล้องที่เหมาะสมกับรุ่นรถของคุณทุกครั้งที่เปิดเครื่อง กล้อง 1 = BYD Seal, กล้อง 0 = รุ่น Atto กรุณารีสตาร์ทระบบเบื้องหลัง (Daemon) หลังจากการเปลี่ยน ID กล้องเพื่อให้การตั้งค่ามีผล</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">ID กล้อง OEM Dashcam</string>
+    <string name="camera_oem_dashcam_hint">เลือก AVMCamera id ที่ชี้ไปยังเซ็นเซอร์กล้องหน้ารถ Dashcam ตรงข้ามกับ pano: Seal/Han pano = 1 → dashcam = 0; Atto / Tang pano = 0 → dashcam = 1 ปล่อยไว้ที่ Auto เพื่อให้ OverDrive เลือก</string>
+    <string name="camera_oem_dashcam_auto_resolved">อัตโนมัติ — ใช้ id %1$d (pano คือ id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">อัตโนมัติ — pano id คือ %1$d ไม่สามารถอนุมานกล้องได้</string>
+    <string name="camera_oem_dashcam_save">บันทึก</string>
+    <string name="camera_concurrent_probe_label">ทดสอบรองรับกล้องคู่เมื่อบูตครั้งถัดไป</string>
+    <string name="camera_concurrent_probe_subtitle">การตรวจสอบครั้งเดียวที่เปิดกล้องทั้งสองตัวพร้อมกันเพื่อยืนยันว่ารถคันนี้รองรับพาโนพร้อมกล้องหน้ารถพร้อมกันได้ ทำงานครั้งเดียวเมื่อรีสตาร์ทครั้งถัดไปขณะจอด ปล่อยปิดไว้เว้นแต่ภาพบันทึกดูผิดปกติ — ไม่จำเป็นต้องใช้และอาจขัดจังหวะการบันทึกชั่วครู่หากมีการบันทึกอยู่ขณะทำงาน</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">กล้อง 0 — Seal / Han (ค่าเริ่มต้น)</string>
+    <string name="camera_oem_option_1">กล้อง 1 — Atto / Tang</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">จับคู่ตำแหน่งกล้อง</string>
+    <string name="camera_role_label">จับคู่ตำแหน่ง</string>
+    <string name="camera_candidate_previous">ก่อนหน้า</string>
+    <string name="camera_candidate_next">ถัดไป</string>
+    <string name="camera_preview_unavailable">ยังไม่มีภาพตัวอย่าง กรุณาลองเลือกตัวเลือกอื่น หรือปิดและเปิดหน้าต่างนี้ใหม่หลังจากระบบเบื้องหลังรีสตาร์ท</string>
+    <string name="camera_mapping_save">บันทึกการจับคู่</string>
+    <string name="camera_mapping_clear">ล้างการจับคู่</string>
+    <string name="camera_mapping_saved">บันทึกการจับคู่กล้องเรียบร้อยแล้ว</string>
+    <string name="camera_mapping_cleared">ล้างการจับคู่ตำแหน่งกล้องเรียบร้อยแล้ว</string>
+    <string name="camera_mapping_summary_format">ภาพกล้องรอบคัน: กล้อง %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">ภาพกล้องรอบคัน: ตรวจจับอัตโนมัติแบบดั้งเดิม</string>
+    <string name="camera_mapping_current_format">การจับคู่ปัจจุบัน: %1$s</string>
+    <string name="camera_mapping_current_none">การจับคู่ปัจจุบัน: อัตโนมัติ / ค่าเริ่มต้น</string>
+    <string name="camera_mapping_hint">โดยปกติ OverDrive จะใช้ระบบตรวจจับแบบดั้งเดิมเมื่อเริ่มทำงาน แต่ปัจจุบันคุณสามารถตั้งค่าภาพกล้องรอบคันให้ถูกต้องได้ กรุณาตรวจสอบภาพตัวอย่างแต่ละส่วน และจับคู่ตำแหน่งกล้องหน้า/ขวา/หลัง/ซ้าย ให้ตรงกับรถของคุณ ระบบจะบันทึกค่านี้เพื่อใช้สำหรับการบันทึกวิดีโอ การสตรีมมิ่ง และระบบ AI ในครั้งถัดไป</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">สแกนเพื่อเชื่อมต่อ</string>
+    <string name="dashboard_qr_waiting">กำลังรอ Tunnel…</string>
+    <string name="dashboard_daemons_running_default">ทำงาน 0/5</string>
+    <string name="dashboard_device_id_loading">…</string>
+    <string name="dashboard_access_code">รหัสเข้าถึง</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">สร้าง Token ใหม่</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">เริ่มต้นใช้งาน</string>
+    <string name="setup_guide_subtitle">3 ขั้นตอนง่ายๆ เพื่อเริ่มใช้งาน:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2</string>
+    <string name="setup_step_three_label">3</string>
+    <string name="setup_language_title">เลือกภาษาของคุณ</string>
+    <string name="setup_language_body">ค่าเริ่มต้นจะเป็นภาษาของหน้าจอรถ แตะเพื่อเปลี่ยนภาษาสำหรับแอปพลิเคชัน OverDrive และเว็บ Tunnel</string>
+    <string name="setup_language_button">เลือกภาษา</string>
+    <string name="setup_autostart_title">ปิดการจำกัดการเริ่มแอปอัตโนมัติ</string>
+    <string name="setup_autostart_body">แตะด้านล่างเพื่อเปิดการตั้งค่า Auto-Start ของ BYD ค้นหา OverDrive ในรายการและนำเครื่องหมายถูกออก ระบบ BYD จะรีเซ็ตค่านี้ทุกครั้งที่มีการติดตั้งแอปพลิเคชัน — คุณจำเป็นต้องดำเนินการขั้นตอนนี้อีกครั้งหลังการอัปเดต</string>
+    <string name="setup_autostart_button">เปิด BYD Auto-Start</string>
+    <string name="setup_overlay_title">อนุญาตให้แสดงทับแอปอื่น</string>
+    <string name="setup_overlay_body">เปิดใช้งานเพื่อแสดงสถานะการบันทึกวิดีโอและติดตามทริปลอยอยู่บนแอปพลิเคชันอื่น</string>
+    <string name="setup_overlay_button">เปิดการตั้งค่า Overlay</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">ปิด</string>
+    <string name="language_picker_title">ภาษา</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">มีให้เลือก %1$d ภาษา</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">เลือกภาษา</string>
+    <string name="language_auto_title">อัตโนมัติ</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">ตามระบบเครื่อง · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · อัตโนมัติ</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">$</string>
+    <string name="adb_command_hint">ป้อนคำสั่ง…</string>
+    <string name="adb_preset_commands_header">คำสั่งที่ตั้งไว้</string>
+    <string name="adb_output_header">ผลลัพธ์</string>
+    <string name="adb_output_ready">$ พร้อมรับคำสั่ง…</string>
+    <string name="adb_console_hero_title">คอนโซล ADB</string>
+    <string name="adb_console_hero_subtitle">เรียกใช้คำสั่ง Shell บนอุปกรณ์</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">กำลังโหลด…</string>
+    <string name="webview_camera_daemon_not_running">ระบบกล้องยังไม่ทำงาน</string>
+    <string name="webview_start_camera_daemon">กรุณาเริ่มระบบกล้องที่หน้า Daemons เพื่อเข้าถึงหน้านี้</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">เปิดใช้งาน Token</string>
+    <string name="zrok_token_storage_note">Token จะถูกจัดเก็บอย่างปลอดภัยและใช้ร่วมกันระหว่างแอปพลิเคชันและระบบเบื้องหลัง</string>
+    <string name="zrok_reset_environment">รีเซ็ต Zrok Environment</string>
+    <string name="zrok_reset_environment_desc">ลบ Environment และ Token คุณจำเป็นต้องใช้ Token เพื่อเปิดใช้งานใหม่อีกครั้ง (ใช้โควตาอุปกรณ์ 1 สิทธิ์)</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">ล้างข้อมูล (Reset)</string>
+    <string name="reset_subtitle">ลบข้อมูลที่เก็บสะสมไว้ตามหมวดหมู่</string>
+    <string name="reset_warning">การดำเนินการนี้ไม่สามารถกู้คืนได้ ข้อมูลไฟล์วิดีโอ ทริป และประวัติแบตเตอรี่จะถูกลบอย่างถาวร</string>
+    <string name="reset_cat_trips">ทริปการขับขี่</string>
+    <string name="reset_cat_trips_desc">ประวัติการขับขี่ เส้นทาง สถิติรายสัปดาห์/เดือน</string>
+    <string name="reset_cat_soc_history">ประวัติ SoC &amp; 12V</string>
+    <string name="reset_cat_soc_history_desc">ข้อมูลระดับแบตเตอรี่, ประวัติการชาร์จ, แรงดันแบต 12V</string>
+    <string name="reset_cat_soh">รีเซ็ตค่า SOH</string>
+    <string name="reset_cat_soh_desc">ประเมินความจุใหม่และเริ่มคำนวณใหม่จาก BMS</string>
+    <string name="reset_cat_abrp_token">Token ABRP</string>
+    <string name="reset_cat_abrp_token_desc">ปิดการส่งข้อมูลให้ ABRP จนกว่าจะผูก Token ใหม่</string>
+    <string name="reset_cat_byd_cloud">ข้อมูลการเข้าสู่ระบบ BYD Cloud</string>
+    <string name="reset_cat_byd_cloud_desc">ลบชื่อผู้ใช้, กุญแจเข้าสู่ระบบ, เลขตัวถัง (VIN) — จำเป็นต้องเข้าสู่ระบบใหม่</string>
+    <string name="reset_cat_recordings">ไฟล์วิดีโอทั้งหมด</string>
+    <string name="reset_cat_recordings_desc">ลบไฟล์ MP4 ทุกไฟล์ในโฟลเดอร์บันทึกวิดีโอ</string>
+    <string name="reset_cat_sentry_events">เหตุการณ์เฝ้าระวัง</string>
+    <string name="reset_cat_sentry_events_desc">วิดีโอคลิปสั้นและไฟล์ JSON ของโหมดเฝ้าระวัง</string>
+    <string name="reset_cat_proximity">วิดีโอเตือนเข้าใกล้</string>
+    <string name="reset_cat_proximity_desc">ไฟล์ MP4 ที่ระบบเรดาร์ตรวจจับได้</string>
+    <string name="reset_cat_trip_files">ไฟล์ข้อมูลของแต่ละทริป</string>
+    <string name="reset_cat_trip_files_desc">ลบไฟล์ JSON ข้อมูลแต่ละทริป</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">ทั้งหมด</string>
+    <string name="recording_lib_chip_person">บุคคล</string>
+    <string name="recording_lib_chip_vehicle">ยานพาหนะ</string>
+    <string name="recording_lib_chip_bike">จักรยาน/จักรยานยนต์</string>
+    <string name="recording_lib_chip_animal">สัตว์</string>
+    <string name="recording_lib_chip_alert">แจ้งเตือน</string>
+    <string name="recording_lib_chip_critical">วิกฤต</string>
+    <string name="recording_lib_selected_count_zero">เลือกไว้ 0 ไฟล์</string>
+    <string name="recording_lib_no_recordings">ไม่มีวิดีโอ</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">ตัวกรอง</string>
+    <string name="recording_lib_filter_button_active">ตัวกรอง · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">กรองวิดีโอ</string>
+    <string name="recording_lib_filter_apply">นำไปใช้</string>
+    <string name="recording_lib_filter_reset">รีเซ็ต</string>
+    <string name="recording_lib_filter_section_what">กรองตามวัตถุ</string>
+    <string name="recording_lib_filter_section_severity">ระดับความรุนแรง</string>
+    <string name="recording_lib_filter_section_type">ประเภท</string>
+    <string name="recording_lib_filter_section_place">สถานที่</string>
+    <string name="recording_lib_place_search_hint">ค้นหาสถานที่…</string>
+    <string name="recording_lib_chip_type_normal">ปกติ</string>
+    <string name="recording_lib_chip_type_proximity">เตือนเข้าใกล้</string>
+    <string name="recording_lib_date_today">วันนี้</string>
+    <string name="recording_lib_date_yesterday">เมื่อวาน</string>
+    <string name="recording_lib_clip_count">%1$d ไฟล์</string>
+    <string name="recording_lib_clip_count_one">%1$d ไฟล์</string>
+    <string name="recording_lib_pick_date">เลือกวันที่</string>
+    <string name="recording_lib_date_all_days">ทุกวัน</string>
+    <string name="cd_clear_date_filter">แสดงทุกวัน</string>
+    <string name="recording_lib_section_morning">ตอนเช้า</string>
+    <string name="recording_lib_section_afternoon">ตอนบ่าย</string>
+    <string name="recording_lib_section_evening">ตอนเย็น</string>
+    <string name="recording_lib_section_night">ตอนกลางคืน</string>
+    <string name="cd_previous_day">วันก่อนหน้า</string>
+    <string name="cd_next_day">วันถัดไป</string>
+    <string name="cd_open_filters">เปิดตัวกรอง</string>
+    <string name="cd_clear_filter">ล้างตัวกรอง</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">ไม่มีการบันทึกที่ตรงกัน</string>
+    <string name="recording_lib_empty_body">ลองปรับช่วงวันที่หรือตัวกรองชิปของคุณ</string>
+    <string name="recording_lib_empty_clear_filters">ล้างตัวกรอง</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">ยังไม่มีการบันทึก</string>
+    <string name="recording_lib_empty_disk_body">ภาพที่บันทึกจะปรากฏที่นี่ทันทีที่กล้องหน้ารถหรือระบบเฝ้าระวังเขียนคลิป</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">กำลังสร้างดัชนีคลัง</string>
+    <string name="recording_lib_building_index_body">รอสักครู่ ขณะที่เดมอนสแกนการบันทึกของคุณ</string>
+    <string name="recording_lib_building_index_progress">จัดทำดัชนีแล้ว %1$d จาก %2$d คลิป…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">CAM</string>
+    <string name="recording_lib_type_event">เหตุการณ์</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">OEM</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">กำลังแชร์การบันทึก %1$d รายการ</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">วิดีโอ</string>
+    <string name="player_time_zero">0:00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">ระบบเบื้องหลัง (Daemons)</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">กำลังโหลดระบบเบื้องหลัง…</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">ทำงาน %1$d จาก %2$d</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">กำลังเตรียมอัปเดต…</string>
+    <string name="update_percent_zero">0%</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">สุขภาพแบตเตอรี่</string>
+    <string name="battery_health_subtitle">ค่า SOH (State of Health)</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">กำลังรอข้อมูล…</string>
+    <string name="battery_health_source">แหล่งที่มา</string>
+    <string name="battery_health_method">วิธีการ</string>
+    <string name="battery_health_capacity">ความจุ</string>
+    <string name="battery_health_samples">จำนวนตัวอย่าง</string>
+    <string name="battery_health_last_updated">อัปเดตล่าสุด</string>
+    <string name="battery_health_reset">รีเซ็ตการประเมินค่า SOH</string>
+    <string name="battery_health_reset_desc">ล้างข้อมูลทั้งหมดและเริ่มคำนวณใหม่ ควรใช้เมื่อมีการเปลี่ยนแบตเตอรี่ หรือค่าที่ประเมินได้ไม่ถูกต้อง</string>
+    <string name="soh_dialog_model_label">รุ่น</string>
+    <string name="soh_dialog_pack_capacity_label">ความจุแบตเตอรี่</string>
+    <string name="soh_dialog_estimated_capacity_label">ความจุที่ใช้งานได้จริง</string>
+    <string name="soh_dialog_calibration_anchor_label">ปรับเทียบล่าสุด (Calibration)</string>
+    <string name="soh_dialog_source_user">กำหนดเอง</string>
+    <string name="soh_dialog_source_auto">ตรวจจับอัตโนมัติ</string>
+    <string name="soh_dialog_model_not_selected">ไม่ได้เลือก</string>
+    <string name="soh_dialog_capacity_not_detected">ตรวจไม่พบ</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% เมื่อ %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">ปริมาณพลังงานเมื่อชาร์จเต็ม</string>
+    <string name="soh_dialog_frame_anchor_format">พบปริมาณ %1$.2f kWh เมื่อชาร์จเต็ม (จาก %2$d/%3$d ตัวอย่าง)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">พบปริมาณ %1$.2f kWh เมื่อชาร์จเต็ม (กำลังรวบรวม %2$d/%3$d ตัวอย่าง)</string>
+    <string name="soh_dialog_frame_mismatch_title">ความจุไม่ตรงกัน</string>
+    <string name="soh_dialog_frame_mismatch_format">ระบบของรถรายงานปริมาณ %1$.1f kWh เมื่อชาร์จเต็ม แต่คุณตั้งความจุแพ็กแบตเตอรี่ไว้ที่ %2$.1f kWh ตัวเลขดังกล่าวอาจเกิดจากความแตกต่างของหน่วยวัด (สเปคโรงงานเทียบกับความจุที่ใช้ได้จริง) ไม่ได้หมายถึงแบตเตอรี่เสื่อมสภาพ แนะนำให้ระบุ %1$.1f kWh เพื่อให้ตรงกับข้อมูลที่ระบบของรถรายงาน</string>
+    <string name="soh_dialog_use_observed_value">ใช้ค่าที่ระบบประเมินได้</string>
+    <string name="soh_dialog_use_observed_value_pending">กำลังบันทึก…</string>
+    <string name="toast_soh_observed_value_saved">อัปเดตความจุแบตเตอรี่เป็น %1$.1f kWh เรียบร้อยแล้ว</string>
+    <string name="toast_soh_observed_value_failed">ไม่สามารถอัปเดตความจุแบตเตอรี่ได้ (%1$s)</string>
+    <string name="diagnostics_battery_needs_review">จำเป็นต้องตรวจสอบ</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">ตกลง</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="other">ลบไฟล์วิดีโอแล้ว %d ไฟล์</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="other">ลบวิดีโอ %d ไฟล์</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="other">การดำเนินการนี้จะเป็นการลบไฟล์วิดีโอ %d ไฟล์แบบถาวร และไม่สามารถกู้คืนได้</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">อัปเดตเป็น %1$s เรียบร้อยแล้ว</string>
+    <string name="toast_update_install_failed">การติดตั้งอัปเดตล้มเหลว: %1$s</string>
+    <string name="toast_checking_for_updates">กำลังตรวจสอบการอัปเดต…</string>
+    <string name="toast_app_up_to_date">แอปพลิเคชันเป็นเวอร์ชันล่าสุดแล้ว (v%1$s)</string>
+    <string name="toast_update_check_failed">การตรวจสอบอัปเดตล้มเหลว: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">มีอัปเดตใหม่</string>
+    <string name="update_dialog_subtitle">มีเวอร์ชันใหม่พร้อมติดตั้ง</string>
+    <string name="update_dialog_current">ปัจจุบัน: v%1$s</string>
+    <string name="update_dialog_new">ใหม่: v%1$s</string>
+    <string name="update_dialog_current_label">ติดตั้งแล้ว</string>
+    <string name="update_dialog_new_label">เวอร์ชันใหม่</string>
+    <string name="update_dialog_whats_new">มีอะไรใหม่</string>
+    <string name="update_dialog_install_now">ติดตั้งตอนนี้</string>
+    <string name="update_dialog_later">ภายหลัง</string>
+    <string name="update_picker_title">เลือกเวอร์ชัน</string>
+    <string name="update_picker_subtitle">ติดตั้งเวอร์ชันที่เผยแพร่แล้ว — จะใหม่กว่าหรือเก่ากว่าก็ได้</string>
+    <string name="update_picker_empty">ยังไม่มีเวอร์ชันที่เผยแพร่</string>
+    <string name="update_picker_current_suffix">%1$s (ติดตั้งแล้ว)</string>
+    <string name="update_picker_older_suffix">%1$s (เก่ากว่า)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">กำลังอัปเดต Overdrive</string>
+    <string name="update_step_downloading">กำลังดาวน์โหลดอัปเดต…</string>
+    <string name="update_step_verifying">กำลังตรวจสอบการดาวน์โหลด…</string>
+    <string name="update_step_stopping">กำลังหยุด daemon…</string>
+    <string name="update_step_installing">กำลังติดตั้งอัปเดต…</string>
+    <string name="update_step_installed">ติดตั้งอัปเดตแล้ว</string>
+    <string name="update_step_restarting">กำลังรีสตาร์ทแอป…</string>
+    <string name="update_step_queued">กำลังเริ่มอัปเดต…</string>
+    <string name="update_error_title">อัปเดตล้มเหลว</string>
+    <string name="update_error_daemon_down">daemon กล้องไม่ได้ทำงาน โปรดเริ่มจากหน้าจอ Daemons แล้วลองอัปเดตอีกครั้ง</string>
+    <string name="update_error_start_failed">ไม่สามารถเริ่มการอัปเดตได้: %1$s</string>
+    <string name="update_error_lost_headunit">ขาดการติดต่อกับ head unit ก่อนการติดตั้งเสร็จสิ้น อยู่ในอุโมงค์ใช่หรือไม่? ตรวจสอบ Telegram เพื่อดู URL ใหม่ หรือใช้ IP ภายในเครื่อง</string>
+    <string name="update_hide">ซ่อน</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">ช่องทางการอัปเดต</string>
+    <string name="settings_update_channel_alpha">อัลฟา</string>
+    <string name="settings_update_channel_braveheart">Braveheart</string>
+    <string name="settings_update_channel_alpha_desc">เวอร์ชันเสถียร ทุกเวอร์ชันที่เผยแพร่จะถูกเก็บไว้ — เลือกเวอร์ชันใดก็ได้เพื่อติดตั้ง (อนุญาตให้ดาวน์เกรดได้) แนะนำสำหรับการใช้งานทั่วไป</string>
+    <string name="settings_update_channel_braveheart_desc">เวอร์ชันทดลองใหม่ล่าสุด จะถูกเผยแพร่ทันทีที่พร้อมใช้งาน คุณจะได้รับฟีเจอร์ใหม่ก่อนใคร แต่อาจไม่เสถียรหรือมีข้อผิดพลาด หากเกิดปัญหา ให้เปิดหน้าจอ Daemons แตะที่บันทึกของ daemon เลือก \"อัปโหลดและรับรหัส\" แล้วแชร์รหัสกับเราในช่องทางชุมชน</string>
+    <string name="settings_update_channel_save_failed">ไม่สามารถบันทึกช่องทางการอัปเดตได้</string>
+    <string name="settings_update_channel_braveheart_toast">เปลี่ยนเป็น Braveheart แล้ว เวอร์ชันอาจไม่เสถียร — หากเกิดปัญหา โปรดส่งบันทึก daemon และรายงานบน Discord/GitHub/WhatsApp</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">จำเป็นต้องอนุญาตให้เข้าถึงพื้นที่เก็บข้อมูลเพื่อใช้สำหรับการบันทึกวิดีโอ</string>
+    <string name="toast_url_copied_short">คัดลอก URL เรียบร้อยแล้ว</string>
+    <string name="toast_camera_set_to_auto">ตั้งค่ากล้องเป็น \'อัตโนมัติ\' เรียบร้อยแล้ว</string>
+    <string name="toast_failed_to_save_short">บันทึกไม่สำเร็จ</string>
+    <string name="toast_failed_with_message">ล้มเหลว: %1$s</string>
+    <string name="toast_camera_id_set">กำหนดกล้องเป็นหมายเลข %1$d แล้ว — จะมีผลเมื่อสตาร์ทรถ (ACC ON) ในครั้งถัดไป</string>
+    <string name="toast_clearing_camera_config">กำลังล้างการตั้งค่ากล้อง…</string>
+    <string name="toast_restarting_camera_daemon">กำลังรีสตาร์ทระบบกล้อง…</string>
+    <string name="toast_camera_daemon_restarting">ระบบกล้องกำลังรีสตาร์ทเพื่อตรวจสอบระบบใหม่ทั้งหมด</string>
+    <string name="toast_camera_restart_failed">ล้างการตั้งค่าเรียบร้อย แต่ไม่สามารถรีสตาร์ทระบบเบื้องหลังได้ กรุณารีสตาร์ทด้วยตนเอง</string>
+    <string name="toast_camera_settings_saved_restarting">บันทึกการตั้งค่ากล้องเรียบร้อยแล้ว — กำลังรีสตาร์ทระบบกล้อง…</string>
+    <string name="toast_camera_settings_restart_failed">บันทึกการตั้งค่ากล้องเรียบร้อยแล้ว แต่ไม่สามารถรีสตาร์ทระบบได้ กรุณารีสตาร์ทด้วยตนเอง</string>
+    <string name="toast_failed_with_message_x">ล้มเหลว: %1$s</string>
+    <string name="toast_soh_reset_success">รีเซ็ตค่า SOH สำเร็จ — ระบบจะคำนวณใหม่จากข้อมูลในรอบถัดไป</string>
+    <string name="toast_soh_reset_failed_no_daemon">รีเซ็ตไม่สำเร็จ — ระบบเบื้องหลังไม่ตอบสนองและไม่สามารถเขียนไฟล์ได้</string>
+    <string name="toast_soh_reset_failed_with_message">รีเซ็ตไม่สำเร็จ: %1$s</string>
+    <string name="toast_select_at_least_one_category">กรุณาเลือกหมวดหมู่ที่ต้องการอย่างน้อย 1 รายการ</string>
+    <string name="toast_reset_failed_with_error">รีเซ็ตไม่สำเร็จ: %1$s</string>
+    <string name="toast_traffic_monitor_changing">กำลังเปลี่ยนสถานะระบบตรวจสอบข้อมูลเครือข่าย (Traffic Monitor): %1$s…</string>
+    <string name="dialog_close">ปิด</string>
+    <string name="dialog_reset">รีเซ็ต</string>
+    <string name="dialog_delete">ลบ</string>
+    <string name="dialog_save">บันทึก</string>
+    <string name="dialog_enable">เปิดใช้งาน</string>
+    <string name="dialog_disable">ปิดใช้งาน</string>
+    <string name="dialog_keep_enabled">เปิดใช้งานไว้</string>
+    <string name="dialog_keep_disabled">ปิดใช้งานไว้</string>
+    <string name="dialog_regenerate">สร้างใหม่</string>
+    <string name="dialog_reset_selected">รีเซ็ตรายการที่เลือก</string>
+    <string name="dialog_reset_soh_title">ต้องการรีเซ็ตค่า SOH หรือไม่?</string>
+    <string name="dialog_reset_soh_message">การดำเนินการนี้จะลบประวัติ SOH ทั้งหมดและเริ่มการคำนวณใหม่\n\nใช้ตัวเลือกนี้เมื่อ:\n• มีการเปลี่ยนแบตเตอรี่ลูกใหม่\n• ค่า SOH ที่คำนวณได้ไม่ถูกต้อง\n• ต้องการให้ระบบปรับตั้งค่าใหม่ (Recalibrate)\n\nระบบจะเริ่มเก็บข้อมูลใหม่จากแหล่งข้อมูลล่าสุดที่ดึงได้ (ข้อมูลจาก OEM, รอบการชาร์จ หรือค่าที่อ่านได้ ณ ปัจจุบัน)</string>
+    <string name="dialog_reset_following_title">ต้องการรีเซ็ตข้อมูลต่อไปนี้หรือไม่?</string>
+    <string name="dialog_reset_following_message">การดำเนินการนี้ไม่สามารถกู้คืนได้\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">รีเซ็ตเสร็จสมบูรณ์</string>
+    <string name="dialog_traffic_cannot_check_title">ตรวจสอบสถานะไม่ได้</string>
+    <string name="dialog_traffic_cannot_check_message">การเชื่อมต่อ ADB ยังไม่พร้อมใช้งาน\n\nแอปพลิเคชันจำเป็นต้องใช้ ADB เพื่อจัดการระบบของอุปกรณ์ กรุณาตรวจสอบว่า:\n\n• เปิดใช้งาน \'การแก้ไขจุดบกพร่อง USB\' (USB Debugging) ในตัวเลือกนักพัฒนาแล้ว\n• กดยอมรับการแจ้งเตือนเพื่ออนุญาต ADB แล้ว\n\nสถานะจะได้รับการอัปเดตโดยอัตโนมัติหลังจากเชื่อมต่อสำเร็จ</string>
+    <string name="dialog_traffic_disable_title">ต้องการปิดใช้งาน BYD Traffic Monitor หรือไม่?</string>
+    <string name="dialog_traffic_disable_message">แอปพลิเคชัน BYD Traffic Monitor (com.byd.trafficmonitor) เป็นระบบที่ติดตั้งมากับรถยนต์ ซึ่งจะทำการตรวจสอบสภาพการจราจรอย่างต่อเนื่องในเบื้องหลัง\n\nเหตุใดจึงควรปิดใช้งาน?\n\n• มีการใช้ข้อมูลเครือข่าย (แม้ในขณะจอดรถ)\n• ใช้ทรัพยากร CPU และแบตเตอรี่ในเบื้องหลัง\n• ไม่จำเป็นหากคุณใช้แอปพลิเคชันนำทางอื่นอยู่แล้ว\n• อาจรบกวนการใช้เครือข่ายของแอปพลิเคชันกล้องหน้ารถ\n\nการปิดใช้งานสามารถทำได้อย่างปลอดภัย โดยจะส่งผลกระทบเพียงการแสดงข้อมูลจราจรบนแผนที่ของรถเท่านั้น ระบบนำทาง บลูทูธ และฟังก์ชันอื่นๆ จะยังคงทำงานได้ตามปกติ\n\n**จำเป็นต้องรีสตาร์ทหน้าจอรถ (Hard Reboot)** หลังจากการปิดใช้งาน (กดปุ่มกลางคอนโซลค้างไว้ 5 วินาที)</string>
+    <string name="dialog_traffic_enable_title">ต้องการเปิดใช้งาน BYD Traffic Monitor อีกครั้งหรือไม่?</string>
+    <string name="dialog_traffic_enable_message">แอปพลิเคชัน BYD Traffic Monitor ถูกปิดใช้งานอยู่ในขณะนี้\n\nหากเปิดใช้งาน ระบบจะนำข้อมูลสภาพการจราจรกลับมาแสดงบนแผนที่ของรถ แต่ระบบจะทำงานในเบื้องหลังและใช้ข้อมูลเครือข่ายอินเทอร์เน็ต\n\n**จำเป็นต้องรีสตาร์ทหน้าจอรถ (Hard Reboot)** หลังจากการเปิดใช้งาน (กดปุ่มกลางคอนโซลค้างไว้ 5 วินาที)</string>
+    <string name="dialog_traffic_status_title">ตัวตรวจสอบจราจร %1$s</string>
+    <string name="dialog_traffic_reboot_message">บันทึกการตั้งค่าเรียบร้อยแล้ว\n\nกรุณารีสตาร์ทหน้าจอรถของคุณ:\nกดปุ่มตรงกลางคอนโซลค้างไว้ 5 วินาที</string>
+    <string name="traffic_monitor_loading">Traffic Monitor: กำลังตรวจสอบ…</string>
+    <string name="traffic_monitor_tap_to_check">Traffic Monitor (แตะเพื่อตรวจสอบ)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">ทริปการขับขี่</string>
+    <string name="reset_label_soc_history">ประวัติ SoC และแบตเตอรี่ 12V</string>
+    <string name="reset_label_soh">รีเซ็ตค่า SOH</string>
+    <string name="reset_label_abrp_token">Token ABRP</string>
+    <string name="reset_label_byd_cloud">ข้อมูลเข้าสู่ระบบ BYD Cloud</string>
+    <string name="reset_label_recordings">ไฟล์วิดีโอทั้งหมด</string>
+    <string name="reset_label_sentry_events">เหตุการณ์ของโหมดเฝ้าระวัง</string>
+    <string name="reset_label_proximity">วิดีโอเตือนการเข้าใกล้</string>
+    <string name="reset_label_trip_files">ไฟล์ข้อมูลของแต่ละทริป</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">คัดลอกรหัสเข้าถึงเรียบร้อยแล้ว</string>
+    <string name="dialog_regenerate_token_title">สร้าง Token ใหม่</string>
+    <string name="dialog_regenerate_token_message">Token เดิมจะไม่สามารถใช้งานได้อีกต่อไป เซสชันที่ล็อกอินอยู่ทั้งหมดจะถูกบังคับให้ออกจากระบบ คุณแน่ใจหรือไม่?</string>
+    <string name="toast_token_regenerated_logged_out">สร้าง Token ใหม่แล้ว เซสชันเดิมทั้งหมดถูกออกจากระบบเรียบร้อยแล้ว</string>
+    <string name="toast_token_regenerated_restart">สร้าง Token ใหม่แล้ว อาจจำเป็นต้องรีสตาร์ทระบบเบื้องหลังเพื่อให้การตั้งค่ามีผล</string>
+    <string name="toast_token_regenerated_no_notify">สร้าง Token ใหม่แล้ว แต่ไม่สามารถแจ้งเตือนระบบเบื้องหลังได้</string>
+    <string name="toast_token_regenerated">สร้าง Token ใหม่เรียบร้อยแล้ว</string>
+    <string name="dashboard_no_tunnel">ยังไม่มี Tunnel ทำงานอยู่</string>
+    <string name="dashboard_starting_zrok">กำลังเริ่มการทำงาน Zrok Tunnel…</string>
+    <string name="dashboard_starting_cloudflared">กำลังเริ่มการทำงาน Cloudflared Tunnel…</string>
+    <string name="dashboard_starting_tailscale">กำลังเริ่มการทำงาน Tailscale Tunnel…</string>
+    <string name="dashboard_waiting_url">กำลังรอข้อมูล Tunnel URL…</string>
+    <string name="dashboard_daemons_running">ทำงาน %1$d/%2$d</string>
+    <string name="tunnel_label_cloudflared">Cloudflared</string>
+    <string name="tunnel_label_zrok">Zrok</string>
+    <string name="tunnel_label_tailscale">Tailscale</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">ระบบกล้อง</string>
+    <string name="daemon_name_surveillance">ระบบเฝ้าระวัง</string>
+    <string name="daemon_name_acc_surveillance">ระบบเฝ้าระวัง (เมื่อสตาร์ทรถ)</string>
+    <string name="daemon_name_singbox">Sing-box Proxy</string>
+    <string name="daemon_name_cloudflared">Cloudflared Tunnel</string>
+    <string name="daemon_name_zrok">Zrok Tunnel</string>
+    <string name="daemon_name_tailscale">Tailscale Tunnel</string>
+    <string name="daemon_name_telegram">Telegram Bot</string>
+    <string name="clip_label_access_code">รหัสเข้าถึง</string>
+    <string name="clip_label_url">URL</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">ไม่ต้องกำหนดการตั้งค่าเพิ่มเติมสำหรับ %1$s</string>
+    <string name="dialog_zrok_token_title">โทเคน Zrok Tunnel</string>
+    <string name="dialog_zrok_token_message">กรุณาระบุ Token สำหรับใช้งาน Zrok\nสามารถรับได้ที่: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">Token ต้องไม่เป็นค่าว่าง</string>
+    <string name="dialog_tailscale_settings_title">การตั้งค่า Tailscale Tunnel</string>
+    <string name="dialog_tailscale_settings_message">การตั้งค่าสำหรับ Tailscale</string>
+    <string name="tailscale_failed_login_url">ไม่สามารถสร้าง URL สำหรับเข้าสู่ระบบได้</string>
+    <string name="tailscale_logged_in_relogin">เข้าสู่ระบบแล้ว คลิกเพื่อเข้าสู่ระบบด้วยบัญชีอื่น</string>
+    <string name="dialog_tailscale_proxy_enable_title">ต้องการเปิดใช้งาน Tailscale Proxy หรือไม่?</string>
+    <string name="dialog_tailscale_proxy_enable_message">โหมดนี้จะกำหนดให้ MQTT เชื่อมต่อผ่าน Tailscale เพื่อให้คุณสามารถเข้าถึง Broker ส่วนตัวในเครือข่าย Tailnet ได้โดยไม่ต้องใช้การ Forward Port\n\nเมื่อเปิดใช้งาน:\n• สามารถใช้ Broker ที่อยู่ในเครือข่าย Tailnet ได้ตามปกติ (เช่น Mosquitto บนอุปกรณ์อื่นใน Tailnet)\n• ไม่สามารถเชื่อมต่อ Broker สาธารณะได้ (เช่น HiveMQ, AWS IoT) — เนื่องจาก Tailscale จะเชื่อมต่อเฉพาะในเครือข่าย Tailnet เท่านั้น\n• ระบบ Tailscale เบื้องหลังจะทำการรีสตาร์ทเพื่อใช้การตั้งค่าใหม่นี้\n• การใช้งานเครือข่ายของแอปพลิเคชันอื่นและระบบของรถจะไม่ได้รับผลกระทบ\n\nคุณสามารถปิดใช้งานโหมดนี้ได้ตลอดเวลา</string>
+    <string name="dialog_zrok_reset_title">รีเซ็ต Zrok Environment</string>
+    <string name="dialog_zrok_reset_message">การดำเนินการนี้จะ:\n• หยุดการทำงานของ Zrok Tunnel หากกำลังทำงานอยู่\n• ลบ Zrok Environment ออกจากอุปกรณ์นี้\n• ลบข้อมูล Token ที่บันทึกไว้\n\nคุณจำเป็นต้องระบุ Token เพื่อเปิดใช้งานใหม่อีกครั้ง (ใช้โควตาอุปกรณ์ 1 สิทธิ์บน zrok.io)\n\nคุณแน่ใจหรือไม่?</string>
+    <string name="toast_resetting_zrok">กำลังรีเซ็ต Zrok Environment…</string>
+    <string name="toast_zrok_reset_success">รีเซ็ต Zrok สำเร็จ กรุณาระบุ Token เพื่อตั้งค่าใหม่</string>
+    <string name="toast_zrok_reset_partial">รีเซ็ตสำเร็จเพียงบางส่วน (อาจจำเป็นต้องลบไฟล์ Token ด้วยตนเองเพิ่มเติม)</string>
+    <string name="toast_zrok_reset_warnings">รีเซ็ตสำเร็จแต่มีคำเตือน: %1$s</string>
+    <string name="zrok_no_token_configured">ยังไม่ได้ระบุ Token แตะเพื่อทำการตั้งค่า</string>
+    <string name="dialog_tailscale_reset_title">รีเซ็ต Tailscale Environment</string>
+    <string name="dialog_tailscale_reset_message">การดำเนินการนี้จะ:\n• หยุดการทำงานของ Tailscale Tunnel หากกำลังทำงานอยู่\n• ลบ Tailscale Environment ออกจากอุปกรณ์นี้\n• คุณยังจำเป็นต้องลบอุปกรณ์ออกจากหน้าควบคุมบนเว็บไซต์ของ Tailscale ด้วยตนเอง\n\nหลังการลบข้อมูล คุณจำเป็นต้องเข้าสู่ระบบใหม่อีกครั้ง\n\nคุณแน่ใจหรือไม่?</string>
+    <string name="toast_resetting_tailscale">กำลังรีเซ็ต Tailscale Environment…</string>
+    <string name="toast_tailscale_reset_success">รีเซ็ต Tailscale สำเร็จ กรุณาเข้าสู่ระบบเพื่อตั้งค่าใหม่</string>
+    <string name="toast_tailscale_reset_warnings">รีเซ็ตสภาพแวดล้อม Tailscale แล้ว (มีคำเตือน: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">เปิดใช้งาน Tailscale Proxy เรียบร้อยแล้ว</string>
+    <string name="toast_tailscale_proxy_disabled">ปิดใช้งาน Tailscale Proxy เรียบร้อยแล้ว</string>
+    <string name="toast_tailscale_proxy_save_failed">บันทึกการตั้งค่า Proxy ไม่สำเร็จ</string>
+    <string name="toast_zrok_token_saved">บันทึก Token เรียบร้อยแล้ว</string>
+    <string name="toast_zrok_token_save_failed">บันทึก Token ไม่สำเร็จ</string>
+    <string name="toast_zrok_token_deleted">ลบ Token เรียบร้อยแล้ว</string>
+    <string name="toast_zrok_token_delete_failed">ลบ Token ไม่สำเร็จ</string>
+    <string name="toast_fetching_log">กำลังดึงข้อมูล Log ของ %1$s…</string>
+    <string name="toast_log_empty_or_missing">ไฟล์ Log ว่างเปล่า หรือไม่พบไฟล์</string>
+    <string name="toast_log_empty">ไฟล์ Log ว่างเปล่า</string>
+    <string name="toast_daemon_manager_unavailable">ตัวจัดการระบบเบื้องหลังยังไม่พร้อมทำงาน กรุณาลองใหม่อีกครั้งในภายหลัง</string>
+    <string name="toast_log_save_failed">บันทึก Log ไม่สำเร็จ: %1$s</string>
+    <string name="toast_log_not_found">ไม่พบไฟล์ Log หรือไม่สามารถอ่านไฟล์ได้</string>
+    <string name="log_share_title">บันทึก %1$s - %2$s</string>
+    <string name="log_share_chooser">แชร์ข้อมูล Log %1$s</string>
+    <string name="log_header_title">=== บันทึก %1$s ===</string>
+    <string name="log_header_source">แหล่งที่มา: %1$s</string>
+    <string name="log_header_exported">ส่งออกเมื่อ: %1$s</string>
+    <string name="log_header_truncated">หมายเหตุ: ตัดทอนข้อมูลให้แสดงเฉพาะ 10,000 บรรทัดล่าสุด (ทั้งหมด: %1$d บรรทัด)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">ส่งบันทึก %1$s</string>
+    <string name="logs_send_title_plain">ส่งบันทึก daemon</string>
+    <string name="logs_send_subtitle">%1$s · เลือกวิธีส่งให้เรา</string>
+    <string name="logs_send_upload">อัปโหลดและรับรหัส</string>
+    <string name="logs_send_upload_desc">ส่งบันทึกให้เราและให้รหัสสั้นๆ แก่คุณ สะดวกที่สุดสำหรับการสนับสนุน</string>
+    <string name="logs_send_share">แชร์ไฟล์…</string>
+    <string name="logs_send_share_desc">บันทึกหรือส่งบันทึกด้วยตนเองผ่านแผ่นแชร์</string>
+    <string name="logs_uploading_title">กำลังอัปโหลดบันทึก…</string>
+    <string name="logs_uploading_subtitle">กำลังปกปิดข้อมูลลับและส่งอย่างปลอดภัย</string>
+    <string name="logs_uploaded_title">อัปโหลดบันทึกแล้ว</string>
+    <string name="logs_uploaded_instructions">แชร์รหัสนี้กับเรา พร้อมระบุว่าคุณกำลังทำอะไรอยู่เมื่อเกิดปัญหา โพสต์บน Discord, GitHub Issues หรือ WhatsApp — ลิงก์อยู่ในหน้าจอเกี่ยวกับ</string>
+    <string name="logs_uploaded_privacy">ปกปิดข้อมูลลับ · บันทึกหมดอายุอัตโนมัติ</string>
+    <string name="logs_copy_code">คัดลอกรหัส</string>
+    <string name="logs_done">เสร็จสิ้น</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">ข้อผิดพลาดเครือข่าย</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">ไม่สามารถเล่นวิดีโอได้: %1$s</string>
+    <string name="dialog_delete_recording_title">ลบไฟล์วิดีโอ</string>
+    <string name="dialog_delete_recording_message">ต้องการลบ %1$s หรือไม่?\nการดำเนินการนี้ไม่สามารถกู้คืนได้</string>
+    <string name="toast_recording_deleted">ลบวิดีโอเรียบร้อยแล้ว</string>
+    <string name="toast_recording_delete_failed">ลบวิดีโอไม่สำเร็จ</string>
+    <string name="toast_batch_delete_partial">ลบสำเร็จ %1$d ไฟล์, ล้มเหลว %2$d ไฟล์</string>
+    <string name="play_with_chooser">เล่นด้วย</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">อัปเดตเป็น v%1$s เรียบร้อยแล้ว — กรุณายืนยันการตั้งค่าการทำงานอัตโนมัติอีกครั้ง เนื่องจากระบบ BYD จะรีเซ็ตค่าทุกครั้งที่มีการติดตั้งแอปพลิเคชัน</string>
+    <string name="setup_overlay_already_granted">อนุญาตเรียบร้อยแล้ว</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">คำแนะนำและการแก้ปัญหา</string>
+    <string name="setup_traffic_title">ปิดใช้งานแอปพลิเคชัน BYD Traffic Monitor</string>
+    <string name="setup_traffic_body">แอปพลิเคชัน BYD Traffic Monitor อาจปิดกั้นการเชื่อมต่อเครือข่ายของแอปพลิเคชันอื่น การปิดใช้งานจะช่วยให้ OverDrive และแอปพลิเคชันอื่นสามารถใช้งานเครือข่ายได้ตามปกติ หลังจากการปิดใช้งาน จำเป็นต้องรีสตาร์ทหน้าจอรถ</string>
+    <string name="setup_traffic_button">เปิด Traffic Monitor</string>
+    <string name="setup_camera_fix_title">ภาพกล้องมืดหรือไม่ถูกต้อง?</string>
+    <string name="setup_camera_fix_body">ไปที่เมนู วิเคราะห์ระบบ → ตรวจสอบกล้อง กำหนดค่า Camera ID เป็น 0 แล้วกดบันทึก จากนั้นให้ทำการรีสตาร์ทระบบกล้อง หากภาพยังคงผิดปกติ กรุณาลองเปลี่ยนเป็น Camera ID 1 โดยไม่ต้องปรับการจับคู่ (Mapping)</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">ปัจจุบัน: กล้อง %1$d (กำหนดเอง)</string>
+    <string name="camera_current_auto_label">ปัจจุบัน: อัตโนมัติ</string>
+    <string name="soh_estimation_active">การประเมินค่า SOH ทำงานอยู่</string>
+    <string name="soh_no_estimate_yet">ยังไม่มีค่าประเมิน — กำลังรอข้อมูล</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">เลือกไว้ %1$d ไฟล์</string>
+    <string name="video_player_playback_error">เกิดข้อผิดพลาดในการเล่นวิดีโอ</string>
+    <string name="video_player_no_events">ไม่มีเหตุการณ์</string>
+    <string name="daemon_configuration_required">จำเป็นต้องกำหนดการตั้งค่า</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">เครื่องเล่นวิดีโอ</string>
+    <string name="nav_page_telegram">Telegram</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">MQTT</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">สถานะระบบ OverDrive</string>
+    <string name="status_overlay_notif_text">แถบสถานะกำลังทำงาน</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Overdrive ทำงานอยู่</string>
+    <string name="daemon_keepalive_notif_text">กำลังตรวจสอบระบบยานพาหนะ</string>
+    <string name="overdrive_status_summary_title">Overdrive</string>
+    <string name="overdrive_status_summary_text">บริการเบื้องหลังกำลังทำงาน</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">หน้าหลัก</string>
+    <string name="rail_live">ภาพสด</string>
+    <string name="rail_recordings">วิดีโอ</string>
+    <string name="rail_vehicle">สถานะรถ</string>
+    <string name="rail_projection">การฉายภาพ</string>
+    <string name="rail_trips">ทริป</string>
+    <string name="rail_integrations">ส่วนเสริม</string>
+    <string name="rail_diagnostics">วิเคราะห์ระบบ</string>
+    <string name="rail_settings">ตั้งค่า</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">รูปแบบและการแสดงผล</string>
+    <string name="settings_section_recording">การบันทึกวิดีโอ</string>
+    <string name="settings_section_surveillance">โหมดเฝ้าระวัง</string>
+    <string name="settings_section_daemons">ระบบเบื้องหลัง (Daemons)</string>
+    <string name="settings_section_privacy">ความเป็นส่วนตัวและข้อมูล</string>
+    <string name="settings_section_overlay">แถบสถานะ</string>
+    <string name="settings_section_security">ความปลอดภัย</string>
+    <string name="settings_overlay_subtitle">เลือกข้อมูลที่ต้องการให้แสดงบนแถบสถานะลอย</string>
+    <string name="settings_overlay_camera_title">สถานะกล้อง</string>
+    <string name="settings_overlay_camera_subtitle">แสดงสัญลักษณ์ REC / PROX ขณะกำลังบันทึกวิดีโอ</string>
+    <string name="settings_overlay_trip_title">สถานะทริป</string>
+    <string name="settings_overlay_trip_subtitle">แสดงสัญลักษณ์ TRIP ขณะที่ระบบกำลังติดตามทริปการเดินทาง</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">เกี่ยวกับ</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">ตั้งค่า</string>
+    <string name="cd_settings_subrail">เมนูการตั้งค่าย่อย</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">ความเป็นส่วนตัวและข้อมูล</string>
+    <string name="settings_privacy_body">การรีเซ็ตข้อมูลจะทำการลบประวัติไฟล์วิดีโอ ข้อมูลการเข้าสู่ระบบ สถานะระบบเบื้องหลัง และการตั้งค่าบนอุปกรณ์ การดำเนินการนี้ไม่สามารถกู้คืนได้</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">เกี่ยวกับ OverDrive</string>
+    <string name="settings_about_version_label">เวอร์ชัน</string>
+    <string name="settings_about_package_label">หมายเลขรุ่น (Build)</string>
+    <string name="settings_about_check_update_value">ตรวจสอบเวอร์ชันล่าสุดบน GitHub และติดตั้งหากมีอัปเดตใหม่</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">สนับสนุนโครงการโดยผู้ใช้งาน</string>
+    <string name="settings_about_support_share_title">บอกต่อให้ผู้ใช้รถท่านอื่น</string>
+    <string name="settings_about_support_share_value">ทุกลิงก์ที่แชร์ช่วยให้ผู้ใช้ BYD ท่านอื่นได้รู้จักกับ Overdrive</string>
+    <string name="settings_about_support_share_message">ลองใช้งาน Overdrive — แอปพลิเคชันกล้องหน้ารถและโหมดเฝ้าระวังแบบ Open-Source สำหรับ BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">แชร์ Overdrive</string>
+    <string name="settings_about_open_link_failed">ไม่สามารถเปิดลิงก์ได้</string>
+    <string name="settings_about_open_link_copied">ไม่พบเว็บเบราว์เซอร์ คัดลอก URL เรียบร้อยแล้ว: %1$s</string>
+    <string name="settings_about_support_kofi_title">สนับสนุนการพัฒนาเวอร์ชันถัดไป</string>
+    <string name="settings_about_support_kofi_value">สนับสนุนค่ากาแฟผ่าน Ko-fi เพื่อเป็นกำลังใจให้กับนักพัฒนา</string>
+    <string name="settings_about_license_title">สัญญาอนุญาต (License)</string>
+    <string name="settings_about_license_value">MIT — Open Source แตะเพื่อดูรายละเอียดเพิ่มเติม</string>
+    <string name="settings_about_source_title">ซอร์สโค้ด (Source Code)</string>
+    <string name="settings_about_source_value">github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">มอบ ⭐ ให้กับโครงการบน GitHub</string>
+    <string name="settings_about_star_value">ใช้เวลาเพียงเล็กน้อย แต่มีความหมายอย่างยิ่งต่อนักพัฒนา</string>
+    <string name="settings_about_thanks_title">ขอขอบคุณ</string>
+    <string name="settings_about_thanks_subtitle">แอปพลิเคชันนี้พัฒนาขึ้นได้ด้วยความช่วยเหลือจากผู้ร่วมพัฒนาและผู้สนับสนุนทุกท่าน</string>
+    <string name="settings_about_contributors_title">ผู้ร่วมพัฒนา</string>
+    <string name="settings_about_supporters_title">ผู้สนับสนุน</string>
+    <string name="settings_about_thanks_empty">รายชื่อจะปรากฏเมื่อมีผู้เข้าร่วมให้การสนับสนุน</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">ธีม</string>
+    <string name="settings_theme_auto">อัตโนมัติ (ตามระบบ)</string>
+    <string name="settings_theme_light">สว่าง</string>
+    <string name="settings_theme_dark">มืด</string>
+    <string name="settings_language_label">ภาษา</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">ไฟล์วิดีโอ</string>
+    <string name="recordings_segment_dashcam">กล้องหน้ารถ</string>
+    <string name="recordings_segment_surveillance">โหมดเฝ้าระวัง</string>
+    <string name="recordings_action_settings">ตั้งค่า</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">วันนี้ %1$d · ทั้งหมด %2$d · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">กล้องหน้ารถ · %d</string>
+    <string name="recordings_segment_surveillance_count">โหมดเฝ้าระวัง · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">เลือกวิดีโอเพื่อเล่น</string>
+    <string name="recordings_preview_placeholder_body">แตะเลือกวิดีโอทางด้านซ้ายเพื่อรับชม</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">คอนโซล ADB</string>
+    <string name="diagnostics_section_traffic">ตรวจสอบข้อมูลเครือข่าย</string>
+    <string name="diagnostics_section_camera_probe">ตรวจสอบสถานะกล้อง</string>
+    <string name="diagnostics_section_battery">สุขภาพแบตเตอรี่</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">วิเคราะห์ระบบ</string>
+    <string name="diagnostics_hero_subtitle">ตรวจสอบสถานะระบบ, Log และอุปกรณ์แบบเรียลไทม์</string>
+    <string name="diagnostics_health_clear">ระบบทั้งหมดทำงานปกติ</string>
+    <string name="diagnostics_health_section">สุขภาพระบบ</string>
+    <string name="diagnostics_health_network">เครือข่าย</string>
+    <string name="diagnostics_health_storage">พื้นที่เก็บข้อมูล</string>
+    <string name="diagnostics_health_camera">กล้อง</string>
+    <string name="diagnostics_health_battery">แบตเตอรี่</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">ออนไลน์</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">อุโมงค์ · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">ออนไลน์</string>
+    <string name="diagnostics_tunnel_state_offline">ออฟไลน์</string>
+    <string name="diagnostics_tunnel_state_connecting">กำลังเชื่อมต่อ</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">เครือข่ายมือถือ</string>
+    <string name="diagnostics_network_ethernet">อีเทอร์เน็ต (Ethernet)</string>
+    <string name="diagnostics_network_offline">ออฟไลน์</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">%1$d คลิป · ใช้พื้นที่ %2$s</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">ว่าง %1$s</string>
+    <string name="diagnostics_logs_card_title">Log เหตุการณ์สด</string>
+    <string name="diagnostics_logs_card_subtitle">ดูข้อมูล Log จากระบบที่ทำงานแบบเรียลไทม์</string>
+    <string name="diagnostics_tools_section">เครื่องมือ</string>
+    <string name="diagnostics_traffic_subtitle">ตรวจสอบปริมาณการใช้อินเทอร์เน็ตแบบเรียลไทม์</string>
+    <string name="diagnostics_camera_probe_subtitle">ตรวจสอบสถานะกล้องที่เชื่อมต่ออยู่ในขณะนี้</string>
+    <string name="diagnostics_adb_subtitle">เปิด Terminal สำหรับส่งคำสั่งไปยังอุปกรณ์</string>
+    <string name="diagnostics_battery_subtitle">ตรวจสอบค่า SOH และสถิติแบตเตอรี่</string>
+    <string name="diagnostics_settings_subtitle">การตั้งค่าแอปพลิเคชัน, ธีม และภาษา</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">บริการเสริม (Integrations)</string>
+    <string name="integrations_hero_subtitle">เชื่อมต่อ Overdrive เข้ากับบริการต่างๆ</string>
+    <string name="integrations_status_unknown">แตะเพื่อกำหนดการตั้งค่า</string>
+    <string name="integrations_status_configured">ตั้งค่าเรียบร้อยแล้ว</string>
+    <string name="integrations_status_not_set_up">ยังไม่ได้กำหนดการตั้งค่า</string>
+    <string name="integrations_telegram_desc">ส่งข้อมูลสรุปทริปการเดินทาง, การเตือนเมื่อพบความเคลื่อนไหว และการแจ้งเหตุฉุกเฉินไปยัง Telegram Bot ของคุณ</string>
+    <string name="integrations_abrp_desc">ส่งข้อมูลสถานะแบตเตอรี่และเส้นทางแบบเรียลไทม์ไปยัง A Better Routeplanner เพื่อประเมินการชาร์จไฟ</string>
+    <string name="integrations_mqtt_desc">ส่งข้อมูลสถานะรถไปยัง Home Assistant หรือ MQTT Broker รายอื่น</string>
+    <string name="integrations_byd_cloud_desc">เชื่อมต่อกับบัญชีแอปพลิเคชัน BYD เพื่อสั่งงานจากระยะไกล เช่น ล็อกประตูรถ, กระพริบไฟ และบีบแตร</string>
+    <string name="integrations_configure_button">ตั้งค่า</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">ตรวจสอบการอัปเดต</string>
+    <string name="settings_action_reset_data">ล้างข้อมูล (Reset)…</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">OverDrive</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">พร้อมทำงาน</string>
+    <string name="dashboard_subtitle_all_systems">ระบบทั้งหมดออนไลน์</string>
+    <string name="dashboard_subtitle_some_offline">ออนไลน์ %1$d จาก %2$d บริการ</string>
+    <string name="dashboard_subtitle_no_tunnel">ระบบควบคุมจากระยะไกลออฟไลน์</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">วิดีโอวันนี้</string>
+    <string name="dashboard_metric_storage">พื้นที่เก็บข้อมูลที่ใช้</string>
+    <string name="dashboard_metric_tunnel">การเข้าถึงระยะไกล</string>
+    <string name="dashboard_metric_services">บริการเบื้องหลัง</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">ยานพาหนะ</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">กำลังบันทึก</string>
+    <string name="dashboard_chip_recording_idle">สถานะว่าง</string>
+    <string name="dashboard_vehicle_tap_to_set">แตะเพื่อกำหนดค่า</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWh · %2$s</string>
+    <string name="vehicle_dialog_title">กำหนดความจุแบตเตอรี่</string>
+    <string name="vehicle_dialog_capacity_label">ความจุ</string>
+    <string name="vehicle_dialog_capacity_suffix">kWh</string>
+    <string name="vehicle_dialog_capacity_helper">15 ถึง 120 kWh ปล่อยว่างไว้เพื่อใช้ค่ามาตรฐานของรุ่นรถ</string>
+    <string name="vehicle_dialog_model_label">รุ่นรถ</string>
+    <string name="vehicle_dialog_save">บันทึก</string>
+    <string name="vehicle_dialog_reset">รีเซ็ตเพื่อตรวจจับอัตโนมัติ</string>
+    <string name="vehicle_dialog_invalid_capacity">ความจุต้องอยู่ระหว่าง 15 - 120 kWh</string>
+    <string name="vehicle_dialog_summary_capacity">ความจุ: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">ใช้งานได้จริง: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">รุ่น: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">ปรับเทียบล่าสุด: %1$.1f%% เมื่อ %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">ไม่มีข้อมูล</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">ใช้พื้นที่ %1$s · ว่าง %2$s</string>
+    <string name="dashboard_metric_storage_chip_pending">พื้นที่เก็บข้อมูล —</string>
+    <string name="dashboard_tunnel_offline">ออฟไลน์</string>
+    <string name="dashboard_tunnel_online">ออนไลน์</string>
+    <string name="dashboard_tunnel_connecting">กำลังเชื่อมต่อ…</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">ภาพสด</string>
+    <string name="dashboard_action_live_subtitle">แสดงมุมกล้องสด</string>
+    <string name="dashboard_action_recordings">ไฟล์วิดีโอ</string>
+    <string name="dashboard_action_settings">ตั้งค่า</string>
+    <string name="dashboard_action_settings_subtitle">การตั้งค่าและเกี่ยวกับ</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">การตั้งค่า</string>
+    <string name="settings_hero_overline">OVERDRIVE</string>
+    <string name="settings_hero_subtitle">ปรับแต่งรูปแบบ, การบันทึก, โหมดเฝ้าระวัง และข้อมูลในอุปกรณ์</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">การตั้งค่าทั่วไป</string>
+    <string name="settings_overline_about_data">ข้อมูล</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">ธีม</string>
+    <string name="settings_quick_language_label">ภาษา</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">ระยะเวลา Buffer, Video Codec, ขีดจำกัดพื้นที่</string>
+    <string name="settings_section_surveillance_subtitle">โซนตรวจจับ, การกำหนดเวลาทำงาน, ความไวต่อความเคลื่อนไหว</string>
+    <string name="settings_section_daemons_subtitle">ระบบการจัดการ Cloudflared, Zrok, Telegram, MQTT</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">เกี่ยวกับ OverDrive</string>
+    <string name="settings_about_row_subtitle">เวอร์ชัน, สัญญาอนุญาต, สนับสนุนนักพัฒนา</string>
+    <string name="settings_reset_row_subtitle">ลบข้อมูลไฟล์วิดีโอ, เหตุการณ์ หรือเคลียร์แคช</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">OverDrive %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">ปรับเปลี่ยนธีม, ภาษา และการตั้งค่ารูปแบบหน้าจอ</string>
+    <string name="settings_theme_active_auto_caption">ปรับเปลี่ยนตามธีมของระบบโดยอัตโนมัติ</string>
+    <string name="settings_theme_active_light_caption">แสดงผลธีมสว่างเสมอ</string>
+    <string name="settings_theme_active_dark_caption">แสดงผลธีมมืดเสมอ</string>
+    <string name="settings_language_count_format">มีให้เลือกใช้งาน %1$d จาก %2$d ภาษา</string>
+    <string name="settings_language_card_title">ภาษาของแอปพลิเคชัน</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">จัดเก็บข้อมูลบนอุปกรณ์เท่านั้น</string>
+    <string name="settings_privacy_stance_body">ระบบของ OverDrive จะทำงานบนจอของรถยนต์ทั้งหมด และจะไม่มีการส่งข้อมูลใดๆ ออกนอกอุปกรณ์ ยกเว้นผ่าน Tunnel และระบบบริการเสริมที่คุณเป็นผู้กำหนดค่าเท่านั้น</string>
+    <string name="settings_privacy_overline_storage">พื้นที่จัดเก็บข้อมูลบนอุปกรณ์</string>
+    <string name="settings_privacy_overline_reset">การล้างข้อมูล (RESET)</string>
+    <string name="settings_privacy_storage_clips_label">จำนวนคลิปที่จัดเก็บ</string>
+    <string name="settings_privacy_storage_size_label">ขนาดรวมทั้งหมด</string>
+    <string name="settings_privacy_storage_unavailable">ไม่พร้อมใช้งาน</string>
+    <string name="settings_privacy_storage_count_format">%1$d คลิป</string>
+    <string name="settings_privacy_storage_count_format_plural">%1$d คลิป</string>
+    <string name="settings_privacy_reset_subtitle">เลือกข้อมูลเพื่อลบ: ไฟล์วิดีโอ, เหตุการณ์, การตั้งค่าระบบเบื้องหลัง, แคชข้อมูล…</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">ความปลอดภัย</string>
+    <string name="settings_security_subtitle">ล็อกแอป OverDrive เพื่อไม่ให้ผู้โดยสารและพนักงานรับรถเปิดได้หากไม่มี PIN ของคุณ</string>
+    <string name="settings_security_stance_title">ล็อก UI เท่านั้น</string>
+    <string name="settings_security_stance_body">การเฝ้าระวัง การบันทึก การป้องกัน การแจ้งเตือน และบริการเบื้องหลังยังคงทำงานอยู่ขณะที่แอปถูกล็อก PIN ใช้สำหรับล็อกส่วนติดต่อผู้ใช้ OverDrive เท่านั้น</string>
+    <string name="settings_security_overline_lock">ล็อกแอป</string>
+    <string name="settings_security_overline_recovery">หากคุณลืม PIN</string>
+    <string name="settings_security_toggle_title">ต้องใช้ PIN</string>
+    <string name="settings_security_toggle_subtitle_off">ปิด — ใครก็สามารถเปิด OverDrive ได้</string>
+    <string name="settings_security_toggle_subtitle_on">เปิด — ต้องใช้ PIN เพื่อเปิด OverDrive</string>
+    <string name="settings_security_change_title">เปลี่ยน PIN</string>
+    <string name="settings_security_change_subtitle">ยืนยัน PIN ปัจจุบัน จากนั้นตั้งค่าใหม่</string>
+    <string name="settings_security_autolock_title">ล็อกอัตโนมัติ</string>
+    <string name="settings_security_autolock_immediate">ล็อกทันที</string>
+    <string name="settings_security_autolock_1min">หลังจาก 1 นาที</string>
+    <string name="settings_security_autolock_5min">หลังจาก 5 นาที</string>
+    <string name="settings_security_autolock_15min">หลังจาก 15 นาที</string>
+    <string name="settings_security_autolock_never">ไม่ล็อกอัตโนมัติตามเวลา</string>
+    <string name="settings_security_recovery_title">การกู้คืน ADB</string>
+    <string name="settings_security_recovery_body">PIN ที่ลืมสามารถล้างได้จากคอมพิวเตอร์ผ่านการดีบัก USB โดยไม่ต้องรีเซ็ตเป็นค่าเริ่มต้นจากโรงงาน เรียกใช้คำสั่งนี้แล้วเปิดแอปอีกครั้ง</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">ตั้งค่า PIN</string>
+    <string name="settings_security_dialog_set_body">เลือก PIN ที่มี 4–8 หลัก คุณจะต้องใช้ PIN นี้ทุกครั้งที่เปิดแอป</string>
+    <string name="settings_security_dialog_disable_title">ปิดการล็อก PIN หรือไม่</string>
+    <string name="settings_security_dialog_disable_body">ยืนยัน PIN ปัจจุบันของคุณเพื่อปิดการล็อกแอป</string>
+    <string name="settings_security_dialog_change_step1_title">ยืนยัน PIN ปัจจุบัน</string>
+    <string name="settings_security_dialog_change_step1_body">ป้อน PIN ปัจจุบันของคุณ จากนั้นคุณจะสามารถตั้งค่า PIN ใหม่ได้</string>
+    <string name="settings_security_action_set">ตั้งค่า PIN</string>
+    <string name="settings_security_action_disable">ปิดการล็อก</string>
+    <string name="settings_security_action_continue">ดำเนินการต่อ</string>
+    <string name="settings_security_pin_hint">PIN</string>
+    <string name="settings_security_pin_confirm_hint">ยืนยัน PIN</string>
+    <string name="settings_security_error_length">PIN ต้องมี 4 ถึง 8 หลัก</string>
+    <string name="settings_security_error_numeric">เฉพาะตัวเลขเท่านั้น</string>
+    <string name="settings_security_error_mismatch">PIN ไม่ตรงกัน</string>
+    <string name="settings_security_error_wrong">PIN ไม่ถูกต้อง</string>
+    <string name="settings_security_error_locked_out">พยายามมากเกินไป ลองอีกครั้งในภายหลัง</string>
+    <string name="settings_security_error_persist">ไม่สามารถบันทึก PIN ได้ โปรดลองอีกครั้ง</string>
+    <string name="settings_security_toast_set_ok">ตั้งค่า PIN แล้ว ล็อกแอปเปิดอยู่</string>
+    <string name="settings_security_toast_disable_ok">ปิดการล็อกแอปแล้ว</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">ป้อน PIN</string>
+    <string name="pin_lock_title_unlocked">ปลดล็อกแล้ว</string>
+    <string name="pin_lock_subtitle_default">ปลดล็อก OverDrive เพื่อดำเนินการต่อ</string>
+    <string name="pin_lock_subtitle_wrong">PIN ไม่ถูกต้อง ลองอีกครั้ง</string>
+    <string name="pin_lock_subtitle_locked_out">พยายามมากเกินไป ลองอีกครั้งในไม่ช้า</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">ถูกล็อก ลองอีกครั้งใน %1$s</string>
+    <string name="pin_lock_lockout_seconds">%1$dวินาที</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">ลืม PIN? เรียกใช้จากคอมพิวเตอร์ที่เชื่อมต่อ:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Backspace</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="other">ป้อนไปแล้ว %1$d หลัก</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">ไม่ทราบตำแหน่ง</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">กล้อง %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">กล้อง %1$d (กำหนดเอง)</string>
+    <string name="diagnostics_camera_value_probing">กำลังตรวจสอบ…</string>
+    <string name="diagnostics_camera_value_offline">ออฟไลน์</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">รอดำเนินการ</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">ยินดีต้อนรับ — Overdrive พร้อมเป็นระบบดูแลรถของคุณแล้ว</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">ชาร์จเพิ่ม %1$s (≈%2$s) ขณะจอด</string>
+    <string name="dashboard_insight_parked_charged">ชาร์จเพิ่ม %1$s ขณะจอด</string>
+    <string name="dashboard_insight_parked_drained_kwh">ใช้งานไป %1$s (≈%2$s) ตั้งแต่เริ่มจอด</string>
+    <string name="dashboard_insight_parked_drained">ใช้งานไป %1$s ตั้งแต่เริ่มจอด</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">การแจ้งเตือนล่าสุด: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">การชาร์จครั้งล่าสุด: ได้รับ +%1$s ภายใน %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">บันทึกวิดีโอ %1$d คลิป · พื้นที่รวม %2$s</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f kWh</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d ชม. %2$d นาที</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="other">บันทึก %1$d วิดีโอในวันนี้</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="other">OverDrive ออนไลน์เป็นเวลา %1$d วัน %2$d ชม.</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="other">OverDrive ออนไลน์เป็นเวลา %1$d ชม.</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="other">%1$d นาที</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="other">%1$d ชม.</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">RoadSense</string>
+    <string name="rail_hazard_map">แผนที่</string>
+    <string name="roadsense_title">RoadSense</string>
+    <string name="roadsense_pill_scanning">กำลังสแกน</string>
+    <string name="roadsense_pill_idle">RoadSense</string>
+    <string name="roadsense_status_idle">ว่าง</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">กำลังเรียนรู้รถของคุณ</string>
+    <string name="roadsense_cal_ready">รถยนต์ปรับเทียบแล้ว</string>
+    <string name="roadsense_cal_partial">การปรับเทียบดีขึ้น</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">เส้นทางข้างหน้าปลอดโปร่ง</string>
+    <string name="roadsense_road_mapped">ทำแผนที่ถนนแล้ว · ปลอดโปร่ง</string>
+    <string name="roadsense_road_new">ถนนใหม่ · กำลังเรียนรู้</string>
+    <string name="roadsense_unit_meters">ม.</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">เตือน</string>
+    <string name="roadsense_toggle_audio">เสียง</string>
+    <string name="roadsense_toggle_visual">ภาพ</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">เล็กน้อย</string>
+    <string name="roadsense_sev_moderate">ปานกลาง</string>
+    <string name="roadsense_sev_severe">รุนแรง</string>
+    <string name="roadsense_type_breaker">ลูกระนาด</string>
+    <string name="roadsense_type_pothole">หลุมบ่อ</string>
+    <string name="roadsense_type_hazard">อันตราย</string>
+    <string name="roadsense_type_rough">ช่วงถนนขรุขระ</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">มีสิ่งกีดขวางข้างหน้า %1$d จุด</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">ช่วงถนนขรุขระ · %1$d ม.</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">นี่เป็นอันตรายหรือไม่?</string>
+    <string name="roadsense_confirm_reject">ไม่ใช่สิ่งอันตราย</string>
+    <string name="roadsense_confirm_accept">ยืนยัน</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">ระดับการปรับเทียบรถยนต์</string>
+    <string name="roadsense_cd_direction">ทิศทางไปยังสิ่งอันตรายถัดไป</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">ซ้าย</string>
+    <string name="blindspot_overlay_right">ขวา</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">แผนที่</string>
+    <string name="roadsense_map_route_clear">ล้าง</string>
+    <string name="roadsense_map_route_unmapped">ยังไม่ได้ทำแผนที่</string>
+    <string name="roadsense_map_back">ย้อนกลับ</string>
+    <string name="roadsense_map_recenter">จัดกึ่งกลางที่ตำแหน่งของฉัน</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">ระดับความรุนแรง</string>
+    <string name="roadsense_map_type_label">ประเภท</string>
+    <string name="roadsense_map_type_unknown">ไม่ทราบ</string>
+    <string name="roadsense_map_confirm">ยืนยัน</string>
+    <string name="roadsense_map_delete">ลบ</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">ข้อเสนอแนะ</string>
+    <string name="roadsense_map_status_local">บนอุปกรณ์</string>
+    <string name="roadsense_map_status_cloud">ที่แชร์</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · ความมั่นใจ %2$d%% · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="other">%1$d reports</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">ยืนยันอันตรายแล้ว</string>
+    <string name="roadsense_map_deleted_toast">ลบอันตรายแล้ว</string>
+    <string name="roadsense_map_action_failed">ไม่สามารถเชื่อมต่อ RoadSense ได้ ลองอีกครั้ง</string>
+    <string name="roadsense_map_no_location">กำลังรอสัญญาณ GPS…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">ค้นหาปลายทาง</string>
+    <string name="roadsense_map_search_action">ค้นหา</string>
+    <string name="roadsense_map_searching">กำลังค้นหา…</string>
+    <string name="roadsense_map_no_results">ไม่พบสถานที่</string>
+    <string name="roadsense_map_search_network">ไม่สามารถเชื่อมต่อบริการค้นหาได้ โปรดตรวจสอบการเชื่อมต่อหรือ proxy แล้วลองอีกครั้ง</string>
+    <string name="roadsense_map_pick_destination">เลือกปลายทาง</string>
+    <string name="roadsense_map_routing">กำลังค้นหาเส้นทาง…</string>
+    <string name="roadsense_map_route_failed">ไม่พบเส้นทาง ลองอีกครั้ง</string>
+    <string name="roadsense_map_need_key">เพิ่มคีย์การนำทางในการตั้งค่า RoadSense เพื่อนำทาง</string>
+    <string name="roadsense_map_rerouting">ออกนอกเส้นทาง — กำลังคำนวณใหม่…</string>
+    <string name="roadsense_map_arrived">คุณมาถึงแล้ว</string>
+    <string name="roadsense_map_nav_started">กำลังนำทางไปยัง %1$s</string>
+    <string name="roadsense_map_nav_ended">สิ้นสุดการนำทางแล้ว</string>
+    <string name="roadsense_map_end_nav">สิ้นสุดการนำทาง</string>
+    <string name="roadsense_map_zoom_in">ซูมเข้า</string>
+    <string name="roadsense_map_zoom_out">ซูมออก</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">การแสดงอันตราย</string>
+    <string name="roadsense_map_hazards_all">แสดงอันตรายทั้งหมด</string>
+    <string name="roadsense_map_hazards_moderate">ปานกลางและรุนแรง</string>
+    <string name="roadsense_map_hazards_severe">รุนแรงเท่านั้น</string>
+    <string name="roadsense_map_hazards_hidden">ซ่อนอันตราย</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">การชาร์จและเชื้อเพลิง</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">อาคาร 2D / 3D</string>
+    <string name="roadsense_map_3d_on">เปิดอาคาร 3D</string>
+    <string name="roadsense_map_3d_off">ปิดอาคาร 3D</string>
+    <string name="roadsense_map_poi_loading">กำลังค้นหาสถานีชาร์จและเติมเชื้อเพลิง…</string>
+    <string name="roadsense_map_poi_none">ไม่พบสถานีใกล้เคียง</string>
+    <string name="roadsense_map_poi_need_route">เลือกปลายทางก่อน</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">เพิ่มจุดแวะแล้ว</string>
+    <string name="roadsense_map_remove_stop_action">ลบจุดแวะ</string>
+    <string name="roadsense_map_poi_navigate">นำทางมาที่นี่</string>
+    <string name="roadsense_map_poi_kind_charging">สถานีชาร์จ</string>
+    <string name="roadsense_map_poi_kind_fuel">สถานีเติมเชื้อเพลิง</string>
+    <string name="roadsense_map_poi_charging_generic">สถานีชาร์จ</string>
+    <string name="roadsense_map_poi_fuel_generic">สถานีเติมเชื้อเพลิง</string>
+    <string name="roadsense_map_route_switched">เปลี่ยนเส้นทางแล้ว</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">จากนั้น</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">ออก %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">รุนแรง %1$d รายการ</string>
+    <string name="roadsense_map_pill_moderate">ปานกลาง %1$d รายการ</string>
+    <string name="roadsense_map_pill_minor">เล็กน้อย %1$d รายการ</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">ข้อมูลแผนที่ใช้งานไม่ได้ขณะออฟไลน์</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">ล้างการค้นหา</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">เลือกเส้นทาง</string>
+    <string name="roadsense_map_routes_to">เส้นทางไปยัง %1$s</string>
+    <string name="roadsense_map_routes_cancel">ยกเลิก</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">เส้นทางที่ %1$d</string>
+    <string name="roadsense_map_fastest">เร็วที่สุด</string>
+    <string name="roadsense_map_start">เริ่ม</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">ตำแหน่งของคุณ</string>
+    <string name="roadsense_map_add_stop">เพิ่มจุดแวะ</string>
+    <string name="roadsense_map_add_stop_hint">ค้นหาจุดแวะเพื่อเพิ่ม</string>
+    <string name="roadsense_map_stop_removed">ลบจุดแวะแล้ว</string>
+    <string name="roadsense_map_remove_stop">ลบจุดแวะ</string>
+    <string name="roadsense_map_move_stop_up">เลื่อนจุดแวะขึ้น</string>
+    <string name="roadsense_map_move_stop_down">เลื่อนจุดแวะลง</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">อนุญาตให้มีจุดแวะได้สูงสุด %1$d จุด</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">ธีมแผนที่</string>
+    <string name="roadsense_map_theme_auto">ธีมแผนที่: อัตโนมัติ</string>
+    <string name="roadsense_map_theme_light">ธีมแผนที่: สว่าง</string>
+    <string name="roadsense_map_theme_dark">ธีมแผนที่: มืด</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">บ้าน</string>
+    <string name="roadsense_map_saved_work">ที่ทำงาน</string>
+    <string name="roadsense_map_saved_set_home">ตั้งค่าบ้าน</string>
+    <string name="roadsense_map_saved_set_work">ตั้งค่าที่ทำงาน</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">รายการโปรด</string>
+    <string name="roadsense_map_save_place">บันทึกสถานที่</string>
+    <string name="roadsense_map_save_as_home">บันทึกเป็นบ้าน</string>
+    <string name="roadsense_map_save_as_work">บันทึกเป็นที่ทำงาน</string>
+    <string name="roadsense_map_save_as_custom">บันทึกเป็นรายการโปรด…</string>
+    <string name="roadsense_map_saved_added">บันทึกแล้ว</string>
+    <string name="roadsense_map_saved_removed">ลบออกจากที่บันทึกไว้แล้ว</string>
+    <string name="roadsense_map_saved_remove">ลบ</string>
+    <string name="roadsense_map_recent_remove">ลบออกจากล่าสุด</string>
+    <string name="roadsense_map_recent_removed">ลบออกจากล่าสุดแล้ว</string>
+    <string name="roadsense_map_custom_label_hint">ป้ายกำกับ (เช่น ยิม, บ้านแม่)</string>
+    <string name="roadsense_map_custom_label_title">ตั้งชื่อสถานที่นี้</string>
+    <string name="roadsense_map_save">บันทึก</string>
+    <string name="roadsense_map_cancel">ยกเลิก</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">หมุดที่ปัก</string>
+    <string name="roadsense_map_navigate_here">นำทางมาที่นี่</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">ค้นหาสถานที่เพื่อตั้งเป็น %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">กู้คืนการเดินทางแล้ว</string>
+
+    <!-- Cloudflared paid-tunnel settings -->
+    <string name="cloudflared_token_storage_note">โทเค็นจะถูกจัดเก็บแบบเข้ารหัสและใช้ร่วมกันระหว่างแอปและกระบวนการ daemon</string>
+    <string name="cloudflared_token_hint">ป้อนโทเค็น cloudflared</string>
+    <string name="cloudflare_paid_version">Cloudflare เวอร์ชันชำระเงิน</string>
+    <string name="dialog_cloudflared_settings_title">การตั้งค่า Cloudflared</string>
+    <string name="dialog_cloudflared_settings_message">กำหนดว่าคุณกำลังใช้ Cloudflare แบบชำระเงินหรือ trycloudflare หากคุณใช้ Cloudflare แบบชำระเงิน ให้ป้อนโทเค็นทันเนลของคุณ</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">หากคุณตั้งค่าเวอร์ชันชำระเงิน โทเค็นต้องไม่ว่างเปล่า</string>
+    <string name="toast_cloudflared_token_invalid">โทเค็นไม่ถูกต้อง: ใช้ได้เฉพาะตัวอักษร ตัวเลข และอักขระ . _ - = เท่านั้น</string>
+    <string name="toast_cloudflared_saved_settings">บันทึกการตั้งค่า Cloudflared แล้ว</string>
+    <string name="settings_backup_restore_confirm_btn">กู้คืน</string>
+    <string name="onboarding_expert_done_title">นี่คือทัวร์ทั้งหมด</string>
+    <string name="onboarding_done_body">กำหนดกล้องและตั้งค่าแบตเตอรี่แล้ว แตะสดเพื่อดูภาพของคุณ — หรือสำรวจการตั้งค่าเชิงลึกได้ทุกเมื่อ</string>
+    <string name="onboarding_expert_maps_title">การนำทาง</string>
+    <string name="onboarding_vehicle_primary">ตั้งค่าแบตเตอรี่</string>
+    <string name="recording_lib_storage_filter_sd">การ์ด SD</string>
+    <string name="onboarding_camera_windshield_title">แถบมองถนนด้านหน้าบนการบันทึก? (ไม่บังคับ)</string>
+    <string name="onboarding_camera_applying_title">กำลังใช้งาน — กำลังรีสตาร์ทกล้อง</string>
+    <string name="onboarding_dismiss">ปิด</string>
+    <string name="onboarding_authorize_waiting_body">ยอมรับป๊อปอัปของ Android หากคุณไม่เห็น อาจได้รับอนุญาตแล้ว — ระบบจะดำเนินการต่อโดยอัตโนมัติ</string>
+    <string name="onboarding_authorize_waiting_title">กำลังรอการอนุญาต…</string>
+    <string name="settings_backup_restore_failed">การกู้คืนล้มเหลว</string>
+    <string name="onboarding_authorize_title">ปลุก Overdrive</string>
+    <string name="onboarding_expert_integrations_body">เชื่อมต่อการแจ้งเตือน Telegram, A Better Routeplanner, MQTT หรือ BYD Cloud แต่ละการ์ดเปิดการตั้งค่าภายในแอป แถบด้านบนจะเปลี่ยนเป็นสีเขียวเมื่อเชื่อมต่อทุกอย่างแล้ว</string>
+    <string name="settings_backup_restore_confirm_msg">การดำเนินการนี้จะแทนที่การตั้งค่า Overdrive ปัจจุบันของคุณด้วยไฟล์สำรองและโหลดบริการใหม่ ใช้ได้เฉพาะบนหัวเครื่องเดียวกับที่สร้างไฟล์สำรองเท่านั้น</string>
+    <string name="onboarding_camera_dashcam_body">เลื่อนผ่านกล้องด้วยลูกศรและหยุดที่กล้องที่แสดงกระจกหน้า / มุมมองด้านหน้า จดจำหมายเลขไว้ — คุณจะเลือกมันต่อไป</string>
+    <string name="onboarding_later">ทำภายหลัง</string>
+    <string name="onboarding_camera_pano_body">ใช้ลูกศรเพื่อหาภาพ 4 ส่วนที่ประกอบเข้าด้วยกัน อ่านจากด้านล่าง: ด้านล่างซ้ายคือด้านหลัง ด้านล่างขวาคือด้านซ้าย</string>
+    <string name="onboarding_expert_roadsense_body">RoadSense ใช้เซ็นเซอร์การเคลื่อนไหวของรถและ GPS เพื่อตรวจจับอันตรายบนถนน — เนินสะดุด หลุมบ่อ ลูกระนาด — และเตือนคุณก่อนถึงจุดที่รู้จัก แท็บต่างๆ ครอบคลุมการตรวจจับ แผนที่อันตราย เสียงเตือน และจุดบอด เปิดสวิตช์หลักเพื่อใช้งานทั้งหมด</string>
+    <string name="onboarding_expert_traffic_title">ตัวตรวจสอบการจราจร — จำเป็นสำหรับการเข้าถึงระยะไกล</string>
+    <string name="onboarding_expert_daemons_body">สวิตช์เหล่านี้เริ่มและหยุดบริการเบื้องหลัง การปิดกล้อง การเฝ้าระวัง หรือ ACC Sentry จะหยุดการบันทึกและคงปิดไว้จนกว่าคุณจะเปิดกลับ — แม้หลังจากรีสตาร์ท</string>
+    <string name="onboarding_camera_verify_repick">เลือกใหม่</string>
+    <string name="onboarding_dash_chips_body">ชิปด้านบนแสดงการบันทึก บริการ และลิงก์รีโมตของคุณ มันอัปเดตเอง — ไม่ใช่ปุ่ม</string>
+    <string name="onboarding_dash_chips_title">สิ่งเหล่านี้แสดงสถานะเท่านั้น</string>
+    <string name="onboarding_expert_trips_body">การเดินทางบันทึกการขับขี่ทุกครั้ง — เส้นทาง ระยะทาง ระยะเวลา และการใช้พลังงาน — เพื่อให้คุณทบทวนได้ว่ารถไปที่ไหนมาบ้าง</string>
+    <string name="onboarding_expert_live_title">กล้องสด</string>
+    <string name="settings_backup_pick_file">เลือกไฟล์สำรองเพื่อกู้คืน</string>
+    <string name="onboarding_camera_applying_body">ภาพจะมืดและกะพริบประมาณ 10 วินาที นี่เป็นเรื่องปกติ — โปรดรอสักครู่</string>
+    <string name="onboarding_expert_menu_start">เริ่มทัวร์</string>
+    <string name="onboarding_expert_security_body">ตั้ง PIN เพื่อจำกัดแอปสำหรับยานพาหนะที่ใช้ร่วมกัน การเฝ้าระวังและการบันทึกยังคงทำงานขณะแอปถูกล็อก PIN ที่ลืมสามารถล้างได้จากคอมพิวเตอร์ผ่าน USB เท่านั้น</string>
+    <string name="settings_backup_default_filename">overdrive-backup.json</string>
+    <string name="settings_backup_import_value">โหลดไฟล์สำรองที่สร้างบนหัวเครื่องเดียวกันนี้</string>
+    <string name="onboarding_camera_opening_body">กำลังโหลดภาพแสดงตัวอย่างสดจากกล้องของคุณ อาจใช้เวลาสองสามวินาที</string>
+    <string name="roadsense_map_route_http">ข้อผิดพลาดของบริการนำทาง (%1$d) ลองอีกครั้งในไม่ช้า</string>
+    <string name="onboarding_camera_pick_primary">ถัดไป</string>
+    <string name="onboarding_help_cd">ทัวร์แนะนำ</string>
+    <string name="onboarding_dash_tiles_body">การ์ดเหล่านี้เป็นปุ่ม — แตะเพื่อเปิดกล้องสด การบันทึก บริการ หรือยานพาหนะของคุณ</string>
+    <string name="onboarding_vehicle_title">บอก Overdrive เกี่ยวกับแบตเตอรี่ของคุณ</string>
+    <string name="onboarding_expert_security_title">ล็อกด้วย PIN</string>
+    <string name="settings_backup_restoring">กำลังกู้คืน…</string>
+    <string name="onboarding_expert_surveillance_title">การเฝ้าระวังและการบันทึก</string>
+    <string name="onboarding_expert_camprobe_title">การตรวจสอบกล้อง — ระมัดระวัง</string>
+    <string name="onboarding_camera_step_label">กล้อง · ขั้นที่ %1$d จาก %2$d</string>
+    <string name="onboarding_authorize_button">อนุญาตการเข้าถึง</string>
+    <string name="recording_lib_filter_section_storage">ที่จัดเก็บ</string>
+    <string name="onboarding_camera_pick_dash_body">ในการ์ดนี้ เลือกหมายเลขดashcam ที่คุณพบก่อนหน้านี้ — หรือปล่อยไว้ที่ AUTO</string>
+    <string name="settings_backup_restore_confirm_title">กู้คืนการตั้งค่าหรือไม่</string>
+    <string name="settings_backup_exporting">กำลังสร้างไฟล์สำรอง…</string>
+    <string name="settings_backup_export_failed">การส่งออกไฟล์สำรองล้มเหลว</string>
+    <string name="onboarding_vehicle_body">เลือกรุ่นของคุณแล้วเราจะเติมค่า kWh ให้ หรือพิมพ์เอง (15–120) วิธีนี้ทำให้การประมาณระยะทางและการชาร์จแม่นยำ คุณข้ามและตั้งค่าภายหลังได้</string>
+    <string name="onboarding_expert_vehicle_title">โปรไฟล์ยานพาหนะ</string>
+    <string name="onboarding_done_primary">เสร็จสิ้น</string>
+    <string name="settings_backup_export_title">ส่งออกการตั้งค่า</string>
+    <string name="onboarding_back">ย้อนกลับ</string>
+    <string name="onboarding_done_secondary">สำรวจการตั้งค่า</string>
+    <string name="onboarding_expert_live_body">เปิดสดจากที่นี่เพื่อดูกล้องทั้งหมดแบบเรียลไทม์ สะดวกสำหรับตรวจสอบมุมมองก่อนขับขี่หรือขณะจอดอยู่ใกล้ๆ</string>
+    <string name="onboarding_camera_pano_title">นี่คือมุมมอง 360 ของคุณ</string>
+    <string name="onboarding_camera_save_primary">บันทึกและรีสตาร์ท</string>
+    <string name="settings_backup_import_title">กู้คืนการตั้งค่า</string>
+    <string name="onboarding_authorize_retry_title">ยังเชื่อมต่อไม่ได้</string>
+    <string name="onboarding_expert_recordings_body">สลับระหว่างดashcam (คลิปต่อเนื่อง + คลิปเข้าใกล้) และการเฝ้าระวัง (เหตุการณ์เฝ้าระวังขณะจอด) ด้วยปุ่มสลับนี้ — แต่ละอย่างมีคลังของตัวเอง แตะคลิปเพื่อเล่น</string>
+    <string name="onboarding_reset_toast">รีเซ็ตการเริ่มต้นใช้งาน — กำลังเล่นคู่มือซ้ำ</string>
+    <string name="recording_lib_storage_filter_usb">USB</string>
+    <string name="onboarding_expert_blindspot_body">เปิดจุดบอดในแท็บที่นี่ และเมื่อคุณให้สัญญาณเลี้ยว มุมมองกล้องด้านข้างจะปรากฏบนหน้าจอโดยอัตโนมัติ — ด้านซ้ายสำหรับสัญญาณซ้าย ด้านขวาสำหรับสัญญาณขวา — แล้วซ่อนไม่นานหลังจากนั้น มันทำงานเฉพาะขณะที่สัญญาณเลี้ยวเปิดอยู่</string>
+    <string name="onboarding_expert_reset_title">รีเซ็ตข้อมูล — ถาวร</string>
+    <string name="onboarding_exit">ออกจากทัวร์</string>
+    <string name="onboarding_authorize_retry_body">ตัวช่วยยังไม่ทำงาน การอนุญาตของ Android อาจถูกปิดไป ลองอีกครั้งและอย่าลืมเลือก <b>อนุญาตเสมอ</b></string>
+    <string name="settings_backup_export_value">บันทึกไฟล์สำรองของการตั้งค่าปัจจุบันของคุณ เก็บไว้เป็นส่วนตัว — มันมีข้อมูลรับรองของคุณ</string>
+    <string name="settings_backup_restart_hint">กู้คืนการตั้งค่าแล้ว รีสตาร์ทเดมอนกล้อง (Daemons → Camera → Restart) เพื่อให้แน่ใจว่าการตั้งค่าที่กู้คืนทั้งหมดถูกนำไปใช้</string>
+    <string name="onboarding_camera_opening_title">กำลังเปิดการตั้งค่ากล้อง…</string>
+    <string name="settings_backup_no_files">ไม่พบไฟล์สำรอง ส่งออกก่อน หรือคัดลอกไฟล์สำรอง .json ไปยัง %1$s แล้วลองอีกครั้ง</string>
+    <string name="settings_backup_save_failed">ไม่สามารถบันทึกไฟล์สำรองได้</string>
+    <string name="onboarding_expert_finish">เสร็จสิ้น</string>
+    <string name="onboarding_expert_reset_body">การดำเนินการนี้ลบการบันทึก เหตุการณ์ และการตั้งค่า และไม่สามารถยกเลิกได้ มันอยู่ที่นี่เผื่อคุณขายรถ — ไม่ใช่ส่วนหนึ่งของการใช้งานปกติ</string>
+    <string name="onboarding_camera_dashcam_title">ตอนนี้หากล้องมองถนนด้านหน้า</string>
+    <string name="onboarding_expert_blindspot_title">จุดบอด</string>
+    <string name="onboarding_camera_verify_title">ตรวจสอบด่วน</string>
+    <string name="onboarding_dash_chips_body_land">สถานะสดของคุณ — การบันทึก บริการ และลิงก์รีโมต — แสดงที่นี่ มันอัปเดตเอง</string>
+    <string name="onboarding_next">ถัดไป</string>
+    <string name="onboarding_camera_pick_title">เลือกกล้อง 360 ของคุณ</string>
+    <string name="onboarding_expert_recordings_title">การบันทึกของคุณ</string>
+    <string name="onboarding_camera_verify_ok">ดูถูกต้อง</string>
+    <string name="recording_lib_storage_sd">SD</string>
+    <string name="settings_backup_trips_prompt">รวมประวัติการเดินทางของคุณ (ระยะทาง พลังงาน ค่าใช้จ่าย คะแนน ตำแหน่งเริ่มต้น/สิ้นสุด) หรือไม่ ข้อมูลเทเลเมทรีละเอียดต่อการเดินทางจะไม่รวมอยู่ด้วย ไฟล์จะมีประวัติตำแหน่งของคุณ — เก็บไว้เป็นส่วนตัว</string>
+    <string name="settings_backup_saved_to">บันทึกไฟล์สำรองไปยัง %1$s</string>
+    <string name="onboarding_camera_windshield_primary">แสดงให้ดู</string>
+    <string name="onboarding_expert_menu_body">เดินผ่านการตั้งค่าเชิงลึกอย่างรวดเร็ว — โปรไฟล์ยานพาหนะ การเชื่อมต่อ การเฝ้าระวัง การวินิจฉัย บริการ และความปลอดภัย คุณหยุดได้ทุกเมื่อ</string>
+    <string name="onboarding_expert_bydcloud_title">BYD Cloud ปลดล็อกการควบคุมระยะไกล</string>
+    <string name="roadsense_map_route_key_rejected">คีย์การนำทางถูกปฏิเสธ ตรวจสอบคีย์ของคุณในการตั้งค่า RoadSense</string>
+    <string name="roadsense_map_route_network">เครือข่ายช้าเกินไปที่จะหาเส้นทาง ตรวจสอบการเชื่อมต่อของคุณและลองอีกครั้ง</string>
+    <string name="onboarding_camera_intro_title">ตั้งค่ากล้องของคุณ</string>
+    <string name="onboarding_dash_tiles_title">ภาพรวมห้องนักบินของคุณ</string>
+    <string name="recording_lib_storage_usb">USB</string>
+    <string name="settings_backup_settings_only">การตั้งค่าเท่านั้น</string>
+    <string name="onboarding_camera_pick_dash_title">เลือกกล้องดashcam ของคุณ</string>
+    <string name="onboarding_camera_intro_primary">เริ่ม</string>
+    <string name="onboarding_expert_vehicle_body">แตะไทล์ยานพาหนะเพื่อตั้งค่าขนาดแบตเตอรี่และรุ่นของคุณ — มันขับเคลื่อนการประมาณระยะทางและสุขภาพที่แม่นยำ</string>
+    <string name="onboarding_expert_camprobe_body">การดำเนินการนี้กำหนดใหม่ว่ากล้องจริงตัวใดป้อนแต่ละบทบาทและรีสตาร์ทกล้อง เปลี่ยนเฉพาะเมื่อภาพดูผิด — คุณตั้งค่านี้ไว้ก่อนหน้านี้ในคู่มือ</string>
+    <string name="onboarding_done_title">ห้องนักบินพร้อมแล้ว</string>
+    <string name="onboarding_authorize_body">Overdrive ทำงานกับกล้องของคุณผ่านตัวช่วยขนาดเล็กบนอุปกรณ์ Android จะขออนุญาตเพื่อให้ใช้การดีบัก USB หนึ่งครั้ง — แตะ <b>อนุญาต</b> และเลือก <b>อนุญาตจากอุปกรณ์นี้เสมอ</b> เพื่อให้ยังคงทำงานหลังจากรีสตาร์ททุกครั้ง</string>
+    <string name="onboarding_camera_intro_body">มาบอก Overdrive ว่ากล้องไหนเป็นมุมมอง 360 และกล้องไหนเป็นดashcam ใช้เวลาประมาณหนึ่งนาที และคุณเปลี่ยนได้ภายหลัง</string>
+    <string name="settings_backup_invalid_file">ไฟล์นั้นไม่ใช่ไฟล์สำรอง Overdrive ที่ถูกต้อง</string>
+    <string name="onboarding_camera_verify_body">มุมมอง 360 แสดงภาพที่ประกอบเข้าด้วยกันและดashcam แสดงถนนด้านหน้าหรือไม่ หากภาพดูผิด แตะเลือกใหม่ — ไม่มีอะไรเสียหาย</string>
+    <string name="onboarding_expert_bydcloud_body">การเชื่อมต่อบัญชี BYD ของคุณที่นี่เปิดใช้งานการล็อก กะพริบไฟ และบีบแตรจากระยะไกลผ่านโทรศัพท์ของคุณ ปฏิบัติต่อบัญชีที่เชื่อมต่อและรหัสเข้าถึงเป็นข้อมูลสำคัญ</string>
+    <string name="settings_backup_restored">กู้คืนการตั้งค่าแล้ว</string>
+    <string name="settings_backup_saved">บันทึกไฟล์สำรองแล้ว</string>
+    <string name="onboarding_expert_done_body">คุณได้เห็นการตั้งค่าเชิงลึกแล้ว เปิดคู่มือนี้อีกครั้งได้ทุกเมื่อจากปุ่มช่วยเหลือ</string>
+    <string name="onboarding_expert_chapter_label">บทที่ %1$d จาก %2$d</string>
+    <string name="rail_charging">การชาร์จ</string>
+    <string name="rail_automations">ระบบอัตโนมัติ</string>
+    <string name="onboarding_skip">ข้าม</string>
+    <string name="onboarding_expert_traffic_body">ตัวตรวจสอบการจราจรในตัวของ BYD บล็อกแอปอื่นๆ ไม่ให้ใช้ซิมในตัวของรถ หากคุณต้องการเข้าถึงรถของคุณจากระยะไกลผ่านซิม BYD คุณต้องปิดมันที่นี่ หัวเครื่องจะรีบูตเพื่อใช้การเปลี่ยนแปลง</string>
+    <string name="onboarding_expert_surveillance_body">ปรับแต่งการตรวจจับ คุณภาพ และที่จัดเก็บที่นี่ สิ่งเหล่านี้เปิดเป็นหน้าตั้งค่าในแอปที่ส่งมาจากรถของคุณ — หน้าจอว่างเปล่าหมายความว่าตัวช่วยยังเริ่มทำงานอยู่</string>
+    <string name="settings_backup_with_trips">รวมการเดินทาง</string>
+    <string name="onboarding_expert_roadsense_title">RoadSense</string>
+    <string name="settings_backup_daemon_down">บริการกล้องต้องทำงานเพื่อสำรองหรือกู้คืน เริ่มจาก Daemons แล้วลองอีกครั้ง</string>
+    <string name="onboarding_expert_menu_title">ทัวร์แนะนำ</string>
+    <string name="onboarding_authorize_retry_button">ลองอีกครั้ง</string>
+    <string name="onboarding_mode_title">Overdrive ควรทำงานเมื่อใด?</string>
+    <string name="onboarding_mode_body">เลือกวิธีที่ Overdrive ทำงานหลังจากคุณดับเครื่องยนต์\n\n<b>เปิด &amp; ปิด</b> จะเฝ้าดูต่อขณะจอด — การเฝ้าระวังและการตรวจสอบเบื้องหลังยังคงทำงานอยู่ รถจึงใช้ไฟเล็กน้อยตลอดคืน\n\n<b>เปิดเท่านั้น</b> จะปิด Overdrive ทั้งหมดทันทีที่คุณลงจากรถ กล้องหน้ารถ ทริป และการชาร์จยังคงทำงานขณะที่คุณขับขี่ และทุกอย่างจะเริ่มทำงานใหม่โดยอัตโนมัติเมื่อคุณสตาร์ทรถ คุณเปลี่ยนค่านี้ได้ทุกเมื่อในการตั้งค่า</string>
+    <string name="onboarding_mode_on_off_button">เปิด &amp; ปิด</string>
+    <string name="onboarding_mode_on_only_button">เปิดเท่านั้น</string>
+    <string name="onboarding_expert_trips_title">ประวัติการเดินทาง</string>
+    <string name="onboarding_expert_maps_body">เปิดแผนที่เพื่อการนำทางแบบบอกทุกเลี้ยวเต็มรูปแบบ — ค้นหาจุดหมาย รับการนำทางและคำแนะนำสด พร้อมจุดสนใจใกล้เคียงและอันตรายบนถนนที่ RoadSense บันทึกไว้ตลอดทาง คุณยังสามารถฉายภาพไปยังหน้าปัดวัดอัตโนมัติเมื่อเริ่มขับขี่ — ปุ่มสลับนั้นอยู่ในแท็บแผนที่ของ RoadSense</string>
+    <string name="settings_backup_read_failed">ไม่สามารถอ่านไฟล์ได้</string>
+    <string name="onboarding_expert_daemons_title">บริการ — จัดการด้วยความระมัดระวัง</string>
+    <string name="onboarding_done_short">เข้าใจแล้ว</string>
+    <string name="onboarding_camera_pick_body">ในการ์ดด้านบน เลือกหมายเลขสำหรับกล้อง 360 / กล้องปกติของคุณ ไม่แน่ใจใช่ไหม ปล่อยไว้ที่ AUTO แล้ว Overdrive จะหาให้เอง</string>
+    <string name="recording_lib_storage_filter_internal">ภายในเครื่อง</string>
+    <string name="recording_lib_storage_internal">INT</string>
+    <string name="onboarding_camera_windshield_body">สำหรับเลย์เอาต์ดashcam แบบ OEM — กล้องกระจกหน้าเป็นแถบบนการบันทึกของคุณ — เลือกกระจกหน้าในเมนูบทบาท เลือกกล้องด้านหน้า แล้วบันทึก เจ้าของส่วนใหญ่ข้ามได้</string>
+    <string name="onboarding_camera_windshield_skip">ไม่ ขอบคุณ</string>
+    <string name="onboarding_expert_integrations_title">การเชื่อมต่อ</string>
+    <!-- Projection screen -->
+    <string name="projection_hero_title">การฉายภาพ</string>
+    <string name="projection_hero_subtitle">ส่งภาพแอปไปยังหน้าปัดหลังพวงมาลัยและแสดงภาพเดียวกันที่นี่</string>
+    <string name="projection_pick_app">เลือกแอปเพื่อฉายภาพ</string>
+    <string name="projection_cast">ส่งภาพไปยังหน้าปัด</string>
+    <string name="projection_stop">หยุด</string>
+    <string name="projection_cast_failed">ไม่สามารถส่งภาพแอปนั้นไปยังหน้าปัดได้</string>
+    <string name="projection_status_idle">ยังไม่ได้ฉายภาพ</string>
+    <string name="projection_status_live">ภาพสะท้อนสด — แตะและปัดเพื่อควบคุม</string>
+    <string name="projection_status_preview">โหมดแสดงตัวอย่าง (อัตราเฟรมลดลงในรถคันนี้)</string>
+    <string name="projection_status_none">ยังไม่มีการฉายภาพใด ๆ — เลือกแอปแล้วส่งภาพ</string>
+    <string name="projection_status_unsupported">รถคันนี้ไม่รองรับโหมด Live Mirror แต่แอปจะยังคงแสดงผลบนหน้าจอ Driver Cluster</string>
+    <string name="projection_note_single_app">สามารถฉายภาพแอปบนหน้าปัดได้ครั้งละหนึ่งแอปเท่านั้น</string>
+    <string name="projection_adjust_bounds">ปรับพื้นที่</string>
+    <string name="projection_done_adjusting">เสร็จ</string>
+    <string name="projection_bounds_hint_idle">พื้นที่มิเรอร์</string>
+    <string name="projection_status_adjust">ลากเพื่อย้าย · ลากมุมเพื่อปรับขนาด</string>
+    <string name="projection_scale_title">การปรับขนาด</string>
+    <string name="projection_scale_desc">วิธีที่คลัสเตอร์เติมเต็มพื้นที่มิเรอร์</string>
+    <string name="projection_scale_fit">พอดี</string>
+    <string name="projection_scale_fill">ยืด</string>
+    <string name="projection_scale_zoom">ซูม</string>
+    <string name="projection_autostart_title">เริ่มอัตโนมัติเมื่อเปิดเครื่อง</string>
+    <string name="projection_autostart_desc">แคสต์แอปที่ใช้ล่าสุดไปยังคลัสเตอร์โดยอัตโนมัติทุกครั้งที่รถเปิดเครื่อง (มิเรอร์จะเปิดขึ้นเมื่อคุณเข้าหน้าจอนี้)</string>
+    <string name="projection_autostart_need_app">แคสต์แอปก่อน แล้วจึงเปิดใช้งานสิ่งนี้</string>
+    <string name="projection_autostart_conflict_title">RoadSense กำลังใช้คลัสเตอร์อยู่</string>
+    <string name="projection_autostart_conflict_body">RoadSense ถูกตั้งค่าให้ฉายแผนที่ไปยังคลัสเตอร์ของผู้ขับโดยอัตโนมัติเมื่อรถเปิดเครื่อง คลัสเตอร์แสดงได้ครั้งละหนึ่งอย่างเท่านั้น ต้องการปิดใช้งานสิ่งนั้นและเริ่มแอปนี้โดยอัตโนมัติแทนหรือไม่?</string>
+    <string name="projection_autostart_conflict_confirm">ใช้แอปนี้</string>
+    <string name="projection_app_uninstalled">แอปนั้นไม่ได้ติดตั้งอยู่แล้ว</string>
+    <string name="projection_status_service_down">บริการมิเรอร์ยังไม่พร้อม — โปรดรีสตาร์ตแอป (หรือเดมอนกล้อง) แล้วลองอีกครั้ง</string>
+</resources>

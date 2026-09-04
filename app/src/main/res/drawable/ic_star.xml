@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded: star (24px, weight 400, fill 1) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M363,-294 L480,-365 597,-294 566,-426 668,-515 534,-527 480,-651 426,-527 292,-515 394,-426 363,-294ZM480,-261 326,-168Q316,-162 305.5,-162.5T287,-168Q278,-174 273,-184T272,-205L313,-380 175,-498Q167,-506 162,-516.5T157,-538Q157,-547 162,-557T175,-572Q183,-579 192.5,-580.5T215,-583L394,-598 466,-770Q470,-781 480,-787.5T500,-794Q510,-794 520,-787.5T534,-770L606,-598 785,-583Q797,-583 806.5,-580.5T826,-572Q834,-565 838.5,-555T843,-538Q843,-527 838,-516.5T826,-498L688,-380 729,-205Q732,-194 727.5,-184T714,-168Q705,-162 694.5,-162.5T673,-168L480,-261Z"/>
+    </group>
+</vector>

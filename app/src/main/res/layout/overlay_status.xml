@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Floating status pill: shows only configured items, tap to restart -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pillContainer"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/overlay_pill_background"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="10dp"
+    android:paddingVertical="5dp"
+    android:elevation="8dp">
+
+    <!-- Recording status (hidden if mode=NONE) -->
+    <LinearLayout
+        android:id="@+id/recContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/ivRecIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_overlay_rec_inactive"
+            android:contentDescription="@string/cd_recording_status" />
+
+        <TextView
+            android:id="@+id/tvRecLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/overlay_rec_inactive_label"
+            android:textColor="@color/status_danger"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace" />
+
+    </LinearLayout>
+
+    <!-- Separator: rec ↔ mic. Visible only when both are visible. -->
+    <View
+        android:id="@+id/separatorRecMic"
+        android:layout_width="1dp"
+        android:layout_height="14dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/border_default"
+        android:visibility="gone" />
+
+    <!-- Mic capture status. Visible only when audioEnabled config is on AND
+         a recording mode is configured (mic capture is gated to ACC-on
+         recording). Active = mic capturing right now; Inactive = configured
+         but capture isn't running (toggle on but mode in standby gear). -->
+    <LinearLayout
+        android:id="@+id/micContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/ivMicIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_overlay_mic_inactive"
+            android:contentDescription="@string/cd_mic_status" />
+
+        <TextView
+            android:id="@+id/tvMicLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/overlay_mic_inactive_label"
+            android:textColor="@color/status_danger"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace" />
+
+    </LinearLayout>
+
+    <!-- Separator: rec/mic ↔ replay. Visible only when both sides show. -->
+    <View
+        android:id="@+id/separatorMicReplay"
+        android:layout_width="1dp"
+        android:layout_height="14dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/border_default"
+        android:visibility="gone" />
+
+    <!-- Instant-replay clip status. Visible only when a replay key binding
+         or automation exists (daemon-reported). Green = replay recording
+         (post-roll/export in flight), blue = saved (held 5s), red = failed
+         (held 5s), gray = armed/idle. -->
+    <LinearLayout
+        android:id="@+id/replayContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/ivReplayIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_overlay_replay_inactive"
+            android:contentDescription="@string/cd_replay_status" />
+
+        <TextView
+            android:id="@+id/tvReplayLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/overlay_replay_label"
+            android:textColor="@color/status_stopped"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace" />
+
+    </LinearLayout>
+
+    <!-- Separator: rec/mic/replay ↔ trip. Renamed from separator → separator
+         so existing StatusOverlayService refs continue to work. -->
+    <View
+        android:id="@+id/separator"
+        android:layout_width="1dp"
+        android:layout_height="14dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@color/border_default"
+        android:visibility="gone" />
+
+    <!-- Trip status (hidden if not enabled) -->
+    <LinearLayout
+        android:id="@+id/tripContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/ivTripIcon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_overlay_trip_inactive"
+            android:contentDescription="@string/cd_trip_tracking_status" />
+
+        <TextView
+            android:id="@+id/tvTripLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="@string/overlay_trip_inactive_label"
+            android:textColor="@color/status_danger"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:fontFamily="monospace" />
+
+    </LinearLayout>
+
+    <!-- Expanded action bar: appears when the user taps the REC chip,
+         lets them switch recording mode without opening the app.
+         Auto-collapses after EXPAND_AUTOCOLLAPSE_MS of no interaction.
+         The currently-active mode chip is selected=true so the user
+         sees at-a-glance which mode they're in. -->
+    <LinearLayout
+        android:id="@+id/actionBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="14dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/border_default" />
+
+        <ImageView
+            android:id="@+id/btnModeOff"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/overlay_action_chip_background"
+            android:src="@drawable/ic_overlay_mode_off"
+            android:tint="@color/overlay_action_chip_tint"
+            android:contentDescription="@string/overlay_mode_off_cd" />
+
+        <ImageView
+            android:id="@+id/btnModeContinuous"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/overlay_action_chip_background"
+            android:src="@drawable/ic_overlay_mode_continuous"
+            android:tint="@color/overlay_action_chip_tint"
+            android:contentDescription="@string/overlay_mode_continuous_cd" />
+
+        <ImageView
+            android:id="@+id/btnModeDrive"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/overlay_action_chip_background"
+            android:src="@drawable/ic_overlay_mode_drive"
+            android:tint="@color/overlay_action_chip_tint"
+            android:contentDescription="@string/overlay_mode_drive_cd" />
+
+        <ImageView
+            android:id="@+id/btnModeProximity"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:padding="4dp"
+            android:background="@drawable/overlay_action_chip_background"
+            android:src="@drawable/ic_overlay_mode_proximity"
+            android:tint="@color/overlay_action_chip_tint"
+            android:contentDescription="@string/overlay_mode_proximity_cd" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense bearing gauge — the expanded card's hero instrument.
+
+  Concentric "radar" rings the rotatable direction arrow sits inside: an outer
+  hairline ring, a mid tick ring, and a recessed dark inner disc with a subtle
+  top-down gradient so the arrow reads as floating above a glass dial. Static
+  here; the arrow on top is rotated to the relative bearing + the glow behind is
+  severity-tinted at runtime by RoadSenseOverlayService.
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- outer hairline ring -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#0AFFFFFF" />
+            <stroke android:width="1dp" android:color="#2EFFFFFF" />
+        </shape>
+    </item>
+
+    <!-- mid accent ring (faint electric-cyan to tie into the toggle accent) -->
+    <item
+        android:width="74dp"
+        android:height="74dp"
+        android:gravity="center">
+        <shape android:shape="oval">
+            <stroke android:width="1dp" android:color="#3357C7FF" />
+            <solid android:color="#00000000" />
+        </shape>
+    </item>
+
+    <!-- recessed inner dial with depth gradient -->
+    <item
+        android:width="58dp"
+        android:height="58dp"
+        android:gravity="center">
+        <shape android:shape="oval">
+            <gradient
+                android:type="linear"
+                android:angle="270"
+                android:startColor="#14233038"
+                android:endColor="#26060A0C" />
+            <stroke android:width="1dp" android:color="#1FFFFFFF" />
+        </shape>
+    </item>
+
+</layer-list>

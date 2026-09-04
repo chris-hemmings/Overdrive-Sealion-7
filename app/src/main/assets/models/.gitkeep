@@ -1,0 +1,10 @@
+# Place YOLO model files here:
+# - yolov8s.param (~300 KB)
+# - yolov8s.bin (~22 MB)
+#
+# Download from: https://github.com/FeiGeChuanShu/ncnn-android-yolov8
+# Direct links:
+#   https://raw.githubusercontent.com/FeiGeChuanShu/ncnn-android-yolov8/main/ncnn-android-yolov8/app/src/main/assets/yolov8s.param
+#   https://raw.githubusercontent.com/FeiGeChuanShu/ncnn-android-yolov8/main/ncnn-android-yolov8/app/src/main/assets/yolov8s.bin
+#
+# Or convert using pnnx from PyTorch YOLOv8 model

@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense Map — head-unit map surface (Phase 1+2).
+
+  Layout:
+    - A full-bleed MapLibre MapView fills the CoordinatorLayout so the
+      basemap reaches edge-to-edge under the translucent app bar.
+    - A MaterialToolbar (transparent over the map, in a transparent
+      AppBarLayout) provides the back affordance + title. It sits ABOVE
+      the map in z-order, so taps on its surface don't reach the map.
+    - A "locate me / recenter" FAB anchored bottom-end.
+    - CoordinatorLayout is the root so Snackbars slide in above the FAB
+      and the tap-to-confirm BottomSheetDialog behaves correctly.
+
+  The MapView uses the default SurfaceView render surface (foreground=false).
+  Map options (initial camera, gestures) are applied at runtime in
+  RoadSenseMapActivity rather than via XML attrs so the single source of
+  truth for the camera stays in code.
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mapRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
+
+    <org.maplibre.android.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/mapAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/map_top_scrim"
+        app:elevation="0dp"
+        app:liftOnScroll="false">
+
+        <!-- Toolbar over the map. A subtle top scrim (map_top_scrim) sits behind
+             it so the back chevron + title stay legible on any basemap, light or
+             dark. The nav icon gets a tonal circular background for a clear,
+             always-visible back affordance. -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/mapToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@android:color/transparent"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@android:color/white"
+            app:navigationContentDescription="@string/roadsense_map_back"
+            app:title="@string/roadsense_map_title"
+            app:titleTextColor="@android:color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Search column — a floating M3 search field with a live autocomplete
+         dropdown directly beneath it. Both live in one top-anchored column so
+         the dropdown tracks the search bar's left/right edges and sits flush
+         under it (Google-Maps style). The whole column is hidden while a route
+         is active (the maneuver banner takes over). The Activity offsets this
+         column's top margin past the status bar + toolbar in applyWindowInsets. -->
+    <LinearLayout
+        android:id="@+id/navSearchColumn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginHorizontal="16dp"
+        android:orientation="vertical">
+
+        <!-- Floating M3 search field: rounded 28dp card, leading search glyph,
+             the input, and a trailing clear (X) shown only when non-empty.
+             Search-as-you-type drives the dropdown below; submit (IME / the
+             leading-glyph affordance) is the on-submit fallback. -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/navSearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="1dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:cardBackgroundColor="?attr/colorSurfaceContainerHighest">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp">
+
+                <ImageButton
+                    android:id="@+id/navSearchButton"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/roadsense_map_search_action"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_nav_search"
+                    app:tint="?attr/colorPrimary" />
+
+                <EditText
+                    android:id="@+id/navSearchInput"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:gravity="center_vertical"
+                    android:hint="@string/roadsense_map_search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingHorizontal="4dp"
+                    android:textColor="?attr/colorOnSurface"
+                    android:textColorHint="?attr/colorOnSurfaceVariant"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:importantForAutofill="no"
+                    tools:ignore="Autofill" />
+
+                <ImageButton
+                    android:id="@+id/navSearchClear"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/roadsense_map_clear_search"
+                    android:padding="11dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_clear"
+                    android:visibility="gone"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Autocomplete dropdown — a rounded surface card holding a
+             RecyclerView of search-result rows. The geocoder is capped at 6
+             suggestions so the card never grows past ~6 short rows; it scrolls
+             internally if needed. Animated in/out + hidden when empty by the
+             Activity. nestedScrollingEnabled is left on so it scrolls inside
+             the card without dragging the map. -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/navSearchDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:visibility="gone"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="1dp"
+            app:strokeWidth="1dp"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Saved-place quick chips (Home / Work / custom favourites). Shown
+                     only when the search field is empty + focused; populated in code
+                     by RoadSenseMapActivity.showRecentSearches() → buildSavedChips().
+                     Tapping a chip routes there; tapping an unset Home/Work chip
+                     prompts to set it. Horizontally scrollable so many custom
+                     favourites stay reachable. -->
+                <HorizontalScrollView
+                    android:id="@+id/navSavedScroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="12dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="4dp"
+                    android:scrollbars="none"
+                    android:visibility="gone">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/navSavedChips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleLine="true"
+                        app:chipSpacingHorizontal="8dp" />
+                </HorizontalScrollView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/navSearchResults"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:overScrollMode="ifContentScrolls"
+                    android:paddingVertical="8dp"
+                    android:scrollbars="vertical"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_nav_search_result" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+
+    <!-- Turn-by-turn maneuver banner — top card shown only while navigating.
+         Primary = next instruction + distance; secondary = remaining + ETA. -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/navBanner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginTop="64dp"
+        android:visibility="gone"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="2dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:cardBackgroundColor="?attr/colorPrimaryContainer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="14dp">
+
+            <!-- Maneuver turn glyph — set per RouteManeuver.type. GONE until a
+                 maneuver resolves so the banner doesn't show a stale arrow. -->
+            <ImageView
+                android:id="@+id/navBannerIcon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="gone"
+                android:contentDescription="@null"
+                app:tint="?attr/colorOnPrimaryContainer"
+                tools:src="@drawable/ic_man_turn_right"
+                tools:visibility="visible" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/navBannerPrimary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                    tools:text="300 m • Turn right onto Main St" />
+
+                <TextView
+                    android:id="@+id/navBannerSecondary"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:alpha="0.85"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    tools:text="4.2 km • 9 min" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Immersive-nav back affordance — the toolbar (with its back chevron) is
+         hidden in immersive driving view, so this top-START FAB restores a way
+         out (exits the map Activity). Shown only during immersive nav on the
+         infotainment instance; never on the non-touch cluster. A tonal circular
+         FAB over the same top scrim as the toolbar so it reads on any basemap. -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabNavBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:contentDescription="@string/roadsense_map_back"
+        android:src="@drawable/ic_back"
+        app:fabSize="mini"
+        app:backgroundTint="?attr/colorSurfaceContainerHighest"
+        app:tint="?attr/colorOnSurface"
+        app:elevation="0dp"
+        app:pressedTranslationZ="0dp"
+        android:stateListAnimator="@null"
+        tools:ignore="ImageContrastCheck" />
+
+    <!-- End-navigation FAB — bottom-START (clear of the end-side zoom + locate
+         stack), shown only while navigating. -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabEndNav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="24dp"
+        android:visibility="gone"
+        android:contentDescription="@string/roadsense_map_end_nav"
+        android:src="@drawable/ic_nav_close"
+        app:backgroundTint="?attr/colorErrorContainer"
+        app:tint="?attr/colorOnErrorContainer"
+        app:elevation="0dp"
+        app:pressedTranslationZ="0dp"
+        android:stateListAnimator="@null"
+        tools:ignore="ImageContrastCheck" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabLocate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:contentDescription="@string/roadsense_map_recenter"
+        android:src="@drawable/ic_my_location"
+        app:backgroundTint="?attr/colorPrimaryContainer"
+        app:tint="?attr/colorOnPrimaryContainer"
+        app:elevation="0dp"
+        app:pressedTranslationZ="0dp"
+        android:stateListAnimator="@null"
+        tools:ignore="ImageContrastCheck" />
+
+    <!-- Map-control stack, TOP-end: hazard-visibility filter + POI (EV/fuel)
+         toggle. Mini FABs in a tonal surface so they read as map controls. -->
+    <LinearLayout
+        android:id="@+id/mapControlsTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_marginEnd="28dp"
+        android:layout_marginTop="140dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabHazardFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/roadsense_map_hazards_filter"
+            android:src="@drawable/ic_hazard_filter"
+            app:fabSize="mini"
+            app:backgroundTint="?attr/colorSurfaceContainerHighest"
+            app:tint="?attr/colorOnSurface"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
+            android:stateListAnimator="@null"
+            tools:ignore="ImageContrastCheck" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabPoi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/roadsense_map_poi_toggle"
+            android:src="@drawable/ic_poi_pin"
+            app:fabSize="mini"
+            app:backgroundTint="?attr/colorSurfaceContainerHighest"
+            app:tint="?attr/colorOnSurface"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
+            android:stateListAnimator="@null"
+            tools:ignore="ImageContrastCheck" />
+
+        <!-- Map day/night override (Auto → Light → Dark). Lets the user pin the
+             basemap scheme directly from the map; AUTO (default) follows the
+             Overdrive app theme. Icon reflects the current mode (auto/sun/moon)
+             and the FAB is accented when a scheme is pinned. -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMapTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/roadsense_map_theme_toggle"
+            android:src="@drawable/ic_map_theme_auto"
+            app:fabSize="mini"
+            app:backgroundTint="?attr/colorSurfaceContainerHighest"
+            app:tint="?attr/colorOnSurface"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
+            android:stateListAnimator="@null"
+            tools:ignore="ImageContrastCheck" />
+
+        <!-- 2D / 3D buildings toggle. An extended-style mini FAB showing the
+             CURRENT mode as a text label ("2D" / "3D"); tapping flips it. Default
+             2D; the choice is persisted. 3D adds a fill-extrusion building layer
+             (GPU-heavier), so it's an explicit opt-in. -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabMap3d"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/roadsense_map_dimension_toggle"
+            android:src="@drawable/ic_map_3d"
+            app:fabSize="mini"
+            app:backgroundTint="?attr/colorSurfaceContainerHighest"
+            app:tint="?attr/colorOnSurface"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
+            android:stateListAnimator="@null"
+            tools:ignore="ImageContrastCheck" />
+    </LinearLayout>
+
+    <!-- Zoom +/- stack, bottom-end above the locate FAB. Mini FABs in a tonal
+         surface so they read as map controls, not primary actions. -->
+    <LinearLayout
+        android:id="@+id/zoomControls"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="96dp"
+        android:orientation="vertical">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabZoomIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/roadsense_map_zoom_in"
+            android:src="@drawable/ic_zoom_in"
+            app:fabSize="mini"
+            app:backgroundTint="?attr/colorSurfaceContainerHighest"
+            app:tint="?attr/colorOnSurface"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
+            android:stateListAnimator="@null"
+            tools:ignore="ImageContrastCheck" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabZoomOut"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/roadsense_map_zoom_out"
+            android:src="@drawable/ic_zoom_out"
+            app:fabSize="mini"
+            app:backgroundTint="?attr/colorSurfaceContainerHighest"
+            app:tint="?attr/colorOnSurface"
+            app:elevation="0dp"
+            app:pressedTranslationZ="0dp"
+            android:stateListAnimator="@null"
+            tools:ignore="ImageContrastCheck" />
+    </LinearLayout>
+
+    <!-- ROUTE-OPTIONS SHEET — a persistent collapsible bottom sheet (driven by
+         BottomSheetBehavior) shown after a destination is chosen and the
+         alternates are computed. The map STAYS interactive behind it so the
+         user can tap an alternate's line to select it. Lists each candidate
+         route (label / distance / ETA / fastest hint) over a "Start" primary
+         button and a "Cancel" affordance. Hidden (peekHeight 0 + GONE via the
+         Activity) until routes are ready, and torn down when guidance starts
+         or the user cancels. -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/routeOptionsSheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:cardBackgroundColor="?attr/colorSurfaceContainer"
+        app:cardCornerRadius="28dp"
+        app:cardElevation="2dp"
+        app:strokeWidth="1dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:cardPreventCornerOverlap="false"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="220dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        app:shapeAppearanceOverlay="@style/ShapeAppearance.Overdrive.RouteSheet">
+
+        <LinearLayout
+            android:id="@+id/routeSheetContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp">
+
+            <!-- Drag handle -->
+            <View
+                android:layout_width="36dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/sheet_drag_handle" />
+
+            <!-- Header row: title + close affordance -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp">
+
+                <TextView
+                    android:id="@+id/tvRouteSheetTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+                    android:textColor="?attr/colorOnSurface"
+                    android:text="@string/roadsense_map_routes_title"
+                    tools:text="Routes to Changi Airport" />
+
+                <ImageButton
+                    android:id="@+id/btnRouteCarNav"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/bg_nav_leading_icon"
+                    android:contentDescription="@string/carnav_section_header"
+                    android:padding="8dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_directions_car"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <ImageButton
+                    android:id="@+id/btnRouteSheetSave"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/bg_nav_leading_icon"
+                    android:contentDescription="@string/roadsense_map_save_place"
+                    android:padding="9dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_star"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <ImageButton
+                    android:id="@+id/btnRouteSheetClose"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_nav_leading_icon"
+                    android:contentDescription="@string/roadsense_map_routes_cancel"
+                    android:padding="9dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_clear"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+
+            <!-- Scrollable middle: itinerary + route candidates. Header (above) and
+                 the Start button (below) stay pinned; only this region scrolls when
+                 there are many routes, so the header car icon never scrolls off-screen.
+                 Its height is capped in code (RoadSenseMapActivity.showRouteOptionsSheet)
+                 so the whole sheet fits the short landscape screen; short content keeps
+                 the sheet compact (wrap_content). -->
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/routeSheetScroll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true"
+                android:overScrollMode="ifContentScrolls">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- TRIP STOPS — the ordered itinerary (origin → intermediate stops →
+                         destination) plus an "Add stop" affordance. Rebuilt in code by
+                         RoadSenseMapActivity.rebuildStopsUi() into this LinearLayout: an
+                         origin row ("Your location"), one row per entry in routeStops
+                         (each with a remove X + up/down reorder controls), and an
+                         "Add stop" row at the end. Kept as a code-populated container
+                         (not a RecyclerView) since the list is tiny (≤ MAX_STOPS). -->
+                    <LinearLayout
+                        android:id="@+id/routeStopsContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:orientation="vertical" />
+
+                    <!-- Thin divider between the itinerary and the route candidates. -->
+                    <View
+                        android:id="@+id/routeStopsDivider"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="8dp"
+                        android:background="?attr/colorOutlineVariant" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/routeOptionsList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never"
+                        android:paddingVertical="2dp"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/item_nav_route_option" />
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRouteStart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="14dp"
+                android:fontFamily="sans-serif-medium"
+                android:paddingVertical="16dp"
+                android:text="@string/roadsense_map_start"
+                android:textSize="16sp"
+                app:cornerRadius="20dp"
+                app:icon="@drawable/ic_directions_car"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp" />
+
+            <!-- "Send to car navigation" lives as a header icon (btnRouteCarNav) so it
+                 stays visible; the old bottom buttons scrolled off the short screen. -->
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

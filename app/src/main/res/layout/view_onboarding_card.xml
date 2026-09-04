@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Onboarding tip-card content (M3). Hosted inside OnboardingOverlayView.card.
+     One layout reused by every step (modal / spotlight / wizard / hint).
+
+     The scrollable content (step/title/body/progress) is wrapped in a NestedScrollView
+     and the Next/Skip row is PINNED below it, so long bodies (or verbose locales) scroll
+     instead of pushing the buttons off-screen on the tight ~604dp landscape band — the
+     same constraint dialog_setup_guide.xml documents. OnboardingOverlayView additionally
+     clamps the card's max height to the safe area. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/onboardingScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fillViewport="false"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/onboardingStepIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:letterSpacing="0.06"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                tools:ignore="UnusedAttribute"
+                tools:text="STEP 1 OF 5" />
+
+            <TextView
+                android:id="@+id/onboardingTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:textAppearance="?attr/textAppearanceTitleMedium"
+                android:textColor="?attr/colorOnSurface"
+                tools:text="Title" />
+
+            <TextView
+                android:id="@+id/onboardingBody"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:lineSpacingMultiplier="1.15"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                tools:text="Body" />
+
+            <!-- Optional inline progress (camera restart ~10s determinate). M3-tinted so
+                 it reads against the surface in both light and dark themes. -->
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/onboardingProgress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:max="100"
+                android:progress="0"
+                android:visibility="gone"
+                app:indicatorColor="?attr/colorPrimary"
+                app:trackColor="?attr/colorSurfaceVariant"
+                xmlns:app="http://schemas.android.com/apk/res-auto" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Pinned action row — stays reachable regardless of body length. -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/onboardingSecondary"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:visibility="gone"
+            tools:text="Skip" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/onboardingPrimary"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Next" />
+    </LinearLayout>
+</LinearLayout>

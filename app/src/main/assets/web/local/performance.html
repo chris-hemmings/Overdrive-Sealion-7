@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title data-i18n="app.performance_title">Performance - OverDrive</title>
+    <link rel="icon" type="image/webp" href="../shared/app-icon-dark.webp">
+    <script src="../shared/theme.js?v=5"></script>
+    <script src="../shared/app-shell.js?v=5"></script>
+    <!--
+      Bottom-tab manifest — performance dashboard splits into 4 tabs
+      so the long single-scroll page stops being a wall of charts:
+        Battery  — SOC history, 12V history, battery health, SOH, EV battery card
+        System   — CPU / Memory / GPU / App stats metric cards
+        Live     — CPU/MEM/GPU 60-second history charts
+        Reset    — destructive reset-data card (own tab so it never gets accidental-tap reach)
+      Cards are tagged individually; the .metrics-grid wrapper uses
+      auto-fit so hidden cards reflow cleanly.
+    -->
+    <script>
+        window.OT_TABS = [
+            { id: 'battery', label: 'Battery', i18n: 'performance.tab_battery', svg: '<rect x="6" y="7" width="12" height="10" rx="1"/><path d="M6 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2"/><path d="M18 10h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2"/>' },
+            { id: 'system',  label: 'System',  i18n: 'performance.tab_system',  svg: '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>' },
+            { id: 'data',    label: 'Data',    i18n: 'performance.tab_data',    svg: '<path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/>' },
+            { id: 'live',    label: 'Live',    i18n: 'performance.tab_live',    svg: '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>', readOnly: true },
+            { id: 'reset',   label: 'Reset',   i18n: 'performance.tab_reset',   svg: '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>', readOnly: true }
+        ];
+    </script>
+    <script src="../shared/app-tabs.js"></script>
+    <link rel="stylesheet" href="../shared/styles.css?v=23">
+    <style>
+        /* Performance Dashboard Specific Styles */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .metric-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--brand-gradient);
+            opacity: 0.6;
+        }
+        
+        .metric-card.warning::before { background: var(--warning); opacity: 1; }
+        .metric-card.danger::before { background: var(--danger); opacity: 1; }
+        
+        .metric-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .metric-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .metric-title svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--brand-primary);
+        }
+        
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+        
+        .metric-value .unit {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-left: 4px;
+        }
+        
+        .metric-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+        
+        .metric-bar {
+            height: 8px;
+            background: var(--bg-elevated);
+            border-radius: 4px;
+            margin-top: 16px;
+            overflow: hidden;
+        }
+        
+        .metric-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: var(--brand-gradient);
+            transition: width 0.3s ease;
+        }
+        
+        .metric-bar-fill.warning { background: var(--warning); }
+        .metric-bar-fill.danger { background: var(--danger); }
+        .metric-bar-fill.ev-battery { background: linear-gradient(90deg, var(--success), #22d3ee); }
+        
+        /* Chart Container */
+        .chart-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .chart-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        
+        .chart-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .chart-legend {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+        }
+        
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        
+        .legend-dot.system { background: var(--brand-primary); }
+        .legend-dot.app { background: var(--brand-secondary); }
+        .legend-dot.gpu { background: #a855f7; }
+        
+        .chart-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+        }
+        
+        .chart-canvas {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+        
+        /* Interactive chart hint */
+        .chart-hint {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        /* Data-usage toggle switch (in-card header) */
+        .du-toggle { display: inline-flex; align-items: center; cursor: pointer; user-select: none; }
+        .du-toggle > * + * { margin-left: 8px; }
+        .du-toggle input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .du-toggle-track {
+            position: relative; display: inline-block; width: 38px; height: 22px;
+            background: var(--border-subtle); border-radius: 11px; transition: background .2s;
+            flex: 0 0 auto;
+        }
+        .du-toggle-thumb {
+            position: absolute; top: 2px; left: 2px; width: 18px; height: 18px;
+            background: #fff; border-radius: 50%; transition: transform .2s;
+        }
+        .du-toggle input:checked + .du-toggle-track { background: var(--brand-secondary); }
+        .du-toggle input:checked + .du-toggle-track .du-toggle-thumb { transform: translateX(16px); }
+        .du-toggle-label { font-size: 13px; color: var(--text-muted); }
+        .du-hint { padding: 18px 4px; }
+        .du-hint p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin: 0; }
+        .du-note { font-size: 11px; color: var(--text-muted); text-align: center; margin-top: 10px; opacity: 0.8; }
+        
+        /* Stats Grid */
+        .stats-row {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-subtle);
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        /* App Memory Breakdown */
+        .memory-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+        
+        .breakdown-item {
+            background: var(--bg-elevated);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            text-align: center;
+        }
+        
+        .breakdown-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .breakdown-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+        
+        /* Monitoring Status */
+        .monitoring-status {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-full);
+            font-size: 13px;
+        }
+        
+        .monitoring-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        
+        .monitoring-dot.inactive {
+            background: var(--text-muted);
+            animation: none;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* SOC Chart Card */
+        .soc-chart-card {
+            background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(0, 212, 170, 0.05) 100%);
+            border: 1px solid rgba(0, 212, 170, 0.2);
+        }
+        
+        .soc-chart-card .chart-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .soc-stats-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-sm);
+        }
+        
+        .soc-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+        
+        .soc-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .soc-stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        
+        .soc-time-selector {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-elevated);
+            padding: 4px;
+            border-radius: var(--radius-sm);
+        }
+        
+        .time-btn {
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-xs);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .time-btn:hover {
+            color: var(--text-primary);
+            background: var(--bg-surface);
+        }
+        
+        .time-btn.active {
+            color: var(--brand-primary);
+            background: var(--bg-surface);
+            box-shadow: 0 1px 3px var(--panel-overlay-bg-faint);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            .metric-value {
+                font-size: 28px;
+            }
+            .memory-breakdown {
+                grid-template-columns: 1fr;
+            }
+            .soc-stats-row {
+                justify-content: space-between;
+            }
+            .soc-stat {
+                min-width: 50px;
+            }
+            .soc-stat-value {
+                font-size: 16px;
+            }
+            .soc-time-selector {
+                flex-wrap: wrap;
+            }
+        }
+        
+        /* GPU Health Indicator Styles */
+        .gpu-status-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .gpu-status-badge.efficient {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .gpu-status-badge.optimal {
+            background: rgba(0, 212, 170, 0.2);
+            color: #00D4AA;
+        }
+        
+        .gpu-status-badge.heavy {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+        
+        .gpu-status-badge.critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .gpu-health-hint {
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            line-height: 1.5;
+        }
+        
+        .gpu-health-hint .hint-icon {
+            flex-shrink: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            margin-top: 1px;
+        }
+        
+        .gpu-health-hint.efficient {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+        .gpu-health-hint.efficient .hint-icon {
+            background: rgba(34, 197, 94, 0.2);
+        }
+        .gpu-health-hint.efficient .hint-icon::before {
+            content: '✓';
+            color: #22c55e;
+        }
+        
+        .gpu-health-hint.optimal .hint-icon {
+            background: rgba(0, 212, 170, 0.2);
+        }
+        .gpu-health-hint.optimal .hint-icon::before {
+            content: '●';
+            color: #00D4AA;
+        }
+        
+        .gpu-health-hint.heavy .hint-icon {
+            background: rgba(251, 191, 36, 0.2);
+        }
+        .gpu-health-hint.heavy .hint-icon::before {
+            content: '!';
+            color: #fbbf24;
+            font-weight: bold;
+        }
+        
+        .gpu-health-hint.critical {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        .gpu-health-hint.critical .hint-icon {
+            background: rgba(239, 68, 68, 0.2);
+        }
+        .gpu-health-hint.critical .hint-icon::before {
+            content: '⚠';
+            color: #ef4444;
+        }
+        
+        .gpu-health-hint .hint-text {
+            color: var(--text-secondary);
+        }
+        
+        .gpu-health-hint.efficient .hint-text {
+            color: #86efac;
+        }
+        
+        .gpu-health-hint.critical .hint-text {
+            color: #fca5a5;
+        }
+
+        /* Request-scoped Android top snapshot */
+        .process-monitor {
+            margin-bottom: 16px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+        }
+
+        .process-monitor-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 18px 20px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .process-monitor-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .process-monitor-title h2 {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.2;
+            color: var(--text-primary);
+        }
+
+        .process-live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            min-height: 22px;
+            padding: 2px 8px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-full);
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .process-live-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .process-live-badge.is-live {
+            color: var(--success);
+            border-color: rgba(34, 197, 94, 0.35);
+            background: rgba(34, 197, 94, 0.08);
+        }
+
+        .process-live-badge.is-live::before {
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        .process-monitor-meta {
+            margin-top: 5px;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+        }
+
+        .process-refresh {
+            width: 36px;
+            height: 36px;
+            flex: 0 0 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+        }
+
+        .process-refresh:hover {
+            color: var(--text-primary);
+            border-color: var(--brand-primary);
+        }
+
+        .process-refresh:disabled {
+            opacity: 0.45;
+            cursor: default;
+        }
+
+        .process-refresh svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .process-summary {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            border-bottom: 1px solid var(--border-subtle);
+            background: var(--bg-elevated);
+        }
+
+        .process-summary-item {
+            min-width: 0;
+            padding: 14px 18px;
+            border-right: 1px solid var(--border-subtle);
+        }
+
+        .process-summary-item:last-child {
+            border-right: 0;
+        }
+
+        .process-summary-label {
+            color: var(--text-muted);
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .process-summary-value {
+            margin-top: 5px;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .process-summary-detail {
+            margin-top: 4px;
+            min-height: 14px;
+            overflow: hidden;
+            color: var(--text-muted);
+            font-size: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .process-table {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .process-table-header,
+        .process-row {
+            display: grid;
+            grid-template-columns:
+                minmax(220px, 2fr)
+                minmax(130px, 0.85fr)
+                84px
+                84px
+                96px
+                68px;
+            align-items: center;
+            column-gap: 16px;
+            min-width: 850px;
+        }
+
+        .process-table-header {
+            padding: 10px 20px;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .process-row {
+            min-height: 58px;
+            padding: 10px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .process-row:last-child {
+            border-bottom: 0;
+        }
+
+        .process-row.is-overdrive {
+            background: rgba(0, 212, 170, 0.06);
+        }
+
+        .process-command {
+            min-width: 0;
+            overflow: hidden;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 600;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .process-detail {
+            margin-top: 4px;
+            overflow: hidden;
+            color: var(--text-muted);
+            font-size: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .process-number {
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .process-cpu-value {
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .process-cpu-track {
+            height: 4px;
+            margin-top: 6px;
+            overflow: hidden;
+            background: var(--bg-elevated);
+            border-radius: 2px;
+        }
+
+        .process-cpu-fill {
+            height: 100%;
+            min-width: 2px;
+            background: var(--brand-primary);
+            border-radius: 2px;
+        }
+
+        .process-empty {
+            padding: 34px 20px;
+            color: var(--text-muted);
+            font-size: 13px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .process-monitor-header {
+                padding: 16px;
+            }
+
+            .process-summary {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .process-summary-item:nth-child(2) {
+                border-right: 0;
+            }
+
+            .process-summary-item:nth-child(-n + 2) {
+                border-bottom: 1px solid var(--border-subtle);
+            }
+
+            .process-table {
+                overflow: visible;
+            }
+
+            .process-table-header {
+                display: none;
+            }
+
+            .process-row {
+                grid-template-columns: minmax(0, 1fr) 92px;
+                min-width: 0;
+                min-height: 68px;
+                padding: 12px 16px;
+            }
+
+            .process-row > .process-memory,
+            .process-row > .process-resident,
+            .process-row > .process-user,
+            .process-row > .process-pid {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <!-- App shell sidebar (rendered by ../shared/app-shell.js) -->
+        <div id="app-shell-mount"></div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="mobile-header">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/>
+                    </svg>
+                </button>
+                <span style="font-weight:600;" data-i18n="performance.page_header_short">Performance</span>
+                <div style="width:40px;"></div>
+            </div>
+
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="performance.page_title">Performance Monitor</h1>
+                <div class="header-actions">
+                    <div class="monitoring-status compact-status-pill">
+                        <span class="monitoring-dot compact-status-pill__dot" id="monitoringDot"></span>
+                        <span id="monitoringText" data-i18n="performance.monitoring">Monitoring</span>
+                    </div>
+                    <div class="header-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span id="currentTime">--:--</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-body">
+                <!-- SOC History Chart (Persistent - 3 days) -->
+                <div class="chart-card soc-chart-card" data-tab="battery">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;margin-right:8px;stroke:var(--success);">
+                                <rect x="6" y="7" width="12" height="10" rx="1"/><path d="M6 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2"/><path d="M18 10h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2"/>
+                            </svg>
+                            <span data-i18n="performance.soc_history">Battery SOC History</span>
+                        </div>
+                        <div class="soc-time-selector" id="socTimeSelector">
+                            <button class="time-btn" data-hours="24" onclick="BYD.performance.setSocTimeRange(24)" data-i18n="performance.range_24h">24h</button>
+                            <button class="time-btn active" data-hours="72" onclick="BYD.performance.setSocTimeRange(72)" data-i18n="performance.range_3d">3 Days</button>
+                            <button class="time-btn" data-hours="168" onclick="BYD.performance.setSocTimeRange(168)" data-i18n="performance.range_7d">7 Days</button>
+                        </div>
+                    </div>
+                    <div class="soc-stats-row">
+                        <div class="soc-stat"><span class="soc-stat-value" id="socCurrent">--%</span><span class="soc-stat-label" data-i18n="performance.label_current">Current</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="socKwh">-- kWh</span><span class="soc-stat-label" data-i18n="performance.label_energy">Energy</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="socMin">--%</span><span class="soc-stat-label" data-i18n="performance.label_min">Min</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="socMax">--%</span><span class="soc-stat-label" data-i18n="performance.label_max">Max</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="socAvg">--%</span><span class="soc-stat-label" data-i18n="performance.label_avg">Avg</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="chargingSessions">--</span><span class="soc-stat-label" data-i18n="performance.label_charges">Charges</span></div>
+                    </div>
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="socChart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-legend" style="margin-top:12px;justify-content:center;">
+                        <div class="legend-item"><span class="legend-dot" style="background:var(--success);"></span><span data-i18n="performance.legend_soc">SOC %</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background:var(--brand-secondary);"></span><span data-i18n="abrp.charging">Charging</span></div>
+                    </div>
+                </div>
+
+                <!-- 12V Battery History Chart -->
+                <div class="chart-card soc-chart-card" data-tab="battery" id="voltageChartCard">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;margin-right:8px;stroke:var(--chart-warning);">
+                                <rect x="6" y="7" width="12" height="10" rx="1"/><path d="M6 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2"/><path d="M18 10h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2"/>
+                            </svg>
+                            <span data-i18n="performance.batt12v_history">12V Battery History</span>
+                        </div>
+                        <div class="soc-time-selector" id="voltageTimeSelector">
+                            <button class="time-btn" data-hours="24" onclick="BYD.performance.setBatteryTimeRange(24)" data-i18n="performance.range_24h">24h</button>
+                            <button class="time-btn active" data-hours="72" onclick="BYD.performance.setBatteryTimeRange(72)" data-i18n="performance.range_3d">3 Days</button>
+                            <button class="time-btn" data-hours="168" onclick="BYD.performance.setBatteryTimeRange(168)" data-i18n="performance.range_7d">7 Days</button>
+                        </div>
+                    </div>
+                    <div class="soc-stats-row">
+                        <div class="soc-stat"><span class="soc-stat-value" id="volt12vCurrent">--V</span><span class="soc-stat-label" data-i18n="performance.label_current">Current</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="volt12vMin">--V</span><span class="soc-stat-label" data-i18n="performance.label_min">Min</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="volt12vMax">--V</span><span class="soc-stat-label" data-i18n="performance.label_max">Max</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="volt12vAvg">--V</span><span class="soc-stat-label" data-i18n="performance.label_avg">Avg</span></div>
+                    </div>
+                    <div class="chart-container" style="height: 200px;">
+                        <canvas id="voltageChart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-hint" data-i18n="performance.chart_hint">Touch or hover to see values</div>
+                    <div class="chart-legend" style="margin-top:8px;justify-content:center;">
+                        <div class="legend-item"><span class="legend-dot" style="background:var(--chart-warning);"></span><span data-i18n="performance.legend_12v">12V Voltage</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background:rgba(239,68,68,0.5);"></span><span data-i18n="performance.legend_warn_115">Warning (11.5V)</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background:rgba(14,165,233,0.3);"></span><span data-i18n="abrp.charging">Charging</span></div>
+                    </div>
+                </div>
+
+                <!-- Battery Health Card -->
+                <div class="chart-card soc-chart-card" data-tab="battery" id="batteryHealthCard">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;margin-right:8px;stroke:var(--chart-soh);">
+                                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                            </svg>
+                            <span data-i18n="performance.battery_health">Battery Health</span>
+                        </div>
+                        <div class="soc-time-selector" id="healthTimeSelector">
+                            <button class="time-btn" data-hours="24" onclick="BYD.performance.setHealthTimeRange(24)" data-i18n="performance.range_24h">24h</button>
+                            <button class="time-btn active" data-hours="72" onclick="BYD.performance.setHealthTimeRange(72)" data-i18n="performance.range_3d">3 Days</button>
+                            <button class="time-btn" data-hours="168" onclick="BYD.performance.setHealthTimeRange(168)" data-i18n="performance.range_7d">7 Days</button>
+                        </div>
+                    </div>
+                    <div class="soc-stats-row">
+                        <div class="soc-stat"><span class="soc-stat-value" id="sohValue" style="color:var(--chart-soh);">--%</span><span class="soc-stat-label" data-i18n="performance.label_soh">SOH</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="estCapacity">-- kWh</span><span class="soc-stat-label" data-i18n="performance.label_est_cap">Est. Cap</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="tempHighVal">--°C</span><span class="soc-stat-label" data-i18n="performance.label_temp_hi">Temp Hi</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="tempLowVal">--°C</span><span class="soc-stat-label" data-i18n="performance.label_temp_lo">Temp Lo</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="tempDeltaVal">--°C</span><span class="soc-stat-label" data-i18n="performance.label_temp_delta">Δ Temp</span></div>
+                        <div class="soc-stat"><span class="soc-stat-value" id="thermalStatus">--</span><span class="soc-stat-label" data-i18n="performance.label_status">Status</span></div>
+                    </div>
+                    <div class="chart-container" style="height: 220px;">
+                        <canvas id="thermalChart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-hint" data-i18n="performance.chart_hint">Touch or hover to see values</div>
+                    <div class="chart-legend" style="margin-top:8px;justify-content:center;">
+                        <div class="legend-item"><span class="legend-dot" style="background:var(--danger);"></span><span data-i18n="performance.legend_high">High</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background:var(--success);"></span><span data-i18n="performance.legend_low">Low</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background:var(--chart-batt-3);"></span><span data-i18n="performance.legend_avg">Average</span></div>
+                        <div class="legend-item"><span class="legend-dot" style="background:rgba(14,165,233,0.3);"></span><span data-i18n="abrp.charging">Charging</span></div>
+                    </div>
+                </div>
+
+                <!-- SOH Detail Card (Shape B: live formula + calibration anchor) -->
+                <div class="chart-card" data-tab="battery" id="sohDetailCard" style="border: 1px solid rgba(168, 85, 247, 0.3); background: linear-gradient(135deg, var(--bg-surface) 0%, rgba(168, 85, 247, 0.05) 100%);">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;margin-right:8px;stroke:var(--chart-soh);">
+                                <rect x="6" y="7" width="12" height="10" rx="1"/><path d="M6 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2"/><path d="M18 10h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2"/>
+                                <path d="M9 12.5L11 10.5 12 12 13 10.5 15 12.5"/>
+                            </svg>
+                            <span data-i18n="performance.soh_card_title">State of Health (SOH)</span>
+                        </div>
+                        <button class="btn btn-danger" id="btnResetSoh" onclick="BYD.performance.resetSoh()" style="font-size:11px;padding:4px 10px;border-radius:6px;" data-i18n="performance.btn_reset">Reset</button>
+                    </div>
+
+                    <!-- Live SOH headline -->
+                    <div style="display:flex;align-items:center;gap:16px;margin:16px 0;">
+                        <div style="text-align:center;min-width:120px;">
+                            <div id="sohDetailPercent" style="font-family:'JetBrains Mono',monospace;font-size:42px;font-weight:700;color:var(--chart-soh);line-height:1;">--%</div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-top:4px;" data-i18n="performance.active_soh">Active SOH</div>
+                            <div id="sohCalibrationAnchor" style="font-size:11px;color:var(--text-muted);margin-top:2px;display:none;"></div>
+                            <div id="sohFallbackCaption" class="soh-caption" hidden></div>
+                        </div>
+                        <div style="flex:1;min-width:0;">
+                            <!-- Battery capacity row — tappable, opens modal -->
+                            <div id="sohCapacityRow" onclick="BYD.performance.openSohCapacityModal()"
+                                 style="background:var(--bg-elevated);padding:14px 16px;border-radius:12px;cursor:pointer;border:1px solid var(--border-subtle);">
+                                <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;" data-i18n="soh.battery_capacity_label">Battery capacity</div>
+                                <div id="sohCapacitySummary" style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:var(--text-primary);margin-top:4px;" data-i18n="soh.tap_to_set">Tap to set</div>
+                                <div id="sohCapacitySource" style="font-size:11px;color:var(--text-muted);margin-top:2px;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Metadata row -->
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <div style="background:var(--bg-elevated);padding:8px 10px;border-radius:6px;">
+                            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;" data-i18n="performance.meta_nominal">Nominal</div>
+                            <div id="sohDetailNominal" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text-primary);margin-top:2px;">-- kWh</div>
+                        </div>
+                        <div style="background:var(--bg-elevated);padding:8px 10px;border-radius:6px;">
+                            <div style="font-size:10px;color:var(--text-muted);text-transform:uppercase;" data-i18n="performance.meta_updated">Updated</div>
+                            <div id="sohDetailUpdated" style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--text-primary);margin-top:2px;">--</div>
+                        </div>
+                    </div>
+
+                    <div id="sohDetailHint" style="padding:8px 12px;background:var(--bg-elevated);border-radius:6px;font-size:12px;color:var(--text-secondary);margin-top:10px;display:none;"></div>
+
+                    <!-- Frame-mismatch banner — surfaces when the daemon detects
+                         peakObserved/nominal < 0.85 (PHEV, anchor stable). The
+                         notification's defaultClickUrl points here. JS wires
+                         the button to /api/performance/soh/nominal directly. -->
+                    <div id="sohFrameMismatchBanner" style="display:none;margin-top:10px;padding:12px 14px;background:rgba(255,176,0,0.08);border:1px solid rgba(255,176,0,0.4);border-radius:8px;">
+                        <div style="font-size:11px;font-weight:700;color:var(--chart-soh);text-transform:uppercase;letter-spacing:0.5px;" data-i18n="soh.frame_mismatch_title">Pack-capacity frame mismatch</div>
+                        <div id="sohFrameMismatchBody" style="font-size:12px;color:var(--text-primary);margin-top:6px;line-height:1.5;"></div>
+                        <button id="sohFrameMismatchAction" class="btn" style="margin-top:10px;font-size:12px;padding:6px 14px;border-radius:6px;background:var(--chart-soh);color:#000;border:none;cursor:pointer;font-weight:600;" data-i18n="soh.use_observed_value">Use observed value</button>
+                    </div>
+                </div>
+
+                <!-- SOH Battery Capacity Modal — theme-aware: every surface,
+                     border, and label resolves through design tokens, so the
+                     modal reads correctly under both data-theme=dark and
+                     data-theme=light. Inline color overrides removed. -->
+                <div id="sohCapacityModalBackdrop" class="modal-backdrop" style="display:none;">
+                    <div class="modal-card soh-modal-card" role="dialog" aria-modal="true" aria-labelledby="sohCapacityModalTitle">
+                        <h3 id="sohCapacityModalTitle" class="soh-modal-title" data-i18n="soh.modal_title">Set battery capacity</h3>
+
+                        <label class="soh-modal-label" for="sohCapacityModalInput" data-i18n="soh.modal_capacity_label">Capacity (kWh)</label>
+                        <input id="sohCapacityModalInput" class="soh-modal-input soh-modal-input-num" type="number" min="8" max="120" step="0.1" />
+
+                        <label class="soh-modal-label" for="sohCapacityModalModel" data-i18n="soh.modal_model_label">Model</label>
+                        <select id="sohCapacityModalModel" class="soh-modal-input soh-modal-select"></select>
+
+                        <div class="soh-modal-actions">
+                            <button class="btn btn-secondary" onclick="BYD.performance.resetSohCapacityToAuto()" data-i18n="soh.modal_reset">Reset to auto-detect</button>
+                            <button class="btn btn-secondary" onclick="BYD.performance.closeSohCapacityModal()" data-i18n="common.cancel">Cancel</button>
+                            <button class="btn btn-primary" onclick="BYD.performance.saveSohCapacity()" data-i18n="soh.modal_save">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Stats Grid -->
+                <div class="metrics-grid">
+                    <!-- CPU Card -->
+                    <div class="metric-card" data-tab="system" id="cpuCard">
+                        <div class="metric-header">
+                            <div class="metric-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/>
+                                    <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>
+                                </svg>
+                                <span data-i18n="performance.card_cpu">CPU</span>
+                            </div>
+                        </div>
+                        <div class="metric-value"><span id="cpuValue">--</span><span class="unit">%</span></div>
+                        <div class="metric-subtitle"><span data-i18n="performance.card_app_label">App</span>: <span id="cpuAppValue">--</span>% <span style="opacity:0.6">device</span></div>
+                        <div class="metric-bar"><div class="metric-bar-fill" id="cpuBar" style="width: 0%"></div></div>
+                        <!-- top-style (per-core) readout for cross-checking with a live `top`.
+                             100% = one fully-busy core; ceiling = cores × 100 (e.g. 800% on 8 cores). -->
+                        <div class="metric-subtitle" style="font-family:'JetBrains Mono',monospace;font-size:11px;opacity:0.7;margin-top:4px">
+                            top · app <span id="cpuTopApp">--</span>% · sys <span id="cpuTopSys">--</span>% · <span id="cpuCores">--</span> cores (max <span id="cpuTopMax">--</span>%)
+                        </div>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="performance.card_frequency">Frequency</span>
+                                <span class="stat-value" id="cpuFreq">-- MHz</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="performance.card_temperature">Temperature</span>
+                                <span class="stat-value" id="cpuTemp">--°C</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Memory Card -->
+                    <div class="metric-card" data-tab="system" id="memCard">
+                        <div class="metric-header">
+                            <div class="metric-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 19v-3M10 19v-3M14 19v-3M18 19v-3M6 8v-3M10 8v-3M14 8v-3M18 8v-3"/>
+                                    <rect x="2" y="8" width="20" height="8" rx="1"/>
+                                </svg>
+                                <span data-i18n="performance.card_memory">Memory</span>
+                            </div>
+                        </div>
+                        <div class="metric-value"><span id="memValue">--</span><span class="unit">%</span></div>
+                        <div class="metric-subtitle"><span id="memUsed">--</span> / <span id="memTotal">--</span> MB</div>
+                        <div class="metric-bar"><div class="metric-bar-fill" id="memBar" style="width: 0%"></div></div>
+                        <div class="memory-breakdown">
+                            <div class="breakdown-item">
+                                <div class="breakdown-value" id="appMemTotal">--</div>
+                                <div class="breakdown-label" data-i18n="performance.card_app_total">App Total</div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-value" id="appMemNative">--</div>
+                                <div class="breakdown-label" data-i18n="performance.card_native">Native</div>
+                            </div>
+                            <div class="breakdown-item">
+                                <div class="breakdown-value" id="appMemJava">--</div>
+                                <div class="breakdown-label" data-i18n="performance.card_java_heap">Java Heap</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- GPU Card -->
+                    <div class="metric-card" data-tab="system" id="gpuCard">
+                        <div class="metric-header">
+                            <div class="metric-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="6" width="20" height="12" rx="2"/>
+                                    <path d="M6 10h4v4H6zM14 10h4v4h-4z"/>
+                                </svg>
+                                <span data-i18n="performance.card_gpu">GPU</span>
+                            </div>
+                            <span class="gpu-status-badge" id="gpuStatusBadge" style="display:none;"></span>
+                        </div>
+                        <div class="metric-value"><span id="gpuValue">--</span><span class="unit">%</span></div>
+                        <div class="metric-subtitle" id="gpuSubtitle" data-i18n="performance.card_gpu_default_subtitle">Graphics Processing</div>
+                        <div class="metric-bar"><div class="metric-bar-fill" id="gpuBar" style="width: 0%"></div></div>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="performance.card_frequency">Frequency</span>
+                                <span class="stat-value" id="gpuFreq">-- MHz</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="performance.card_temperature">Temperature</span>
+                                <span class="stat-value" id="gpuTemp">--°C</span>
+                            </div>
+                        </div>
+                        <!-- GPU Health Indicator -->
+                        <div class="gpu-health-hint" id="gpuHealthHint" style="display:none;">
+                            <span class="hint-icon"></span>
+                            <span class="hint-text" id="gpuHintText"></span>
+                        </div>
+                    </div>
+
+                    <!-- App Stats Card -->
+                    <div class="metric-card" data-tab="system" id="appCard">
+                        <div class="metric-header">
+                            <div class="metric-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                                </svg>
+                                <span data-i18n="performance.card_app_stats">App Stats</span>
+                            </div>
+                        </div>
+                        <div class="metric-value"><span id="threadCount">--</span><span class="unit">threads</span></div>
+                        <div class="metric-subtitle" data-i18n="performance.card_active_threads">Active Threads</div>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="performance.card_open_fds">Open FDs</span>
+                                <span class="stat-value" id="openFds">--</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="performance.card_gc_count">GC Count</span>
+                                <span class="stat-value" id="gcCount">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EV Battery Card -->
+                    <div class="metric-card" data-tab="battery" id="evBatteryCard">
+                        <div class="metric-header">
+                            <div class="metric-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="6" y="7" width="12" height="10" rx="1"/>
+                                    <path d="M6 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h2"/>
+                                    <path d="M18 10h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2"/>
+                                    <line x1="10" y1="10" x2="10" y2="14"/>
+                                    <line x1="14" y1="10" x2="14" y2="14"/>
+                                </svg>
+                                <span data-i18n="performance.card_ev_battery">EV Battery</span>
+                            </div>
+                            <span class="gpu-status-badge" id="sohBadge" style="display:none;"></span>
+                        </div>
+                        <div class="metric-value"><span id="evSocValue">--</span><span class="unit">%</span></div>
+                        <div class="metric-subtitle"><span id="evKwhValue">--</span> <span data-i18n="performance.card_kwh_remaining_suffix">kWh remaining</span></div>
+                        <div class="metric-bar"><div class="metric-bar-fill ev-battery" id="evSocBar" style="width: 0%"></div></div>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="performance.card_range">Range</span>
+                                <span class="stat-value" id="evRangeValue">-- km</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="performance.label_soh">SOH</span>
+                                <span class="stat-value" id="evSohValue">--%</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-label" data-i18n="performance.card_status">Status</span>
+                                <span class="stat-value" id="evChargingStatus">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <section class="process-monitor" data-tab="system" id="topProcessPanel">
+                    <div class="process-monitor-header">
+                        <div>
+                            <div class="process-monitor-title">
+                                <h2>Live Processes</h2>
+                                <span class="process-live-badge" id="topLiveBadge">Paused</span>
+                            </div>
+                            <div class="process-monitor-meta">
+                                <span id="topSource">top -b -n 1</span>
+                                <span aria-hidden="true"> · </span>
+                                <span id="topUpdated">Waiting</span>
+                            </div>
+                        </div>
+                        <button class="process-refresh" id="topRefreshButton"
+                                type="button" title="Refresh process snapshot"
+                                aria-label="Refresh process snapshot"
+                                onclick="BYD.performance.refreshTopNow()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 11a8 8 0 1 0 2 5.3"/>
+                                <path d="M20 4v7h-7"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <div class="process-summary">
+                        <div class="process-summary-item">
+                            <div class="process-summary-label">CPU activity</div>
+                            <div class="process-summary-value" id="topCpuBusy">--%</div>
+                            <div class="process-summary-detail" id="topCpuDetail">--</div>
+                        </div>
+                        <div class="process-summary-item">
+                            <div class="process-summary-label">Tasks</div>
+                            <div class="process-summary-value" id="topTasks">--</div>
+                            <div class="process-summary-detail" id="topTasksDetail">--</div>
+                        </div>
+                        <div class="process-summary-item">
+                            <div class="process-summary-label">RAM</div>
+                            <div class="process-summary-value" id="topMemory">--</div>
+                            <div class="process-summary-detail" id="topMemoryDetail">--</div>
+                        </div>
+                        <div class="process-summary-item">
+                            <div class="process-summary-label">Swap</div>
+                            <div class="process-summary-value" id="topSwap">--</div>
+                            <div class="process-summary-detail" id="topSwapDetail">--</div>
+                        </div>
+                    </div>
+
+                    <div class="process-table" role="table" aria-label="Android processes">
+                        <div class="process-table-header" role="row">
+                            <span role="columnheader">Process</span>
+                            <span role="columnheader" style="text-align:right;">CPU</span>
+                            <span role="columnheader" style="text-align:right;">Memory</span>
+                            <span role="columnheader" style="text-align:right;">Resident</span>
+                            <span role="columnheader" style="text-align:right;">User</span>
+                            <span role="columnheader" style="text-align:right;">PID</span>
+                        </div>
+                        <div id="topProcessRows" role="rowgroup">
+                            <div class="process-empty">Waiting for a process snapshot</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Data Usage Chart (Persistent - 30 days) -->
+                <div class="chart-card soc-chart-card" data-tab="data" id="dataUsageCard">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;margin-right:8px;stroke:var(--brand-secondary);">
+                                <path d="M3 3v18h18"/><rect x="7" y="12" width="3" height="6"/><rect x="12" y="8" width="3" height="10"/><rect x="17" y="5" width="3" height="13"/>
+                            </svg>
+                            <span data-i18n="performance.data_usage_title">Data Usage</span>
+                        </div>
+                        <label class="du-toggle" id="dataUsageToggle" title="">
+                            <input type="checkbox" id="dataUsageEnabled" onchange="BYD.performance.toggleDataUsage(this.checked)">
+                            <span class="du-toggle-track"><span class="du-toggle-thumb"></span></span>
+                            <span class="du-toggle-label" data-i18n="performance.data_usage_enabled">Enabled</span>
+                        </label>
+                    </div>
+
+                    <!-- Disabled / empty hint (shown when feature is off) -->
+                    <div class="du-hint" id="dataUsageHint" style="display:none;">
+                        <p data-i18n="performance.data_usage_hint">Track the data Overdrive uses (WiFi vs mobile, app vs background) over the last 30 days. Collection is off by default and uses negligible resources.</p>
+                    </div>
+
+                    <!-- Live content (shown when enabled) -->
+                    <div id="dataUsageContent" style="display:none;">
+                        <div class="soc-time-selector" id="dataUsageTimeSelector" style="margin-bottom:12px;">
+                            <button class="time-btn" data-days="7" onclick="BYD.performance.setDataUsageRange(7)" data-i18n="performance.range_7d">7 Days</button>
+                            <button class="time-btn active" data-days="30" onclick="BYD.performance.setDataUsageRange(30)" data-i18n="performance.range_30d">30 Days</button>
+                        </div>
+                        <div class="soc-stats-row">
+                            <div class="soc-stat"><span class="soc-stat-value" id="duTotal">--</span><span class="soc-stat-label" data-i18n="performance.data_usage_total">Total</span></div>
+                            <div class="soc-stat"><span class="soc-stat-value" id="duWifi">--</span><span class="soc-stat-label" data-i18n="performance.data_usage_wifi">WiFi</span></div>
+                            <div class="soc-stat"><span class="soc-stat-value" id="duMobile">--</span><span class="soc-stat-label" data-i18n="performance.data_usage_mobile">Mobile</span></div>
+                            <div class="soc-stat"><span class="soc-stat-value" id="duApp">--</span><span class="soc-stat-label" data-i18n="performance.data_usage_app">App</span></div>
+                            <div class="soc-stat"><span class="soc-stat-value" id="duSystem">--</span><span class="soc-stat-label" data-i18n="performance.data_usage_background">Background</span></div>
+                        </div>
+                        <div class="chart-container" style="height: 250px;">
+                            <canvas id="dataUsageChart" class="chart-canvas"></canvas>
+                        </div>
+                        <div class="chart-legend" style="margin-top:12px;justify-content:center;">
+                            <div class="legend-item"><span class="legend-dot" style="background:var(--brand-secondary);"></span><span data-i18n="performance.data_usage_wifi">WiFi</span></div>
+                            <div class="legend-item"><span class="legend-dot" style="background:var(--chart-warning);"></span><span data-i18n="performance.data_usage_mobile">Mobile</span></div>
+                        </div>
+                        <p class="du-note" id="dataUsageNote" style="display:none;"></p>
+                    </div>
+                </div>
+
+                <!-- CPU Usage Chart -->
+                <div class="chart-card" data-tab="live">
+                    <div class="chart-header">
+                        <div class="chart-title" data-i18n="performance.chart_cpu_history">CPU Usage History (60s)</div>
+                        <div class="chart-legend">
+                            <div class="legend-item"><span class="legend-dot system"></span><span data-i18n="performance.legend_system">System</span></div>
+                            <div class="legend-item"><span class="legend-dot app"></span><span data-i18n="performance.legend_app">App</span></div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="cpuChart" class="chart-canvas"></canvas>
+                    </div>
+                    <div class="chart-hint" data-i18n="performance.chart_hint">Touch or hover to see values</div>
+                </div>
+
+                <!-- Memory Usage Chart -->
+                <div class="chart-card" data-tab="live">
+                    <div class="chart-header">
+                        <div class="chart-title" data-i18n="performance.chart_mem_history">Memory Usage History (60s)</div>
+                        <div class="chart-legend">
+                            <div class="legend-item"><span class="legend-dot system"></span><span data-i18n="performance.legend_system">System</span></div>
+                            <div class="legend-item"><span class="legend-dot app"></span><span data-i18n="performance.legend_app">App</span></div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="memChart" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+
+                <!-- GPU Usage Chart -->
+                <div class="chart-card" data-tab="live">
+                    <div class="chart-header">
+                        <div class="chart-title" data-i18n="performance.chart_gpu_history">GPU Usage History (60s)</div>
+                        <div class="chart-legend">
+                            <div class="legend-item"><span class="legend-dot gpu"></span><span data-i18n="performance.legend_gpu_load">GPU Load</span></div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="gpuChart" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+
+                <!-- Reset Data Card -->
+                <div class="chart-card" data-tab="reset" id="resetDataCard">
+                    <div class="chart-header">
+                        <div class="chart-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;margin-right:8px;stroke:var(--danger);">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                <line x1="10" y1="11" x2="10" y2="17"/>
+                                <line x1="14" y1="11" x2="14" y2="17"/>
+                            </svg>
+                            <span data-i18n="performance.reset_data_title">Reset Data</span>
+                        </div>
+                    </div>
+                    <div id="resetCategoriesList">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="performance.cat_trips">Trips</div>
+                                <div class="setting-desc" data-i18n="performance.cat_trips_desc">Trip history, routes, weekly/monthly rollups, consumption buckets</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch"><input type="checkbox" data-cat="trips"><span class="toggle-slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="performance.cat_soc_history_label">SoC &amp; 12V history</div>
+                                <div class="setting-desc" data-i18n="performance.cat_soc_history_desc">All SOC samples, charging sessions and battery voltage logs</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch"><input type="checkbox" data-cat="socHistory"><span class="toggle-slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="performance.cat_soh_label">SoH calibration</div>
+                                <div class="setting-desc" data-i18n="performance.cat_soh_desc">Re-detects nominal capacity and re-seeds estimate from BMS</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch"><input type="checkbox" data-cat="soh"><span class="toggle-slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="performance.cat_abrp_token">ABRP token</div>
+                                <div class="setting-desc" data-i18n="performance.cat_abrp_token_desc">Disables ABRP telemetry until re-paired</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch"><input type="checkbox" data-cat="abrpToken"><span class="toggle-slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="performance.cat_byd_cloud">BYD Cloud credentials</div>
+                                <div class="setting-desc" data-i18n="performance.cat_byd_cloud_desc">Username, login key, VIN, region — re-login required</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch"><input type="checkbox" data-cat="bydCloud"><span class="toggle-slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="performance.cat_recordings_label">Recordings (videos)</div>
+                                <div class="setting-desc" data-i18n="performance.cat_recordings_desc">Deletes every MP4 in the recordings folder</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch"><input type="checkbox" data-cat="mediaRecordings"><span class="toggle-slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="performance.cat_sentry_events">Sentry events</div>
+                                <div class="setting-desc" data-i18n="performance.cat_sentry_events_desc">Surveillance event clips and JSON sidecars</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch"><input type="checkbox" data-cat="mediaSurveillance"><span class="toggle-slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="performance.cat_proximity">Proximity recordings</div>
+                                <div class="setting-desc" data-i18n="performance.cat_proximity_desc">Radar-triggered event MP4s</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch"><input type="checkbox" data-cat="mediaProximity"><span class="toggle-slider"></span></label>
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name" data-i18n="performance.cat_trip_telemetry">Trip telemetry files</div>
+                                <div class="setting-desc" data-i18n="performance.cat_trip_telemetry_desc">Per-trip JSON telemetry on disk (DB rows handled by Trips above)</div>
+                            </div>
+                            <div class="setting-control">
+                                <label class="toggle-switch"><input type="checkbox" data-cat="mediaTrips"><span class="toggle-slider"></span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:8px;padding:12px 0 4px;">
+                        <button class="btn" onclick="BYD.performance.toggleAllResetCategories(true)" style="flex:1;background:var(--bg-elevated);color:var(--text-primary);border:1px solid var(--card-border);" data-i18n="performance.btn_select_all">Select all</button>
+                        <button class="btn" onclick="BYD.performance.toggleAllResetCategories(false)" style="flex:1;background:var(--bg-elevated);color:var(--text-primary);border:1px solid var(--card-border);" data-i18n="performance.btn_clear">Clear</button>
+                        <button class="btn btn-danger" onclick="BYD.performance.runReset()" style="flex:2;" data-i18n="performance.btn_reset_selected">Reset Selected</button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../shared/auth.js"></script>
+    <script src="../shared/core.js?v=20"></script>
+    <script src="../shared/update-flow.js"></script>
+    <script src="../shared/performance.js?v=11"></script>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+        BYD.i18n.init().then(function () {
+            BYD.core.init();
+            // init() is async + fire-and-forget; catch so a sync throw in an
+            // early step (initCharts/startPolling) surfaces in the console
+            // instead of silently aborting the rest of init (which would leave
+            // late-initialized cards like Data Usage blank).
+            try { Promise.resolve(BYD.performance.init()).catch(function (e) {
+                console.error('[Performance] init failed:', e);
+            }); } catch (e) { console.error('[Performance] init threw:', e); }
+        });
+    </script>
+</body>
+</html>

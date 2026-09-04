@@ -1,0 +1,9 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!--
+      Legacy `Theme.CamExploit` and `Theme.BydChamp` aliases were removed
+      in the M3 cleanup pass. The active dark theme lives in
+      values-night/themes_overdrive.xml as Theme.Overdrive.M3 — the
+      manifest entry (`@style/Theme.Overdrive.M3`) auto-flips with night
+      mode.
+    -->
+</resources>

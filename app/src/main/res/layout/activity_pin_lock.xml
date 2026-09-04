@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  PinLockActivity layout — full-screen, M3 expressive.
+
+  Composition (vertical, centered in scrollview for short panels):
+    HEADER  : large lock glyph in a soft container (colorPrimaryContainer)
+    TITLE   : "Enter PIN" (Material3 HeadlineMedium)
+    SUBTITLE: helper / error / lockout text
+    DOTS    : 8-dot indicator (max PIN length); fills as user types
+    KEYPAD  : 4×3 grid of M3 tonal numeric keys + backspace
+    HINT    : recovery footer ("Forgot PIN? Reset via ADB shell.")
+
+  All colors via ?attr/* tokens so the screen flips light/dark with the
+  app theme. Padding via @dimen/page_padding_*.
+-->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/page_padding_horizontal"
+        android:paddingTop="48dp"
+        android:paddingBottom="@dimen/page_padding_bottom">
+
+        <!-- Header lock glyph (soft tonal container) -->
+        <FrameLayout
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_pin_glyph_circle">
+
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_security_lock"
+                app:tint="?attr/colorOnPrimaryContainer" />
+        </FrameLayout>
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvPinTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:gravity="center"
+            android:text="@string/pin_lock_title"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold" />
+
+        <!-- Subtitle / error / countdown. accessibilityLiveRegion=polite
+             so TalkBack announces wrong-PIN / lockout / countdown updates
+             as they swap in. -->
+        <TextView
+            android:id="@+id/tvPinSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="32dp"
+            android:accessibilityLiveRegion="polite"
+            android:gravity="center"
+            android:minLines="2"
+            android:text="@string/pin_lock_subtitle_default"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <!-- Dot indicator row. Visibility / fill is driven by Kotlin so the
+             user's chosen PIN length isn't leaked in the empty-dot count. -->
+        <LinearLayout
+            android:id="@+id/pinDotRow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="40dp"
+            android:accessibilityLiveRegion="polite"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginHorizontal="7dp"
+                android:background="@drawable/pin_dot_empty" />
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginHorizontal="7dp"
+                android:background="@drawable/pin_dot_empty" />
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginHorizontal="7dp"
+                android:background="@drawable/pin_dot_empty" />
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginHorizontal="7dp"
+                android:background="@drawable/pin_dot_empty" />
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginHorizontal="7dp"
+                android:background="@drawable/pin_dot_empty" />
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginHorizontal="7dp"
+                android:background="@drawable/pin_dot_empty" />
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginHorizontal="7dp"
+                android:background="@drawable/pin_dot_empty" />
+
+            <View
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginHorizontal="7dp"
+                android:background="@drawable/pin_dot_empty" />
+        </LinearLayout>
+
+        <!-- 4×3 keypad. Buttons are M3 tonal — circular via insetTop/Bottom = 0 + cornerRadius=36dp -->
+        <GridLayout
+            android:id="@+id/pinKeypadGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="3"
+            android:rowCount="4">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin1"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:text="1" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin2"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:text="2" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin3"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:text="3" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin4"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:text="4" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin5"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:text="5" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin6"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:text="6" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin7"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:text="7" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin8"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:text="8" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin9"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="2"
+                android:layout_column="2"
+                android:text="9" />
+
+            <!-- Empty slot bottom-left to keep the grid balanced. -->
+            <Space
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_width="@dimen/pin_key_size"
+                android:layout_height="@dimen/pin_key_size"
+                android:layout_margin="@dimen/pin_key_margin" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPin0"
+                style="@style/Widget.Overdrive.M3.PinKey"
+                android:layout_row="3"
+                android:layout_column="1"
+                android:text="0" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnPinBackspace"
+                style="@style/Widget.Overdrive.M3.PinKey.Action"
+                android:layout_row="3"
+                android:layout_column="2"
+                android:contentDescription="@string/pin_lock_backspace_cd"
+                app:icon="@drawable/ic_pin_backspace" />
+        </GridLayout>
+
+        <!-- Recovery hint — includes the ADB command verbatim because the
+             Settings → Security page is behind the lock and unreachable
+             when the user has forgotten their PIN. Text is bound at
+             runtime from PinLockActivity (translatable prose +
+             translatable=false literal command). -->
+        <TextView
+            android:id="@+id/tvPinRecoveryHint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:alpha="0.7"
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:importantForAccessibility="no"
+            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

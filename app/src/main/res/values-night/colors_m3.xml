@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Material 3 token palette — DARK theme.
+  Generated from seed #00D4AA. Surfaces follow M3 elevation tonal stepping
+  (dim/bright + 5 container tiers) so we can stack two surfaces without
+  needing elevation shadows that read poorly on dark.
+-->
+<resources>
+
+    <!-- Primary -->
+    <color name="md_sys_color_primary_dark">#5DDBB6</color>
+    <color name="md_sys_color_on_primary_dark">#003828</color>
+    <color name="md_sys_color_primary_container_dark">#00513B</color>
+    <color name="md_sys_color_on_primary_container_dark">#78F3CC</color>
+
+    <!-- Secondary -->
+    <color name="md_sys_color_secondary_dark">#B1CCC0</color>
+    <color name="md_sys_color_on_secondary_dark">#1D352D</color>
+    <color name="md_sys_color_secondary_container_dark">#334B43</color>
+    <color name="md_sys_color_on_secondary_container_dark">#CDE8DC</color>
+
+    <!-- Tertiary -->
+    <color name="md_sys_color_tertiary_dark">#85CFFF</color>
+    <color name="md_sys_color_on_tertiary_dark">#00344C</color>
+    <color name="md_sys_color_tertiary_container_dark">#004C6C</color>
+    <color name="md_sys_color_on_tertiary_container_dark">#C5E7FF</color>
+
+    <!-- Error -->
+    <color name="md_sys_color_error_dark">#FFB4AB</color>
+    <color name="md_sys_color_on_error_dark">#690005</color>
+    <color name="md_sys_color_error_container_dark">#93000A</color>
+    <color name="md_sys_color_on_error_container_dark">#FFDAD6</color>
+
+    <!-- Background / surfaces — deep, near-black with subtle teal undertone -->
+    <color name="md_sys_color_background_dark">#0E1311</color>
+    <color name="md_sys_color_on_background_dark">#DEE4E0</color>
+    <color name="md_sys_color_surface_dark">#0E1311</color>
+    <color name="md_sys_color_on_surface_dark">#DEE4E0</color>
+    <color name="md_sys_color_surface_variant_dark">#3F4944</color>
+    <color name="md_sys_color_on_surface_variant_dark">#BFC9C3</color>
+    <color name="md_sys_color_surface_dim_dark">#0E1311</color>
+    <color name="md_sys_color_surface_bright_dark">#343937</color>
+    <color name="md_sys_color_surface_container_lowest_dark">#080D0B</color>
+    <color name="md_sys_color_surface_container_low_dark">#161B19</color>
+    <color name="md_sys_color_surface_container_dark">#1A1F1D</color>
+    <color name="md_sys_color_surface_container_high_dark">#242927</color>
+    <color name="md_sys_color_surface_container_highest_dark">#2F3432</color>
+
+    <!-- Outline / dividers -->
+    <color name="md_sys_color_outline_dark">#899692</color>
+    <color name="md_sys_color_outline_variant_dark">#3F4944</color>
+
+    <!-- Inverse / scrim -->
+    <color name="md_sys_color_inverse_surface_dark">#DEE4E0</color>
+    <color name="md_sys_color_inverse_on_surface_dark">#2D3130</color>
+    <color name="md_sys_color_inverse_primary_dark">#00876C</color>
+    <color name="md_sys_color_scrim_dark">#000000</color>
+
+    <!-- Brand-aware status colors -->
+    <color name="overdrive_status_success_dark">#5BD382</color>
+    <color name="overdrive_status_warning_dark">#FFB870</color>
+    <color name="overdrive_status_danger_dark">#FFB4AB</color>
+    <color name="overdrive_status_info_dark">#85CFFF</color>
+
+    <!-- Dark overrides for the public semantic color contract. -->
+    <color name="md_sys_color_primary">@color/md_sys_color_primary_dark</color>
+    <color name="md_sys_color_on_primary">@color/md_sys_color_on_primary_dark</color>
+    <color name="md_sys_color_primary_container">@color/md_sys_color_primary_container_dark</color>
+    <color name="md_sys_color_on_primary_container">@color/md_sys_color_on_primary_container_dark</color>
+    <color name="md_sys_color_secondary">@color/md_sys_color_secondary_dark</color>
+    <color name="md_sys_color_on_secondary">@color/md_sys_color_on_secondary_dark</color>
+    <color name="md_sys_color_secondary_container">@color/md_sys_color_secondary_container_dark</color>
+    <color name="md_sys_color_on_secondary_container">@color/md_sys_color_on_secondary_container_dark</color>
+    <color name="md_sys_color_tertiary">@color/md_sys_color_tertiary_dark</color>
+    <color name="md_sys_color_on_tertiary">@color/md_sys_color_on_tertiary_dark</color>
+    <color name="md_sys_color_tertiary_container">@color/md_sys_color_tertiary_container_dark</color>
+    <color name="md_sys_color_on_tertiary_container">@color/md_sys_color_on_tertiary_container_dark</color>
+    <color name="md_sys_color_error">@color/md_sys_color_error_dark</color>
+    <color name="md_sys_color_on_error">@color/md_sys_color_on_error_dark</color>
+    <color name="md_sys_color_error_container">@color/md_sys_color_error_container_dark</color>
+    <color name="md_sys_color_on_error_container">@color/md_sys_color_on_error_container_dark</color>
+    <color name="md_sys_color_background">@color/md_sys_color_background_dark</color>
+    <color name="md_sys_color_on_background">@color/md_sys_color_on_background_dark</color>
+    <color name="md_sys_color_surface">@color/md_sys_color_surface_dark</color>
+    <color name="md_sys_color_on_surface">@color/md_sys_color_on_surface_dark</color>
+    <color name="md_sys_color_surface_variant">@color/md_sys_color_surface_variant_dark</color>
+    <color name="md_sys_color_on_surface_variant">@color/md_sys_color_on_surface_variant_dark</color>
+    <color name="md_sys_color_surface_dim">@color/md_sys_color_surface_dim_dark</color>
+    <color name="md_sys_color_surface_bright">@color/md_sys_color_surface_bright_dark</color>
+    <color name="md_sys_color_surface_container_lowest">@color/md_sys_color_surface_container_lowest_dark</color>
+    <color name="md_sys_color_surface_container_low">@color/md_sys_color_surface_container_low_dark</color>
+    <color name="md_sys_color_surface_container">@color/md_sys_color_surface_container_dark</color>
+    <color name="md_sys_color_surface_container_high">@color/md_sys_color_surface_container_high_dark</color>
+    <color name="md_sys_color_surface_container_highest">@color/md_sys_color_surface_container_highest_dark</color>
+    <color name="md_sys_color_outline">@color/md_sys_color_outline_dark</color>
+    <color name="md_sys_color_outline_variant">@color/md_sys_color_outline_variant_dark</color>
+    <color name="md_sys_color_inverse_surface">@color/md_sys_color_inverse_surface_dark</color>
+    <color name="md_sys_color_inverse_on_surface">@color/md_sys_color_inverse_on_surface_dark</color>
+    <color name="md_sys_color_inverse_primary">@color/md_sys_color_inverse_primary_dark</color>
+    <color name="md_sys_color_scrim">@color/md_sys_color_scrim_dark</color>
+    <color name="overdrive_status_success">@color/overdrive_status_success_dark</color>
+    <color name="overdrive_status_warning">@color/overdrive_status_warning_dark</color>
+    <color name="overdrive_status_danger">@color/overdrive_status_danger_dark</color>
+    <color name="overdrive_status_info">@color/overdrive_status_info_dark</color>
+
+</resources>

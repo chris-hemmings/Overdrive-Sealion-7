@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sidebar logo - Camera security icon with brand colors -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="72dp"
+    android:height="72dp"
+    android:viewportWidth="72"
+    android:viewportHeight="72">
+    
+    <!-- Outer glow ring -->
+    <path
+        android:fillColor="#00D4FF"
+        android:fillAlpha="0.2"
+        android:pathData="M36,36m-34,0a34,34 0,1 1,68 0a34,34 0,1 1,-68 0"/>
+    
+    <!-- Main circle background -->
+    <path
+        android:fillColor="#0D2137"
+        android:pathData="M36,36m-30,0a30,30 0,1 1,60 0a30,30 0,1 1,-60 0"/>
+    
+    <!-- Cyan accent ring -->
+    <path
+        android:strokeColor="#00D4FF"
+        android:strokeWidth="2"
+        android:pathData="M36,36m-26,0a26,26 0,1 1,52 0a26,26 0,1 1,-52 0"/>
+    
+    <!-- Camera body -->
+    <path
+        android:fillColor="#1A3A5C"
+        android:pathData="M20,28h32c2,0 4,2 4,4v16c0,2 -2,4 -4,4H20c-2,0 -4,-2 -4,-4V32c0,-2 2,-4 4,-4z"/>
+    
+    <!-- Camera lens outer -->
+    <path
+        android:fillColor="#0D2137"
+        android:pathData="M36,40m-12,0a12,12 0,1 1,24 0a12,12 0,1 1,-24 0"/>
+    
+    <!-- Camera lens inner - cyan -->
+    <path
+        android:fillColor="#00D4FF"
+        android:pathData="M36,40m-7,0a7,7 0,1 1,14 0a7,7 0,1 1,-14 0"/>
+    
+    <!-- Camera lens center -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M36,40m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"/>
+    
+    <!-- Flash/indicator -->
+    <path
+        android:fillColor="#FF3B5C"
+        android:pathData="M50,30m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0"/>
+    
+    <!-- Camera top detail -->
+    <path
+        android:fillColor="#1A3A5C"
+        android:pathData="M28,24h16v4H28z"/>
+    
+    <!-- Lens reflection -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.4"
+        android:pathData="M31,36 Q34,33 40,35 Q35,38 31,36"/>
+    
+</vector>

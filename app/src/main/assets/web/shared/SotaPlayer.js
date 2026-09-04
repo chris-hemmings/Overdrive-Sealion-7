@@ -1,0 +1,459 @@
+/**
+ * SOTA H.264 Player - In-Band Configuration Strategy
+ * Glues SPS+PPS+IDR together as one "Super Chunk" for WebCodecs.
+ */
+(function(global) {
+    class SotaPlayer {
+        constructor(canvas, url) {
+            if (typeof canvas === 'string') {
+                this.canvas = document.getElementById(canvas);
+            } else {
+                this.canvas = canvas;
+            }
+            this.ctx = this.canvas.getContext('2d');
+            this.url = url || null;
+            this.ws = null;
+            this.decoder = null;
+            this.sps = null;
+            this.pps = null;
+            this.hasReceivedKeyframe = false;
+            this.running = false;
+            this.frameCount = 0;
+            this.onConnected = null;
+            this.onDisconnected = null;
+            // Tracks the user's intent to view (vs. transient running state), so
+            // we can suspend the stream when the tab is hidden and auto-resume
+            // when it returns — without the user re-tapping the camera.
+            this.userWantsStream = false;
+            // Auto-reconnect backoff (capped) so a dead tunnel link doesn't
+            // reconnect every 2 s forever, hammering cellular.
+            this.reconnectAttempts = 0;
+            this.handleFrame = this.handleFrame.bind(this);
+            this.handleError = this.handleError.bind(this);
+
+            // Suspend the H.264 stream while the tab is backgrounded. Without
+            // this, a live-view tab left open over the tunnel keeps pulling
+            // video (and reconnect-looping) over cellular 24/7 — the single
+            // largest data drain. Mirrors performance.js / road-sense.js which
+            // already stop their feeds on hide.
+            if (typeof document !== 'undefined' && document.addEventListener) {
+                this._onVisibility = () => {
+                    if (document.hidden) {
+                        if (this.running) this._suspendForHidden();
+                    } else if (this.userWantsStream && !this.running) {
+                        this.reconnectAttempts = 0;
+                        this.start();
+                    }
+                };
+                this._onPageHide = () => { if (this.running) this._suspendForHidden(); };
+                document.addEventListener('visibilitychange', this._onVisibility);
+                window.addEventListener('pagehide', this._onPageHide);
+            }
+        }
+
+        // Tear down the live socket/decoder but REMEMBER the user wanted it, so
+        // the visibilitychange handler can resume on return. Distinct from
+        // stop(), which is an explicit user stop and clears userWantsStream.
+        _suspendForHidden() {
+            this.running = false;
+            this._clearFrameWatchdog();
+            if (this.ws) { try { this.ws.close(); } catch (e) {} this.ws = null; }
+            if (this.decoder) { try { this.decoder.close(); } catch (e) {} this.decoder = null; }
+            if (this.onDisconnected) this.onDisconnected();
+        }
+
+        static isSupported() {
+            return "VideoDecoder" in window && "EncodedVideoChunk" in window;
+        }
+
+        toggle() {
+            if (this.running) this.stop();
+            else this.start();
+            return this.running;
+        }
+
+        connect(url) {
+            this.url = url;
+            this.start();
+        }
+
+        start() {
+            if (this.running) { this.stop(); return; }
+            if (!SotaPlayer.isSupported()) { console.error("[SotaPlayer] WebCodecs not supported!"); return; }
+
+            this.userWantsStream = true;
+            this.running = true;
+            this.sps = null;
+            this.pps = null;
+            this.hasReceivedKeyframe = false;
+            this.frameCount = 0;
+            // Clear the fatal latch + error tally so an explicit restart gets a
+            // genuine retry rather than inheriting the last attempt's verdict.
+            this._failed = false;
+            this.decodeErrors = 0;
+            this.bytesReceived = 0;
+            this.connectWebSocket();
+        }
+
+        connectWebSocket() {
+            if (!this.url) return;
+            
+            // Reset decoder state for fresh start
+            this.sps = null;
+            this.pps = null;
+            this.hasReceivedKeyframe = false;
+            
+            this.ws = new WebSocket(this.url);
+            this.ws.binaryType = "arraybuffer";
+
+            this.ws.onopen = () => {
+                this.reconnectAttempts = 0;  // healthy link — reset backoff
+                this.initDecoder();
+                this._armFrameWatchdog();
+                if (this.onConnected) this.onConnected();
+            };
+            this.ws.onmessage = (e) => this.ingest(new Uint8Array(e.data));
+            this.ws.onclose = () => {
+                // Retire the watchdog for this connection: a closed socket is a
+                // link event, not a decode failure, and the next onopen re-arms
+                // it. Leaving it armed could misfire during the reconnect gap.
+                this._clearFrameWatchdog();
+                if (this.onDisconnected) this.onDisconnected();
+                // Auto-reconnect with capped exponential backoff (2s → 30s) so a
+                // dead tunnel link doesn't reconnect every 2s forever over
+                // cellular. Skip while the tab is hidden (visibility handler owns
+                // resume). Reset on a successful onopen above.
+                if (this.running && !(typeof document !== 'undefined' && document.hidden)) {
+                    this.reconnectAttempts = (this.reconnectAttempts || 0) + 1;
+                    var backoff = Math.min(30000, 2000 * Math.pow(2, this.reconnectAttempts - 1));
+                    setTimeout(() => {
+                        if (this.running && !(typeof document !== 'undefined' && document.hidden)) {
+                            this.connectWebSocket();
+                        }
+                    }, backoff);
+                }
+            };
+            // Do NOT zero `running` here: a WebSocket error is always followed
+            // by a close event, and onclose owns the capped-backoff reconnect.
+            // Clearing running on error would block that reconnect and leave a
+            // stuck dead player (live-view's onDisconnected does not reconnect).
+            this.ws.onerror = () => { /* close event follows; onclose owns reconnect */ };
+        }
+
+        initDecoder() {
+            if (this.decoder) return;
+            this.decoder = new VideoDecoder({
+                output: this.handleFrame,
+                error: this.handleError
+            });
+            // The server REQUESTS Baseline/3.1, but KEY_PROFILE is only a hint —
+            // plenty of encoders ignore it and emit Main/High. So this initial
+            // config is provisional; processNAL reconfigures from the real SPS.
+            this._configure("avc1.42C01F");
+        }
+
+        /**
+         * Configure the decoder, retrying without hardware acceleration.
+         * "prefer-hardware" is meant to be a preference, but on some mobile GPUs
+         * (notably a range of Mali/Adreno Android builds) configure() throws or
+         * the decoder errors immediately when no hardware path exists for the
+         * profile — and software decode would have worked fine. Falling back
+         * keeps those devices playing instead of showing a black canvas.
+         */
+        _configure(codec) {
+            const attempts = [
+                { codec: codec, hardwareAcceleration: "prefer-hardware", optimizeForLatency: true },
+                { codec: codec, optimizeForLatency: true },
+                { codec: "avc1.42C01F", optimizeForLatency: true }
+            ];
+            for (let i = 0; i < attempts.length; i++) {
+                try {
+                    this.decoder.configure(attempts[i]);
+                    this.codecString = attempts[i].codec;
+                    this.softwareFallback = i > 0;
+                    return true;
+                } catch (e) {
+                    if (i === attempts.length - 1) {
+                        // Nothing configured — surface it so the caller can switch
+                        // decoders rather than sit on a permanently dead canvas.
+                        this._fail('configure failed: ' + (e && e.message ? e.message : e));
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Escalate if bytes arrive but no frame ever gets painted. Some mobile
+         * decoders accept the configure() and every chunk, then emit nothing and
+         * raise no error — indistinguishable from a working player except that
+         * the canvas stays black. Nothing else in the pipeline can catch that.
+         */
+        _armFrameWatchdog() {
+            this._clearFrameWatchdog();
+            this._frameWatchdog = setTimeout(() => {
+                this._frameWatchdog = null;
+                if (!this.running || this._failed) return;
+                if (this.frameCount > 0) return;          // decoding fine
+                if (!this.bytesReceived) return;          // link problem, not decode
+                this._fail('no frame decoded within 8s (' + this.bytesReceived + ' bytes in)');
+            }, 8000);
+        }
+
+        _clearFrameWatchdog() {
+            if (this._frameWatchdog) {
+                clearTimeout(this._frameWatchdog);
+                this._frameWatchdog = null;
+            }
+        }
+
+        /**
+         * Report an unrecoverable decoder failure exactly once. Without this the
+         * player stays "connected" with a black canvas forever: onError was wired
+         * up by callers but never invoked, so no fallback could ever trigger.
+         */
+        _fail(reason) {
+            if (this._failed) return;
+            this._failed = true;
+            console.error('[SotaPlayer] Fatal decode failure:', reason);
+            if (this.onError) {
+                try { this.onError(new Error(reason)); } catch (e) {}
+            }
+        }
+
+        ingest(data) {
+            if (!this.running || this._failed) return;
+            this.bytesReceived = (this.bytesReceived || 0) + data.length;
+            const nalUnits = this.splitNALUnits(data);
+            for (const nal of nalUnits) {
+                this.processNAL(nal);
+            }
+        }
+
+        splitNALUnits(data) {
+            const units = [];
+            let i = 0, lastStart = -1;
+
+            while (i < data.length - 4) {
+                if (data[i] === 0 && data[i+1] === 0) {
+                    let startCodeLen = 0;
+                    if (data[i+2] === 0 && data[i+3] === 1) startCodeLen = 4;
+                    else if (data[i+2] === 1) startCodeLen = 3;
+
+                    if (startCodeLen > 0) {
+                        if (lastStart >= 0) units.push(data.slice(lastStart, i));
+                        lastStart = i;
+                        i += startCodeLen;
+                        continue;
+                    }
+                }
+                i++;
+            }
+
+            if (lastStart >= 0) units.push(data.slice(lastStart));
+            else if (data.length > 0) units.push(data);
+            return units;
+        }
+
+        processNAL(data) {
+            let nalType = 0;
+            if (data[0] === 0 && data[1] === 0 && data[2] === 0 && data[3] === 1) {
+                nalType = data[4] & 0x1F;
+            } else if (data[0] === 0 && data[1] === 0 && data[2] === 1) {
+                nalType = data[3] & 0x1F;
+            } else {
+                return;
+            }
+
+            // Capture SPS/PPS — reconfigure decoder if SPS changes (quality switch)
+            if (nalType === 7) {
+                if (this.sps && !this.arraysEqual(this.sps, data)) {
+                    // SPS changed (quality/resolution change) — reset decoder state
+                    this.sps = data;
+                    this.hasReceivedKeyframe = false;
+                    if (this.decoder) {
+                        try {
+                            this.decoder.reset();
+                            this._configure(this.extractCodecFromSPS(data));
+                        } catch (e) {}
+                    }
+                    return;
+                }
+                // FIRST SPS: reconfigure to the stream's ACTUAL profile. initDecoder
+                // guesses Baseline ("avc1.42C01F") because the encoder asks for it,
+                // but MediaFormat.KEY_PROFILE is only a request — many devices emit
+                // Main/High regardless. A decoder configured for Baseline that is
+                // then fed High-profile chunks is exactly the case that fails on
+                // some phones and not others: lenient desktop/WebView decoders
+                // ignore the mismatch, stricter mobile ones reject every frame.
+                if (!this.sps) {
+                    this.sps = data;
+                    const realCodec = this.extractCodecFromSPS(data);
+                    if (this.decoder && realCodec !== this.codecString) {
+                        try {
+                            this.decoder.reset();
+                            this._configure(realCodec);
+                            this.hasReceivedKeyframe = false;
+                        } catch (e) {}
+                    }
+                    return;
+                }
+                this.sps = data;
+                return;
+            }
+            if (nalType === 8) { this.pps = data; return; }
+
+            // Handle video frames
+            if (nalType === 5 || nalType === 1) {
+                if (nalType === 5 && !this.hasReceivedKeyframe) {
+                    if (this.sps) {
+                        const superFrame = this.buildSuperFrame(data);
+                        this.decodeChunk(superFrame, true);
+                        this.hasReceivedKeyframe = true;
+                    }
+                    return;
+                }
+
+                if (this.hasReceivedKeyframe) {
+                    if (nalType === 5 && this.sps) {
+                        this.decodeChunk(this.buildSuperFrame(data), true);
+                    } else {
+                        this.decodeChunk(data, false);
+                    }
+                }
+            }
+        }
+
+        buildSuperFrame(idrData) {
+            const spsLen = this.sps ? this.sps.length : 0;
+            const ppsLen = this.pps ? this.pps.length : 0;
+            const superFrame = new Uint8Array(spsLen + ppsLen + idrData.length);
+            let offset = 0;
+            if (this.sps) { superFrame.set(this.sps, offset); offset += spsLen; }
+            if (this.pps) { superFrame.set(this.pps, offset); offset += ppsLen; }
+            superFrame.set(idrData, offset);
+            return superFrame;
+        }
+
+        decodeChunk(data, isKey) {
+            if (this._failed || !this.decoder) return;
+            try {
+                const chunk = new EncodedVideoChunk({
+                    type: isKey ? "key" : "delta",
+                    timestamp: performance.now() * 1000,
+                    data: data
+                });
+                this.decoder.decode(chunk);
+            } catch (e) {
+                // decode() throws synchronously when the decoder is in a bad
+                // state (unconfigured / closed). Silently swallowing every one of
+                // those was the other half of the black-canvas symptom — count
+                // them so handleError's ceiling can escalate to a fallback.
+                this.handleError(e);
+            }
+        }
+
+        handleFrame(frame) {
+            if (!this.running) { frame.close(); return; }
+            // First painted frame proves the decoder works — retire the watchdog
+            // and the error tally so later transient errors get a full allowance.
+            if (this._frameWatchdog) this._clearFrameWatchdog();
+            this.decodeErrors = 0;
+
+            if (this.canvas.width !== frame.displayWidth || this.canvas.height !== frame.displayHeight) {
+                this.canvas.width = frame.displayWidth;
+                this.canvas.height = frame.displayHeight;
+            }
+
+            this.ctx.drawImage(frame, 0, 0, this.canvas.width, this.canvas.height);
+            frame.close();
+            this.frameCount++;
+            if (this.onFrame) this.onFrame(this.frameCount);
+        }
+
+        handleError(e) {
+            // Bound the recovery attempts. A decoder that can't handle this
+            // stream errors on EVERY chunk, and resetting forever kept the canvas
+            // black with no signal to the caller — the reported "camera doesn't
+            // work on my phone" symptom. After a few tries, give up and report so
+            // a working decoder can take over.
+            this.decodeErrors = (this.decodeErrors || 0) + 1;
+            if (this.decodeErrors > 5) {
+                this._fail('decoder errored ' + this.decodeErrors + 'x: '
+                    + (e && e.message ? e.message : e));
+                return;
+            }
+            if (this.decoder) {
+                try {
+                    this.decoder.reset();
+                    this._configure(this.sps ? this.extractCodecFromSPS(this.sps) : "avc1.42C01F");
+                } catch (err) {}
+            }
+            this.hasReceivedKeyframe = false;
+        }
+
+        stop() {
+            // Explicit user stop — clear intent so a later tab-show does NOT
+            // auto-resume (only _suspendForHidden keeps userWantsStream set).
+            this.userWantsStream = false;
+            this.reconnectAttempts = 0;
+            this.running = false;
+            this._clearFrameWatchdog();
+            if (this.ws) { this.ws.close(); this.ws = null; }
+            if (this.decoder) { try { this.decoder.close(); } catch(e) {} this.decoder = null; }
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.sps = null;
+            this.pps = null;
+            this.hasReceivedKeyframe = false;
+            // Remove the visibility listeners on explicit stop so instances that
+            // are stopped+discarded don't accumulate orphan handlers. (Kept alive
+            // through _suspendForHidden, which must still resume on show.)
+            if (typeof document !== 'undefined' && document.removeEventListener) {
+                if (this._onVisibility) document.removeEventListener('visibilitychange', this._onVisibility);
+                if (this._onPageHide) window.removeEventListener('pagehide', this._onPageHide);
+            }
+        }
+
+        isRunning() { return this.running; }
+
+        arraysEqual(a, b) {
+            if (a.length !== b.length) return false;
+            for (let i = 0; i < a.length; i++) {
+                if (a[i] !== b[i]) return false;
+            }
+            return true;
+        }
+
+        /**
+         * SOTA: Extract avc1 codec string from SPS NAL unit.
+         * Format: avc1.PPCCLL where PP=profile_idc, CC=constraint_flags, LL=level_idc
+         * This ensures the WebCodecs decoder is configured to match the actual stream.
+         */
+        extractCodecFromSPS(spsData) {
+            try {
+                // Find the SPS byte after start code (00 00 00 01 67 or 00 00 01 67)
+                let offset = 0;
+                if (spsData[0] === 0 && spsData[1] === 0 && spsData[2] === 0 && spsData[3] === 1) {
+                    offset = 5;  // Skip start code + NAL header
+                } else if (spsData[0] === 0 && spsData[1] === 0 && spsData[2] === 1) {
+                    offset = 4;  // Skip start code + NAL header
+                } else {
+                    offset = 1;  // Raw NAL, skip header
+                }
+                
+                if (offset + 2 < spsData.length) {
+                    const profileIdc = spsData[offset];
+                    const constraintFlags = spsData[offset + 1];
+                    const levelIdc = spsData[offset + 2];
+                    const hex = (v) => v.toString(16).padStart(2, '0').toUpperCase();
+                    return `avc1.${hex(profileIdc)}${hex(constraintFlags)}${hex(levelIdc)}`;
+                }
+            } catch (e) {}
+            return "avc1.42C01F";  // Fallback: Baseline Profile Level 3.1
+        }
+    }
+
+    if (typeof module !== 'undefined' && module.exports) module.exports = SotaPlayer;
+    else global.SotaPlayer = SotaPlayer;
+})(window);

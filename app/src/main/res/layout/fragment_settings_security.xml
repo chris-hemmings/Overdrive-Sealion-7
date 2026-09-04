@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  SOTA Settings → Security pane.
+
+  Composition (vertical):
+    HERO HEADER : "Security" + 1-line subtitle
+    STANCE CARD : narrative — what the lock guards (UI only) and what
+                  it doesn't (daemons, surveillance, recording).
+    LOCK CARD   : Switch to enable/disable PIN. When OFF, tapping the
+                  card opens "Set PIN" flow. When ON, shows "Change PIN"
+                  + "Auto-lock" rows.
+    AUTO-LOCK   : Drill row that opens a single-choice dialog.
+    RECOVERY    : Subtle outlined card explaining the ADB reset path.
+
+  All values via ?attr/* tokens; flips light/dark with the app theme.
+  Strings localized via Crowdin pipeline.
+-->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/page_padding_horizontal"
+        android:paddingTop="@dimen/page_padding_top"
+        android:paddingBottom="@dimen/page_padding_bottom">
+
+        <!-- ============== HERO ============== -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:accessibilityHeading="true"
+            android:text="@string/settings_security_title"
+            android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+            android:textColor="?attr/colorOnSurface"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="@dimen/page_padding_top"
+            android:text="@string/settings_security_subtitle"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <!-- ============== STANCE CARD ============== -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/page_padding_top"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/card_padding_standard">
+
+                <ImageView
+                    android:layout_width="@dimen/card_icon_standard"
+                    android:layout_height="@dimen/card_icon_standard"
+                    android:layout_marginTop="2dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_security_lock"
+                    app:tint="?attr/colorPrimary" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_security_stance_title"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/settings_security_stance_body"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ============== APP LOCK CARD ============== -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/section_overline_bottom"
+            android:letterSpacing="0.06"
+            android:text="@string/settings_security_overline_lock"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/page_padding_top"
+            app:cardBackgroundColor="?attr/colorSurfaceContainer"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Row 1: Master enable switch -->
+                <LinearLayout
+                    android:id="@+id/rowSecurityToggle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:minHeight="64dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/card_padding_standard">
+
+                    <ImageView
+                        android:layout_width="@dimen/card_icon_standard"
+                        android:layout_height="@dimen/card_icon_standard"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_security_lock"
+                        app:tint="?attr/colorPrimary" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_security_toggle_title"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textColor="?attr/colorOnSurface" />
+
+                        <TextView
+                            android:id="@+id/tvSecurityToggleSubtitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/settings_security_toggle_subtitle_off"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/swSecurityToggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/dividerSecurityRows"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="@dimen/card_padding_standard"
+                    android:background="?attr/colorOutlineVariant"
+                    android:visibility="gone" />
+
+                <!-- Row 2: Change PIN (visible only when enabled) -->
+                <LinearLayout
+                    android:id="@+id/rowSecurityChange"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:minHeight="64dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/card_padding_standard"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/card_icon_standard"
+                        android:layout_height="@dimen/card_icon_standard"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_security_change"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_security_change_title"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textColor="?attr/colorOnSurface" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/settings_security_change_subtitle"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/dividerAutoLock"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="@dimen/card_padding_standard"
+                    android:background="?attr/colorOutlineVariant"
+                    android:visibility="gone" />
+
+                <!-- Row 3: Auto-lock (visible only when enabled) -->
+                <LinearLayout
+                    android:id="@+id/rowSecurityAutoLock"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:minHeight="64dp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/card_padding_standard"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/card_icon_standard"
+                        android:layout_height="@dimen/card_icon_standard"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_security_timer"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="14dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/settings_security_autolock_title"
+                            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                            android:textColor="?attr/colorOnSurface" />
+
+                        <TextView
+                            android:id="@+id/tvSecurityAutoLockValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/settings_security_autolock_5min"
+                            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:contentDescription="@null"
+                        android:src="@drawable/ic_chevron_right"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ============== RECOVERY CARD ============== -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/section_overline_bottom"
+            android:letterSpacing="0.06"
+            android:text="@string/settings_security_overline_recovery"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardCornerRadius="@dimen/card_radius_standard"
+            app:cardElevation="0dp"
+            app:strokeColor="?attr/colorOutlineVariant"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/card_padding_standard">
+
+                <ImageView
+                    android:layout_width="@dimen/card_icon_standard"
+                    android:layout_height="@dimen/card_icon_standard"
+                    android:layout_marginTop="2dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/ic_security_recovery"
+                    app:tint="?attr/colorOnSurfaceVariant" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/settings_security_recovery_title"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="@string/settings_security_recovery_body"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_recovery_command"
+                        android:fontFamily="monospace"
+                        android:padding="8dp"
+                        android:text="@string/settings_security_recovery_command"
+                        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:textIsSelectable="true" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

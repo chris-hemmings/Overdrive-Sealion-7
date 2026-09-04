@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded: turn_right / directions (24px). Leading glyph
+     for a route-option row in the route-options sheet. Tintable. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorPrimary">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M298-120q-17 0-28.5-11.5T258-160v-280q0-58 41-99t99-41h135l-44-44q-12-12-11.5-28t11.5-28q12-12 28.5-12t28.5 12l112 112q12 12 12 28t-12 28L578-408q-12 12-28 11.5T522-409q-11-12-11-28t11-28l45-45H398q-25 0-42.5 17.5T338-440v280q0 17-11.5 28.5T298-120Z"/>
+    </group>
+</vector>

@@ -1,0 +1,159 @@
+{
+  "version": 1,
+  "categories": [
+    {
+      "id": "surveillance.motion",
+      "label": "Motion detected (legacy)",
+      "group": "Surveillance",
+      "defaultEnabled": false,
+      "severity": "auto",
+      "defaultClickUrl": "/events.html?filter=sentry",
+      "note": "Legacy single-stream category, kept for backwards compatibility. Prefer the three Notice / Alert / Critical tiers below."
+    },
+    {
+      "id": "surveillance.motion.notice",
+      "label": "Surveillance — Notice",
+      "group": "Surveillance",
+      "defaultEnabled": false,
+      "severity": "info",
+      "defaultClickUrl": "/events.html?filter=sentry",
+      "note": "Routine motion or passing-by. Off by default — turn on if you want a record of every event."
+    },
+    {
+      "id": "surveillance.motion.alert",
+      "label": "Surveillance — Alert",
+      "group": "Surveillance",
+      "defaultEnabled": true,
+      "severity": "warn",
+      "defaultClickUrl": "/events.html?filter=sentry",
+      "note": "Person near the vehicle, vehicle approaching, or close-range activity."
+    },
+    {
+      "id": "surveillance.motion.critical",
+      "label": "Surveillance — Critical",
+      "group": "Surveillance",
+      "defaultEnabled": true,
+      "severity": "critical",
+      "defaultClickUrl": "/events.html?filter=sentry",
+      "note": "Person at very close range or sustained dwell at the vehicle. Drop-everything alert."
+    },
+    {
+      "id": "surveillance.proximity",
+      "label": "Proximity alert",
+      "group": "Surveillance",
+      "defaultEnabled": true,
+      "severity": "auto",
+      "defaultClickUrl": "/events.html?filter=proximity",
+      "note": "Range and trigger depend on Recording settings"
+    },
+    {
+      "id": "vehicle.health.tyre.pressure",
+      "label": "Tyre pressure alarm",
+      "group": "Vehicle",
+      "defaultEnabled": true,
+      "severity": "warn",
+      "defaultClickUrl": "/vehicle-control.html",
+      "note": "Underpressure or overpressure detected by TPMS"
+    },
+    {
+      "id": "vehicle.health.tyre.leak",
+      "label": "Tyre leak detected",
+      "group": "Vehicle",
+      "defaultEnabled": true,
+      "severity": "auto",
+      "defaultClickUrl": "/vehicle-control.html",
+      "note": "Slow or fast leak detected by TPMS sensor"
+    },
+    {
+      "id": "vehicle.security.door.opened",
+      "label": "Door opened",
+      "group": "Security",
+      "defaultEnabled": false,
+      "severity": "warn",
+      "defaultClickUrl": "/vehicle-control.html",
+      "note": "Fires when any door, hood, or trunk is opened while parked (ACC OFF)"
+    },
+    {
+      "id": "vehicle.security.door.closed",
+      "label": "Door closed",
+      "group": "Security",
+      "defaultEnabled": false,
+      "severity": "info",
+      "defaultClickUrl": "/vehicle-control.html",
+      "note": "Fires when any door, hood, or trunk is closed while parked (ACC OFF)"
+    },
+    {
+      "id": "vehicle.charging.started",
+      "label": "Charging started",
+      "group": "Charging",
+      "defaultEnabled": true,
+      "severity": "info",
+      "defaultClickUrl": "/vehicle-control.html",
+      "note": "Fires when the BMS reports a charging session has begun"
+    },
+    {
+      "id": "vehicle.charging.stopped",
+      "label": "Charging stopped",
+      "group": "Charging",
+      "defaultEnabled": true,
+      "severity": "info",
+      "defaultClickUrl": "/vehicle-control.html",
+      "note": "Debounced 10s to ride out brief gaps during plug-in or DC charger handshakes"
+    },
+    {
+      "id": "vehicle.charging.full",
+      "label": "Charging complete",
+      "group": "Charging",
+      "defaultEnabled": true,
+      "severity": "warn",
+      "bypassQuietHours": true,
+      "defaultClickUrl": "/vehicle-control.html",
+      "note": "Fires once per session when the pack reaches near-full or the BMS marks the session FINISHED. Suppressed if you plug in an already-full car. Bypasses quiet hours so you wake up to an unplug reminder."
+    },
+    {
+      "id": "vehicle.charging.fault",
+      "label": "Charging fault",
+      "group": "Charging",
+      "defaultEnabled": true,
+      "severity": "critical",
+      "defaultClickUrl": "/vehicle-control.html",
+      "note": "AC, DC charger, charging gun, or C10 breakdown reported by BMS"
+    },
+    {
+      "id": "vehicle.health.soh.frame_mismatch",
+      "label": "Battery capacity mismatch",
+      "group": "Vehicle",
+      "defaultEnabled": true,
+      "severity": "warn",
+      "defaultClickUrl": "/performance.html#soh-fix",
+      "note": "Fires once per anchor lifetime when the BMS's full-charge kWh disagrees with the user-set pack capacity by >15% — usually a nameplate-vs-usable mix-up on PHEV (e.g. Tang DM-i 21.5 nominal vs ~13 usable). The Battery Health dialog has a one-tap fix."
+    },
+    {
+      "id": "automation.action",
+      "label": "Automation fired",
+      "group": "Automation",
+      "defaultEnabled": true,
+      "severity": "info",
+      "defaultClickUrl": "/automations.html",
+      "note": "Can be sent by creating an automation action to send a notification."
+    },
+    {
+      "id": "genai.insight",
+      "label": "AI insight ready",
+      "group": "Assistant",
+      "defaultEnabled": true,
+      "severity": "info",
+      "defaultClickUrl": "/assistant",
+      "note": "Sent only when AI insight notification delivery is explicitly enabled."
+    },
+    {
+      "id": "network.hotspot.limit",
+      "label": "Hotspot data limit reached",
+      "group": "Network",
+      "defaultEnabled": true,
+      "severity": "warn",
+      "defaultClickUrl": "/network.html",
+      "note": "Fires when the hotspot passes its configured total data limit; the hotspot is turned off at the same time. Raise or reset the limit to use it again."
+    }
+  ]
+}

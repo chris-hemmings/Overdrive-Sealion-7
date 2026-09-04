@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Expanded RoadSense card: deep glassy instrument surface. Diagonal gradient for
+     depth (HUD reading off a dark dash) plus a faint highlight stroke so the edge
+     catches light like a real glass panel, over a soft ambient shadow. Rounded to
+     the project's card-radius family, a touch larger for the floating-card feel. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- soft ambient shadow just outside the body -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#40000000" />
+            <corners android:radius="26dp" />
+        </shape>
+    </item>
+    <!-- glass body -->
+    <item
+        android:left="1dp" android:top="1dp"
+        android:right="1dp" android:bottom="2dp">
+        <shape android:shape="rectangle">
+            <gradient
+                android:type="linear"
+                android:angle="225"
+                android:startColor="#F31A242B"
+                android:centerColor="#F3121A1E"
+                android:endColor="#F4080C0E" />
+            <corners android:radius="24dp" />
+            <stroke
+                android:width="1dp"
+                android:color="#2EFFFFFF" />
+        </shape>
+    </item>
+</layer-list>

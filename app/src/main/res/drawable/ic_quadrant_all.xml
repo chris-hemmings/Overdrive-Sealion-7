@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 2x2 grid (all four quadrants filled). Used as the "All cameras" affordance
+     on the video player's quadrant selector. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M3,3h8v8h-8z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M13,3h8v8h-8z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M3,13h8v8h-8z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M13,13h8v8h-8z" />
+</vector>

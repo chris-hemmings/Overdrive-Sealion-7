@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title data-i18n="app.trips_title">Trips - OverDrive</title>
+    <link rel="icon" type="image/webp" href="../shared/app-icon-dark.webp">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="../shared/app-icon-dark.webp">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#00876C">
+    <script src="../shared/theme.js?v=6"></script>
+    <script src="../shared/app-shell.js?v=5"></script>
+    <!--
+      Bottom-tab manifest for Trips. Tabs apply to the LIST VIEW only;
+      the DETAIL VIEW (#tripDetailView) is a sequential drill-in and
+      ignores data-tab so its full content stays scrollable.
+        Trips    — date filters + trip list + empty state + load-more
+        Stats    — driver score / range / cost hero + Driving DNA + period summary
+        Storage  — trip storage settings + BYD CDR cleanup
+    -->
+    <script>
+        window.OT_TABS = [
+            { id: 'trips',   label: 'Trips',   i18n: 'trip.tab_trips',   svg: '<path d="M3 17h2v-7l4 4 4-4 4 4 4-4v7h2"/><path d="M4 5h16"/>' },
+            { id: 'stats',   label: 'Stats',   i18n: 'trip.tab_stats',   svg: '<polygon points="12 2 22 8.5 19 20 5 20 2 8.5"/>' },
+            { id: 'storage', label: 'Storage', i18n: 'trip.tab_storage', svg: '<line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>' }
+        ];
+    </script>
+    <script src="../shared/app-tabs.js"></script>
+    <link rel="stylesheet" href="../shared/styles.css?v=23">
+    <link rel="stylesheet" href="../shared/leaflet.css" />
+    <style>
+        /* ===== OLD WEBVIEW COMPAT (Chrome <88, Android 7.x) ===== */
+        /* backdrop-filter needs -webkit- prefix on old Chrome */
+        .score-hero-tooltip,
+        .range-hero-tooltip,
+        .radar-tooltip,
+        .calendar-popup {
+            -webkit-backdrop-filter: blur(12px);
+        }
+        /* Flexbox gap fallback — old Chrome only supports gap in Grid, not Flexbox.
+           Use margin on children instead. Applied globally via > * + * selector. */
+        .hero-row > * + * { margin-top: 20px; }
+        @media (min-width: 768px) { .hero-row > * + * { margin-top: 0; margin-left: 24px; } }
+        .top-row > * + * { margin-top: 16px; }
+        @media (min-width: 1024px) { .top-row > * + * { margin-top: 0; margin-left: 16px; } }
+        .trips-top-bar > * + * { margin-left: 12px; }
+        /* The full-width range row wraps to its own line — no left margin (the
+           Chrome-58 gap fallback above would otherwise indent + overflow it). */
+        .trips-top-bar > .trip-range-row + *, .trips-top-bar > * + .trip-range-row { margin-left: 0; }
+        .filter-tabs > * + * { margin-left: 6px; }
+        .trip-capsules > * + * { margin-top: 6px; }
+        .summary-grid > * + * { /* grid gap works fine on old Chrome, no fallback needed */ margin: 0; }
+
+        /* ===== TRIPS PAGE v2 ===== */
+
+        /* Settings Card */
+        .settings-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            margin-bottom: 24px;
+        }
+        .settings-card .setting-row:first-child { padding-top: 0; }
+        .settings-card .setting-row:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .storage-usage-bar {
+            height: 6px;
+            background: var(--bg-hover);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 8px 0 4px;
+        }
+        .storage-usage-fill {
+            height: 100%;
+            background: var(--brand-gradient);
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+        .storage-usage-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* ===== HERO ROW ===== */
+        .hero-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        @media (min-width: 768px) {
+            .hero-row { flex-direction: row; gap: 24px; justify-content: center; }
+            .hero-row > * { flex: 1; min-width: 0; }
+        }
+
+        /* Driver Score Hero - Modern Glassmorphism */
+        .score-hero-card {
+            background: linear-gradient(135deg, rgba(0,212,170,0.08) 0%, rgba(14,165,233,0.06) 100%);
+            border: 1px solid rgba(0,212,170,0.15);
+            border-radius: 20px;
+            padding: 20px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        .score-hero-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 30%, rgba(0,212,170,0.06) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        .score-circle {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin-bottom: 12px;
+        }
+        .score-circle canvas { width: 100%; height: 100%; }
+        .score-circle-inner {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+        }
+        .score-star { font-size: 22px; margin-bottom: 4px; }
+        .score-hero-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 34px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .score-max { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+        .score-hero-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 8px;
+            padding: 4px 16px;
+            border-radius: var(--radius-full);
+        }
+        .score-hero-label.excellent { color: #22C55E; background: rgba(34,197,94,0.1); }
+        .score-hero-label.good { color: var(--brand-primary); background: rgba(0,212,170,0.1); }
+        .score-hero-label.average { color: var(--warning); background: rgba(245,158,11,0.1); }
+        .score-hero-label.poor { color: var(--danger); background: rgba(239,68,68,0.1); }
+
+        /* Driver Score hover/click tooltip */
+        .score-hero-tooltip {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            background: var(--panel-overlay-bg);
+            border: 1px solid var(--brand-primary);
+            border-radius: 12px;
+            padding: 16px 18px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .score-hero-card:hover .score-hero-tooltip {
+            opacity: 1;
+        }
+        .score-hero-tooltip-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .score-hero-tooltip-tier {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .score-tier-pill {
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            opacity: 0.5;
+        }
+        .score-tier-pill.active { opacity: 1; }
+        .score-tier-pill.t-excellent { background: rgba(34,197,94,0.15); color: #22C55E; }
+        .score-tier-pill.t-good { background: rgba(0,212,170,0.15); color: var(--brand-primary); }
+        .score-tier-pill.t-average { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .score-tier-pill.t-poor { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .score-hero-tooltip-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .score-hero-tooltip-tip {
+            font-size: 11px;
+            color: var(--brand-primary);
+            line-height: 1.4;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        /* Range Hero Card */
+        .range-hero-card {
+            background: linear-gradient(135deg, rgba(14,165,233,0.08) 0%, rgba(0,212,170,0.04) 100%);
+            border: 1px solid rgba(14,165,233,0.15);
+            border-radius: 20px;
+            padding: 20px 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+        .range-hero-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            align-self: flex-start;
+        }
+        .range-hero-title svg { width: 20px; height: 20px; color: var(--brand-secondary); }
+        .range-hero-main { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; justify-content: center; }
+        .range-hero-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 40px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+        .range-hero-unit { font-size: 18px; color: var(--text-muted); }
+        .range-hero-confidence { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+        .range-hero-comparison {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-sm);
+            width: 100%;
+        }
+        .range-hero-builtin-label { font-size: 12px; color: var(--text-muted); }
+        .range-hero-builtin-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .range-hero-delta {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: var(--radius-full);
+        }
+        .range-hero-delta.better { background: rgba(34,197,94,0.15); color: #22C55E; }
+        .range-hero-delta.worse { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .range-hero-no-data {
+            text-align: center;
+            padding: 20px 10px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        .range-hero-no-data svg { width: 32px; height: 32px; opacity: 0.5; margin-bottom: 8px; display: block; margin-left: auto; margin-right: auto; }
+
+        /* Range hero tooltip — matches score-hero-tooltip exactly */
+        .range-hero-tooltip {
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            background: var(--panel-overlay-bg);
+            border: 1px solid var(--brand-secondary);
+            border-radius: 12px;
+            padding: 16px 18px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+        }
+        .range-hero-card:hover .range-hero-tooltip {
+            opacity: 1;
+        }
+        .range-tooltip-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .range-tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .range-tooltip-row:last-child { border-bottom: none; }
+        .range-tooltip-label { color: var(--text-muted); font-size: 12px; }
+        .range-tooltip-value { font-family: 'JetBrains Mono', monospace; font-weight: 600; color: var(--text-primary); font-size: 12px; }
+        .range-tooltip-conditions {
+            margin-top: 10px;
+            padding-top: 8px;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .range-tooltip-conditions-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+        .range-tooltip-pills {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 6px;
+        }
+        .range-tooltip-pill {
+            padding: 3px 8px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .range-tooltip-samples {
+            font-size: 11px;
+            color: var(--brand-secondary);
+            line-height: 1.4;
+        }
+        /* Range capsule label below circle */
+        .range-delta-capsule {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+        .range-delta-capsule.better { background: rgba(34,197,94,0.15); color: #22C55E; }
+        .range-delta-capsule.worse { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .range-delta-capsule.neutral { background: rgba(14,165,233,0.15); color: #0EA5E9; }
+        /* Cost formula capsule below circle */
+        .cost-formula-capsule {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            font-weight: 600;
+            background: rgba(245,158,11,0.12);
+            color: var(--warning);
+            margin-top: 8px;
+        }
+
+        /* ===== DRIVING DNA - Full labels + Tooltips ===== */
+        .top-row {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        @media (min-width: 1024px) {
+            .top-row { flex-direction: row; }
+            .top-row > * { flex: 1; min-width: 0; }
+        }
+        .radar-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .radar-card .card-title { margin-bottom: 16px; align-self: flex-start; }
+        .radar-canvas-wrap {
+            width: 100%;
+            max-width: 460px;
+            /* aspect-ratio: 1 — not supported on Chrome <88 (old Android WebView) */
+            position: relative;
+            padding: 8px;
+        }
+        /* Fallback for aspect-ratio: use padding-bottom trick */
+        .radar-canvas-wrap::before {
+            content: '';
+            display: block;
+            padding-bottom: 100%;
+        }
+        .radar-canvas-wrap > canvas {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: calc(100% - 16px);
+            height: calc(100% - 16px);
+        }
+        .radar-canvas-wrap canvas { width: 100%; height: 100%; }
+
+        /* Radar tooltip */
+        .radar-tooltip {
+            position: absolute;
+            background: var(--panel-overlay-bg-strong);
+            border: 1px solid var(--brand-primary);
+            border-radius: 12px;
+            padding: 12px 16px;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 9999;
+            transition: opacity 0.15s;
+            min-width: 200px;
+            max-width: 260px;
+            backdrop-filter: blur(12px);
+        }
+        .radar-tooltip.visible { opacity: 1; }
+        .radar-tooltip-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--brand-primary);
+            margin-bottom: 4px;
+        }
+        .radar-tooltip-score {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .radar-tooltip-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+        .radar-tooltip-tip {
+            font-size: 11px;
+            color: var(--brand-primary);
+            margin-top: 6px;
+            padding-top: 6px;
+            border-top: 1px solid var(--border-subtle);
+            line-height: 1.4;
+        }
+
+        /* Summary Card */
+        .summary-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 14px 18px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .summary-stat { text-align: center; }
+        .summary-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+        .summary-stat-label { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+        /* ===== DATE PICKER — Calendar Toggle (events-style) ===== */
+        .trips-top-bar {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .calendar-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .calendar-toggle:hover { background: var(--bg-elevated); border-color: var(--brand-primary); }
+        .calendar-toggle.has-date { background: var(--brand-primary); color: var(--bg-base); border-color: var(--brand-primary); }
+        .calendar-toggle svg { width: 18px; height: 18px; }
+        .clear-date-btn {
+            margin-left: 4px;
+            padding: 2px;
+            border-radius: 50%;
+            background: var(--panel-overlay-bg-faint);
+            display: inline-flex;
+            cursor: pointer;
+        }
+        .clear-date-btn:hover { background: var(--panel-overlay-bg-soft); }
+        .filter-tabs {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            flex: 1;
+        }
+        .filter-tabs::-webkit-scrollbar { display: none; }
+        .filter-tab {
+            flex: 0 0 auto;
+            padding: 8px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        @media (min-width: 480px) { .filter-tab { flex: 1; text-align: center; } }
+        .filter-tab:hover { color: var(--text-primary); }
+        .filter-tab.active { background: var(--bg-elevated); color: var(--text-primary); border-color: var(--border-default); }
+
+        /* Custom From → To range row. Full-width, stacks below the filter tabs
+           (which the top-bar's flex-wrap already allows). Collapsed by default;
+           revealed with a height+fade transition (display:none can't animate).
+           NOTE: flex `gap` is ignored on the Chrome-58 head-unit WebView, so
+           all spacing here uses margins. */
+        .trip-range-row {
+            flex: 1 0 100%;
+            display: flex; flex-direction: column;
+            max-height: 0; opacity: 0; overflow: hidden;
+            transition: max-height 0.3s ease, opacity 0.2s ease;
+        }
+        .trip-range-row.open { max-height: 160px; opacity: 1; }
+        .trip-range-dates { display: flex; align-items: center; margin-bottom: 10px; }
+        .trip-range-dates .calendar-toggle { flex: 1 1 0; min-width: 0; justify-content: center; }
+        .trip-range-dates .calendar-toggle span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .trip-range-arrow { color: var(--text-muted); font-size: 14px; flex: 0 0 auto; margin: 0 8px; }
+        /* .btn-primary hardcodes color for dark theme; use --on-primary so the
+           label contrasts on both themes. */
+        .trip-range-apply { width: 100%; padding: 10px 18px; color: var(--on-primary, #000); }
+
+        /* Calendar Popup */
+        .calendar-popup {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--panel-overlay-bg-deep);
+            z-index: 1000;
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 0;
+            backdrop-filter: blur(4px);
+        }
+        .calendar-popup.active { display: flex; }
+        @media (min-width: 480px) {
+            .calendar-popup { align-items: center; padding: 20px; }
+            .calendar-panel { border-radius: var(--radius-lg); max-width: 340px; }
+        }
+        .calendar-panel {
+            background: var(--bg-surface);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            padding: 20px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .calendar-title { font-size: 18px; font-weight: 600; }
+        .calendar-nav { display: flex; gap: 8px; }
+        .calendar-nav button {
+            width: 32px; height: 32px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            background: var(--bg-elevated);
+            transition: all 0.2s;
+        }
+        .calendar-nav button:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+            margin-top: 16px;
+        }
+        .calendar-weekday {
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-muted);
+            padding: 4px 0;
+            font-weight: 600;
+        }
+        .calendar-day {
+            /* aspect-ratio: 1 — not supported on old WebView, use fixed size */
+            width: 100%;
+            padding-bottom: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        .calendar-day:hover { background: var(--bg-hover); }
+        .calendar-day.other-month { color: var(--text-muted); opacity: 0.5; }
+        .calendar-day.today { background: var(--bg-elevated); color: var(--text-primary); font-weight: 600; }
+        .calendar-day.selected { background: var(--brand-primary); color: var(--bg-base); }
+        .calendar-day.in-range { background: rgba(0,212,170,0.16); color: var(--text-primary); }
+        .calendar-day.disabled { color: var(--text-muted); opacity: 0.3; cursor: not-allowed; pointer-events: none; }
+        .calendar-day.has-trips::after {
+            content: '';
+            position: absolute;
+            bottom: 3px;
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--brand-primary);
+        }
+        .calendar-close {
+            margin-top: 8px;
+            padding: 10px;
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .calendar-close:hover { background: var(--bg-hover); color: var(--text-primary); }
+
+        /* ===== MOBILE OPTIMIZATIONS ===== */
+        @media (max-width: 768px) {
+            /* Compact detail summary */
+            .detail-summary { padding: 14px 16px; }
+            .detail-summary-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+            }
+            .detail-stat-value { font-size: 16px; }
+            .detail-stat-label { font-size: 10px; }
+
+            /* Compact timeline slider */
+            .timeline-slider-card { padding: 12px 14px; }
+            .timeline-slider-header { flex-direction: column; gap: 8px; }
+            .timeline-slider-info { gap: 10px; }
+
+            /* Smaller map */
+            #tripMap { height: 240px; }
+
+            /* Compact chart cards */
+            .chart-card { padding: 14px; }
+            .chart-canvas-wrap { height: 160px; }
+
+            /* Compact scores */
+            .scores-card { padding: 14px 16px; }
+            .score-row { padding: 10px 0; }
+
+            /* Trip cards grid — 2 columns on mobile */
+            #tripList {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .trip-card { padding: 14px; }
+            .trip-capsule { font-size: 10px; }
+        }
+
+        /* Touch scrolling — allow horizontal scrub on charts, vertical scroll on page */
+        #tripMap,
+        .leaflet-container {
+            touch-action: manipulation !important;
+        }
+        .chart-canvas-wrap canvas {
+            touch-action: pan-y;
+            cursor: crosshair;
+        }
+        #timelineSlider {
+            touch-action: pan-x !important;
+        }
+        /* Cost hint on hover */
+        #costNoRate:hover .cost-hint { opacity: 1 !important; }
+
+        /* ===== SOTA SQUARE TRIP CARDS ===== */
+        .day-header {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            padding: 12px 0 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            grid-column: 1 / -1;
+        }
+        #tripList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .trip-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            /* aspect-ratio: 1 — not supported on old WebView, use min-height */
+            min-height: 160px;
+            position: relative;
+            overflow: hidden;
+        }
+        .trip-card:hover {
+            background: var(--bg-elevated);
+            border-color: rgba(0,212,170,0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px var(--panel-overlay-bg-soft);
+        }
+        .trip-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .trip-time {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .trip-score-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--brand-primary);
+            background: rgba(0,212,170,0.1);
+            box-shadow: 0 0 0 1px rgba(0,212,170,0.3) inset;
+        }
+        .trip-score-badge.mid {
+            color: var(--warning);
+            background: rgba(245,158,11,0.1);
+            box-shadow: 0 0 0 1px rgba(245,158,11,0.3) inset;
+        }
+        .trip-score-badge.low {
+            color: var(--danger);
+            background: rgba(239,68,68,0.1);
+            box-shadow: 0 0 0 1px rgba(239,68,68,0.3) inset;
+        }
+        /* Recovered trip: neutral badge (no score exists) + small tag pill. */
+        .trip-score-badge.recovered {
+            color: var(--text-muted);
+            background: var(--panel-overlay-bg-soft, rgba(148,163,184,0.12));
+            box-shadow: 0 0 0 1px rgba(148,163,184,0.28) inset;
+        }
+        .trip-score-badge.recovered svg { width: 18px; height: 18px; }
+        .trip-recovered-tag {
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            background: rgba(148,163,184,0.14);
+            border: 1px solid rgba(148,163,184,0.28);
+            border-radius: 999px;
+            padding: 2px 8px;
+            line-height: 1.4;
+            white-space: nowrap;
+        }
+        /* Detail-view banner explaining recovered-trip gaps. */
+        .recovered-banner {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 12px 0;
+            padding: 12px 14px;
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-secondary);
+            background: rgba(148,163,184,0.10);
+            border: 1px solid rgba(148,163,184,0.24);
+            border-radius: var(--radius-sm, 12px);
+        }
+        .recovered-banner svg {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            margin-top: 1px;
+            color: var(--text-muted);
+        }
+        .trip-capsules {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: auto;
+        }
+        .trip-capsule {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .trip-capsule svg {
+            width: 14px;
+            height: 14px;
+            color: var(--brand-primary);
+            flex-shrink: 0;
+        }
+        /* Electric / petrol leg icons (Material-Symbols-outlined shapes) that replaced the
+           ⚡/⛽ emoji. Each leg keeps its OWN colour (the cost-split rows are --warning),
+           unlike .trip-capsule svg which is brand-tinted. vertical-align keeps the glyph on
+           the text baseline in the non-flex rows it also appears in.
+           The `.trip-capsule` prefix and `color: inherit` are REQUIRED, not redundant: the
+           card's cost-split lives INSIDE a .trip-capsule, so `.trip-capsule svg` (0,1,1)
+           outranks a bare `.trip-leg-icon` (0,1,0) and would repaint these glyphs brand-teal
+           against their amber text. The two-class form is (0,2,0), which wins outright —
+           so stroke="currentColor" resolves to the surrounding text colour. */
+        .trip-capsule .trip-leg-icon,
+        .trip-leg-icon {
+            width: 14px;
+            height: 14px;
+            flex-shrink: 0;
+            vertical-align: -2px;
+            color: inherit;
+        }
+        /* Delete icon on trip card */
+        .trip-delete-btn {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(239,68,68,0.08);
+            color: var(--text-muted);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            opacity: 0;
+        }
+        .trip-card:hover .trip-delete-btn { opacity: 1; }
+        .trip-delete-btn:hover {
+            background: rgba(239,68,68,0.2);
+            color: var(--danger);
+        }
+        .trip-delete-btn svg { width: 14px; height: 14px; }
+
+        /* ===== TRIP DETAIL ===== */
+        .trip-detail { display: none; }
+        .trip-detail.active { display: block; }
+        .trip-list-view.hidden { display: none; }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .detail-back-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .detail-back-btn:hover { background: var(--bg-elevated); color: var(--text-primary); }
+        .detail-back-btn svg { width: 16px; height: 16px; }
+
+        .detail-summary {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+        }
+        .detail-summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+        }
+        .detail-stat { text-align: center; }
+        .detail-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .detail-stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+        /* ===== MAP with route + interactive marker ===== */
+        .map-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        .map-card .card-title { padding: 16px 20px 0; }
+        #tripMap {
+            width: 100%;
+            height: 320px;
+            background: var(--bg-base);
+        }
+        /* Speed legend on map */
+        .map-speed-legend {
+            display: flex;
+            gap: 16px;
+            padding: 10px 20px;
+            font-size: 11px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-subtle);
+        }
+        .map-speed-legend span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* ===== TIMELINE SLIDER ===== */
+        .timeline-slider-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 16px 20px;
+            margin-bottom: 16px;
+        }
+        .timeline-slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .timeline-slider-info {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .timeline-slider-stat {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .timeline-slider-stat .tval {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .timeline-slider-wrap {
+            position: relative;
+            padding: 0 4px;
+        }
+        #timelineSlider {
+            width: 100%;
+            height: 6px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: var(--bg-hover);
+            border-radius: var(--radius-full);
+            outline: none;
+        }
+        #timelineSlider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--brand-primary);
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,212,170,0.4);
+            transition: box-shadow 0.2s;
+        }
+        #timelineSlider::-webkit-slider-thumb:hover {
+            box-shadow: 0 0 16px rgba(0,212,170,0.6);
+        }
+        .timeline-slider-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ===== SCORE BREAKDOWN v2 - with descriptions ===== */
+        .scores-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+        }
+        .score-row {
+            padding: 14px 0;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-radius: 8px;
+            margin: 0 -8px;
+            padding-left: 8px;
+            padding-right: 8px;
+        }
+        .score-row:hover { background: var(--bg-hover); }
+        .score-row + .score-row { border-top: 1px solid var(--border-subtle); }
+        .score-row-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .score-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            background: var(--bg-elevated);
+        }
+        .score-label {
+            flex: 1;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        .score-bar-track {
+            flex: 1;
+            height: 6px;
+            background: var(--bg-hover);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0 12px;
+        }
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            background: var(--brand-gradient);
+            transition: width 0.4s ease;
+        }
+        .score-bar-fill.low { background: var(--danger); }
+        .score-bar-fill.mid { background: var(--warning); }
+        .score-number {
+            width: 36px;
+            text-align: right;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        /* Expandable description */
+        .score-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 44px;
+        }
+        .score-row.expanded .score-detail {
+            max-height: 120px;
+            padding: 8px 44px 0;
+        }
+        .score-detail-text {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .score-detail-tip {
+            font-size: 11px;
+            color: var(--brand-primary);
+            margin-top: 4px;
+        }
+
+        /* ===== CHART CARDS ===== */
+        .chart-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .chart-card .card-title { margin-bottom: 12px; }
+        .chart-canvas-wrap {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+        }
+        .chart-canvas-wrap canvas { width: 100%; height: 100%; cursor: crosshair; }
+
+        /* Speed histogram legend */
+        .speed-hist-legend {
+            display: flex;
+            gap: 16px;
+            margin-top: 10px;
+            font-size: 11px;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+        .speed-hist-legend span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .speed-hist-summary {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .speed-hist-stat {
+            padding: 6px 12px;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+        .speed-hist-stat .shval {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ===== MICRO-MOMENTS ===== */
+        .micro-moments-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+        }
+        .moment-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .moment-item + .moment-item { border-top: 1px solid var(--border-subtle); }
+        .moment-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            background: var(--bg-elevated);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .moment-value {
+            margin-left: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* Route Comparison */
+        .route-comparison-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            margin-bottom: 16px;
+        }
+        .route-comparison-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 13px;
+        }
+        .route-comparison-item + .route-comparison-item { border-top: 1px solid var(--border-subtle); }
+        .route-comparison-date { color: var(--text-muted); }
+        .route-comparison-eff {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .route-comparison-delta {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: var(--radius-full);
+        }
+        .route-comparison-delta.better { background: rgba(34,197,94,0.15); color: #22C55E; }
+        .route-comparison-delta.worse { background: rgba(239,68,68,0.15); color: var(--danger); }
+
+        /* Trip Breakdown */
+        .breakdown-bar { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+        .breakdown-bar-label { width:80px; font-size:12px; color:var(--text-secondary); flex-shrink:0; }
+        .breakdown-bar-track { flex:1; height:20px; background:var(--bg-elevated); border-radius:10px; overflow:hidden; position:relative; }
+        .breakdown-bar-fill { height:100%; border-radius:10px; transition:width 0.5s ease; }
+        .breakdown-bar-value { width:40px; font-size:12px; font-family:'JetBrains Mono',monospace; color:var(--text-primary); text-align:right; }
+        .breakdown-stat { display:flex; justify-content:space-between; padding:6px 0; font-size:13px; border-bottom:1px solid var(--border-subtle); }
+        .breakdown-stat:last-child { border-bottom:none; }
+        .breakdown-stat-label { color:var(--text-secondary); }
+        .breakdown-stat-value { font-family:'JetBrains Mono',monospace; font-weight:600; color:var(--text-primary); }
+        .sparkline-container { height:40px; margin:8px 0; }
+
+        /* Load More / Empty / Delete / Skeleton */
+        .load-more-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 16px;
+        }
+        .load-more-btn:hover { background: var(--bg-elevated); color: var(--text-primary); }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .empty-state svg { width: 64px; height: 64px; color: var(--text-muted); opacity: 0.4; margin-bottom: 16px; }
+        .empty-title { font-size: 16px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+        .empty-text { font-size: 13px; color: var(--text-muted); }
+
+        .detail-delete-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            border-radius: var(--radius-md);
+            color: var(--danger);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+        }
+        .detail-delete-btn:hover { background: rgba(239,68,68,0.2); }
+
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-hover) 50%, var(--bg-elevated) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-md);
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skeleton-card { height: 80px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <!-- App shell sidebar (rendered by ../shared/app-shell.js) -->
+        <div id="app-shell-mount"></div>
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="mobile-header">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                </button>
+                <span style="font-weight:600;" data-i18n="trip.page_title_short">Trips</span>
+                <div style="width:40px;"></div>
+            </div>
+
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="trip.settings.title">Trip Analytics</h1>
+                <div class="header-actions">
+                    <div class="header-badge">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span id="currentTime">--:--</span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-body">
+                <!-- ========== TRIP LIST VIEW ========== -->
+                <div class="trip-list-view" id="tripListView">
+
+                    <!-- Hero: Driver Score + Range -->
+                    <div class="hero-row" data-tab="stats" id="heroRow">
+                        <div class="score-hero-card" id="scoreHeroCard">
+                            <div class="card-title" style="margin-bottom:16px;align-self:flex-start;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;color:var(--brand-primary)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                <span data-i18n="trip.card.driver_score">Driver Score</span>
+                            </div>
+                            <div class="score-circle">
+                                <canvas id="scoreCircleCanvas" width="320" height="320"></canvas>
+                                <div class="score-circle-inner">
+                                    <span class="score-star" id="scoreStar">★</span>
+                                    <span class="score-hero-number" id="scoreHeroNumber">--</span>
+                                    <span class="score-max">/100</span>
+                                </div>
+                            </div>
+                            <div class="score-hero-label" id="scoreHeroLabel">--</div>
+                            <div class="score-hero-tooltip" id="scoreHeroTooltip">
+                                <div class="score-hero-tooltip-title" id="scoreTooltipTitle" data-i18n="trip.card.driver_score">Driver Score</div>
+                                <div class="score-hero-tooltip-tier" id="scoreTooltipTiers">
+                                    <span class="score-tier-pill t-poor" data-i18n="trip.score_descriptors.excellent_zone">0–39 Poor</span>
+                                    <span class="score-tier-pill t-average" data-i18n="trip.score_descriptors.average_zone">40–59 Average</span>
+                                    <span class="score-tier-pill t-good" data-i18n="trip.score_descriptors.good_zone">60–79 Good</span>
+                                    <span class="score-tier-pill t-excellent" data-i18n="trip.score_descriptors.high_zone">80–100 Excellent</span>
+                                </div>
+                                <div class="score-hero-tooltip-desc" id="scoreTooltipDesc" data-i18n="trip.card.score_tooltip">Your overall driving efficiency score based on 5 criteria: anticipation, smoothness, speed discipline, efficiency, and consistency.</div>
+                                <div class="score-hero-tooltip-tip" id="scoreTooltipTip" data-i18n="trip.card.score_tip">💡 Focus on your weakest category to see the biggest improvement.</div>
+                            </div>
+                        </div>
+
+                        <div class="range-hero-card" id="rangeHeroCard">
+                            <div class="range-hero-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                <span data-i18n="trip.card.personalized_range">Personalized Range</span>
+                            </div>
+                            <div style="position:relative;width:140px;height:140px;margin-bottom:12px;">
+                                <canvas id="rangeCircleCanvas" width="280" height="280" style="width:100%;height:100%;"></canvas>
+                                <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;line-height:1;">
+                                    <span style="font-size:20px;margin-bottom:2px;">⚡</span>
+                                    <span id="rangeCircleValue" style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--text-primary);">--</span>
+                                    <span id="rangeCircleUnit" style="font-size:12px;color:var(--text-muted);margin-top:2px;">km</span>
+                                </div>
+                            </div>
+                            <div id="rangeDeltaCapsule" class="range-delta-capsule neutral" style="display:none;"></div>
+                            <div id="rangeHeroContent">
+                                <div class="range-hero-no-data">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                                    <div data-i18n="trip.unlock_range">Drive more trips to unlock personalized range estimates</div>
+                                </div>
+                            </div>
+                            <div class="range-hero-tooltip" id="rangeHeroTooltip" style="display:none;"></div>
+                        </div>
+
+                        <!-- Cost per km Card -->
+                        <div id="costHeroCard" style="background:linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(245,158,11,0.03) 100%);border:1px solid rgba(245,158,11,0.15);border-radius:20px;padding:20px 18px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;overflow:visible;">
+                            <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--text-secondary);margin-bottom:16px;align-self:flex-start;">
+                                <span style="font-size:18px;">💰</span>
+                                <span data-i18n="trip.card.cost_per">Cost per</span> <span id="costPerDistLabel">km</span>
+                            </div>
+                            <div id="costNoRate" style="position:relative;">
+                                <div style="position:relative;width:140px;height:140px;margin:0 auto 8px;">
+                                    <canvas id="costCircleCanvas" width="280" height="280" style="width:100%;height:100%;"></canvas>
+                                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;line-height:1;">
+                                        <span style="font-size:20px;margin-bottom:2px;" id="costCircleIcon">💰</span>
+                                        <span style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--text-muted);">--</span>
+                                        <span style="font-size:12px;color:var(--text-muted);margin-top:2px;">/km</span>
+                                    </div>
+                                </div>
+                                <div style="position:absolute;left:-4px;right:-4px;bottom:-8px;background:var(--panel-overlay-bg);border:1px solid var(--warning);border-radius:8px;padding:10px 12px;opacity:0;transition:opacity 0.2s;pointer-events:none;font-size:11px;color:var(--text-muted);text-align:center;z-index:10;" class="cost-hint" data-i18n="trip.cost_hint">
+                                    💡 Set your electricity rate in Trip Storage → Electricity Rate
+                                </div>
+                            </div>
+                            <div id="costHeroData" style="display:none;">
+                                <div style="position:relative;width:140px;height:140px;margin:0 auto 8px;">
+                                    <canvas id="costCircleCanvasActive" width="280" height="280" style="width:100%;height:100%;"></canvas>
+                                    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;line-height:1;">
+                                        <span style="font-size:20px;margin-bottom:2px;font-weight:700;color:var(--warning);" id="costCircleIconActive">💰</span>
+                                        <span id="costPerKmValue" style="font-family:'JetBrains Mono',monospace;font-size:24px;font-weight:700;color:var(--text-primary);">--</span>
+                                        <span id="costPerKmUnit" style="font-size:12px;color:var(--text-muted);margin-top:2px;">/km</span>
+                                    </div>
+                                </div>
+                                <div id="costPerKwhInfo" style="font-size:12px;color:var(--text-muted);text-align:center;">-- kWh/km avg</div>
+                                <div id="costFormulaCapsule" class="cost-formula-capsule" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Row: Radar + Summary -->
+                    <div class="top-row" data-tab="stats">
+                        <div class="radar-card">
+                            <div class="card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;color:var(--brand-primary)"><polygon points="12 2 22 8.5 19 20 5 20 2 8.5"/></svg>
+                                <span data-i18n="trip.dna.title">Driving DNA</span>
+                            </div>
+                            <div class="radar-canvas-wrap">
+                                <canvas id="radarChart"></canvas>
+                                <div class="radar-tooltip" id="radarTooltip">
+                                    <div class="radar-tooltip-title" id="radarTooltipTitle"></div>
+                                    <div class="radar-tooltip-score" id="radarTooltipScore"></div>
+                                    <div class="radar-tooltip-desc" id="radarTooltipDesc"></div>
+                                    <div class="radar-tooltip-tip" id="radarTooltipTip"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Top Bar: Quick Filters + Custom range -->
+                    <div class="trips-top-bar" data-tab="trips" id="tripFilters">
+                        <div class="filter-tabs">
+                            <button class="filter-tab active" data-days="7" onclick="TRIPS.quickFilter(7, this)" data-i18n="trip.filter.days_7">7 Days</button>
+                            <button class="filter-tab" data-days="14" onclick="TRIPS.quickFilter(14, this)" data-i18n="trip.filter.days_14">14 Days</button>
+                            <button class="filter-tab" data-days="30" onclick="TRIPS.quickFilter(30, this)" data-i18n="trip.filter.days_30">30 Days</button>
+                            <button class="filter-tab" id="tripCustomTab" onclick="TRIPS.toggleCustomRange(this)" data-i18n="trip.filter.custom">Custom</button>
+                        </div>
+                        <!-- Custom date range (hidden until "Custom" is tapped). Each
+                             field opens the shared calendar popup — mirrors the
+                             charging-page date picker look & feel. -->
+                        <div class="trip-range-row" id="tripRangeRow">
+                            <div class="trip-range-dates">
+                                <button class="calendar-toggle" id="tripFromToggle" onclick="TRIPS.openCalendar('from')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                    <span id="tripFromText" data-i18n="trip.daterange.from">From</span>
+                                </button>
+                                <span class="trip-range-arrow">→</span>
+                                <button class="calendar-toggle" id="tripToToggle" onclick="TRIPS.openCalendar('to')">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                                    <span id="tripToText" data-i18n="trip.daterange.to">To</span>
+                                </button>
+                            </div>
+                            <button class="btn btn-primary trip-range-apply" onclick="TRIPS.applyCustomRange()" data-i18n="trip.daterange.apply">Apply</button>
+                        </div>
+                    </div>
+
+                    <!-- Trip List -->
+                    <div data-tab="trips" id="tripList">
+                        <div id="tripListSkeleton">
+                            <div class="skeleton skeleton-card"></div>
+                            <div class="skeleton skeleton-card"></div>
+                            <div class="skeleton skeleton-card"></div>
+                        </div>
+                    </div>
+
+                    <!-- Empty State -->
+                    <div class="empty-state" data-tab="trips" id="tripEmptyState" style="display:none;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 17h2v-7l4 4 4-4 4 4 4-4v7h2"/><path d="M4 5h16"/></svg>
+                        <div class="empty-title" data-i18n="trip.no_trips_yet">No trips recorded yet</div>
+                        <div class="empty-text" data-i18n="trip.no_trips_hint">Enable trip analytics and start driving to see your trips here</div>
+                        <!-- Shown by _applyEnabledHint() only while trips are OFF. -->
+                        <button class="btn btn-primary" id="tripEnableFromEmpty" style="display:none;margin-top:16px;" onclick="TRIPS.enableFromEmptyState()" data-i18n="trip.enable_now">Turn on trip recording</button>
+                    </div>
+
+                    <button class="load-more-btn" data-tab="trips" id="loadMoreBtn" style="display:none;" onclick="TRIPS.loadMore()" data-i18n="trip.load_more">Load More Trips</button>
+
+                    <!-- Weekly Summary — lives on the Trips tab now (was on Stats);
+                         it summarises the visible trip list, so it belongs alongside it. -->
+                    <div class="summary-card" data-tab="trips" style="margin-top:20px;">
+                        <div class="card-title" style="font-size:14px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:var(--brand-primary)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span data-i18n="trip.period_summary">Period Summary</span>
+                        </div>
+                        <div class="summary-grid" id="weeklySummary">
+                            <div class="summary-stat"><div class="summary-stat-value" id="summaryTrips">--</div><div class="summary-stat-label" data-i18n="trip.summary.trips">Trips</div></div>
+                            <div class="summary-stat"><div class="summary-stat-value" id="summaryDistance">--</div><div class="summary-stat-label" id="summaryDistanceLabel">km</div></div>
+                            <div class="summary-stat"><div class="summary-stat-value" id="summaryTime">--</div><div class="summary-stat-label" data-i18n="trip.summary.hours">Hours</div></div>
+                            <div class="summary-stat"><div class="summary-stat-value" id="summaryEfficiency">--</div><div class="summary-stat-label" data-i18n="trip.summary.avg_score">Avg Score</div></div>
+                            <div class="summary-stat"><div class="summary-stat-value" id="summaryEnergy">--</div><div class="summary-stat-label" data-i18n="trip.summary.kwh">kWh</div></div>
+                            <div class="summary-stat"><div class="summary-stat-value" id="summaryConsumption" style="color:var(--brand-primary);">--</div><div class="summary-stat-label" id="summaryConsumptionLabel">kWh/100km</div></div>
+                            <div class="summary-stat"><div class="summary-stat-value" id="summaryEfficiency2" style="color:var(--brand-primary);">--</div><div class="summary-stat-label" id="summaryEfficiency2Label">km/kWh</div></div>
+                            <div class="summary-stat phev-only" id="summaryFuelTile" style="display:none;"><div class="summary-stat-value" id="summaryFuel" style="color:var(--warning);">--</div><div class="summary-stat-label" id="summaryFuelLabel" data-i18n="trip.summary.litres">Petrol</div></div>
+                            <div class="summary-stat"><div class="summary-stat-value" id="summaryCost">--</div><div class="summary-stat-label" data-i18n="trip.summary.cost">Cost</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Trip Storage -->
+                    <div class="card" data-tab="storage" style="margin-top:24px;">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="22" x2="2" y1="12" y2="12"/>
+                                    <path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+                                    <line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/>
+                                </svg>
+                                <span data-i18n="trip.settings.trip_storage_title">Trip Storage</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.settings.title">Trip Analytics</div>
+                                    <div class="setting-desc" data-i18n="trip.settings.auto_record">Automatically record trips and compute driving scores</div>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="tripsEnabled" onchange="TRIPS.toggleEnabled()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Electricity Rate -->
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.settings.elec_rate_label">Electricity Rate</div>
+                                    <div class="setting-desc" data-i18n="trip.settings.rate_help">Cost per kWh for trip cost calculation</div>
+                                </div>
+                                <div class="setting-control" style="display:flex;gap:8px;align-items:center;">
+                                    <select id="currencySelect" onchange="TRIPS.showApplyNeeded()" style="padding:8px 10px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;max-width:150px;">
+                                        <optgroup label="Common">
+                                            <option value="$">$ USD</option>
+                                            <option value="€">€ EUR</option>
+                                            <option value="£">£ GBP</option>
+                                            <option value="¥">¥ JPY</option>
+                                            <option value="A$">A$ AUD</option>
+                                            <option value="C$">C$ CAD</option>
+                                            <option value="CHF ">CHF</option>
+                                        </optgroup>
+                                        <optgroup label="Asia / Pacific">
+                                            <option value="₹">₹ INR</option>
+                                            <option value="रू">रू NPR</option>
+                                            <option value="CN¥">CN¥ CNY</option>
+                                            <option value="HK$">HK$ HKD</option>
+                                            <option value="NT$">NT$ TWD</option>
+                                            <option value="₩">₩ KRW</option>
+                                            <option value="฿">฿ THB</option>
+                                            <option value="RM">RM MYR</option>
+                                            <option value="S$">S$ SGD</option>
+                                            <option value="Rp">Rp IDR</option>
+                                            <option value="₱">₱ PHP</option>
+                                            <option value="₫">₫ VND</option>
+                                            <option value="NZ$">NZ$ NZD</option>
+                                        </optgroup>
+                                        <optgroup label="Middle East / Africa">
+                                            <option value="AED ">AED</option>
+                                            <option value="SAR ">SAR</option>
+                                            <option value="QAR ">QAR</option>
+                                            <option value="₪">₪ ILS</option>
+                                            <option value="R ">R ZAR</option>
+                                        </optgroup>
+                                        <optgroup label="Europe (non-EUR)">
+                                            <option value="NOK ">NOK kr</option>
+                                            <option value="SEK ">SEK kr</option>
+                                            <option value="DKK ">DKK kr</option>
+                                            <option value="zł">zł PLN</option>
+                                            <option value="Kč">Kč CZK</option>
+                                            <option value="Ft">Ft HUF</option>
+                                            <option value="₺">₺ TRY</option>
+                                            <option value="₽">₽ RUB</option>
+                                            <option value="₴">₴ UAH</option>
+                                        </optgroup>
+                                        <optgroup label="Latin America">
+                                            <option value="R$">R$ BRL</option>
+                                            <option value="MX$">MX$ MXN</option>
+                                            <option value="AR$">AR$ ARS</option>
+                                            <option value="CLP$">CLP$ CLP</option>
+                                            <option value="S/">S/ PEN</option>
+                                            <option value="COL$">COL$ COP</option>
+                                        </optgroup>
+                                    </select>
+                                    <input type="number" id="rateInput" placeholder="0.00" step="0.01" min="0" onchange="TRIPS.showApplyNeeded()" style="width:80px;padding:8px 10px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;font-family:'JetBrains Mono',monospace;">
+                                    <span style="font-size:11px;color:var(--text-muted);">/kWh</span>
+                                </div>
+                            </div>
+                            <!-- Which rate actually priced recent trips. The inner span
+                                 carries NO data-i18n on purpose: applyRateSourceNote()
+                                 composes a concrete rate string that the i18n hydrate
+                                 pass would otherwise overwrite. -->
+                            <div class="setting-row" id="tripRateSourceNote" style="display:none;">
+                                <div class="setting-info">
+                                    <div class="setting-desc"><span id="tripRateSourceText"></span></div>
+                                </div>
+                            </div>
+                            <!-- Fuel settings (PHEV only — TRIPS.applyPhevVisibility toggles #phevTankRow + #phevFuelPriceRow) -->
+                            <div class="setting-row phev-only" id="phevTankRow" style="display:none;">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.settings.tank_capacity_label">Tank Capacity</div>
+                                    <div class="setting-desc" data-i18n="trip.settings.tank_capacity_help">Fuel tank size — needed to compute litres burned from BYD's % reading</div>
+                                </div>
+                                <div class="setting-control" style="display:flex;gap:8px;align-items:center;">
+                                    <input type="number" id="tankCapacityInput" placeholder="0.0" step="0.1" min="0" onchange="TRIPS.showApplyNeeded()" style="width:80px;padding:8px 10px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;font-family:'JetBrains Mono',monospace;">
+                                    <div class="btn-group">
+                                        <button class="btn-toggle active" id="fuelUnitL" onclick="TRIPS.setFuelUnit('L')" data-i18n="trip.settings.fuel_unit_l">L</button>
+                                        <button class="btn-toggle" id="fuelUnitGal" onclick="TRIPS.setFuelUnit('gal')" data-i18n="trip.settings.fuel_unit_gal">gal</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-row phev-only" id="phevFuelPriceRow" style="display:none;">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.settings.fuel_price_label">Fuel Price</div>
+                                    <div class="setting-desc" data-i18n="trip.settings.fuel_price_help">Price per litre (or gallon) for petrol cost calculation</div>
+                                </div>
+                                <div class="setting-control" style="display:flex;gap:8px;align-items:center;">
+                                    <input type="number" id="fuelPriceInput" placeholder="0.00" step="0.01" min="0" onchange="TRIPS.showApplyNeeded()" style="width:80px;padding:8px 10px;background:var(--bg-elevated);border:1px solid var(--border-subtle);border-radius:var(--radius-sm);color:var(--text-primary);font-size:13px;font-family:'JetBrains Mono',monospace;">
+                                    <span id="fuelPriceUnitLabel" style="font-size:11px;color:var(--text-muted);">/L</span>
+                                </div>
+                            </div>
+                            <!-- Distance Unit -->
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.settings.distance_unit">Distance Unit</div>
+                                    <div class="setting-desc" data-i18n="trip.settings.distance_unit_desc">Display distances and speeds in km or miles</div>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="btn-group">
+                                        <button class="btn-toggle active" id="unitKm" onclick="TRIPS.setDistanceUnit('km')" data-i18n="trip.settings.unit_km">🌍 km</button>
+                                        <button class="btn-toggle" id="unitMi" onclick="TRIPS.setDistanceUnit('mi')" data-i18n="trip.settings.unit_miles">🇬🇧 miles</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Storage Location Selection -->
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.settings.storage_location">Storage Location</div>
+                                    <div class="setting-desc" data-i18n="trip.settings.storage_location_desc">Choose where to save trip telemetry</div>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="btn-group">
+                                        <button class="btn-toggle active" id="storageInternal" onclick="TRIPS.setStorageType('INTERNAL')" data-i18n="trip.settings.storage_internal">Internal</button>
+                                        <button class="btn-toggle" id="storageSdCard" onclick="TRIPS.setStorageType('SD_CARD')" data-i18n="trip.settings.storage_sd">SD card</button>
+                                        <button class="btn-toggle" id="storageUsb" onclick="TRIPS.setStorageType('USB')" data-i18n="trip.settings.storage_usb">USB</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- SD Card Status -->
+                            <div class="sd-card-status" id="tripSdCardStatus" style="display:none;">
+                                <div class="sd-status-row">
+                                    <span class="sd-status-dot" id="tripSdStatusDot"></span>
+                                    <span class="sd-status-text" id="tripSdStatusText" data-i18n="trip.settings.sd_checking">SD Card: Checking...</span>
+                                </div>
+                                <div class="sd-space-info" id="tripSdSpaceInfo" style="display:none;">
+                                    <span id="tripSdFree">-- free</span> / <span id="tripSdTotal">-- total</span>
+                                </div>
+                            </div>
+                            <!-- USB Drive Status -->
+                            <div class="sd-card-status" id="tripUsbStatus" style="display:none;">
+                                <div class="sd-status-row">
+                                    <span class="sd-status-dot" id="tripUsbStatusDot"></span>
+                                    <span class="sd-status-text" id="tripUsbStatusText" data-i18n="trip.settings.usb_checking">USB: Checking...</span>
+                                </div>
+                                <div class="sd-space-info" id="tripUsbSpaceInfo" style="display:none;">
+                                    <span id="tripUsbFree">-- free</span> / <span id="tripUsbTotal">-- total</span>
+                                </div>
+                            </div>
+                            <div class="setting-row" style="border-bottom:none;padding-bottom:8px;">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.settings.storage_usage">Storage Usage</div>
+                                    <div class="setting-desc" id="tripStoragePath" data-i18n="trip.settings.storage_path_default">Telemetry saved to Overdrive/trips</div>
+                                </div>
+                            </div>
+                            <div class="storage-bar">
+                                <div class="storage-fill" id="storageUsageFill" style="width: 0%"></div>
+                            </div>
+                            <div class="storage-info">
+                                <span id="storageUsedText">-- used</span>
+                                <span id="storageTripsCount">0 trips stored</span>
+                            </div>
+                            <div class="setting-row" style="margin-top:16px;">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.settings.storage_limit">Storage Limit</div>
+                                    <div class="setting-desc" data-i18n="trip.settings.storage_limit_desc">Auto-delete oldest when limit reached</div>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="slider-control">
+                                        <span class="slider-value" id="storageLimitValue">500 MB</span>
+                                        <input type="range" class="slider" id="storageLimitSlider" min="100" max="100000" step="100" value="500" onchange="TRIPS.setStorageLimit(this.value)" oninput="TRIPS.updateLimitLabel(this.value)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slider-range-labels">
+                                <span>100 MB</span>
+                                <span>100 GB</span>
+                            </div>
+                            <!-- Combined-limit advisory — see recording.html for the
+                                 rationale; same shared renderer, same server payload. -->
+                            <div class="storage-fallback-banner" id="tripBudgetBanner" style="display:none;" role="status" aria-live="polite">
+                                <span class="sd-status-dot" style="background:#f0a020;"></span>
+                                <span data-budget-text></span>
+                            </div>
+                            <div style="margin-top:12px;display:flex;gap:8px;">
+                                <button class="btn btn-primary" id="storageApplyBtn" onclick="TRIPS.applyStorageSettings()" style="flex:1;" disabled data-i18n="common.apply_changes">Apply Changes</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recover missing trips from telemetry files on disk.
+                         For history lost when the storage volume was briefly
+                         undetected. User-triggered (never automatic). -->
+                    <div class="card" data-tab="storage" style="margin-top:16px;">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.36 2.64L3 8"/><path d="M3 3v5h5"/>
+                                </svg>
+                                <span data-i18n="trip.recover.title">Recover Missing Trips</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-row" style="border-bottom:none;">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.recover.action">Rebuild from storage</div>
+                                    <div class="setting-desc" data-i18n="trip.recover.desc">If trips vanished from your history after an SD card was briefly undetected, this rebuilds them from the telemetry files still on disk. Distance, speed, route and elevation are restored; energy, cost and driving scores aren’t available for recovered trips. Safe to run anytime.</div>
+                                </div>
+                            </div>
+                            <div id="tripRecoverResult" class="setting-desc" style="display:none;margin:4px 0 12px;"></div>
+                            <div style="margin-top:12px;">
+                                <button class="btn btn-primary" id="tripRecoverBtn" onclick="TRIPS.recoverTrips()" style="width:100%;" data-i18n="trip.recover.button">Scan &amp; Recover Trips</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- BYD Dashcam Cleanup (shown when SD card selected) -->
+                    <div class="card" data-tab="storage" id="tripCdrCleanupCard" style="display:none;margin-top:16px;">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                </svg>
+                                <span data-i18n="trip.cdr.title">BYD Dashcam Auto-Cleanup</span>
+                                <span class="status-badge" id="tripCdrBadge" data-i18n="status.off">OFF</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.cdr.auto_delete">Auto-Delete Old Dashcam Files</div>
+                                    <div class="setting-desc" data-i18n="trip.cdr.auto_delete_desc">Free up SD card space by removing oldest BYD dashcam recordings</div>
+                                </div>
+                                <div class="setting-control">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="tripCdrEnabled" onchange="TRIPS.toggleCdrCleanup()">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Recommend banner (shown only when API says recommendAutoCleanup) -->
+                            <div class="info-box" id="tripCdrRecommendBanner" style="display:none;background:rgba(255,193,7,0.08);border:1px solid rgba(255,193,7,0.3);">
+                                <div class="info-row" style="color:var(--warning);">
+                                    <span class="label" data-i18n="trip.cdr.recommend_label">⚠️ Recommended</span>
+                                    <span class="value" data-i18n="trip.cdr.recommend_text">Overdrive uses SD — enable cleanup to keep space free</span>
+                                </div>
+                            </div>
+                            <div class="info-box" id="tripCdrInfoBox">
+                                <div class="info-row"><span class="label" data-i18n="trip.cdr.path">Dashcam Path</span><span class="value" id="tripCdrPath">--</span></div>
+                                <div class="info-row"><span class="label" data-i18n="trip.cdr.usage">Dashcam Usage</span><span class="value" id="tripCdrUsage">--</span></div>
+                                <div class="info-row"><span class="label" data-i18n="trip.cdr.files">Files</span><span class="value" id="tripCdrFileCount">--</span></div>
+                                <div class="info-row"><span class="label" data-i18n="trip.cdr.protected">Protected</span><span class="value" id="tripCdrProtected">--</span></div>
+                                <div class="info-row"><span class="label" data-i18n="trip.cdr.deletable">Deletable</span><span class="value" id="tripCdrDeletable">--</span></div>
+                                <div class="info-row"><span class="label" data-i18n="trip.cdr.bg_monitor">Background monitor</span><span class="value" id="tripCdrMonitoring">--</span></div>
+                                <div class="info-row"><span class="label" data-i18n="trip.cdr.last_cleanup">Last cleanup</span><span class="value" id="tripCdrLastCleanup">--</span></div>
+                            </div>
+                            <div class="setting-row" style="margin-top:12px;">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.cdr.reserved">Reserved Space for Overdrive</div>
+                                    <div class="setting-desc" data-i18n="trip.cdr.reserved_desc">Keep this much free on SD card</div>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="slider-control">
+                                        <span class="slider-value" id="tripCdrReservedValue">2 GB</span>
+                                        <input type="range" class="slider" id="tripCdrReservedSlider" min="100" max="20000" step="100" value="2000" oninput="TRIPS.updateCdrReserved(this.value)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.cdr.protect_recent">Protect Recent Files</div>
+                                    <div class="setting-desc" data-i18n="trip.cdr.protect_recent_desc">Don't delete dashcam files newer than this</div>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="slider-control">
+                                        <span class="slider-value" id="tripCdrProtectedValue">24h</span>
+                                        <input type="range" class="slider" id="tripCdrProtectedSlider" min="0" max="168" step="12" value="24" oninput="TRIPS.updateCdrProtected(this.value)">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="setting-row">
+                                <div class="setting-info">
+                                    <div class="setting-name" data-i18n="trip.cdr.min_keep">Keep Minimum Files</div>
+                                    <div class="setting-desc" data-i18n="trip.cdr.min_keep_desc">Always keep at least this many newest files</div>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="slider-control">
+                                        <span class="slider-value" id="tripCdrMinKeepValue">10</span>
+                                        <input type="range" class="slider" id="tripCdrMinKeepSlider" min="0" max="50" step="5" value="10" oninput="TRIPS.updateCdrMinKeep(this.value)">
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-danger" style="width:100%;margin-top:12px;" onclick="TRIPS.triggerCdrCleanup()" data-i18n="trip.cdr.cleanup_now">
+                                🗑️ Clean Up Now
+                            </button>
+                            <div class="info-box" style="margin-top:12px;">
+                                <div class="info-row"><span class="label" data-i18n="trip.cdr.total_freed">Total Freed</span><span class="value" id="tripCdrTotalFreed">--</span></div>
+                                <div class="info-row"><span class="label" data-i18n="trip.cdr.files_deleted_label">Files Deleted</span><span class="value" id="tripCdrTotalDeleted">--</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== TRIP DETAIL VIEW ========== -->
+                <div class="trip-detail" id="tripDetail">
+                    <div class="detail-header">
+                        <button class="detail-back-btn" onclick="TRIPS.hideDetail()">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+                            <span data-i18n="trip.detail.back">Back to Trips</span>
+                        </button>
+                    </div>
+
+                    <!-- Summary Header -->
+                    <div class="detail-summary" id="detailSummary">
+                        <div style="font-size:18px;font-weight:600;color:var(--text-primary);" id="detailTitle">--</div>
+                        <div style="font-size:13px;color:var(--text-muted);margin-top:4px;" id="detailSubtitle">--</div>
+                        <div class="detail-summary-grid">
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailDistance">--</div><div class="detail-stat-label" id="detailDistanceLabel">km</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailDuration">--</div><div class="detail-stat-label" data-i18n="trip.detail.duration">Duration</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailSocDelta">--</div><div class="detail-stat-label" data-i18n="trip.detail.soc_used">SoC Used</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailEfficiency">--</div><div class="detail-stat-label" data-i18n="trip.detail.energy">Energy</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailConsumption" style="color:var(--brand-primary);">--</div><div class="detail-stat-label" id="detailConsumptionLabel">kWh/100km</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailEfficiency2" style="color:var(--brand-primary);">--</div><div class="detail-stat-label" id="detailEfficiency2Label">km/kWh</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailAvgSpeed">--</div><div class="detail-stat-label" id="detailAvgSpeedLabel" data-i18n="trip.detail.avg_kmh">Avg km/h</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailMaxSpeed">--</div><div class="detail-stat-label" id="detailMaxSpeedLabel" data-i18n="trip.detail.max_kmh">Max km/h</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailSocStart">--</div><div class="detail-stat-label" data-i18n="trip.detail.start_soc">Start SoC</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailSocEnd">--</div><div class="detail-stat-label" data-i18n="trip.detail.end_soc">End SoC</div></div>
+                            <div class="detail-stat" id="detailOdoStartTile" style="display:none;"><div class="detail-stat-value" id="detailOdoStart">--</div><div class="detail-stat-label" data-i18n="trip.detail.start_odo">Start Odometer</div></div>
+                            <div class="detail-stat" id="detailOdoEndTile" style="display:none;"><div class="detail-stat-value" id="detailOdoEnd">--</div><div class="detail-stat-label" data-i18n="trip.detail.end_odo">End Odometer</div></div>
+                            <div class="detail-stat phev-only" id="detailFuelStartTile" style="display:none;"><div class="detail-stat-value" id="detailFuelStart" style="color:var(--warning);">--</div><div class="detail-stat-label" data-i18n="trip.detail.start_fuel">Start Fuel</div></div>
+                            <div class="detail-stat phev-only" id="detailFuelEndTile" style="display:none;"><div class="detail-stat-value" id="detailFuelEnd" style="color:var(--warning);">--</div><div class="detail-stat-label" data-i18n="trip.detail.end_fuel">End Fuel</div></div>
+                            <div class="detail-stat phev-only" id="detailLitresUsedTile" style="display:none;"><div class="detail-stat-value" id="detailLitresUsed" style="color:var(--warning);">--</div><div class="detail-stat-label" data-i18n="trip.detail.litres_used">Petrol Used</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailTemp">--</div><div class="detail-stat-label" data-i18n="trip.detail.temp_c">Temp °C</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailCost" style="color:var(--warning);">--</div><div class="detail-stat-label" data-i18n="trip.detail.cost">Cost</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailElevGain" style="color:var(--success);">--</div><div class="detail-stat-label" data-i18n="trip.detail.elev_up">Elev ↑</div></div>
+                            <div class="detail-stat"><div class="detail-stat-value" id="detailElevLoss" style="color:var(--danger);">--</div><div class="detail-stat-label" data-i18n="trip.detail.elev_down">Elev ↓</div></div>
+                        </div>
+                        <div style="margin-top:8px;text-align:center;"><span id="detailGradientPill" style="display:none;"></span></div>
+                    </div>
+
+                    <!-- Recovered-trip banner: explains why battery/energy/score
+                         tiles are empty on a trip rebuilt from GPS telemetry. -->
+                    <div class="recovered-banner" id="detailRecoveredBanner" style="display:none;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+                        <span data-i18n="trip.recovered.detail_note">Recovered from telemetry. Distance, speed and elevation are reconstructed from GPS; battery, energy, cost and driving scores were not recorded for this trip.</span>
+                    </div>
+
+                    <!-- Timeline Slider -->
+                    <div class="timeline-slider-card" id="timelineSliderCard" style="display:none;">
+                        <div class="timeline-slider-header">
+                            <div class="card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:var(--brand-primary)"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                                <span data-i18n="trip.timeline.title">Trip Timeline</span>
+                            </div>
+                            <div class="timeline-slider-info" id="sliderInfo">
+                                <span class="timeline-slider-stat"><span data-i18n="trip.timeline.speed">Speed</span>: <span class="tval" id="sliderSpeed">--</span> <span id="sliderSpeedUnit">km/h</span></span>
+                                <span class="timeline-slider-stat"><span data-i18n="trip.timeline.accel">Accel</span>: <span class="tval" id="sliderAccel">--</span>%</span>
+                                <span class="timeline-slider-stat"><span data-i18n="trip.timeline.brake">Brake</span>: <span class="tval" id="sliderBrake">--</span>%</span>
+                                <span class="timeline-slider-stat" style="color:rgba(245,158,11,0.7);"><span data-i18n="trip.timeline.soc">SoC</span>: <span class="tval" id="sliderSoc" style="color:rgba(245,158,11,0.9);">--</span>%</span>
+                            </div>
+                        </div>
+                        <div class="timeline-slider-wrap">
+                            <input type="range" id="timelineSlider" min="0" max="100" value="0" oninput="TRIPS.onSliderInput(this.value)">
+                        </div>
+                        <div class="timeline-slider-labels">
+                            <span id="sliderStartTime">0:00</span>
+                            <span id="sliderCurrentTime" style="color:var(--brand-primary);font-weight:600;">--:--</span>
+                            <span id="sliderEndTime">--:--</span>
+                        </div>
+                    </div>
+
+                    <!-- Route Map -->
+                    <div class="map-card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;color:var(--brand-primary)"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+                            <span data-i18n="trip.route.title">Route</span>
+                        </div>
+                        <div id="tripMap"></div>
+                        <div class="map-speed-legend">
+                            <span><span class="legend-dot" style="background:var(--success)"></span> <span id="routeSpeedLow" data-i18n="trip.route.speed_low">&lt;40 km/h</span></span>
+                            <span><span class="legend-dot" style="background:var(--warning)"></span> <span id="routeSpeedMid" data-i18n="trip.route.speed_mid">40–80 km/h</span></span>
+                            <span><span class="legend-dot" style="background:var(--danger)"></span> <span id="routeSpeedHigh" data-i18n="trip.route.speed_high">&gt;80 km/h</span></span>
+                        </div>
+                    </div>
+
+
+                    <!-- Speed & Pedal Timeline -->
+                    <div class="chart-card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;color:var(--brand-primary)"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                            <span data-i18n="trip.timeline.speed_pedal_title">Speed &amp; Pedal Timeline</span>
+                        </div>
+                        <div style="display:flex;gap:12px;margin-bottom:8px;font-size:11px;color:var(--text-muted);">
+                            <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:3px;background:var(--brand-primary);border-radius:2px;display:inline-block;"></span> <span data-i18n="trip.timeline.legend_speed">Speed</span></span>
+                            <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:8px;background:rgba(14,165,233,0.3);border-radius:2px;display:inline-block;"></span> <span data-i18n="trip.timeline.legend_accel">Accel</span></span>
+                            <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:8px;background:rgba(239,68,68,0.3);border-radius:2px;display:inline-block;"></span> <span data-i18n="trip.timeline.legend_brake">Brake</span></span>
+                            <span style="display:flex;align-items:center;gap:4px;"><span style="width:12px;height:0;border-top:2px dashed rgba(245,158,11,0.5);display:inline-block;"></span> <span data-i18n="trip.timeline.legend_soc">SoC%</span></span>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="timelineChart"></canvas>
+                        </div>
+                        <div style="display:flex;justify-content:space-around;padding-top:10px;border-top:1px solid var(--border-subtle);margin-top:10px;">
+                            <div style="text-align:center;"><span style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--text-primary);" id="tlAccelPct">--%</span><div style="font-size:10px;color:var(--text-muted);margin-top:2px;" data-i18n="trip.timeline.accelerating">Accelerating</div></div>
+                            <div style="text-align:center;"><span style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--accent);" id="tlCoastPct">--%</span><div style="font-size:10px;color:var(--text-muted);margin-top:2px;" data-i18n="trip.timeline.coasting">Coasting</div></div>
+                            <div style="text-align:center;"><span style="font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--danger);" id="tlBrakePct">--%</span><div style="font-size:10px;color:var(--text-muted);margin-top:2px;" data-i18n="trip.timeline.braking">Braking</div></div>
+                        </div>
+                    </div>
+
+                    <!-- Speed Distribution -->
+                    <div class="chart-card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;color:var(--brand-primary)"><rect x="3" y="12" width="4" height="8" rx="1"/><rect x="10" y="8" width="4" height="12" rx="1"/><rect x="17" y="4" width="4" height="16" rx="1"/></svg>
+                            <span data-i18n="trip.speed_dist.title">Speed Distribution</span>
+                        </div>
+                        <div class="chart-canvas-wrap">
+                            <canvas id="speedHistogram"></canvas>
+                        </div>
+                        <div class="speed-hist-legend">
+                            <span><span class="legend-dot" style="background:var(--warning);width:8px;height:8px;border-radius:50%;display:inline-block"></span> <span id="speedDistLow" data-i18n="trip.speed_dist.low">Low (&lt;40)</span></span>
+                            <span><span class="legend-dot" style="background:var(--success);width:8px;height:8px;border-radius:50%;display:inline-block"></span> <span id="speedDistNormal" data-i18n="trip.speed_dist.normal">Normal (40–80)</span></span>
+                            <span><span class="legend-dot" style="background:var(--danger);width:8px;height:8px;border-radius:50%;display:inline-block"></span> <span id="speedDistHigh" data-i18n="trip.speed_dist.high">High (&gt;80)</span></span>
+                        </div>
+                        <div class="speed-hist-summary" id="speedHistSummary"></div>
+                    </div>
+
+                    <!-- Micro-Moments -->
+                    <div class="micro-moments-card" id="microMomentsCard">
+                        <div class="card-title" style="margin-bottom:8px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;color:var(--brand-primary)"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            <span data-i18n="trip.micro.title">Micro-Moments</span>
+                        </div>
+                        <div id="microMomentsList"></div>
+                    </div>
+
+                    <!-- Route Comparison -->
+                    <div class="route-comparison-card" id="routeComparisonCard" style="display:none;">
+                        <div class="card-title" style="margin-bottom:12px;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;color:var(--brand-primary)"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                            <span data-i18n="trip.route_compare.title">Route Comparison</span>
+                        </div>
+                        <div id="routeComparisonContent"></div>
+                        <div id="routeMapOverlay" style="display:none;margin-top:12px;">
+                            <div id="routeCompareMap" style="height:300px;border-radius:12px;overflow:hidden;"></div>
+                            <div id="routeMapLegend" style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--text-muted);"></div>
+                        </div>
+                    </div>
+
+                    <!-- Driving DNA Breakdown (at bottom for deep-dive) -->
+                    <div class="scores-card" id="scoreBreakdownCard">
+                        <div class="card-title" style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;color:var(--brand-primary)"><polygon points="12 2 22 8.5 19 20 5 20 2 8.5"/></svg>
+                                <span data-i18n="trip.scores.breakdown_title">Driving DNA Breakdown</span>
+                            </div>
+                            <span style="font-size:11px; color:var(--brand-primary); cursor:pointer;" data-i18n="trip.scores.tap_for_coaching">Tap rows for coaching 💡</span>
+                        </div>
+                        <div id="scoreBreakdown">
+                            <div class="score-row" onclick="TRIPS.toggleScoreDetail(this)">
+                                <div class="score-row-top">
+                                    <span class="score-icon">🔮</span>
+                                    <span class="score-label" data-i18n="trip.scores.anticipation">Anticipation</span>
+                                    <div class="score-bar-track"><div class="score-bar-fill" id="scoreAnticipation" style="width:0%"></div></div>
+                                    <span class="score-number" id="scoreAnticipationVal">--</span>
+                                </div>
+                                <div class="score-detail">
+                                    <div class="score-detail-text" data-i18n="trip.scores.anticipation_text">Measures how well you read traffic ahead and lift off the accelerator early before braking. Higher scores mean less energy wasted on sudden stops.</div>
+                                    <div class="score-detail-tip" data-i18n="trip.scores.anticipation_tip">💡 Tip: Coast more before red lights and slow traffic. Lift off the pedal 3–5 seconds earlier than usual.</div>
+                                </div>
+                            </div>
+                            <div class="score-row" onclick="TRIPS.toggleScoreDetail(this)">
+                                <div class="score-row-top">
+                                    <span class="score-icon">🌊</span>
+                                    <span class="score-label" data-i18n="trip.scores.smoothness">Smoothness</span>
+                                    <div class="score-bar-track"><div class="score-bar-fill" id="scoreSmoothness" style="width:0%"></div></div>
+                                    <span class="score-number" id="scoreSmoothnessVal">--</span>
+                                </div>
+                                <div class="score-detail">
+                                    <div class="score-detail-text" data-i18n="trip.scores.smoothness_text">Tracks how gradually you apply and release the accelerator and brake pedals. Jerky inputs waste energy and reduce comfort.</div>
+                                    <div class="score-detail-tip" data-i18n="trip.scores.smoothness_tip">💡 Tip: Pretend there's a glass of water on the dashboard. Smooth pedal transitions keep it from spilling.</div>
+                                </div>
+                            </div>
+                            <div class="score-row" onclick="TRIPS.toggleScoreDetail(this)">
+                                <div class="score-row-top">
+                                    <span class="score-icon">🎯</span>
+                                    <span class="score-label" data-i18n="trip.scores.speed_discipline">Speed Discipline</span>
+                                    <div class="score-bar-track"><div class="score-bar-fill" id="scoreSpeedDisc" style="width:0%"></div></div>
+                                    <span class="score-number" id="scoreSpeedDiscVal">--</span>
+                                </div>
+                                <div class="score-detail">
+                                    <div class="score-detail-text" data-i18n="trip.scores.speed_disc_text">Evaluates how consistently you maintain appropriate speeds. Frequent speeding and large speed variations reduce this score.</div>
+                                    <div class="score-detail-tip" data-i18n="trip.scores.speed_disc_tip">💡 Tip: Use cruise control on highways. Keeping within 5 km/h of the limit saves significant energy.</div>
+                                </div>
+                            </div>
+                            <div class="score-row" onclick="TRIPS.toggleScoreDetail(this)">
+                                <div class="score-row-top">
+                                    <span class="score-icon">⚡</span>
+                                    <span class="score-label" data-i18n="trip.scores.efficiency">Efficiency</span>
+                                    <div class="score-bar-track"><div class="score-bar-fill" id="scoreEfficiency" style="width:0%"></div></div>
+                                    <span class="score-number" id="scoreEfficiencyVal">--</span>
+                                </div>
+                                <div class="score-detail">
+                                    <div class="score-detail-text" data-i18n="trip.scores.efficiency_text">Compares your energy consumption per km against the optimal baseline for your vehicle, route, and conditions.</div>
+                                    <div class="score-detail-tip" data-i18n="trip.scores.efficiency_tip">💡 Tip: Pre-condition the cabin while plugged in. Avoid full-throttle launches from stops.</div>
+                                </div>
+                            </div>
+                            <div class="score-row" onclick="TRIPS.toggleScoreDetail(this)">
+                                <div class="score-row-top">
+                                    <span class="score-icon">📐</span>
+                                    <span class="score-label" data-i18n="trip.scores.consistency">Consistency</span>
+                                    <div class="score-bar-track"><div class="score-bar-fill" id="scoreConsistency" style="width:0%"></div></div>
+                                    <span class="score-number" id="scoreConsistencyVal">--</span>
+                                </div>
+                                <div class="score-detail">
+                                    <div class="score-detail-text" data-i18n="trip.scores.consistency_text">Measures how uniform your driving style is throughout the trip. Erratic behavior (alternating aggressive and calm) lowers this score.</div>
+                                    <div class="score-detail-tip" data-i18n="trip.scores.consistency_tip">💡 Tip: Pick a driving style and stick with it. Consistent habits build muscle memory for efficiency.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Delete Trip -->
+                    <button class="detail-delete-btn" id="detailDeleteBtn" onclick="TRIPS.deleteCurrentTrip()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        <span data-i18n="trip.detail.delete_trip">Delete Trip</span>
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Calendar Popup -->
+    <div class="calendar-popup" id="calendarPopup">
+        <div class="calendar-panel">
+            <div class="calendar-header">
+                <span class="calendar-title" id="calendarTitle">January 2026</span>
+                <div class="calendar-nav">
+                    <button onclick="TRIPS.prevMonth()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <button onclick="TRIPS.nextMonth()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <button class="calendar-close" onclick="TRIPS.closeCalendar()" data-i18n="common.close">Close</button>
+        </div>
+    </div>
+
+    <script src="../shared/leaflet.js"></script>
+    <script src="../shared/auth.js"></script>
+    <script src="../shared/pwa-init.js?v=index1"></script>
+    <script src="../shared/core.js?v=20"></script>
+    <script src="../shared/update-flow.js"></script>
+    <script src="../shared/storage-budget.js?v=8"></script>
+    <script src="../shared/trips.js?v=budget10"></script>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+        BYD.i18n.init().then(function () {
+            if (typeof BYD !== 'undefined' && BYD.core) BYD.core.init();
+            TRIPS.init();
+        });
+    </script>
+</body>
+</html>

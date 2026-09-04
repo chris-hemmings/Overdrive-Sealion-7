@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#00876C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="../shared/app-icon-dark.webp">
+    <title data-i18n="about.page_title">About — OverDrive</title>
+    <link rel="icon" type="image/webp" href="../shared/app-icon-dark.webp">
+    <script src="../shared/theme.js?v=5"></script>
+    <script src="../shared/app-shell.js?v=5"></script>
+    <link rel="stylesheet" href="../shared/styles.css?v=23">
+    <link rel="manifest" href="/manifest.json">
+    <style>
+        .about-page-body { max-width: 720px; margin: 0 auto; }
+
+        .about-section { margin-bottom: 28px; }
+        .about-section h2 {
+            font-size: 12px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            color: var(--text-secondary);
+            margin: 0 0 4px;
+        }
+        /* Inner subheads (Contributors / Supporters) inside the same section
+           — visually distinct from the top-level overline above. */
+        .about-subhead {
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.08em; text-transform: uppercase;
+            color: var(--text-muted);
+            margin: 0 0 4px;
+        }
+        .about-section-sub {
+            font-size: 13px; color: var(--text-muted);
+            line-height: 1.5; margin: 0 0 14px;
+        }
+
+        .vehicle-info-card {
+            overflow: hidden;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+        }
+        .vehicle-info-row {
+            display: grid;
+            grid-template-columns: minmax(120px, 0.75fr) minmax(0, 1.25fr);
+            align-items: baseline;
+            gap: 18px;
+            padding: 13px 16px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .vehicle-info-row:last-child { border-bottom: 0; }
+        .vehicle-info-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .vehicle-info-value {
+            min-width: 0;
+            color: var(--text-primary);
+            font-family: var(--family-mono);
+            font-size: 13px;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+        .vehicle-info-status,
+        .vehicle-info-privacy {
+            margin: 10px 2px 0;
+            color: var(--text-muted);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .vehicle-info-status:empty { display: none; }
+
+        @media (max-width: 520px) {
+            .vehicle-info-row {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
+            .vehicle-info-value { text-align: left; }
+        }
+
+        .credits-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 6px 4px;
+            /* Cap the list at ~6 rows so a long contributor/supporter list
+               scrolls inside the card instead of stretching the whole page.
+               Sized off the tallest row (patron, 56px avatar) so the cap still
+               shows ~6 rows once tiers enlarge some avatars. */
+            max-height: 440px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .credit-row {
+            display: flex; align-items: center; gap: 14px;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border-subtle);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: background 0.15s ease;
+        }
+        .credit-row:last-child { border-bottom: 0; }
+        .credit-row[href]:hover { background: var(--bg-hover); }
+        .credit-row[href]:active { background: var(--bg-active, var(--bg-hover)); }
+
+        .credit-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 15px; font-weight: 700;
+            color: #fff;
+            object-fit: cover;
+            background: var(--bg-hover);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .credit-name {
+            flex: 1; min-width: 0;
+            font-size: 15px; font-weight: 500;
+            white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+
+        .credit-chev {
+            width: 18px; height: 18px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .credits-empty {
+            padding: 18px 14px;
+            font-size: 13px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* ── Supporter medals ─────────────────────────────────────────────
+           Gold / silver / bronze. Avatar size is untouched — the medal is a
+           ring on the avatar plus a labelled pip, so rows stay uniform.
+
+           These are NOT the classic metal hexes: #D4AF37/#C0C0C0/#CD7F32 put
+           gold and bronze at ΔE 12.2 (below the 15 normal-vision floor) and
+           collapse further under deuteranopia. The steps below are
+           lightness-separated (light gold / mid steel / dark bronze) so the
+           worst all-pairs distance is ΔE 17.5 dark / 20.7 light. Light mode
+           needs its own darker steps AND a rim: the gold and silver fills sit
+           at 2.0-3.0:1 on the light surface, so the rim (3.8:1 / 5.3:1)
+           carries the edge. Every medal also ships its name as text, so the
+           colour is never the only channel. */
+        :root {
+            --medal-diamond: #7FE0F5;
+            --medal-platinum: #D8E2EA;
+            --medal-gold: #F0C043;
+            --medal-silver: #AFBECC;
+            --medal-bronze: #B4602C;
+            --medal-diamond-rim: #7FE0F5;
+            --medal-platinum-rim: #D8E2EA;
+            --medal-gold-rim: #F0C043;
+            --medal-silver-rim: #AFBECC;
+            --medal-bronze-rim: #B4602C;
+        }
+        :root[data-theme="light"] {
+            --medal-diamond: #0E8FB0;
+            --medal-platinum: #5C6A78;
+            --medal-gold: #E0A81F;
+            --medal-silver: #8494A3;
+            --medal-bronze: #9A4A22;
+            --medal-diamond-rim: #0A6E88;
+            --medal-platinum-rim: #47535E;
+            --medal-gold-rim: #A87610;
+            --medal-silver-rim: #5C6A78;
+            --medal-bronze-rim: #7E3D1C;
+        }
+
+        /* The ring reads as a metal edge on the avatar. Two stacked shadows:
+           a surface gap, then the metal — so it never looks like a border
+           drawn on the photo. */
+        .credit-avatar.medal-diamond {
+            box-shadow: 0 0 0 2px var(--bg-elevated), 0 0 0 3.5px var(--medal-diamond);
+        }
+        .credit-avatar.medal-platinum {
+            box-shadow: 0 0 0 2px var(--bg-elevated), 0 0 0 3.5px var(--medal-platinum);
+        }
+        .credit-avatar.medal-gold {
+            box-shadow: 0 0 0 2px var(--bg-elevated), 0 0 0 3.5px var(--medal-gold);
+        }
+        .credit-avatar.medal-silver {
+            box-shadow: 0 0 0 2px var(--bg-elevated), 0 0 0 3.5px var(--medal-silver);
+        }
+        .credit-avatar.medal-bronze {
+            box-shadow: 0 0 0 2px var(--bg-elevated), 0 0 0 3.5px var(--medal-bronze);
+        }
+
+        /* Labelled medal pip. The polished look comes from a soft top-left
+           highlight in the gradient, not an animation — this sits in a static
+           list and a shimmer would be noise. */
+        .credit-medal {
+            display: inline-flex; align-items: center; gap: 5px;
+            flex-shrink: 0;
+            font-size: 11px; font-weight: 600;
+            letter-spacing: 0.04em; text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+        .credit-medal-pip {
+            width: 11px; height: 11px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            /* Off-centre highlight = the "shiny" read. */
+            background-image: radial-gradient(circle at 32% 28%,
+                rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 58%);
+        }
+        /* Diamond and platinum are both pale and cool, and no hue pair survives
+           there: cyan↔violet collapses to ΔE 1.0 under deuteranopia. So the top
+           two tiers carry SHAPE as their primary channel — a rhombus and a
+           hollow ring — while the three metals stay filled circles. Shape is
+           the one channel CVD can't touch. */
+        .medal-diamond .credit-medal-pip {
+            background-color: var(--medal-diamond);
+            box-shadow: inset 0 0 0 1px var(--medal-diamond-rim);
+            border-radius: 2px;
+            transform: rotate(45deg) scale(0.86);
+        }
+        .medal-platinum .credit-medal-pip {
+            /* Hollow: a thick ring, no fill. Distinct at a glance from every
+               filled pip regardless of colour. */
+            background-color: transparent;
+            background-image: none;
+            box-shadow: inset 0 0 0 3px var(--medal-platinum);
+        }
+        .medal-gold .credit-medal-pip {
+            background-color: var(--medal-gold);
+            box-shadow: inset 0 0 0 1px var(--medal-gold-rim);
+        }
+        .medal-silver .credit-medal-pip {
+            background-color: var(--medal-silver);
+            box-shadow: inset 0 0 0 1px var(--medal-silver-rim);
+        }
+        .medal-bronze .credit-medal-pip {
+            background-color: var(--medal-bronze);
+            box-shadow: inset 0 0 0 1px var(--medal-bronze-rim);
+        }
+
+        .credit-text { flex: 1; min-width: 0; }
+        .credit-text .credit-name { display: block; }
+
+        /* ×N repeat badge. Tabular figures because these align vertically down
+           the list. Hidden at N=1 — "×1" reads as "only once". */
+        .credit-count {
+            flex-shrink: 0;
+            margin-left: 10px;
+            font-family: var(--family-mono);
+            font-variant-numeric: tabular-nums;
+            font-size: 11px; font-weight: 600;
+            padding: 3px 7px;
+            border-radius: var(--radius-full);
+            /* Neutral — the medal owns the colour on this row, so the count
+               doesn't compete with it. */
+            background: color-mix(in srgb, var(--text-secondary) 12%, transparent);
+            color: var(--text-secondary);
+        }
+
+        /* Legend: tells the reader what the sizes and ×N mean. Required —
+           without it the encoding is a private joke. */
+        .credits-legend {
+            display: flex; flex-wrap: wrap;
+            align-items: center; gap: 8px 16px;
+            margin: 10px 2px 0;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .credits-legend-item {
+            display: inline-flex; align-items: center; gap: 6px;
+        }
+        /* Legend keys reuse the row pip so the mark is literally identical. */
+        .credits-legend-item .credit-medal-pip {
+            width: 12px; height: 12px;
+        }
+        /* Full-width so it wraps under the keys instead of beside them. */
+        .credits-legend-note {
+            flex-basis: 100%;
+            margin: 0;
+            font-size: 12px;
+            line-height: 1.5;
+            color: var(--text-muted);
+        }
+
+        /* Tiered support cards mirror the native About fragment: free → social
+           → monetary. Tokens come from styles.css so dark/light themes apply
+           automatically; the kofi card uses a brand-tinted background. */
+        .support-tier-list {
+            display: flex; flex-direction: column;
+            gap: 12px;
+            margin-top: 6px;
+        }
+        .tier-card {
+            display: flex; align-items: center; gap: 14px;
+            padding: 16px 18px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: background 0.15s ease, border-color 0.15s ease;
+            cursor: pointer;
+            font: inherit;
+            text-align: left;
+            width: 100%;
+        }
+        .tier-card:hover { background: var(--bg-hover); }
+        .tier-card:focus-visible {
+            outline: 2px solid var(--brand-primary);
+            outline-offset: 2px;
+        }
+        .tier-icon {
+            width: 24px; height: 24px;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+        .tier-text { flex: 1; min-width: 0; }
+        .tier-title {
+            font-size: 15px; font-weight: 600;
+            margin: 0 0 2px;
+            line-height: 1.3;
+        }
+        .tier-value {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin: 0;
+            line-height: 1.4;
+        }
+        .tier-chev {
+            width: 18px; height: 18px;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+        /* Tier 3 (Ko-fi) uses an accent background to read as the most
+           committed CTA without screaming. Mirrors colorPrimaryContainer in
+           the native fragment. */
+        /* Brand-tinted highlight for the most-committed CTA. Uses
+           color-mix() over --brand-primary so light/dark themes both produce
+           a faint tint that respects the active palette without us having to
+           hand-pick rgba() values per theme. */
+        .tier-card.kofi {
+            background: color-mix(in srgb, var(--brand-primary) 10%, transparent);
+            border-color: color-mix(in srgb, var(--brand-primary) 28%, transparent);
+        }
+        .tier-card.kofi:hover {
+            background: color-mix(in srgb, var(--brand-primary) 16%, transparent);
+        }
+        .tier-card.kofi .tier-icon,
+        .tier-card.kofi .tier-chev { color: var(--brand-primary); }
+        .tier-card.kofi .tier-value { color: var(--text-primary); opacity: 0.85; }
+    </style>
+</head>
+<body>
+    <div class="app-layout">
+        <!-- App shell sidebar (rendered by ../shared/app-shell.js) -->
+        <div id="app-shell-mount"></div>
+        <main class="main-content">
+            <div class="mobile-header">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                </button>
+                <span style="font-weight:600;" data-i18n="about.page_title_short">About</span>
+                <div style="width:40px;"></div>
+            </div>
+
+            <header class="page-header">
+                <h1 class="page-title" data-i18n="about.page_title_short">About</h1>
+            </header>
+
+            <div class="page-body">
+                <div class="about-page-body">
+                    <section class="about-section" id="vehicleInfoSection">
+                        <h3 class="about-subhead" data-i18n="about.vehicle_title">Vehicle &amp; head unit</h3>
+                        <p class="about-section-sub" data-i18n="about.vehicle_sub">Version information reported by this car.</p>
+                        <div class="vehicle-info-card" aria-live="polite">
+                            <div class="vehicle-info-row">
+                                <span class="vehicle-info-label" data-i18n="about.vehicle_firmware">Firmware</span>
+                                <span class="vehicle-info-value" data-vehicle-info="firmware">—</span>
+                            </div>
+                            <div class="vehicle-info-row">
+                                <span class="vehicle-info-label" data-i18n="about.vehicle_dsp">DSP</span>
+                                <span class="vehicle-info-value" data-vehicle-info="dsp">—</span>
+                            </div>
+                            <div class="vehicle-info-row">
+                                <span class="vehicle-info-label" data-i18n="about.vehicle_mcu">MCU</span>
+                                <span class="vehicle-info-value" data-vehicle-info="mcu">—</span>
+                            </div>
+                            <div class="vehicle-info-row">
+                                <span class="vehicle-info-label" data-i18n="about.vehicle_android">Android</span>
+                                <span class="vehicle-info-value" data-vehicle-info="android">—</span>
+                            </div>
+                            <div class="vehicle-info-row">
+                                <span class="vehicle-info-label" data-i18n="about.vehicle_security_patch">Security patch</span>
+                                <span class="vehicle-info-value" data-vehicle-info="securityPatch">—</span>
+                            </div>
+                            <div class="vehicle-info-row">
+                                <span class="vehicle-info-label" data-i18n="about.vehicle_head_unit">Head unit</span>
+                                <span class="vehicle-info-value" data-vehicle-info="headUnit">—</span>
+                            </div>
+                        </div>
+                        <p class="vehicle-info-status" id="vehicleInfoStatus" role="status" data-i18n="about.vehicle_loading">Loading vehicle information…</p>
+                        <p class="vehicle-info-privacy" data-i18n="about.vehicle_vin_private">For privacy, VIN is available only in the in-car About screen and is never sent to the browser.</p>
+                    </section>
+
+                    <!-- Sequence mirrors the native About fragment: section
+                         overline first ("Powered by people like you"), then
+                         the Thanks card (recognition leads), then the three
+                         tier asks (free → social → monetary). -->
+                    <section class="about-section">
+                        <h2 data-i18n="about.support.section">Powered by people like you</h2>
+                        <p class="about-section-sub" data-i18n="about.thanks_subtitle">Built with the help of contributors and supporters.</p>
+                    </section>
+
+                    <section class="about-section">
+                        <h3 class="about-subhead" data-i18n="about.contributors_title">Contributors</h3>
+                        <p class="about-section-sub" data-i18n="about.contributors_sub">People who've shipped code to OverDrive.</p>
+                        <div class="credits-card" id="contributorsList"></div>
+                    </section>
+
+                    <section class="about-section">
+                        <h3 class="about-subhead" data-i18n="about.supporters_title">Supporters</h3>
+                        <p class="about-section-sub" data-i18n="about.supporters_sub">Folks who've kept the late-night commits caffeinated.</p>
+                        <div class="credits-card" id="supportersList"></div>
+                        <!-- Explains the ring/size + ×N encoding. Built by
+                             renderLegend() from the data that's actually present. -->
+                        <div class="credits-legend" id="supportersLegend"></div>
+                    </section>
+
+                    <!-- Backup & Restore: settings export/import (same device).
+                         Rendered by backup-flow.js into #backupMount. -->
+                    <div id="backupMount"></div>
+
+                    <!-- Diagnostics: per-daemon log send. Hidden unless the
+                         backend reports log upload is available (braveheart
+                         build). Populated by send-logs.js. -->
+                    <section class="about-section" id="diagSection" style="display:none">
+                        <h3 class="about-subhead" data-i18n="logs.section_title">Diagnostics</h3>
+                        <p class="about-section-sub" data-i18n="logs.section_sub">Send a daemon log to the maintainer — you'll get a short code to share.</p>
+                        <div class="credits-card" id="diagDaemonList"></div>
+                    </section>
+
+                    <section class="about-section">
+                        <div class="support-tier-list">
+                            <a class="tier-card" id="tierStar" target="_blank" rel="noopener noreferrer">
+                                <svg class="tier-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                </svg>
+                                <div class="tier-text">
+                                    <p class="tier-title" data-i18n="about.support.star_title">Drop a ⭐ on GitHub</p>
+                                    <p class="tier-value" data-i18n="about.support.star_value">Takes a second. Means a lot.</p>
+                                </div>
+                                <svg class="tier-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"/>
+                                </svg>
+                            </a>
+
+                            <button type="button" class="tier-card" id="tierShare">
+                                <svg class="tier-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="18" cy="5" r="3"/>
+                                    <circle cx="6" cy="12" r="3"/>
+                                    <circle cx="18" cy="19" r="3"/>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                                </svg>
+                                <div class="tier-text">
+                                    <p class="tier-title" data-i18n="about.support.share_title">Tell a fellow owner</p>
+                                    <p class="tier-value" data-i18n="about.support.share_value">Every shared link helps another BYD owner discover Overdrive.</p>
+                                </div>
+                                <svg class="tier-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"/>
+                                </svg>
+                            </button>
+
+                            <a class="tier-card kofi" id="tierKofi" target="_blank" rel="noopener noreferrer">
+                                <svg class="tier-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M18 8h1a4 4 0 0 1 0 8h-1"/>
+                                    <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/>
+                                    <line x1="6" y1="1" x2="6" y2="4"/>
+                                    <line x1="10" y1="1" x2="10" y2="4"/>
+                                    <line x1="14" y1="1" x2="14" y2="4"/>
+                                </svg>
+                                <div class="tier-text">
+                                    <p class="tier-title" data-i18n="about.support.kofi_title">Fuel the next release ☕</p>
+                                    <p class="tier-value" data-i18n="about.support.kofi_value">A coffee on Ko-fi keeps the late-night commits coming.</p>
+                                </div>
+                                <svg class="tier-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+    <div id="toastContainer" class="toast-container"></div>
+
+    <script src="../shared/auth.js"></script>
+    <script src="../shared/pwa-init.js?v=index1"></script>
+    <script src="../shared/core.js?v=20"></script>
+    <script src="../shared/update-flow.js"></script>
+    <script src="../shared/backup-flow.js"></script>
+    <script src="../shared/send-logs.js"></script>
+    <script>
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('show');
+        }
+
+        const VEHICLE_INFO_KEYS = [
+            'firmware', 'dsp', 'mcu', 'android', 'securityPatch', 'headUnit'
+        ];
+        let vehicleInfoData = null;
+        let vehicleInfoFailed = false;
+
+        function renderVehicleInfo() {
+            const unavailable = tSafe('about.vehicle_unavailable', 'Unavailable');
+            for (const key of VEHICLE_INFO_KEYS) {
+                const node = document.querySelector('[data-vehicle-info="' + key + '"]');
+                if (!node) continue;
+                const value = vehicleInfoData && vehicleInfoData[key];
+                node.textContent = value == null || String(value).trim() === ''
+                    ? unavailable : String(value);
+            }
+            const status = document.getElementById('vehicleInfoStatus');
+            if (status) {
+                status.textContent = vehicleInfoFailed
+                    ? tSafe('about.vehicle_load_failed', 'Vehicle information is unavailable right now.')
+                    : (vehicleInfoData ? '' : tSafe('about.vehicle_loading', 'Loading vehicle information…'));
+            }
+        }
+
+        async function loadVehicleInfo() {
+            try {
+                const resp = await fetch('/api/about/vehicle-info', {
+                    credentials: 'same-origin', cache: 'no-store'
+                });
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                const data = await resp.json();
+                if (!data || data.success !== true) throw new Error('Invalid response');
+                vehicleInfoData = data;
+                vehicleInfoFailed = false;
+            } catch (e) {
+                console.warn('[About] vehicle information load failed:', e);
+                vehicleInfoData = null;
+                vehicleInfoFailed = true;
+            }
+            renderVehicleInfo();
+        }
+
+        // Avatar palette mirrors the native fragment so the same name gets the
+        // same colour across web and head-unit.
+        const AVATAR_PALETTE = [
+            '#6366F1', '#EC4899', '#14B8A6', '#F59E0B',
+            '#8B5CF6', '#06B6D4', '#EF4444', '#22C55E'
+        ];
+
+        function hashStr(s) {
+            let h = 0;
+            for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+            return Math.abs(h);
+        }
+
+        function avatarColor(name) {
+            return AVATAR_PALETTE[hashStr(name) % AVATAR_PALETTE.length];
+        }
+
+        // Pick a reasonable initial. Letter/number first; otherwise the first
+        // codepoint (handles CJK, emoji surrogate pairs cleanly via Array.from).
+        function initial(name) {
+            const m = name.match(/[A-Za-z0-9]/);
+            if (m) return m[0].toUpperCase();
+            const cp = Array.from(name)[0];
+            return cp ? cp.toUpperCase() : '?';
+        }
+
+        // Build a single row as a real DOM element (avoids HTML-attribute
+        // injection on names containing quotes/angle brackets and lets us bind
+        // the avatar `error` handler programmatically).
+        // Medal order is also the display order — credits.json ships sorted
+        // gold → silver → bronze, so the list needs no client-side sort.
+        const MEDALS = ['diamond', 'platinum', 'gold', 'silver', 'bronze'];
+        const TIER_CLASS = {
+            diamond: 'medal-diamond', platinum: 'medal-platinum',
+            gold: 'medal-gold', silver: 'medal-silver', bronze: 'medal-bronze'
+        };
+
+        function buildRow(entry) {
+            const name = (entry.name || '').toString();
+            if (!name) return null;
+            const gh = (entry.github || '').toString().trim();
+            const tierClass = TIER_CLASS[String(entry.tier || '').toLowerCase()] || '';
+            // Guard against a malformed count: must be a finite integer > 1.
+            const rawCount = Number(entry.count);
+            const count = Number.isFinite(rawCount) && rawCount > 1
+                ? Math.floor(rawCount) : 0;
+
+            const row = document.createElement(gh ? 'a' : 'div');
+            row.className = 'credit-row';
+            if (gh) {
+                row.href = 'https://github.com/' + encodeURIComponent(gh);
+                row.target = '_blank';
+                row.rel = 'noopener noreferrer';
+            }
+
+            // Avatar: GitHub CDN for contributors, initial-circle for supporters
+            // and as a graceful fallback when the CDN 404s / is offline.
+            let avatar;
+            if (gh) {
+                avatar = document.createElement('img');
+                avatar.className = 'credit-avatar';
+                avatar.loading = 'lazy';
+                avatar.alt = '';
+                avatar.src = 'https://github.com/' + encodeURIComponent(gh) + '.png?size=72';
+                avatar.addEventListener('error', () => {
+                    // Preserve the tier class — replaceWith drops the old node.
+                    const fb = makeFallbackAvatar(name);
+                    if (tierClass) fb.classList.add(tierClass);
+                    avatar.replaceWith(fb);
+                }, { once: true });
+            } else {
+                avatar = makeFallbackAvatar(name);
+            }
+            if (tierClass) avatar.classList.add(tierClass);
+            row.appendChild(avatar);
+
+            // Name + optional tier label share a column so the label sits
+            // directly under the name rather than pushing the row wider.
+            const textWrap = document.createElement('span');
+            textWrap.className = 'credit-text';
+            const nameEl = document.createElement('span');
+            nameEl.className = 'credit-name';
+            nameEl.textContent = name;
+            textWrap.appendChild(nameEl);
+            row.appendChild(textWrap);
+
+            // Medal pip + its name. The name is what makes the colour legible
+            // to everyone, so the two always ship together.
+            if (tierClass) {
+                const medal = document.createElement('span');
+                medal.className = 'credit-medal ' + tierClass;
+                const pip = document.createElement('span');
+                pip.className = 'credit-medal-pip';
+                medal.appendChild(pip);
+                const label = document.createElement('span');
+                label.textContent = tierLabel(entry.tier);
+                medal.appendChild(label);
+                row.appendChild(medal);
+            }
+
+            if (count) {
+                const badge = document.createElement('span');
+                badge.className = 'credit-count';
+                badge.textContent = '×' + count;
+                // The glyph alone reads as "times N" to sighted users; spell it
+                // out for screen readers.
+                badge.setAttribute('aria-label', tSafe('about.support_count', 'Supported {n} times')
+                    .replace('{n}', String(count)));
+                row.appendChild(badge);
+            }
+
+            if (gh) {
+                // Chevron rendered via innerHTML — content is static, no user data.
+                const chev = document.createElement('span');
+                chev.innerHTML = '<svg class="credit-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>';
+                row.appendChild(chev.firstChild);
+            }
+            return row;
+        }
+
+        // i18n lookup that survives the pre-hydration window: BYD.i18n.t()
+        // returns null until the catalog loads, so fall back to the English
+        // literal rather than rendering a raw key.
+        function tSafe(key, fallback) {
+            const t = window.BYD && window.BYD.i18n && window.BYD.i18n.t
+                ? window.BYD.i18n.t(key) : null;
+            return t || fallback;
+        }
+
+        const TIER_FALLBACK = {
+            diamond: 'Diamond', platinum: 'Platinum',
+            gold: 'Gold', silver: 'Silver', bronze: 'Bronze'
+        };
+
+        function tierLabel(tier) {
+            const k = String(tier || '').toLowerCase();
+            if (!TIER_FALLBACK[k]) return '';
+            return tSafe('about.tier_' + k, TIER_FALLBACK[k]);
+        }
+
+        function makeFallbackAvatar(name) {
+            const span = document.createElement('span');
+            span.className = 'credit-avatar';
+            span.style.background = avatarColor(name);
+            span.style.borderColor = 'transparent';
+            span.textContent = initial(name);
+            return span;
+        }
+
+        function renderList(container, entries, emptyKey) {
+            container.replaceChildren();
+            if (!entries || entries.length === 0) {
+                const t = (window.BYD && window.BYD.i18n && window.BYD.i18n.t)
+                    ? window.BYD.i18n.t(emptyKey)
+                    : 'List populates as people pitch in.';
+                const empty = document.createElement('div');
+                empty.className = 'credits-empty';
+                empty.textContent = t;
+                container.appendChild(empty);
+                return;
+            }
+            for (const entry of entries) {
+                const row = buildRow(entry);
+                if (row) container.appendChild(row);
+            }
+        }
+
+        // Build the size/×N legend. Only shows the rows that actually occur in
+        // the data, so a list with no patrons doesn't advertise a patron tier.
+        function renderLegend(entries) {
+            const host = document.getElementById('supportersLegend');
+            if (!host) return;
+            host.replaceChildren();
+            const hasCount = entries.some(e => Number(e.count) > 1);
+            const present = MEDALS.filter(m =>
+                entries.some(e => String(e.tier || '').toLowerCase() === m));
+            if (!present.length && !hasCount) return;
+
+            for (const m of present) {
+                const item = document.createElement('span');
+                item.className = 'credits-legend-item ' + TIER_CLASS[m];
+                const pip = document.createElement('span');
+                pip.className = 'credit-medal-pip';
+                item.appendChild(pip);
+                const txt = document.createElement('span');
+                txt.textContent = tierLabel(m);
+                item.appendChild(txt);
+                host.appendChild(item);
+            }
+            if (hasCount) {
+                const item = document.createElement('span');
+                item.className = 'credits-legend-item';
+                const badge = document.createElement('span');
+                badge.className = 'credit-count';
+                badge.textContent = '×2';
+                item.appendChild(badge);
+                const txt = document.createElement('span');
+                txt.textContent = tSafe('about.legend_count', 'Supported more than once');
+                item.appendChild(txt);
+                host.appendChild(item);
+            }
+
+            // Spell out what the encoding means, once, below the keys.
+            const note = document.createElement('p');
+            note.className = 'credits-legend-note';
+            note.textContent = tSafe('about.tiers_explainer',
+                'Bigger avatars and a teal ring mark larger lifetime contributions; ×N shows how many times someone has chipped in.');
+            host.appendChild(note);
+        }
+
+        // Cached so an i18n locale change can re-render tier labels + legend
+        // without re-fetching.
+        let creditsData = null;
+
+        function renderCredits() {
+            const contribEl = document.getElementById('contributorsList');
+            const supportEl = document.getElementById('supportersList');
+            const supporters = (creditsData && creditsData.supporters) || [];
+            renderList(contribEl, (creditsData && creditsData.contributors) || [], 'about.empty');
+            renderList(supportEl, supporters, 'about.empty');
+            renderLegend(supporters);
+        }
+
+        async function loadCredits() {
+            try {
+                // no-cache: the daemon serves /credits.json with
+                // `public, max-age=86400`, so without it a browser can hold a
+                // day-old copy and miss tier/count fields added by an update.
+                const resp = await fetch('/credits.json', {
+                    credentials: 'same-origin', cache: 'no-cache'
+                });
+                if (!resp.ok) throw new Error('HTTP ' + resp.status);
+                creditsData = await resp.json();
+            } catch (e) {
+                console.warn('[About] credits.json load failed:', e);
+                creditsData = null;
+            }
+            renderCredits();
+        }
+
+        // Pull tier URLs from i18n catalog so they can be overridden per-locale
+        // if needed (Ko-fi handle, repo URL). Falls back to safe defaults until
+        // i18n is hydrated.
+        function bindSupportTiers() {
+            const t = (k, fb) => (window.BYD && window.BYD.i18n && window.BYD.i18n.t)
+                ? (window.BYD.i18n.t(k) || fb) : fb;
+
+            const star = document.getElementById('tierStar');
+            if (star) star.href = t('about.support.star_url', 'https://github.com/yash-srivastava/Overdrive-release');
+
+            const kofi = document.getElementById('tierKofi');
+            if (kofi) kofi.href = t('about.support.kofi_url', 'https://ko-fi.com/E1E71XALHX');
+
+            const share = document.getElementById('tierShare');
+            if (share) {
+                share.addEventListener('click', async () => {
+                    const text = t('about.support.share_message',
+                        'Check out Overdrive — open-source surveillance & dashcam for BYD: https://overdrive-5lc.pages.dev/');
+                    try {
+                        if (navigator.share) {
+                            await navigator.share({ text });
+                        } else if (navigator.clipboard?.writeText) {
+                            await navigator.clipboard.writeText(text);
+                            // toastContainer is in DOM; reuse PWA toast helper if exposed.
+                            if (window.BYD?.toast) {
+                                window.BYD.toast(t('common.copied', 'Copied'), 'success');
+                            } else {
+                                console.info('[About] share text copied to clipboard');
+                            }
+                        }
+                    } catch (e) {
+                        // User dismissed the share sheet — nothing to surface.
+                        if (e?.name !== 'AbortError') console.warn('[About] share failed:', e);
+                    }
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Boot the shared i18n + status pollers the same way every other
+            // PWA page does. Without this, the sidebar status card stays at
+            // "--" forever and translations don't hydrate.
+            if (window.BYD && BYD.core && BYD.i18n) {
+                BYD.i18n.init().then(function () {
+                    BYD.core.init();
+                });
+            }
+
+            loadCredits();
+            loadVehicleInfo();
+            // Re-bind on every i18n change so tier URLs/copy follow locale.
+            bindSupportTiers();
+            if (window.BYD?.i18n?.onChange) {
+                window.BYD.i18n.onChange(() => {
+                    bindSupportTiers();
+                    // Tier labels and the legend are imperative text with no
+                    // data-i18n attribute, so hydrate() can't repair them —
+                    // re-render from the cached data instead.
+                    if (creditsData) renderCredits();
+                    renderVehicleInfo();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

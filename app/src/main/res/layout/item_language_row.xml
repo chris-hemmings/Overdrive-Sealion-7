@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Single row in the language picker. Native-script name on the left,
+  optional English-name subtitle below it, BCP-47 tag on the trailing
+  side, and a check icon for the current selection (hidden otherwise).
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/languageRow"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="56dp"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="20dp"
+    android:paddingVertical="10dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvLangName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textColor="?attr/colorOnSurface"
+            tools:text="日本語" />
+
+        <TextView
+            android:id="@+id/tvLangSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:visibility="gone"
+            tools:text="Auto"
+            tools:visibility="visible" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvLangTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="monospace"
+        android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        tools:text="ja" />
+
+    <ImageView
+        android:id="@+id/ivLangCheck"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_check"
+        android:visibility="invisible"
+        app:tint="?attr/colorPrimary"
+        tools:visibility="visible" />
+
+</LinearLayout>

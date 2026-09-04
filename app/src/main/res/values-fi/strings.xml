@@ -1,0 +1,1176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OverDrive</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">Pitää Overdrive ajoneuvon seuranta aktiivisena taustalla. Tämä palvelu ei lue tai ole vuorovaikutuksessa näytön sisällön kanssa.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">Peruuta</string>
+    <string name="action_clear_plain">Tyhjennä</string>
+    <string name="action_select_all">Valitse kaikki</string>
+    <string name="action_select_all_short">Kaikki</string>
+    <string name="action_delete">Poista</string>
+    <string name="action_share">Jaa</string>
+    <string name="action_done">VALMIS</string>
+    <string name="action_remind_me_later">OSOITTAA MINUA SÄÄNTÖ</string>
+    <string name="action_retry">Yritä Uudelleen</string>
+    <string name="action_run">Suorita</string>
+    <string name="action_clear_output">Tyhjennä Tuloste</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">Kamera</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">QR Code</string>
+    <string name="cd_show_hide_token">Näytä/Piilota Tunnus</string>
+    <string name="cd_copy_token">Kopioi Tunnus</string>
+    <string name="cd_copy_url">Kopioi URL</string>
+    <string name="cd_clear_logs">Tyhjennä lokit</string>
+    <string name="cd_expand_collapse">Laajennettu/Tiivistä</string>
+    <string name="cd_recording_status">Tallennuksen tila</string>
+    <string name="cd_trip_tracking_status">Matkan seurannan tila</string>
+    <string name="cd_mic_status">Mikrofonin kaappauksen tila</string>
+    <string name="cd_video_thumbnail">Videon pienoiskuva</string>
+    <string name="cd_play">Toista</string>
+    <string name="cd_back">Takaisin</string>
+    <string name="cd_play_pause">Toista/Tauko</string>
+    <string name="cd_player_prev">Edellinen tallennus</string>
+    <string name="cd_player_next">Seuraava tallennus</string>
+    <string name="cd_player_maximize">Suurenna pelaaja</string>
+    <string name="cd_player_minimize">Poistu kokoruudusta</string>
+    <string name="cd_player_mute">Vaihda ääntä</string>
+    <string name="cd_player_quadrant_all">Näytä kaikki kamerat</string>
+    <string name="cd_player_quadrant_front">Näytä etukamera</string>
+    <string name="cd_player_quadrant_right">Näytä oikea kamera</string>
+    <string name="cd_player_quadrant_rear">Näytä takakamera</string>
+    <string name="cd_player_quadrant_left">Näytä vasen kamera</string>
+    <string name="cd_delete">Poista</string>
+    <string name="cd_share">Jaa</string>
+    <string name="cd_expand">Laajenna</string>
+    <string name="cd_configure">Määritä</string>
+    <string name="cd_download_log">Lataa loki</string>
+    <string name="cd_reset">Reset</string>
+    <string name="cd_battery">Akku</string>
+    <string name="cd_step_completed">Vaihe valmis</string>
+    <string name="cd_permission_granted">Lupa myönnetty</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">REC</string>
+    <string name="overlay_trip_inactive_label">KIRJE</string>
+    <string name="overlay_mic_inactive_label">MIC</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">Lopeta nauhoitus</string>
+    <string name="overlay_mode_continuous_cd">Jatkuva tallennus</string>
+    <string name="overlay_mode_drive_cd">Asematilan tallennus</string>
+    <string name="overlay_mode_proximity_cd">Lähivartion tallennus</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">12:34:56</string>
+    <string name="log_entry_default_tag">[TAG]</string>
+    <string name="log_entry_default_message">Loki viesti tähän</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">Daemonin Nimi</string>
+    <string name="daemon_card_default_status">Tila viesti</string>
+    <string name="daemon_card_subprocesses">SUBPROCESSES</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">Lokit</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">Yhdistetään…</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">Selainta ei löytynyt. Linkki kopioitu: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">Luo sisäänkirjautumisen URL</string>
+    <string name="tailscale_scan_to_login">Skannaa sisään</string>
+    <string name="tailscale_qr_waiting">Waiting for login URL…</string>
+    <string name="tailscale_enable_proxy">Ota Käyttöön Tailscale Proxy</string>
+    <string name="tailscale_proxy_explainer">Reitit MQTT kautta Tailscale joten voit tavoittaa yksityisen meklarin oman tailnet ilman portti huolintaa.</string>
+    <string name="tailscale_proxy_warning">Kun käytössä, MQTT julkisille välittäjille (HiveMQ, AWS IoT, jne.) epäonnistuu — Tailscale vain reitit omaan räätälöintiin. Tallentaminen käynnistää uudelleen daemon.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">Ruoansulatustila</string>
+    <string name="camera_mode_subtitle">Valitse polku, joka vastaa pääyksikköäsi. Oletus sopii useimpiin BYD malleihin; DiLink 4 vaaditaan uudemmissa lohkoissa (Han / Tang 2024+), jossa AVM HAL lähettää valmiiksi ommeltu 2x2 mosaiikkia.</string>
+    <string name="camera_mode_option_default">Oletus — teokset sinetöidyssä, Attossa ja delfiinissä (useimmat autot)</string>
+    <string name="camera_mode_option_dilink4">DiLink 4 – uudemmat Han / Tang-versiot</string>
+    <string name="camera_mode_current_default">Nykyinen: Oletus</string>
+    <string name="camera_mode_current_dilink4">Nykyinen: DiLink 4</string>
+    <string name="camera_mode_save">Käytä &amp; uudelleenkäynnistystä</string>
+    <string name="camera_mode_hint">Tilan muuttaminen käynnistää kameran demonin uudelleen. Jos video näyttää väärältä (squished, puuttuu quadrants, punainen overlay), kokeile toista tilaa.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">DiLink 4 Quadrant Tweaks</string>
+    <string name="camera_dilink4_tweaks_subtitle">Ajoneuvon säätö DiLink 4 -polkua varten. Tehokas vain, kun DiLink 4 -tila on valittu edellä.</string>
+    <string name="camera_dilink4_save">Käytä</string>
+    <string name="camera_dilink4_hint">Kytke nämä päälle vain, jos HAL maalaa punaisen \"kalibroinnin\" kromin syötteen päällä. Daemon uudelleenkäynnistys käyttää muutosta.</string>
+    <string name="camera_dilink4_red_mask_label">Rajoita punaisen kalibroinnin peittokuva (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">Lisää fragmentti-varjostin passin, joka havaitsee kirkkaanpunaisen HAL \"kalibrointi epäonnistui\" pikseleitä ja korvaa ne naapurinäytteellä (tai luminanssin harmaalla kun banneri on liian suuri inpainalle). Kosmeettinen vain – ei vaikuta taustalla kalibrointitilaan.</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">Kameran Valinta</string>
+    <string name="camera_selection_subtitle">Valitse panoraamakameran lähde</string>
+    <string name="camera_current_auto">Nykyinen: Automaattinen</string>
+    <string name="camera_option_auto">Automaattinen (havaitse käynnistyksessä)</string>
+    <string name="camera_option_0">Kamera 0 – Atto trims</string>
+    <string name="camera_option_1">Kamera 1 – Sinetti (oletus)</string>
+    <string name="camera_option_2">Kamera 2</string>
+    <string name="camera_option_3">Kamera 3</string>
+    <string name="camera_option_4">Kamera 4</string>
+    <string name="camera_option_5">Kamera 5</string>
+    <string name="camera_selection_hint">Kamera 1 = BYD Tiiviste, Kamera 0 = Atto trims, Kamera 0 = Atto trims. Käynnistä demoni uudelleen kameran tunnuksen vaihtamisen jälkeen, jotta asetus tulee voimaan.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">OEM Dashcam Kamera ID</string>
+    <string name="camera_oem_dashcam_hint">Valitse AVMCamera id joka osoittaa eteenpäin Dashcam anturi. Dashcam on panon OPPOSITE : Sinetti/Han pano = 1 → Dashcam = 0; Atto / Tang pano = 0 → dashcam = 1. Jätä automatisoidaksesi OverDriven valinnan.</string>
+    <string name="camera_oem_dashcam_auto_resolved">Automaattinen — käyttää id %1$d (pano on id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">Auto — pano id on %1$d, ei voi päätellä dashcamia</string>
+    <string name="camera_oem_dashcam_save">Tallenna</string>
+    <string name="camera_concurrent_probe_label">Testaa kaksikameran tuki seuraavan käynnistyksen yhteydessä</string>
+    <string name="camera_concurrent_probe_subtitle">Tarkista, että molemmat kamerat avautuvat kerralla varmistaakseen, että tämä ajoneuvo voi ajaa pano + dashcam samanaikaisesti. Juokse kerran seuraavan uudelleenkäynnistyksen aikana pysäköitynä. Poistu pois käytöstä, ellei tallenteet näytä väärältä — sitä ei tarvita ja se voi hetkellisesti keskeyttää tallennuksen, jos se on aktiivinen, kun se toimii.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">Kamera 0 — Sinetti / Han (oletus)</string>
+    <string name="camera_oem_option_1">Camera 1 – Atto / Tang</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">Kameran Yhdistäminen</string>
+    <string name="camera_role_label">Roolin kartoitus</string>
+    <string name="camera_candidate_previous">Edellinen</string>
+    <string name="camera_candidate_next">Seuraava</string>
+    <string name="camera_preview_unavailable">Esikatselu ei ole vielä käytettävissä. Kokeile toista ehdokasta tai päivitä avaamalla valintaikkuna uudelleen taustakuvan uudelleenkäynnistyksen jälkeen.</string>
+    <string name="camera_mapping_save">Tallenna</string>
+    <string name="camera_mapping_clear">Tyhjennä rooli</string>
+    <string name="camera_mapping_saved">Kameran liittäminen tallennettu.</string>
+    <string name="camera_mapping_cleared">Kameran roolikartoitus tyhjennetty.</string>
+    <string name="camera_mapping_summary_format">Panoraama stream: Kamera %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">Panoraama stream: Legacy auto-detect / probing</string>
+    <string name="camera_mapping_current_format">Nykyinen kartoitus: %1$s</string>
+    <string name="camera_mapping_current_none">Nykyinen kartoitus: Automaattinen / oletus</string>
+    <string name="camera_mapping_hint">OverDrive pitää oletuksena legacy käynnistyksen käytöksen, mutta nyt voit kalibroida yhdistetyn panoraama kaistan oikein. Esikatsele jokainen raaka yhdistetty viipale, kartoita loogiset 360 roolit siivulle, joka näyttää ajoneuvoosi edestä/oikealle/taakse / vasemmalle ja demoni käyttää uudelleen tätä asettelua tallennukseen, suoratoistoon ja tekoälyyn uudelleenkäynnistyksen jälkeen.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">Skannaa yhdistää</string>
+    <string name="dashboard_qr_waiting">Odotetaan tunnelia…</string>
+    <string name="dashboard_daemons_running_default">0/5 Käynnissä</string>
+    <string name="dashboard_device_id_loading">…</string>
+    <string name="dashboard_access_code">Pääsyn Koodi</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">Luo Tunnus Uudelleen</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">Aloittaminen</string>
+    <string name="setup_guide_subtitle">Kolme nopeaa askelta parhaan kokemuksen saamiseksi:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2</string>
+    <string name="setup_step_three_label">3</string>
+    <string name="setup_language_title">Valitse Kieli</string>
+    <string name="setup_language_body">Oletuksena on pääyksikön kieli. Napauta valitaksesi toisen OverDrive-sovelluksen ja web-tunnelin osalta.</string>
+    <string name="setup_language_button">Valitse Kieli</string>
+    <string name="setup_autostart_title">Poista Automaattisen Käynnistyksen Rajoitus Käytöstä</string>
+    <string name="setup_autostart_body">Napauta alla avataksesi BYD Autoto-Start. Etsi OverDrive luettelosta ja poista valintaruutu. BYD pyyhkii tämän jokaiseen asennukseen — teet sen uudelleen päivitysten jälkeen.</string>
+    <string name="setup_autostart_button">Avaa Byd Automaattikäynnistys</string>
+    <string name="setup_overlay_title">Salli Muiden Sovellusten Näyttö</string>
+    <string name="setup_overlay_body">Ota tämä käyttöön, jos haluat näyttää kelluvan tilaindikaattorin muiden sovellusten päälle tapahtuvaan tallennukseen ja matkanseurantaan.</string>
+    <string name="setup_overlay_button">Avaa Peittokuvan Asetukset</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">Sulje</string>
+    <string name="language_picker_title">Kieli</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">%1$d kieltä saatavilla</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">Valitse kieli</string>
+    <string name="language_auto_title">Automaattinen</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">Seuraa järjestelmää · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · Automaattinen</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">$</string>
+    <string name="adb_command_hint">Kirjoita komento…</string>
+    <string name="adb_preset_commands_header">Esiasetuksen komennot</string>
+    <string name="adb_output_header">Ulostulo</string>
+    <string name="adb_output_ready">$ Valmis komennot…</string>
+    <string name="adb_console_hero_title">Adb- Konsoli</string>
+    <string name="adb_console_hero_subtitle">Suorita komentotulkin komentoja laitteessa</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">Ladataan…</string>
+    <string name="webview_camera_daemon_not_running">Kamera Daemon Ei Käynnissä</string>
+    <string name="webview_start_camera_daemon">Käynnistä Kameran Daemon Daemons-näytöltä päästäksesi tälle sivulle.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">Ota Käyttöön Tunnus</string>
+    <string name="zrok_token_storage_note">Tunnus on tallennettu turvallisesti ja jaettu sovelluksen ja taustaprosessien välillä.</string>
+    <string name="zrok_reset_environment">Nollaa Zrok-ympäristö</string>
+    <string name="zrok_reset_environment_desc">Poistaa ympäristön ja tokenin. Sinun täytyy ottaa käyttöön tokenilla (käyttää laiterajaa).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">Nollaa Tiedot</string>
+    <string name="reset_subtitle">Pyyhi kerätyt tiedot luokittain</string>
+    <string name="reset_warning">Tätä ei voi peruuttaa. Tallennukset, matkat ja akun historia poistetaan pysyvästi.</string>
+    <string name="reset_cat_trips">Kyydit</string>
+    <string name="reset_cat_trips_desc">Matkan historia, reitit, viikoittaiset/kuukausittaiset rullat</string>
+    <string name="reset_cat_soc_history">SoC &amp; 12V historia</string>
+    <string name="reset_cat_soc_history_desc">SoC-näytteet, latausjaksot, jännitetukit ja -lokit</string>
+    <string name="reset_cat_soh">SoH-arvon kalibrointi</string>
+    <string name="reset_cat_soh_desc">Havaitsee uudelleen nimelliskapasiteetin, BMS:n uudelleensiementen estimaatin</string>
+    <string name="reset_cat_abrp_token">ABRP tunnus</string>
+    <string name="reset_cat_abrp_token_desc">Poistaa ABRP-telemetrian käytöstä, kunnes se korjataan</string>
+    <string name="reset_cat_byd_cloud">BYD Cloud käyttäjätiedot</string>
+    <string name="reset_cat_byd_cloud_desc">Käyttäjätunnus, kirjautumisavain, VIN — uudelleen kirjautuminen vaaditaan</string>
+    <string name="reset_cat_recordings">Tallenteet (videot)</string>
+    <string name="reset_cat_recordings_desc">Kaikki MP4s nauhoituskansiossa</string>
+    <string name="reset_cat_sentry_events">Seuranta tapahtumat</string>
+    <string name="reset_cat_sentry_events_desc">Valvontatapahtumien leikkeet ja JSON sivuvaunut</string>
+    <string name="reset_cat_proximity">Läheisyystallenteet</string>
+    <string name="reset_cat_proximity_desc">Tutkaperäinen tapahtuma MP4s</string>
+    <string name="reset_cat_trip_files">Matkan telemetriatiedostot</string>
+    <string name="reset_cat_trip_files_desc">Matka JSON telemetriaan levyllä</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">Kaikki</string>
+    <string name="recording_lib_chip_person">Henkilö</string>
+    <string name="recording_lib_chip_vehicle">Ajoneuvo</string>
+    <string name="recording_lib_chip_bike">Pyörä</string>
+    <string name="recording_lib_chip_animal">Eläin</string>
+    <string name="recording_lib_chip_alert">Hälytys</string>
+    <string name="recording_lib_chip_critical">Kriittinen</string>
+    <string name="recording_lib_selected_count_zero">0 valittu</string>
+    <string name="recording_lib_no_recordings">Ei nauhoituksia</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">Suodatin</string>
+    <string name="recording_lib_filter_button_active">Suodatin · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">Suodata nauhoitukset</string>
+    <string name="recording_lib_filter_apply">Käytä</string>
+    <string name="recording_lib_filter_reset">Reset</string>
+    <string name="recording_lib_filter_section_what">Mitä</string>
+    <string name="recording_lib_filter_section_severity">Vakavuus</string>
+    <string name="recording_lib_filter_section_type">Tyyppi</string>
+    <string name="recording_lib_filter_section_place">Paikka</string>
+    <string name="recording_lib_place_search_hint">Etsi paikkoja…</string>
+    <string name="recording_lib_chip_type_normal">Normaali</string>
+    <string name="recording_lib_chip_type_proximity">Läheisyys</string>
+    <string name="recording_lib_date_today">Tänään</string>
+    <string name="recording_lib_date_yesterday">Eilen</string>
+    <string name="recording_lib_clip_count">%1$d leikkeet</string>
+    <string name="recording_lib_clip_count_one">%1$d clip</string>
+    <string name="recording_lib_pick_date">Valitse päivämäärä</string>
+    <string name="recording_lib_date_all_days">Kaikki päivät</string>
+    <string name="cd_clear_date_filter">Näytä kaikki päivät</string>
+    <string name="recording_lib_section_morning">Aamu</string>
+    <string name="recording_lib_section_afternoon">Iltapäivä</string>
+    <string name="recording_lib_section_evening">Ilta</string>
+    <string name="recording_lib_section_night">Yö</string>
+    <string name="cd_previous_day">Edellinen päivä</string>
+    <string name="cd_next_day">Seuraava päivä</string>
+    <string name="cd_open_filters">Avaa suodattimet</string>
+    <string name="cd_clear_filter">Tyhjennä suodatin</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">Ei vastaavanlaisia nauhoituksia</string>
+    <string name="recording_lib_empty_body">Kokeile säätää aikaväliä tai sirusuodattimia.</string>
+    <string name="recording_lib_empty_clear_filters">Tyhjennä suodattimet</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">Mitään ei tallennettu vielä</string>
+    <string name="recording_lib_empty_disk_body">Kaappaukset näkyvät täällä heti, kun kojelauta tai valvontaputki kirjoittaa leikkeen.</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">Rakennan kirjaston indeksiä</string>
+    <string name="recording_lib_building_index_body">Hetki kun demoni skannaa nauhoituksesi.</string>
+    <string name="recording_lib_building_index_progress">Indeksoitu %1$d %2$d klipsiä…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">CAM</string>
+    <string name="recording_lib_type_event">TAPAHTUMA</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">OEM</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">Jaetaan %1$d äänitystä</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">Nauhoitetaan</string>
+    <string name="player_time_zero">0:00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">Taustaa koskevat palvelut</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">Ladataan palveluja…</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d / %2$d käynnissä</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">Valmistellaan päivitystä…</string>
+    <string name="update_percent_zero">0%</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">Akun Terveys</string>
+    <string name="battery_health_subtitle">Terveyden tila</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">Waiting for data…</string>
+    <string name="battery_health_source">Lähde</string>
+    <string name="battery_health_method">Menetelmä</string>
+    <string name="battery_health_capacity">Tilavuus</string>
+    <string name="battery_health_samples">Näytteet</string>
+    <string name="battery_health_last_updated">Viimeksi Päivitetty</string>
+    <string name="battery_health_reset">Nollaa SOS-arviointi</string>
+    <string name="battery_health_reset_desc">Tyhjentää kaikki tiedot ja uudelleenarviot tyhjästä. Käytä jos akku on vaihdettu tai lukeminen vaikuttaa virheelliseltä.</string>
+    <string name="soh_dialog_model_label">Malli</string>
+    <string name="soh_dialog_pack_capacity_label">Paketin kapasiteetti</string>
+    <string name="soh_dialog_estimated_capacity_label">Tehokas kapasiteetti</string>
+    <string name="soh_dialog_calibration_anchor_label">Viimeksi kalibroitu</string>
+    <string name="soh_dialog_source_user">käyttäjäjoukko</string>
+    <string name="soh_dialog_source_auto">automaattinen tunnistus</string>
+    <string name="soh_dialog_model_not_selected">Ei valittu</string>
+    <string name="soh_dialog_capacity_not_detected">Ei havaittu</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">Havaittu täysi lataus</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh havaittu täydellä teholla (%2$d/%3$d näytettä)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh havaittu täydellä teholla (kerätään %2$d/%3$d näytettä)</string>
+    <string name="soh_dialog_frame_mismatch_title">Pakettikapasiteetti kehys ei täsmää</string>
+    <string name="soh_dialog_frame_mismatch_format">Ajoneuvon tiedot %1$.1f kWh täydellä latauksella, mutta pakkauskapasiteetti on asetettu %2$.1f kWh. Edellä oleva luku saattaa kuvastaa yksikön epäsuhdaa (nimilevy vs. käytettävä), ei todellista hajoamista. Harkitse syöttämistä %1$.1f kWh sopimaan mitä ajoneuvo kertoo.</string>
+    <string name="soh_dialog_use_observed_value">Käytä havaittua arvoa</string>
+    <string name="soh_dialog_use_observed_value_pending">Tallennetaan…</string>
+    <string name="toast_soh_observed_value_saved">Pakettikapasiteetti päivitetty %1$.1f kWh.</string>
+    <string name="toast_soh_observed_value_failed">Pakettikapasiteettia ei voitu päivittää (%1$s).</string>
+    <string name="diagnostics_battery_needs_review">Tarvitsee arvostelua</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">Ok</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="one">%d tallennus poistettu</item>
+        <item quantity="other">%d äänitystä poistettu</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="one">Poista %d Nauhoitus</item>
+        <item quantity="other">Poista %d Tallennukset</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="one">Tämä poistaa pysyvästi %d äänityksen. Tätä ei voi perua.</item>
+        <item quantity="other">Tämä poistaa pysyvästi %d äänityksen. Tätä ei voi perua.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">Päivitetty versioon %1$s</string>
+    <string name="toast_update_install_failed">Asennus epäonnistui: %1$s</string>
+    <string name="toast_checking_for_updates">Tarkistetaan päivityksiä…</string>
+    <string name="toast_app_up_to_date">App is up to date (%1$s)</string>
+    <string name="toast_update_check_failed">Päivityksen tarkistus epäonnistui: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">Päivitys saatavilla</string>
+    <string name="update_dialog_subtitle">Uudempi versio on valmis asennettavaksi</string>
+    <string name="update_dialog_current">Nykyinen: v%1$s</string>
+    <string name="update_dialog_new">Uusi: v%1$s</string>
+    <string name="update_dialog_current_label">Asennettu</string>
+    <string name="update_dialog_new_label">Uusi versio</string>
+    <string name="update_dialog_whats_new">Mitä uutta</string>
+    <string name="update_dialog_install_now">Asenna nyt</string>
+    <string name="update_dialog_later">Myöhemmin</string>
+    <string name="update_picker_title">Valitse versio</string>
+    <string name="update_picker_subtitle">Asenna mikä tahansa julkaistu versio — uudemmat tai vanhemmat</string>
+    <string name="update_picker_empty">Yhtään versiota ei vielä julkaistu.</string>
+    <string name="update_picker_current_suffix">%1$s (asennettu)</string>
+    <string name="update_picker_older_suffix">%1$s (vanhempi)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">Päivitetään Yliajaa</string>
+    <string name="update_step_downloading">Ladataan päivitystä…</string>
+    <string name="update_step_verifying">Tarkistetaan latausta…</string>
+    <string name="update_step_stopping">Pysäytetään demonit…</string>
+    <string name="update_step_installing">Asennetaan päivitystä…</string>
+    <string name="update_step_installed">Päivitys asennettu</string>
+    <string name="update_step_restarting">Restarting app…</string>
+    <string name="update_step_queued">Aloitetaan päivitystä…</string>
+    <string name="update_error_title">Päivitys epäonnistui</string>
+    <string name="update_error_daemon_down">Kamera ei ole käynnissä. Käynnistä se Daemons-näytöltä ja yritä sitten päivittää uudelleen.</string>
+    <string name="update_error_start_failed">Päivitystä ei voitu käynnistää: %1$s</string>
+    <string name="update_error_lost_headunit">Kadonnut yhteystieto pääyksikön kanssa ennen asennuksen päättymistä. Tunneliin? Tarkista Telegram uudelle URL-osoitteelle tai käytä paikallista IP-osoitetta.</string>
+    <string name="update_hide">Piilota</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">Päivitä kanava</string>
+    <string name="settings_update_channel_alpha">Alfa</string>
+    <string name="settings_update_channel_braveheart">Braveheart</string>
+    <string name="settings_update_channel_alpha_desc">Vakaa julkaisu. Jokainen julkaistu versio pidetään — valitse asennettava (alaspäin sallittu). Suositellaan jokapäiväiseen käyttöön.</string>
+    <string name="settings_update_channel_braveheart_desc">Bleeding-edge builds, toimitetaan kun ne on julkaistu. Saat uusia ominaisuuksia ensin, mutta ne voivat olla epävakaita tai vikoja. Jos jokin puhkeaa, avaa Daemons-näyttö, napauta taustan lokia, valitse \"Upload &amp; get a code\", ja jaa koodi kanssamme yhteisön kanavilla.</string>
+    <string name="settings_update_channel_save_failed">Päivityskanavaa ei voitu tallentaa</string>
+    <string name="settings_update_channel_braveheart_toast">Siirry Braveheartiin. Rakennukset voivat olla epävakaita — jos jokin puhkeaa, lähetä daemon loki ja ilmoita siitä Discord/GitHub/WhatsAppissa.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">Tallennustilan käyttöoikeus vaaditaan nauhoituksissa</string>
+    <string name="toast_url_copied_short">URL kopioitu!</string>
+    <string name="toast_camera_set_to_auto">Kamera asetettu automaattiseksi</string>
+    <string name="toast_failed_to_save_short">Tallennus epäonnistui</string>
+    <string name="toast_failed_with_message">Epäonnistui: %1$s</string>
+    <string name="toast_camera_id_set">Kamera %1$d asetettu — seuraava ACC-sykli</string>
+    <string name="toast_clearing_camera_config">Tyhjennetään kameran asetuksia…</string>
+    <string name="toast_restarting_camera_daemon">Käynnistetään kameran taustakuva…</string>
+    <string name="toast_camera_daemon_restarting">Kameran taustaohjelma käynnistyy uudelleen täydellä anturilla</string>
+    <string name="toast_camera_restart_failed">Asetukset tyhjennetty, mutta daemonin uudelleenkäynnistys epäonnistui. Käynnistä uudelleen manuaalisesti.</string>
+    <string name="toast_camera_settings_saved_restarting">Kameran asetukset tallennettu — kameran taustakuvan uudelleenkäynnistäminen…</string>
+    <string name="toast_camera_settings_restart_failed">Kameran asetukset tallennettiin, mutta daemonin uudelleenkäynnistys epäonnistui. Käynnistä se manuaalisesti.</string>
+    <string name="toast_failed_with_message_x">Epäonnistui: %1$s</string>
+    <string name="toast_soh_reset_success">SOH estimaatin nollaus – lasketaan uudelleen seuraavista tiedoista</string>
+    <string name="toast_soh_reset_failed_no_daemon">Nollaus epäonnistui — tietokone ei vastaa eikä tiedostoon voi kirjoittaa</string>
+    <string name="toast_soh_reset_failed_with_message">Nollaus epäonnistui: %1$s</string>
+    <string name="toast_select_at_least_one_category">Valitse vähintään yksi kategoria</string>
+    <string name="toast_reset_failed_with_error">Nollaus epäonnistui: %1$s</string>
+    <string name="toast_traffic_monitor_changing">%1$s liikenteen monitori…</string>
+    <string name="dialog_close">Sulje</string>
+    <string name="dialog_reset">Reset</string>
+    <string name="dialog_delete">Poista</string>
+    <string name="dialog_save">Tallenna</string>
+    <string name="dialog_enable">Aktivoi</string>
+    <string name="dialog_disable">Poista Käytöstä</string>
+    <string name="dialog_keep_enabled">Pidä Käytössä</string>
+    <string name="dialog_keep_disabled">Pidä Pois Käytöstä</string>
+    <string name="dialog_regenerate">Luo Uudelleen</string>
+    <string name="dialog_reset_selected">Nollaa Valitut</string>
+    <string name="dialog_reset_soh_title">Nollaa SOS-arviointi?</string>
+    <string name="dialog_reset_soh_message">Tämä poistaa kaikki SOH tiedot ja pakottaa uudelleenarviointi tyhjästä.\n\nKäytä tätä, jos:\n• Akku korvattiin\n• SOH lukeminen näyttää virheelliseltä\n• Haluat uudelleen värittää\n\nJärjestelmä seed from next available data source (OEM, varauksen kalibrointi tai hetkellinen lukema).</string>
+    <string name="dialog_reset_following_title">Nollaa seuraavat?</string>
+    <string name="dialog_reset_following_message">Tätä ei voi peruuttaa.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Reset complete</string>
+    <string name="dialog_traffic_cannot_check_title">Ei Voida Tarkista Tila</string>
+    <string name="dialog_traffic_cannot_check_message">ADB-yhteys ei ole vielä valmis.\n\nSovellus tarvitsee ADB-käyttöoikeuden hallitakseen järjestelmäpaketteja. Varmista:\n\n• USB-vianetsintä on käytössä kehittäjän asetuksissa\n• ADB-valtuutuksen kehotus on hyväksytty\n\nTila päivittyy automaattisesti kun se on kytketty.</string>
+    <string name="dialog_traffic_disable_title">Poistetaanko Byd Traffic Monitor?</string>
+    <string name="dialog_traffic_disable_message">BYD Traffic Monitor (com.byd.trafficmonitor) on sisäänrakennettu järjestelmäsovellus, joka seuraa taustalla jatkuvasti tieliikenteen olosuhteita.\n\nMiksi poistaa se käytöstä?\n\n• Kuluttaa mobiilidataa (vaikka pysäköitynä)\n• Käyttää suoritinta ja akkua taustalla\n• Ei tarvita jos käytät erillistä navigointisovellusta\n• Voi häiritä dashcamin verkon käyttöä\n\nTämä on turvallista poistaa käytöstä — se vaikuttaa vain kartan rakennettuun liikenteen päällykseen. Navigointi-, Bluetooth- ja kaikki muut autotoiminnot säilyvät ennallaan.\n\nKannettava uudelleenkäynnistys vaaditaan pois päältä ottamisen jälkeen (pidä keskustakonsolinappia pohjassa 5 sekuntia).</string>
+    <string name="dialog_traffic_enable_title">Ota Byd Traffic Monitori Käyttöön Uudelleen?</string>
+    <string name="dialog_traffic_enable_message">BYD Traffic Monitori on tällä hetkellä poistettu käytöstä.\n\nRe-enabling se palauttaa sisäänrakennetun liikenteen overlay navigointikartalta. Huomaa, että se toimii taustalla ja kuluttaa mobiili dataa.\n\nTarvitaan kova uudelleenkäynnistys käyttöönoton jälkeen (pidä keskellä konsolinappia pohjassa 5 sekuntia).</string>
+    <string name="dialog_traffic_status_title">Liikenteen Valvonta %1$s</string>
+    <string name="dialog_traffic_reboot_message">Muutos on sovellettu.\n\nSuorita kova uudelleenkäynnistys nyt:\nPaina keskuskonsolia ja pidä sitä pohjassa 5 sekunnin ajan.</string>
+    <string name="traffic_monitor_loading">Traffic Monitor: Tarkistetaan…</string>
+    <string name="traffic_monitor_tap_to_check">Liikenteen valvonta (napsauta tarkistaaksesi)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">Kyydit</string>
+    <string name="reset_label_soc_history">SoC + 12V historia</string>
+    <string name="reset_label_soh">SoH-arvon kalibrointi</string>
+    <string name="reset_label_abrp_token">ABRP tunnus</string>
+    <string name="reset_label_byd_cloud">BYD Cloud käyttäjätiedot</string>
+    <string name="reset_label_recordings">Tallenteet</string>
+    <string name="reset_label_sentry_events">Seuranta tapahtumat</string>
+    <string name="reset_label_proximity">Läheisyystallenteet</string>
+    <string name="reset_label_trip_files">Matkan telemetriatiedostot</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">Pääsy koodi kopioitu</string>
+    <string name="dialog_regenerate_token_title">Luo Tunnus Uudelleen</string>
+    <string name="dialog_regenerate_token_message">Tämä mitätöi nykyisen tunnuksen. Kaikki aktiiviset istunnot kirjataan ulos. Jatketaanko?</string>
+    <string name="toast_token_regenerated_logged_out">Uusi token luotu. Kaikki istunnot kirjattiin ulos.</string>
+    <string name="toast_token_regenerated_restart">Token regeneroitu. Daemon saattaa joutua käynnistämään uudelleen.</string>
+    <string name="toast_token_regenerated_no_notify">Tunniste luotu. Daemoniin ei voitu ilmoittaa</string>
+    <string name="toast_token_regenerated">Token regeneroitu</string>
+    <string name="dashboard_no_tunnel">Ei tunnelia käynnissä</string>
+    <string name="dashboard_starting_zrok">Käynnistetään Zrok-tunneli…</string>
+    <string name="dashboard_starting_cloudflared">Käynnistetään pilvipohjainen tunneli…</string>
+    <string name="dashboard_starting_tailscale">Käynnistetään Tailscale tunneli…</string>
+    <string name="dashboard_waiting_url">Odotetaan tunnelin URL…</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d Käynnissä</string>
+    <string name="tunnel_label_cloudflared">Pilvipohjainen</string>
+    <string name="tunnel_label_zrok">Zrok</string>
+    <string name="tunnel_label_tailscale">Tailscale</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">Kameran Daemon</string>
+    <string name="daemon_name_surveillance">Surveillance Daemon</string>
+    <string name="daemon_name_acc_surveillance">ACC Valvonta</string>
+    <string name="daemon_name_singbox">Yhden Laatikon Välityspalvelin</string>
+    <string name="daemon_name_cloudflared">Pilvipohjainen Tunneli</string>
+    <string name="daemon_name_zrok">Zrok-tunneli</string>
+    <string name="daemon_name_tailscale">Hierontatunneli</string>
+    <string name="daemon_name_telegram">Telegram Bot</string>
+    <string name="clip_label_access_code">Pääsyn Koodi</string>
+    <string name="clip_label_url">URL-osoite</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">%1$s ei tarvita konfiguraatiota</string>
+    <string name="dialog_zrok_token_title">Zrok Tunnel Token</string>
+    <string name="dialog_zrok_token_message">Anna Zrok ottaa käyttöön token.\nHanki yksi osoitteessa: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">Tunniste ei voi olla tyhjä</string>
+    <string name="dialog_tailscale_settings_title">Tailscale Tunnel Asetukset</string>
+    <string name="dialog_tailscale_settings_message">Configure tailscale</string>
+    <string name="tailscale_failed_login_url">Kirjautumisen url-osoitteen luonti epäonnistui</string>
+    <string name="tailscale_logged_in_relogin">Kirjautuneena sisään Klikkaa kirjautuaksesi toiseen tiliin</string>
+    <string name="dialog_tailscale_proxy_enable_title">Ota Käyttöön Tailscale Proxy?</string>
+    <string name="dialog_tailscale_proxy_enable_message">Tämä reitti MQTT kautta Tailscale joten voit tavoittaa yksityisen välittäjä teidän tailnet ilman portti huolintaa.\n\nKun käytössä:\n• MQTT tailnet-meklariin toimii (esim. Mosquitto laitteessa räätälöidysti\n• MQTT julkisille välittäjille (HiveMQ, AWS IoT, jne. tulee epäonnistumaan — Vain Räätälöidysti\n• Tailscale -toiminto käynnistyy uudelleen muutoksen\n• Muu sovellusliikenne ja muu laite eivät vaikuta\n\nVoit ottaa tämän pois käytöstä milloin tahansa.</string>
+    <string name="dialog_zrok_reset_title">Nollaa Zrok-ympäristö</string>
+    <string name="dialog_zrok_reset_message">Tämä on:\n• Pysäytä zrok-tunneli, jos käytät\n• Poista zrok-ympäristö tästä laitteesta\n• Poista tallennettu tunniste\n\nSinun täytyy syöttää token uudelleen ja ottaa se uudelleen käyttöön. Tämä käyttää yhtä 5 laitepaikkaasi zrok.io:ssa.\n\nOletko varma?</string>
+    <string name="toast_resetting_zrok">Nollaa zrok-ympäristö…</string>
+    <string name="toast_zrok_reset_success">Zrok ympäristö nollattu. Syötä uusi tunnus määrittääksesi uudelleen.</string>
+    <string name="toast_zrok_reset_partial">Ympäristön palautus (tietueen tiedosto voi vaatia manuaalista puhdistusta)</string>
+    <string name="toast_zrok_reset_warnings">Ympäristön nollaus (varoitukset: %1$s)</string>
+    <string name="zrok_no_token_configured">Tokenia ei ole määritetty. Määritä napauttamalla.</string>
+    <string name="dialog_tailscale_reset_title">Palauta Tailscale Ympäristö</string>
+    <string name="dialog_tailscale_reset_message">\n• Pysäytä räätälöity tunneli, jos käytät\n• Poista räätälöity ympäristö tästä laitteesta\n• Sinun täytyy silti poistaa laite räätälöidystä konsolista\n\nSinun täytyy kirjautua sisään uudelleen.\n\nOletko varma?</string>
+    <string name="toast_resetting_tailscale">Resetoidaan räätälöityä ympäristöä…</string>
+    <string name="toast_tailscale_reset_success">Tailscale ympäristö nollattu. Kirjaudu avataksesi uudelleen.</string>
+    <string name="toast_tailscale_reset_warnings">Tailscale ympäristö nollaus (varoitukset: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">Tailscale välityspalvelin käytössä</string>
+    <string name="toast_tailscale_proxy_disabled">Tailscale välityspalvelin pois käytöstä</string>
+    <string name="toast_tailscale_proxy_save_failed">Välityspalvelimen asetusten tallennus epäonnistui</string>
+    <string name="toast_zrok_token_saved">Token tallennettu</string>
+    <string name="toast_zrok_token_save_failed">Tunnuksen tallennus epäonnistui</string>
+    <string name="toast_zrok_token_deleted">Pääsymerkki poistettu</string>
+    <string name="toast_zrok_token_delete_failed">Tunnuksen poisto epäonnistui</string>
+    <string name="toast_fetching_log">Fetching %1$s log…</string>
+    <string name="toast_log_empty_or_missing">Lokitiedosto on tyhjä tai sitä ei löydy</string>
+    <string name="toast_log_empty">Lokitiedosto on tyhjä</string>
+    <string name="toast_daemon_manager_unavailable">Daemon manager ei ole valmis, yritä hetken kuluttua uudelleen</string>
+    <string name="toast_log_save_failed">Lokin tallennus epäonnistui: %1$s</string>
+    <string name="toast_log_not_found">Lokitiedostoa ei löydy tai sitä ei voi lukea</string>
+    <string name="log_share_title">%1$s Loki - %2$s</string>
+    <string name="log_share_chooser">Jaa %1$s Loki</string>
+    <string name="log_header_title">=== %1$s Loki ===</string>
+    <string name="log_header_source">Lähde: %1$s</string>
+    <string name="log_header_exported">Viedään: %1$s</string>
+    <string name="log_header_truncated">HUOMAUTUS: Loki on katkaistu viimeisiin 10000 riviin (yhteensä: %1$d riviä)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">Lähetä %1$s loki</string>
+    <string name="logs_send_title_plain">Lähetä taustaloki</string>
+    <string name="logs_send_subtitle">%1$s · valitse miten lähettää sen meille</string>
+    <string name="logs_send_upload">Lataa &amp; saada koodi</string>
+    <string name="logs_send_upload_desc">Lähettää lokin meille ja antaa sinulle lyhyen koodin. Helpoin tukea.</string>
+    <string name="logs_send_share">Jaa tiedosto…</string>
+    <string name="logs_send_share_desc">Tallenna tai lähetä loki itse jakamislomakkeen kautta.</string>
+    <string name="logs_uploading_title">Uploading log…</string>
+    <string name="logs_uploading_subtitle">Salaisuuksien uudelleenlaatiminen ja turvallisesti lähettäminen</string>
+    <string name="logs_uploaded_title">Loki ladattu</string>
+    <string name="logs_uploaded_instructions">Jaa tämä koodi meidän kanssamme, sekä muistio siitä, mitä olit tekemässä, kun se rikkoi. Lähetä se Discordiin, GitHub-ongelmiin tai WhatsApp — linkit ovat Tietoja -näytöllä.</string>
+    <string name="logs_uploaded_privacy">Secrets redacted · log auto-expires</string>
+    <string name="logs_copy_code">Kopioi koodi</string>
+    <string name="logs_done">Valmis</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">Verkkovirhe</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">Videota ei voi toistaa: %1$s</string>
+    <string name="dialog_delete_recording_title">Poista Nauhoitus</string>
+    <string name="dialog_delete_recording_message">Poista %1$s?\nTätä ei voi perua.</string>
+    <string name="toast_recording_deleted">Tallennus poistettu</string>
+    <string name="toast_recording_delete_failed">Tallennuksen poistaminen epäonnistui</string>
+    <string name="toast_batch_delete_partial">%1$d deleted, %2$d failed</string>
+    <string name="play_with_chooser">Pelaa kanssa</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">Updated to %1$s — re-confirm autostart, BYD wipes it on every install</string>
+    <string name="setup_overlay_already_granted">Jo Myönnetty</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">Vinkkejä &amp; vianmääritys</string>
+    <string name="setup_traffic_title">Poista Byd Traffic Monitori Käytöstä</string>
+    <string name="setup_traffic_body">BYD Traffic Monitor estää kolmannen osapuolen sovelluksia pääsemästä internetiin. Kun poistat sen käytöstä, OverDrive ja muut asentamasi sovellukset käyttävät todella verkkoa. Jälkeen tarvitaan kova uudelleenkäynnistys.</string>
+    <string name="setup_traffic_button">Avaa Liikenteen Valvonta</string>
+    <string name="setup_camera_fix_title">Kamera syöttää mustia tai virheellisiä?</string>
+    <string name="setup_camera_fix_body">Avaa Diagnostiikka → Camera probe, aseta kameran tunnus arvoon 0, napauta Talleta ja käynnistä kameran taustakuva uudelleen. Jos syötteet ovat edelleen väärässä, toista kameran tunnuksella 1. Jätä kartoitusosio koskematta.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">Nykyinen: Kamera %1$d (manuaalinen)</string>
+    <string name="camera_current_auto_label">Nykyinen: Automaattinen</string>
+    <string name="soh_estimation_active">Arvio käytössä</string>
+    <string name="soh_no_estimate_yet">Ei vielä arviota – odottaa tietoja</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">%1$d valittu</string>
+    <string name="video_player_playback_error">Toiston virhe</string>
+    <string name="video_player_no_events">Ei tapahtumia</string>
+    <string name="daemon_configuration_required">Asetukset vaaditaan</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">Videon Pelaaja</string>
+    <string name="nav_page_telegram">Telegram</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">MQTT</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">YliDriven Tila</string>
+    <string name="status_overlay_notif_text">Status overlay active</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Yliveto Aktiivinen</string>
+    <string name="daemon_keepalive_notif_text">Ajoneuvojen valvontajärjestelmät</string>
+    <string name="overdrive_status_summary_title">Yliveto</string>
+    <string name="overdrive_status_summary_text">Taustapalvelut käynnissä</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">Hallintapaneeli</string>
+    <string name="rail_live">Suora</string>
+    <string name="rail_recordings">Tallenteet</string>
+    <string name="rail_vehicle">Ajoneuvo</string>
+    <string name="rail_trips">Kyydit</string>
+    <string name="rail_integrations">Integraatiot</string>
+    <string name="rail_diagnostics">Diagnostiikka</string>
+    <string name="rail_settings">Asetukset</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">Ulkoasu</string>
+    <string name="settings_section_recording">Nauhoitetaan</string>
+    <string name="settings_section_surveillance">Valvonta</string>
+    <string name="settings_section_daemons">Daemons</string>
+    <string name="settings_section_privacy">Yksityisyys &amp; tiedot</string>
+    <string name="settings_section_overlay">Status overlay</string>
+    <string name="settings_section_security">Turvallisuus</string>
+    <string name="settings_overlay_subtitle">Valitse mitkä segmentit kelluva tila pilleri pysyy näkyvissä.</string>
+    <string name="settings_overlay_camera_title">Kameran ilmaisin</string>
+    <string name="settings_overlay_camera_subtitle">Näytä REC / PROX merkki tallennuksen ollessa aktiivinen.</string>
+    <string name="settings_overlay_trip_title">Matkan osoitin</string>
+    <string name="settings_overlay_trip_subtitle">Näytä TRIP merkki matkan tunnistuksen ollessa käynnissä.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">Tietoja</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">ASETUKSET</string>
+    <string name="cd_settings_subrail">Asetukset alajuussa</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">Yksityisyys &amp; tiedot</string>
+    <string name="settings_privacy_body">Nollaa tyhjentää tallenteiden indeksoinnin, välimuistissa olevat tunnisteet, taustakuvan tilan ja laitteen asetukset. Toimintoa ei voi perua.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">Tietoja OverDrivesta</string>
+    <string name="settings_about_version_label">Versio</string>
+    <string name="settings_about_package_label">Koosta</string>
+    <string name="settings_about_check_update_value">Tarkista uusin GitHub julkaisu ja asenna jos uudempi.</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">Palvelun tarjoaa kaltaisesi ihmiset</string>
+    <string name="settings_about_support_share_title">Kerro omalle omistajalle</string>
+    <string name="settings_about_support_share_value">Jokainen jaettu linkki auttaa toista BYD omistajaa löytämään Overdrive.</string>
+    <string name="settings_about_support_share_message">Katso Overdrive – avoimen lähdekoodin valvonta &amp; dashcam BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">Jaa Yliveto</string>
+    <string name="settings_about_open_link_failed">Linkkiä ei voitu avata.</string>
+    <string name="settings_about_open_link_copied">Selainta ei löytynyt. URL kopioitu: %1$s</string>
+    <string name="settings_about_support_kofi_title">Polttoaineen seuraava vapautus</string>
+    <string name="settings_about_support_kofi_value">Ko-fi-kahvi pitää huolen myöhään illalla tapahtuvista sitoumuksista.</string>
+    <string name="settings_about_license_title">Lisenssi</string>
+    <string name="settings_about_license_value">MIT – avoin lähdekoodi. Napauta nähdäksesi koko tekstin.</string>
+    <string name="settings_about_source_title">Lähdekoodi</string>
+    <string name="settings_about_source_value">github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">Star us on GitHub</string>
+    <string name="settings_about_star_value">Ottaa toisen. Tarkoittaa paljon.</string>
+    <string name="settings_about_thanks_title">Kiitos</string>
+    <string name="settings_about_thanks_subtitle">Rakennettu avustajien ja tukijoiden avulla.</string>
+    <string name="settings_about_contributors_title">Avustajat</string>
+    <string name="settings_about_supporters_title">Tukijat</string>
+    <string name="settings_about_thanks_empty">Luettelossa on väestömäärä ihmisten pitch sisään.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">Teema</string>
+    <string name="settings_theme_auto">Automaattinen (seuraa järjestelmää)</string>
+    <string name="settings_theme_light">Vaalea</string>
+    <string name="settings_theme_dark">Tumma</string>
+    <string name="settings_language_label">Kieli</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">Tallenteet</string>
+    <string name="recordings_segment_dashcam">Dashcam</string>
+    <string name="recordings_segment_surveillance">Valvonta</string>
+    <string name="recordings_action_settings">Asetukset</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d tänään · %2$d yhteensä · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">Dashcam · %d</string>
+    <string name="recordings_segment_surveillance_count">Surveillance · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">Valitse tallennus</string>
+    <string name="recordings_preview_placeholder_body">Napauta mitä tahansa kohdetta vasemmalla toistaaksesi sen.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">Adb- Konsoli</string>
+    <string name="diagnostics_section_traffic">Liikenteen valvontalaite</string>
+    <string name="diagnostics_section_camera_probe">Kameran anturi</string>
+    <string name="diagnostics_section_battery">Akun terveys</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">Järjestelmän diagnostiikka</string>
+    <string name="diagnostics_hero_subtitle">Elävä terveys, lokit, ja anturit laitetta varten.</string>
+    <string name="diagnostics_health_clear">Kaikki tyhjät</string>
+    <string name="diagnostics_health_section">Terveys</string>
+    <string name="diagnostics_health_network">Verkko</string>
+    <string name="diagnostics_health_storage">Tallennustila</string>
+    <string name="diagnostics_health_camera">Kamera</string>
+    <string name="diagnostics_health_battery">Akku</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">Paikalla</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">Tunneli · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">Paikalla</string>
+    <string name="diagnostics_tunnel_state_offline">Offline-tilassa</string>
+    <string name="diagnostics_tunnel_state_connecting">Yhdistetään</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">Mobiili</string>
+    <string name="diagnostics_network_ethernet">Ethernet</string>
+    <string name="diagnostics_network_offline">Offline-tilassa</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">%1$d leikkeitä · %2$s käytetty</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s vapaana</string>
+    <string name="diagnostics_logs_card_title">Live tapahtumaloki</string>
+    <string name="diagnostics_logs_card_subtitle">Suoratoistetaan suoratoistoa käynnissä olevista palveluista.</string>
+    <string name="diagnostics_tools_section">Työkalut</string>
+    <string name="diagnostics_traffic_subtitle">Katso suoran verkon läpimeno.</string>
+    <string name="diagnostics_camera_probe_subtitle">Tutki liitetyt kameran virrat.</string>
+    <string name="diagnostics_adb_subtitle">Avaa laitteen pääte.</string>
+    <string name="diagnostics_battery_subtitle">Tarkista solun SOH ja pakkaustilastot.</string>
+    <string name="diagnostics_settings_subtitle">Sovelluksen asetukset, teemat ja kieli.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">Integraatiot</string>
+    <string name="integrations_hero_subtitle">Yhdistä Overdrive palveluihisi.</string>
+    <string name="integrations_status_unknown">Määritä napauttamalla</string>
+    <string name="integrations_status_configured">Määritetty</string>
+    <string name="integrations_status_not_set_up">Ei määritetty</string>
+    <string name="integrations_telegram_desc">Lähetä aseman yhteenvetoja, liikesarjoituksia ja SOS-ilmoituksia yksityiseen Telegram-bottiin.</string>
+    <string name="integrations_abrp_desc">Työnnä live akun ja reitin tiedot parempaan Routeplanneriin ennusteiden lataamiseksi.</string>
+    <string name="integrations_mqtt_desc">Julkaise ajoneuvon telemetria Home Assistant tai MQTT välittäjä.</string>
+    <string name="integrations_byd_cloud_desc">Yhdistä BYD-sovellustilisi ottaaksesi käyttöön etäkomennot kuten oven lukitus, salamavalot ja sarvet.</string>
+    <string name="integrations_configure_button">Määritä</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">Tarkista päivitykset</string>
+    <string name="settings_action_reset_data">Nollaa tiedot…</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">OverDrive</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">Kellossa</string>
+    <string name="dashboard_subtitle_all_systems">Kaikki järjestelmät verkossa</string>
+    <string name="dashboard_subtitle_some_offline">%1$d / %2$d palvelua verkossa</string>
+    <string name="dashboard_subtitle_no_tunnel">Etäkäyttö offline-tilassa</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">Tämänpäiväiset tallenteet</string>
+    <string name="dashboard_metric_storage">Käytetty tallennustila</string>
+    <string name="dashboard_metric_tunnel">Etäkäyttö</string>
+    <string name="dashboard_metric_services">Taustaa koskevat palvelut</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">Ajoneuvo</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">Nauhoitetaan</string>
+    <string name="dashboard_chip_recording_idle">Jouten</string>
+    <string name="dashboard_vehicle_tap_to_set">Aseta napauttamalla</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWh · %2$s</string>
+    <string name="vehicle_dialog_title">Aseta akun kapasiteetti</string>
+    <string name="vehicle_dialog_capacity_label">Tilavuus</string>
+    <string name="vehicle_dialog_capacity_suffix">kWh</string>
+    <string name="vehicle_dialog_capacity_helper">15 – 120 kWh. Jätä mallin oletusarvoiseksi.</string>
+    <string name="vehicle_dialog_model_label">Malli</string>
+    <string name="vehicle_dialog_save">Tallenna</string>
+    <string name="vehicle_dialog_reset">Palauta automaattinen tunnistus</string>
+    <string name="vehicle_dialog_invalid_capacity">Kapasiteetin on oltava 15 - 120 kWh</string>
+    <string name="vehicle_dialog_summary_capacity">Tilavuus: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">Teho: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">Malli: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">Viimeksi kalibroitu: %1$.1f%% %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">unavailable</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s käytti · %2$s ilmaiseksi</string>
+    <string name="dashboard_metric_storage_chip_pending">Varastointi –</string>
+    <string name="dashboard_tunnel_offline">Offline-tilassa</string>
+    <string name="dashboard_tunnel_online">Paikalla</string>
+    <string name="dashboard_tunnel_connecting">Yhdistetään…</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">Suora</string>
+    <string name="dashboard_action_live_subtitle">Avaa kameran näkymä</string>
+    <string name="dashboard_action_recordings">Tallenteet</string>
+    <string name="dashboard_action_settings">Asetukset</string>
+    <string name="dashboard_action_settings_subtitle">Asetukset ja tiedot</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">Asetukset</string>
+    <string name="settings_hero_overline">OVERDRIILI</string>
+    <string name="settings_hero_subtitle">Virittää ulkonäköä, tallennusta, valvontaa ja laitteen tietoja.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">VALMISTEET</string>
+    <string name="settings_overline_about_data">TIEDOT</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">Teema</string>
+    <string name="settings_quick_language_label">Kieli</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">Pre/post puskurit , koodekki , tallennustilan rajat .</string>
+    <string name="settings_section_surveillance_subtitle">Havaitsemisvyöhykkeet, aikataulu, liikkeen herkkyys.</string>
+    <string name="settings_section_daemons_subtitle">Cloudflared, Zrok, Telegram, MQTT juoksijat.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">Tietoja OverDrivesta</string>
+    <string name="settings_about_row_subtitle">Versio, lisenssi, tukee kehitystä.</string>
+    <string name="settings_reset_row_subtitle">Tyhjennä nauhoitukset, tapahtumat tai kaikki kätköt.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">Yliaja %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">Teemat, kieli ja visuaaliset mieltymykset.</string>
+    <string name="settings_theme_active_auto_caption">Seuraa automaattisesti järjestelmäsi teemaa.</string>
+    <string name="settings_theme_active_light_caption">Valo teema on aina päällä.</string>
+    <string name="settings_theme_active_dark_caption">Tumma teema on aina päällä.</string>
+    <string name="settings_language_count_format">%1$d / %2$d kieltä saatavilla</string>
+    <string name="settings_language_card_title">Näytä kieli</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">Laitteessa oletuksena</string>
+    <string name="settings_privacy_stance_body">OverDrive toimii täysin pääyksikössä. Mikään telemetria ei poistu autostasi paitsi tunneleiden ja erikseen konfiguroitavien integrointien kautta.</string>
+    <string name="settings_privacy_overline_storage">PAIKALLINEN VARASTOINTI</string>
+    <string name="settings_privacy_overline_reset">TIETOJEN PALAUTUS</string>
+    <string name="settings_privacy_storage_clips_label">Levyllä olevat leikkeet</string>
+    <string name="settings_privacy_storage_size_label">Koko yhteensä</string>
+    <string name="settings_privacy_storage_unavailable">Unavailable</string>
+    <string name="settings_privacy_storage_count_format">%1$d clip</string>
+    <string name="settings_privacy_storage_count_format_plural">%1$d leikkeet</string>
+    <string name="settings_privacy_reset_subtitle">Valitse kategoriat: nauhoitukset, tapahtumat, taustakuvat, välimuistissa olevat telemetria…</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">Turvallisuus</string>
+    <string name="settings_security_subtitle">Lukitse OverDrive-sovellus, joten matkustajat ja kuvakkeet eivät voi avata sitä ilman PIN-koodiasi.</string>
+    <string name="settings_security_stance_title">Vain käyttöliittymän lukitus</string>
+    <string name="settings_security_stance_body">Valvonta, tallennus, pesu, hälytykset ja taustapalvelut toimivat sovelluksen ollessa lukittu. PIN vie OverDrive-käyttöliittymän, ei mitään muuta.</string>
+    <string name="settings_security_overline_lock">Sovelluksen lukitus</string>
+    <string name="settings_security_overline_recovery">Jos unohdat PIN-koodisi</string>
+    <string name="settings_security_toggle_title">Vaadi PIN-koodi</string>
+    <string name="settings_security_toggle_subtitle_off">Pois päältä — kuka tahansa voi avata OverDriveen.</string>
+    <string name="settings_security_toggle_subtitle_on">On – PIN-koodi vaaditaan avaamaan OverDrive.</string>
+    <string name="settings_security_change_title">Vaihda PIN-koodi</string>
+    <string name="settings_security_change_subtitle">Vahvista nykyinen PIN-koodi ja aseta uusi.</string>
+    <string name="settings_security_autolock_title">Lukitse Automaattisesti</string>
+    <string name="settings_security_autolock_immediate">Lukitse välittömästi</string>
+    <string name="settings_security_autolock_1min">1 minuutin kuluttua</string>
+    <string name="settings_security_autolock_5min">5 minuutin kuluttua</string>
+    <string name="settings_security_autolock_15min">15 minuutin kuluttua</string>
+    <string name="settings_security_autolock_never">Älä koskaan lukitse automaattisesti ajan mukaan</string>
+    <string name="settings_security_recovery_title">ADB elpyminen</string>
+    <string name="settings_security_recovery_body">Unohtunut PIN-koodi voidaan tyhjentää isäntäkoneesta USB-virheenkorjaus ilman tehtaan palautusta. Suorita tämä komento ja avaa sovellus uudelleen.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">Aseta PIN-koodi</string>
+    <string name="settings_security_dialog_set_body">Valitse 4–8 numeroinen PIN-koodi. Tarvitset tämän aina kun avaat sovelluksen.</string>
+    <string name="settings_security_dialog_disable_title">Poistetaanko PIN-lukitus käytöstä?</string>
+    <string name="settings_security_dialog_disable_body">Vahvista nykyinen PIN-koodi, jotta sovelluksen lukitus poistetaan käytöstä.</string>
+    <string name="settings_security_dialog_change_step1_title">Vahvista nykyinen PIN-koodi</string>
+    <string name="settings_security_dialog_change_step1_body">Syötä nykyinen PIN-koodi, niin asetat uuden PIN-koodin.</string>
+    <string name="settings_security_action_set">Aseta PIN-koodi</string>
+    <string name="settings_security_action_disable">Poista lukitus käytöstä</string>
+    <string name="settings_security_action_continue">Jatka</string>
+    <string name="settings_security_pin_hint">PIN-koodi</string>
+    <string name="settings_security_pin_confirm_hint">Vahvista PIN-koodi</string>
+    <string name="settings_security_error_length">PIN-koodin on oltava 4-8 merkkiä</string>
+    <string name="settings_security_error_numeric">Vain numerot</string>
+    <string name="settings_security_error_mismatch">PIN-koodit eivät täsmää</string>
+    <string name="settings_security_error_wrong">Väärä PIN-koodi</string>
+    <string name="settings_security_error_locked_out">Liian monta yritystä. Yritä hetken kuluttua uudelleen.</string>
+    <string name="settings_security_error_persist">PIN-koodin tallentaminen epäonnistui. Yritä uudelleen.</string>
+    <string name="settings_security_toast_set_ok">PIN-koodi. Sovelluksen lukitus on päällä.</string>
+    <string name="settings_security_toast_disable_ok">Sovelluksen lukitus pois päältä.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">Anna PIN-koodi</string>
+    <string name="pin_lock_title_unlocked">Avattu</string>
+    <string name="pin_lock_subtitle_default">Avaa OverDrive jatkaaksesi.</string>
+    <string name="pin_lock_subtitle_wrong">Väärä PIN-koodi. Yritä uudelleen.</string>
+    <string name="pin_lock_subtitle_locked_out">Liian monta yritystä. Yritä hetken kuluttua uudelleen.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">Lukittu. Yritä uudelleen %1$s</string>
+    <string name="pin_lock_lockout_seconds">%1$ds</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">Unohditko PIN-koodin? Suorita yhdistetystä tietokoneesta:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Askelpalautin</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="one">%1$d numero syötetty</item>
+        <item quantity="other">%1$d numeroa syötetty</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">Ei sijaintia</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">Kamera %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">Kamera %1$d (manuaalinen)</string>
+    <string name="diagnostics_camera_value_probing">Ylitys…</string>
+    <string name="diagnostics_camera_value_offline">Offline-tilassa</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">Odottavat tiedot</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">Tervetuloa — Overdrive on nyt toinen silmäparisi.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">Noudetaan %1$s (¼%2$s) pysäköitynä</string>
+    <string name="dashboard_insight_parked_charged">Noudetaan %1$s pysäköitynä</string>
+    <string name="dashboard_insight_parked_drained_kwh">Käytetty %1$s (¶%2$s) pysäköidessäsi</string>
+    <string name="dashboard_insight_parked_drained">Käytetty %1$s koska olet pysäköity</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">Viimeisin tarkkailuilmoitus: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">Viimeisin vastuu: +%1$s kohteessa %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">%1$d leikkeet · %2$s tallennettu</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f kWh</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d hr %2$d min</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="one">%1$d clip tallennettu tänään</item>
+        <item quantity="other">%1$d leikkeitä tallennettu tänään</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="one">Overdrive online for %1$d päivä, %2$d h</item>
+        <item quantity="other">Overdrive online for %1$d päivää, %2$d h</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="one">Yliajaa verkossa %1$d tunnin ajan</item>
+        <item quantity="other">Yliajaa verkossa %1$d tuntia</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="one">%1$d min</item>
+        <item quantity="other">%1$d min</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="one">%1$d t</item>
+        <item quantity="other">%1$d t</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">RoadSense</string>
+    <string name="rail_hazard_map">Kartta</string>
+    <string name="roadsense_title">RoadSense</string>
+    <string name="roadsense_pill_scanning">Skannataan</string>
+    <string name="roadsense_pill_idle">RoadSense</string>
+    <string name="roadsense_status_idle">Jouten</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">Ajoneuvon oppiminen</string>
+    <string name="roadsense_cal_ready">Ajoneuvo kalibroitu</string>
+    <string name="roadsense_cal_partial">Kalibroinnin parantaminen</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">Tyhjennä edessä</string>
+    <string name="roadsense_road_mapped">Tie kartoitettu · selkeä</string>
+    <string name="roadsense_road_new">Uusi tie · oppiminen</string>
+    <string name="roadsense_unit_meters">m</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">Varoita</string>
+    <string name="roadsense_toggle_audio">Ääni</string>
+    <string name="roadsense_toggle_visual">Visuaalinen</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">Vähäinen</string>
+    <string name="roadsense_sev_moderate">Kohtalainen</string>
+    <string name="roadsense_sev_severe">Vaikea</string>
+    <string name="roadsense_type_breaker">Nopeuskatkaisija</string>
+    <string name="roadsense_type_pothole">Potoli</string>
+    <string name="roadsense_type_hazard">Vaara</string>
+    <string name="roadsense_type_rough">Karkea osio</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">%1$d kuoppia eteenpäin</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">Karkea osa · %1$d m</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">Oliko tämä vaara?</string>
+    <string name="roadsense_confirm_reject">Ei vaaraa</string>
+    <string name="roadsense_confirm_accept">Vahvista</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">Reittien kalibrointitaso</string>
+    <string name="roadsense_cd_direction">Suunta seuraavaan vaaraan</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">Vasen</string>
+    <string name="blindspot_overlay_right">OIKEUS</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">Kartta</string>
+    <string name="roadsense_map_route_clear">Tyhjennä</string>
+    <string name="roadsense_map_route_unmapped">Ei vielä yhdistetty</string>
+    <string name="roadsense_map_back">Takaisin</string>
+    <string name="roadsense_map_recenter">Kirjoita uudelleen sijaintiini</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">Vakavuus</string>
+    <string name="roadsense_map_type_label">Tyyppi</string>
+    <string name="roadsense_map_type_unknown">Tuntematon</string>
+    <string name="roadsense_map_confirm">Vahvista</string>
+    <string name="roadsense_map_delete">Poista</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">Ehdokas</string>
+    <string name="roadsense_map_status_local">Laitteessa</string>
+    <string name="roadsense_map_status_cloud">Jaettu</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% confidence · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="one">%1$d raportti</item>
+        <item quantity="other">%1$d raporttia</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">Vaara vahvistettu</string>
+    <string name="roadsense_map_deleted_toast">Vaara poistettu</string>
+    <string name="roadsense_map_action_failed">RoadSensiin ei päästy. Yritä uudelleen.</string>
+    <string name="roadsense_map_no_location">Odotetaan GPS-korjausta…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">Etsi määränpää</string>
+    <string name="roadsense_map_search_action">Etsi</string>
+    <string name="roadsense_map_searching">Etsitään…</string>
+    <string name="roadsense_map_no_results">Paikkoja ei löytynyt</string>
+    <string name="roadsense_map_pick_destination">Valitse kohde</string>
+    <string name="roadsense_map_routing">Finding route…</string>
+    <string name="roadsense_map_route_failed">Reittiä ei löytynyt. Yritä uudelleen.</string>
+    <string name="roadsense_map_need_key">Lisää reititysavain RoadSensen asetuksiin navigoidaksesi.</string>
+    <string name="roadsense_map_rerouting">Off route — recalculating…</string>
+    <string name="roadsense_map_arrived">Olet saapunut.</string>
+    <string name="roadsense_map_nav_started">Navigoidaan kohteeseen %1$s</string>
+    <string name="roadsense_map_nav_ended">Navigointi päättyi</string>
+    <string name="roadsense_map_end_nav">Lopeta navigointi</string>
+    <string name="roadsense_map_zoom_in">Zoomaa sisään</string>
+    <string name="roadsense_map_zoom_out">Zoomaa ulos</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">Vaaran näkyvyys</string>
+    <string name="roadsense_map_hazards_all">Näytä kaikki vaarat</string>
+    <string name="roadsense_map_hazards_moderate">Kohtalainen ja vakava</string>
+    <string name="roadsense_map_hazards_severe">Vain vaikea</string>
+    <string name="roadsense_map_hazards_hidden">Piilota vaarat</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">Lataus ja polttoaine</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">2D / 3D-rakennukset</string>
+    <string name="roadsense_map_3d_on">3D-rakennukset päällä</string>
+    <string name="roadsense_map_3d_off">3D-rakennukset pois käytöstä</string>
+    <string name="roadsense_map_poi_loading">Etsitään lataus- ja polttoainepysähdyksiä…</string>
+    <string name="roadsense_map_poi_none">Lähellä olevia asemia ei löytynyt</string>
+    <string name="roadsense_map_poi_need_route">Valitse määränpää ensin</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">Lopeta lisätty</string>
+    <string name="roadsense_map_remove_stop_action">Poista pysäytys</string>
+    <string name="roadsense_map_poi_navigate">Siirry tähän</string>
+    <string name="roadsense_map_poi_kind_charging">Latausasema</string>
+    <string name="roadsense_map_poi_kind_fuel">Polttoaineen asema</string>
+    <string name="roadsense_map_poi_charging_generic">Latausasema</string>
+    <string name="roadsense_map_poi_fuel_generic">Polttoaineen asema</string>
+    <string name="roadsense_map_route_switched">Vaihda reittiä</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">sitten</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">Poistu %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">%1$d vaikea</string>
+    <string name="roadsense_map_pill_moderate">%1$d kohtalainen</string>
+    <string name="roadsense_map_pill_minor">%1$d vähäinen</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">Karttatiedot eivät ole käytettävissä offline-tilassa</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">Tyhjennä haku</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">Valitse reitti</string>
+    <string name="roadsense_map_routes_to">Reitit kohteeseen %1$s</string>
+    <string name="roadsense_map_routes_cancel">Peruuta</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">Reitti %1$d</string>
+    <string name="roadsense_map_fastest">Nopein</string>
+    <string name="roadsense_map_start">Aloita</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">Sinun sijaintisi</string>
+    <string name="roadsense_map_add_stop">Lisää pysähdys</string>
+    <string name="roadsense_map_add_stop_hint">Etsi lopetus lisätäksesi</string>
+    <string name="roadsense_map_stop_removed">Lopeta poistettu</string>
+    <string name="roadsense_map_remove_stop">Poista pysäytys</string>
+    <string name="roadsense_map_move_stop_up">Siirrä lopetus</string>
+    <string name="roadsense_map_move_stop_down">Siirrä pysähdys alas</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">Enintään %1$d pysähdystä sallittu</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">Kartta teema</string>
+    <string name="roadsense_map_theme_auto">Kartta teema: Automaattinen</string>
+    <string name="roadsense_map_theme_light">Kartta teema: Vaalea</string>
+    <string name="roadsense_map_theme_dark">Kartta teema: Tumma</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">Koti</string>
+    <string name="roadsense_map_saved_work">Työ</string>
+    <string name="roadsense_map_saved_set_home">Aseta Koti</string>
+    <string name="roadsense_map_saved_set_work">Aseta Työt</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">Suosikki</string>
+    <string name="roadsense_map_save_place">Tallenna paikka</string>
+    <string name="roadsense_map_save_as_home">Tallenna kotisivuksi</string>
+    <string name="roadsense_map_save_as_work">Tallenna työksi</string>
+    <string name="roadsense_map_save_as_custom">Tallenna suosikkina…</string>
+    <string name="roadsense_map_saved_added">Tallennettu</string>
+    <string name="roadsense_map_saved_removed">Poistettu tallennetusta</string>
+    <string name="roadsense_map_saved_remove">Poista</string>
+    <string name="roadsense_map_recent_remove">Poista viimeaikaisista</string>
+    <string name="roadsense_map_recent_removed">Poistettu viimeaikaisista</string>
+    <string name="roadsense_map_custom_label_hint">Merkki (esim. Gym, Mums)</string>
+    <string name="roadsense_map_custom_label_title">Nimeä tämä paikka</string>
+    <string name="roadsense_map_save">Tallenna</string>
+    <string name="roadsense_map_cancel">Peruuta</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">Pudotettu tappi</string>
+    <string name="roadsense_map_navigate_here">Siirry tähän</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">Etsi paikka joka asetetaan %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">Matka palautettu</string>
+    <!-- dialog_cloudflared_settings -->
+    <string name="cloudflared_token_storage_note">Tunnus tallennetaan turvallisesti ja jaetaan sovellus- ja taustaprosessien välillä.</string>
+    <string name="cloudflared_token_hint">Syötä cloudflared-tunnus</string>
+    <string name="cloudflare_paid_version">Cloudflaren maksullinen versio</string>
+    <string name="dialog_cloudflared_settings_title">🌐 Cloudflared-asetukset</string>
+    <string name="dialog_cloudflared_settings_message">Määritä, käytätkö maksullista Cloudflarea vai trycloudflare-palvelua. Jos käytät maksullista Cloudflarea, syötä tunnelitunnuksesi.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">Jos asetettu maksulliseen versioon, tunnus ei voi olla tyhjä</string>
+    <string name="toast_cloudflared_saved_settings">Cloudflared-asetukset tallennettu</string>
+</resources>

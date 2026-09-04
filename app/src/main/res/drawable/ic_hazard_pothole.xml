@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense hazard marker — POTHOLE (24dp, single-color, tint-driven).
+
+  Concept: a perspective ROAD band (same wide trapezoid as ic_roadsense)
+  with a dark, ragged HOLE punched out of its surface via evenOdd. The
+  hole reads as "missing asphalt" at marker size. Authored in the Material
+  Symbols 960-unit grid (x:0..960, y:-960..0, baseline y=0), scaled by the
+  same 0.025 <group> transform the rest of the icon set uses.
+
+  fillColor=white so style.addImage()'s tinted bitmap (or an XML tint)
+  drives the final color. Drawn at ~72px for the map SymbolLayer.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+
+        <!-- Road band with a ragged hole punched out (evenOdd). The hole
+             is an irregular octagon so it reads as broken asphalt, not a
+             tidy circle. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:fillType="evenOdd"
+            android:pathData="M300,-760 L660,-760 L860,-160 Q872,-128 838,-128 L122,-128 Q88,-128 100,-160 L300,-760 Z M404,-470 L350,-410 L370,-322 L452,-286 L548,-300 L606,-372 L580,-452 L498,-492 Z" />
+
+        <!-- Two short centre-line dashes flanking the hole for road context. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M468,-740 L455,-560 L505,-560 L492,-740 Z" />
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M448,-256 L432,-160 L528,-160 L512,-256 Z" />
+    </group>
+</vector>

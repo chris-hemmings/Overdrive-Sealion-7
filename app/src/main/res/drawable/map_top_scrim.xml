@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Top scrim behind the map toolbar. A vertical gradient from a semi-opaque
+  surface tint at the top fading to transparent, so the back chevron + title
+  stay legible over any basemap (light or dark) without boxing in the whole
+  app bar. Theme-aware via ?attr/colorSurface (resolves per light/night theme).
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:startColor="#B3000000"
+        android:endColor="#00000000"
+        android:type="linear" />
+</shape>

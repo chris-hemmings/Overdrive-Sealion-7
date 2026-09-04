@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Braveheart "Send a daemon log" chooser. Themed custom view to match the
+     app's dialog idiom (see dialog_reset_data.xml): surface-container-high
+     background, icon+title+subtitle header, M3 option cards. Replaces the bare
+     setItems(...) list that did not carry the Overdrive M3 styling. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorSurfaceContainerHigh"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_download_log"
+            app:tint="?attr/colorPrimary" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/sendLogTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/logs_send_title_plain"
+                android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+                android:textColor="?attr/colorOnSurface" />
+
+            <TextView
+                android:id="@+id/sendLogSubtitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/logs_send_subtitle"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Option: Upload & get a code -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/optionUpload"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/card_gap_vertical"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHighest"
+        app:cardCornerRadius="@dimen/card_radius_accent"
+        app:cardElevation="0dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_cloud"
+                app:tint="?attr/colorPrimary" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/logs_send_upload"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/logs_send_upload_desc"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_chevron_right"
+                app:tint="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Option: Share file… -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/optionShare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="?attr/colorSurfaceContainerHighest"
+        app:cardCornerRadius="@dimen/card_radius_accent"
+        app:cardElevation="0dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_share"
+                app:tint="?attr/colorOnSurfaceVariant" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/logs_send_share"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/logs_send_share_desc"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/ic_chevron_right"
+                app:tint="?attr/colorOnSurfaceVariant" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>

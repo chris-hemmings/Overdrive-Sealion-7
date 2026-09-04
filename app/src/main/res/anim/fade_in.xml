@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  M3 standard fade-in: 300ms with decelerate easing.
+  Used for inline preview player swap-in (RecordingsFragment landscape) and
+  any other M3 surface enter transition that wants a soft reveal.
+-->
+<alpha xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/decelerate_quad"
+    android:fromAlpha="0.0"
+    android:toAlpha="1.0"
+    android:duration="300" />

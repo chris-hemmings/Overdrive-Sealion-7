@@ -1,0 +1,1196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Овердрайв</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">Триває моніторинг пристрою Овердрайвера в фоновому режимі. Ця служба не переглядає або не взаємодіє з вмістом екрану.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">Скасувати</string>
+    <string name="action_clear_plain">Очистити</string>
+    <string name="action_select_all">Виділити все</string>
+    <string name="action_select_all_short">Всі</string>
+    <string name="action_delete">Видалити</string>
+    <string name="action_share">Поділитись</string>
+    <string name="action_done">Зроблено</string>
+    <string name="action_remind_me_later">ПОВЕРНУТИ МІСЦЕ НА РАЗІ</string>
+    <string name="action_retry">Повторити спробу</string>
+    <string name="action_run">Ран</string>
+    <string name="action_clear_output">Очистити вивід</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">Камера</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">QR Code</string>
+    <string name="cd_show_hide_token">Показати/приховати маркер</string>
+    <string name="cd_copy_token">Копіювати маркер</string>
+    <string name="cd_copy_url">Копіювати посилання</string>
+    <string name="cd_clear_logs">Очистити журнали</string>
+    <string name="cd_expand_collapse">Розгорнути/згорнути</string>
+    <string name="cd_recording_status">Статус запису</string>
+    <string name="cd_trip_tracking_status">Статус відстеження поїздки</string>
+    <string name="cd_mic_status">Стан захоплення мікрофона</string>
+    <string name="cd_video_thumbnail">Мініатюри відео</string>
+    <string name="cd_play">Відтворити</string>
+    <string name="cd_back">Відмінити</string>
+    <string name="cd_play_pause">Відтворити/Призупинити</string>
+    <string name="cd_player_prev">Попередній запис</string>
+    <string name="cd_player_next">Наступний запис</string>
+    <string name="cd_player_maximize">Максимізувати гравця</string>
+    <string name="cd_player_minimize">Вийти з повноекранного режиму</string>
+    <string name="cd_player_mute">Перемкнути аудіо</string>
+    <string name="cd_player_quadrant_all">Показати всі камери</string>
+    <string name="cd_player_quadrant_front">Показати передню камеру</string>
+    <string name="cd_player_quadrant_right">Показати праву камеру</string>
+    <string name="cd_player_quadrant_rear">Показати задню камеру</string>
+    <string name="cd_player_quadrant_left">Показати ліву камеру</string>
+    <string name="cd_delete">Видалити</string>
+    <string name="cd_share">Поділитись</string>
+    <string name="cd_expand">Розгорнути</string>
+    <string name="cd_configure">Настроїти</string>
+    <string name="cd_download_log">Журнал завантаження</string>
+    <string name="cd_reset">Reset</string>
+    <string name="cd_battery">Батарея</string>
+    <string name="cd_step_completed">Крок завершено</string>
+    <string name="cd_permission_granted">Дозвіл надано</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">Репортаж</string>
+    <string name="overlay_trip_inactive_label">ПОЇЗДКА</string>
+    <string name="overlay_mic_inactive_label">Мік</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">Зупинити запис</string>
+    <string name="overlay_mode_continuous_cd">Безперервний запис</string>
+    <string name="overlay_mode_drive_cd">Запис маршруту</string>
+    <string name="overlay_mode_proximity_cd">Запис захищених пристроїв</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">12:34:56</string>
+    <string name="log_entry_default_tag">[TAG]</string>
+    <string name="log_entry_default_message">Записувати повідомлення</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">Ім\'я служби</string>
+    <string name="daemon_card_default_status">Повідомлення про стан</string>
+    <string name="daemon_card_subprocesses">SUBPROCESSES</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">Логи</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">Підключення…</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">Браузер не знайдено. Посилання скопійовано: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">Згенерувати логіну URL</string>
+    <string name="tailscale_scan_to_login">Сканувати для входу в систему</string>
+    <string name="tailscale_qr_waiting">Waiting for login URL…</string>
+    <string name="tailscale_enable_proxy">Увімкнути Tailscale Proxy</string>
+    <string name="tailscale_proxy_explainer">Маршрути MQTT через Tailscal, щоб ви могли досягти приватного брокера на хвості без пересилки портів.</string>
+    <string name="tailscale_proxy_warning">Якщо увімкнено, MQTT до державних брокерів (HiveMQ, AWS IoT, і т. д.) буде провалено проїзд лише маршрути до вашого хвоста. Збереження перезавантажиться на демон.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">Режим перевантаження</string>
+    <string name="camera_mode_subtitle">Виберіть шлях, який відповідає вашій головній одиниці. Типово відповідає більшості BYD моделей; DiLink 4 вимагається на нових племенах (Han / Tang 2024 +), де AVM HAL випромінює попередньо встановлену мозаїку 2x2.</string>
+    <string name="camera_mode_option_default">Типово - працює на Seal, Atto, Dolphin (більшість автомобілів)</string>
+    <string name="camera_mode_option_dilink4">Цилінк 4 — новіші варіанти Han / ang</string>
+    <string name="camera_mode_current_default">Поточний: За замовчуванням</string>
+    <string name="camera_mode_current_dilink4">Поточний: DiLink 4</string>
+    <string name="camera_mode_save">Застосувати &amp; перезавантажити</string>
+    <string name="camera_mode_hint">Зміна режиму перезапускає демон камери. Якщо відео виглядає не так (квадратні, відсутні квадранти, червоне оверлеї), спробуйте інший режим.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">Тонкі налаштування DiLink 4</string>
+    <string name="camera_dilink4_tweaks_subtitle">Корекції на автомобіль для шляху для DiLink 4. Працюють лише при виділенні режиму DiLink 4 вище.</string>
+    <string name="camera_dilink4_save">Прийняти</string>
+    <string name="camera_dilink4_hint">Перемкніть ці дані лише в тому випадку, якщо HAL painє червоний «калібрування не вдалося» chrome над каналами. Перезавантажити Daemon застосувати зміни.</string>
+    <string name="camera_dilink4_red_mask_label">Ігнорувати червоне калібрування над (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">Додає фрагментарний прохід, який виявляє яскравий HAL \"калібрування не вдалося\" пікселів і замінює їх зразком сусіда (або яскраво-сірим, коли банер занадто великий, щоб розфарбувати). Косметичні лише - не впливають на основний стан калібування.</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">Вибір камери</string>
+    <string name="camera_selection_subtitle">Виберіть джерело камери панорами</string>
+    <string name="camera_current_auto">Поточний: Авто</string>
+    <string name="camera_option_auto">Автоматично (визначати при запуску)</string>
+    <string name="camera_option_0">Камера 0 — Atto trims</string>
+    <string name="camera_option_1">Камера 1 — Печатка (за замовчуванням)</string>
+    <string name="camera_option_2">Камера 2</string>
+    <string name="camera_option_3">Камера 3</string>
+    <string name="camera_option_4">Камера 4</string>
+    <string name="camera_option_5">Камера 5</string>
+    <string name="camera_selection_hint">Автоматично вибирає праву камеру для підрізки при кожному завантаженні. Камера 1 = BYD Seal, Camera 0 = Верт. Перезапустіть служби після зміни ідентифікатора камери, щоб зміни вступили в силу.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">OEM ID Dashcam камери</string>
+    <string name="camera_oem_dashcam_hint">Оберіть AVMCamera ідентифікатор, який вказує на майбутній пунктирному датчику. Dashcam - OPPOSITE пано: Seal/Han pano = 1 → dashcam = 0; Atto / Tang pano = 0 → dashcam = 1. Залишіть на автоматичному режимі, щоб OverDrive видалений.</string>
+    <string name="camera_oem_dashcam_auto_resolved">Авто — використання id %1$d (pano є id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">Авто — pano id %1$d, не можливо вбудувати дефіс</string>
+    <string name="camera_oem_dashcam_save">Зберегти</string>
+    <string name="camera_concurrent_probe_label">Тест підтримки подвійної камери при наступному завантаженні</string>
+    <string name="camera_concurrent_probe_subtitle">Перевіряйте, чи одночасно щось відкриває обидві камери, щоб підтвердити цей транспорт, чи може працювати пано + пунктирною версією. Запускає один раз при паркуванні наступного перезапуску. Залиште OFF, якщо записи не виглядають неправильними - вони не є обов\'язковими і може ненадовго перервати запис, якщо запис запущений.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">Камера 0 — печатка / Han (за замовчуванням)</string>
+    <string name="camera_oem_option_1">Камера 1 — Atto / Tang</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">Запис камери</string>
+    <string name="camera_role_label">Рольове відображення</string>
+    <string name="camera_candidate_previous">Попереднє</string>
+    <string name="camera_candidate_next">Уперед</string>
+    <string name="camera_preview_unavailable">Попередній перегляд недоступний. Спробуйте інший кандидат або перезавантажте, повторно відкривши діалогове вікно після перезапуску фонової служби.</string>
+    <string name="camera_mapping_save">Зберегти</string>
+    <string name="camera_mapping_clear">Очистити роль</string>
+    <string name="camera_mapping_saved">Зіставлення камери збережено.</string>
+    <string name="camera_mapping_cleared">Роль камери очищена.</string>
+    <string name="camera_mapping_summary_format">Panoramic stream: Camera %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">Панорамний потік: Попереднє визначення / зондування</string>
+    <string name="camera_mapping_current_format">Поточне відображення: %1$s</string>
+    <string name="camera_mapping_current_none">Поточне зіставлення: Авто / за замовчуванням</string>
+    <string name="camera_mapping_hint">За замовчуванням, надмірний диск зберігає попередню поведінку запуску, але тепер дозволяє відкалібрувати правильно об\'єднану панораму. Попередній перегляд кожної об’єднаної нарізки, відображає логічні 360 ролей у фрагменті, що фактично відображається спереду/вправо/вліво на вашій машині, і демон повторно використає макет для запису, трансляцій і після перезапуску.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">Сканувати для підключення</string>
+    <string name="dashboard_qr_waiting">Чекаємо тунелю…</string>
+    <string name="dashboard_daemons_running_default">0/5 запущений</string>
+    <string name="dashboard_device_id_loading">…</string>
+    <string name="dashboard_access_code">Код доступу</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">Оновити токен</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">З чого почати</string>
+    <string name="setup_guide_subtitle">Три швидкі кроки для того, щоб отримати найкращий досвід:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2</string>
+    <string name="setup_step_three_label">3</string>
+    <string name="setup_language_title">Оберіть мову</string>
+    <string name="setup_language_body">За замовчуванням мова удвох головних одиниць. Натисніть щоб вибрати іншу для додатка OverDrive і веб-тунелю.</string>
+    <string name="setup_language_button">Оберіть мову</string>
+    <string name="setup_autostart_title">Вимкнути автоматичне обмеження запуску</string>
+    <string name="setup_autostart_body">Натисніть нижче, щоб відкрити BYD AutStart. Знайдіть OverDrive в списку і зніміть прапорець. BYD встановлює це при кожному встановленні — ви будете повторно робити це після оновлення.</string>
+    <string name="setup_autostart_button">Відкрити BYD автозапуск</string>
+    <string name="setup_overlay_title">Дозволити показ поверх інших програм</string>
+    <string name="setup_overlay_body">Увімкніть це, щоб показувати індикатор плаваючого стану для запису та відслідковування поїздки на вершині інших програм.</string>
+    <string name="setup_overlay_button">Відкрити налаштування накладання</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">Закрити</string>
+    <string name="language_picker_title">Мова:</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">Доступні мови %1$d</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">Виберіть мову</string>
+    <string name="language_auto_title">Авто</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">Наслідування системи · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · Auto</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">$</string>
+    <string name="adb_command_hint">Enter command…</string>
+    <string name="adb_preset_commands_header">Команди шаблонів</string>
+    <string name="adb_output_header">Вихід</string>
+    <string name="adb_output_ready">$ Готовий до команд…</string>
+    <string name="adb_console_hero_title">ADB Консоль</string>
+    <string name="adb_console_hero_subtitle">Запуск команд консолі на пристрої</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">Завантаження…</string>
+    <string name="webview_camera_daemon_not_running">Фонова камери не запущена</string>
+    <string name="webview_start_camera_daemon">Для доступу до цієї сторінки запустіть камеру з екрана Daemmons.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">Увімкнути токен</string>
+    <string name="zrok_token_storage_note">Токен зберігаються надійно та поширюється між процесами додатку і демонами.</string>
+    <string name="zrok_reset_environment">Скинути середовище Zrok</string>
+    <string name="zrok_reset_environment_desc">Видалення середовища та токену. Вам потрібно буде повторно ввімкнути з вашим токеном (використовується слот пристрою).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">Скинути дані</string>
+    <string name="reset_subtitle">Стерти накопичені дані за категорією</string>
+    <string name="reset_warning">Цю дію неможливо скасувати. Записи, поїздки й історія акумулятора буде остаточно видалено.</string>
+    <string name="reset_cat_trips">Поїздки</string>
+    <string name="reset_cat_trips_desc">Історія поїздок, маршрути, щотиждня/місячні розгортання</string>
+    <string name="reset_cat_soc_history">SoC &amp; 12V history</string>
+    <string name="reset_cat_soc_history_desc">Середні зразки, сеанси заряджання, журнали напруги</string>
+    <string name="reset_cat_soh">Калібрування SoH</string>
+    <string name="reset_cat_soh_desc">Перевизначає номінальну ємність, повторно виготовляє оцінку з BMS</string>
+    <string name="reset_cat_abrp_token">Токен ABRP</string>
+    <string name="reset_cat_abrp_token_desc">Вимикає телеметрію ABRP до повторного звання</string>
+    <string name="reset_cat_byd_cloud">BYD облікові дані Cloud</string>
+    <string name="reset_cat_byd_cloud_desc">Ім\'я користувача, ключ авторизації, VIN — для повторного входу необхідно повторно увійти</string>
+    <string name="reset_cat_recordings">Записи (відео)</string>
+    <string name="reset_cat_recordings_desc">Всі MP4 в папці записів</string>
+    <string name="reset_cat_sentry_events">Стягнення подій</string>
+    <string name="reset_cat_sentry_events_desc">Оформлювальні зали подій та боки JSON</string>
+    <string name="reset_cat_proximity">Записи наближення</string>
+    <string name="reset_cat_proximity_desc">Радіарно-викликані події MP4</string>
+    <string name="reset_cat_trip_files">Телеметрія поїздок</string>
+    <string name="reset_cat_trip_files_desc">Постійна поїздка JSON телеметрія на диску</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">Будь-яке</string>
+    <string name="recording_lib_chip_person">Особа</string>
+    <string name="recording_lib_chip_vehicle">Автомобіль</string>
+    <string name="recording_lib_chip_bike">Велосипед</string>
+    <string name="recording_lib_chip_animal">Тварини</string>
+    <string name="recording_lib_chip_alert">Оповіщення</string>
+    <string name="recording_lib_chip_critical">Критичний</string>
+    <string name="recording_lib_selected_count_zero">вибрано 0</string>
+    <string name="recording_lib_no_recordings">Немає записів</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">Фільтр</string>
+    <string name="recording_lib_filter_button_active">Фільтр · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">Фільтрувати записи</string>
+    <string name="recording_lib_filter_apply">Прийняти</string>
+    <string name="recording_lib_filter_reset">Reset</string>
+    <string name="recording_lib_filter_section_what">Що</string>
+    <string name="recording_lib_filter_section_severity">Серйозність</string>
+    <string name="recording_lib_filter_section_type">Тип</string>
+    <string name="recording_lib_filter_section_place">Місце</string>
+    <string name="recording_lib_place_search_hint">Search places…</string>
+    <string name="recording_lib_chip_type_normal">Нормальний</string>
+    <string name="recording_lib_chip_type_proximity">Наближення</string>
+    <string name="recording_lib_date_today">Сьогодні</string>
+    <string name="recording_lib_date_yesterday">Вчора</string>
+    <string name="recording_lib_clip_count">%1$d кліпи</string>
+    <string name="recording_lib_clip_count_one">%1$d clip</string>
+    <string name="recording_lib_pick_date">Вибрати дату</string>
+    <string name="recording_lib_date_all_days">Усі дні</string>
+    <string name="cd_clear_date_filter">Показати всі дні</string>
+    <string name="recording_lib_section_morning">Ранок</string>
+    <string name="recording_lib_section_afternoon">Після обіду</string>
+    <string name="recording_lib_section_evening">Вечір</string>
+    <string name="recording_lib_section_night">Ніч</string>
+    <string name="cd_previous_day">Попередній день</string>
+    <string name="cd_next_day">Наступного дня</string>
+    <string name="cd_open_filters">Відкрити фільтри</string>
+    <string name="cd_clear_filter">Очистити фільтр</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">Не знайдено жодного запису</string>
+    <string name="recording_lib_empty_body">Спробуйте налаштувати діапазон вашого часу або фільтри чіпів.</string>
+    <string name="recording_lib_empty_clear_filters">Очистити фільтри</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">Поки що нічого немає</string>
+    <string name="recording_lib_empty_disk_body">Захоплення з\'являться тут, як тільки трубопровід на пунктир або трубопровод спостереження напише кліп.</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">Індекс збірки бібліотек</string>
+    <string name="recording_lib_building_index_body">Хоч ваш помічник при скануванні записів.</string>
+    <string name="recording_lib_building_index_progress">Індексований %1$d %2$d clips…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">КАТ</string>
+    <string name="recording_lib_type_event">ПОДІЇ</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">ОЕМ</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">Sharing %1$d recordings</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">Запис</string>
+    <string name="player_time_zero">0:00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">Фонові служби</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">Завантаження служб…</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d %2$d працює</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">Preparing update…</string>
+    <string name="update_percent_zero">0%</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">Стан батареї</string>
+    <string name="battery_health_subtitle">Стан здоров\'я</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">Чекаємо дані…</string>
+    <string name="battery_health_source">Джерело</string>
+    <string name="battery_health_method">Метод</string>
+    <string name="battery_health_capacity">Ємність</string>
+    <string name="battery_health_samples">Зразки</string>
+    <string name="battery_health_last_updated">Востаннє оновлено</string>
+    <string name="battery_health_reset">Скинути оцінку SOH</string>
+    <string name="battery_health_reset_desc">Очищає всі дані та повторні розрахунки з нуля. Використовуйте, якщо батарея була замінена або читання застаріла.</string>
+    <string name="soh_dialog_model_label">Модель</string>
+    <string name="soh_dialog_pack_capacity_label">Ємність до набору</string>
+    <string name="soh_dialog_estimated_capacity_label">Ефективна ємність</string>
+    <string name="soh_dialog_calibration_anchor_label">Останнє калібровано</string>
+    <string name="soh_dialog_source_user">задання користувачем</string>
+    <string name="soh_dialog_source_auto">автоматично виявлено</string>
+    <string name="soh_dialog_model_not_selected">Не обрано</string>
+    <string name="soh_dialog_capacity_not_detected">Не виявлено</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% на %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">Видимий повний заряд</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh повністю відображатиметься (%2$d/%3$d заміри)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh буде доступний повністю (збору %2$d/%3$d заміри)</string>
+    <string name="soh_dialog_frame_mismatch_title">Невідповідність рамки пакетної пропускної здатності</string>
+    <string name="soh_dialog_frame_mismatch_format">ТЗ повідомляє про %1$.1f kWh при повній зарядці, проте місткість пакету встановлена на %2$.1f kВт кВт. Число вище може відображати невідповідність одиниць (ім\'я організації проти придатного для використання), не справжнє деградація. Спробуйте ввести %1$.1f кWh відповідно до звітів про транспортні засоби.</string>
+    <string name="soh_dialog_use_observed_value">Використовувати видиме значення</string>
+    <string name="soh_dialog_use_observed_value_pending">Збереження…</string>
+    <string name="toast_soh_observed_value_saved">Ємність пакета оновлено до %1$.1f kWh.</string>
+    <string name="toast_soh_observed_value_failed">Не вдалося оновити ємність пакета (%1$s).</string>
+    <string name="diagnostics_battery_needs_review">Потрібна рецензія</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">Гаразд</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="one">Запис %d видалено</item>
+        <item quantity="few">%d записів видалено</item>
+        <item quantity="many">%d записів видалено</item>
+        <item quantity="other">%d записів видалено</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="one">Видалити %d запис</item>
+        <item quantity="few">Delete %d Recordings</item>
+        <item quantity="many">Delete %d Recordings</item>
+        <item quantity="other">Delete %d Recordings</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="one">Запис %d назавжди видалено. Цю дію не можна скасувати.</item>
+        <item quantity="few">Це остаточно видалить записи %d . Цю дію не можна скасувати.</item>
+        <item quantity="many">Це остаточно видалить записи %d . Цю дію не можна скасувати.</item>
+        <item quantity="other">Це остаточно видалить записи %d . Цю дію не можна скасувати.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">Оновлено до %1$s</string>
+    <string name="toast_update_install_failed">Помилка встановлення оновлення: %1$s</string>
+    <string name="toast_checking_for_updates">Checking for updates…</string>
+    <string name="toast_app_up_to_date">App is up to date (%1$s)</string>
+    <string name="toast_update_check_failed">Помилка перевірки оновлення: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">Доступне оновлення</string>
+    <string name="update_dialog_subtitle">Нова збірка готова до встановлення</string>
+    <string name="update_dialog_current">Current: v%1$s</string>
+    <string name="update_dialog_new">New: v%1$s</string>
+    <string name="update_dialog_current_label">Встановлено</string>
+    <string name="update_dialog_new_label">Нова версія</string>
+    <string name="update_dialog_whats_new">Новинки</string>
+    <string name="update_dialog_install_now">Встановити</string>
+    <string name="update_dialog_later">Пізніше</string>
+    <string name="update_picker_title">Виберіть версію</string>
+    <string name="update_picker_subtitle">Встановити будь-яку опубліковану збірку — новішу або старшу</string>
+    <string name="update_picker_empty">Ще немає опублікованих версій.</string>
+    <string name="update_picker_current_suffix">%1$s (встановлено)</string>
+    <string name="update_picker_older_suffix">%1$s (старше)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">Оновлення OverDrive</string>
+    <string name="update_step_downloading">Завантажується оновлення…</string>
+    <string name="update_step_verifying">Перевірка завантаження…</string>
+    <string name="update_step_stopping">Stopping daemons…</string>
+    <string name="update_step_installing">Installing update…</string>
+    <string name="update_step_installed">Оновлення встановлено</string>
+    <string name="update_step_restarting">Restarting app…</string>
+    <string name="update_step_queued">Starting update…</string>
+    <string name="update_error_title">Оновлення не вдалося</string>
+    <string name="update_error_daemon_down">Мова камери не працює. Почніть роботу з екрану Daemon, а потім спробуйте оновити знову.</string>
+    <string name="update_error_start_failed">Не вдалося запустити оновлення: %1$s</string>
+    <string name="update_error_lost_headunit">Загубили контакт з головною одиницею перед завершенням встановлення. На тунелі? Перевірте Telegram для нового URL або використайте місцеву IP-адресу.</string>
+    <string name="update_hide">Приховати</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">Канал оновлень</string>
+    <string name="settings_update_channel_alpha">Альфа</string>
+    <string name="settings_update_channel_braveheart">Хоробре серце</string>
+    <string name="settings_update_channel_alpha_desc">Стабільна версія. Кожна опублікована версія зберігається - виберіть будь-яку для встановлення (дозволені зниження). Рекомендовано для повсякденного використання.</string>
+    <string name="settings_update_channel_braveheart_desc">Bleeding-edge builds, delivered the moment they\'re published. You get new features first, but they may be unstable or buggy. If something breaks, open the Daemons screen, tap a daemon\'s log, choose \"Upload &amp; get a code\", and share the code with us on the community channels.</string>
+    <string name="settings_update_channel_save_failed">Не вдалося зберегти канал оновлення</string>
+    <string name="settings_update_channel_braveheart_toast">Переключено на Бревбентеж. Збірки можуть бути нестабільними - якщо щось ламається, надішліть журнал служби і повідомте про це у Discord/GitHub/WhatsApp.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">Для записів потрібен дозвіл на доступ до пам\'яті</string>
+    <string name="toast_url_copied_short">URL скопійовано!</string>
+    <string name="toast_camera_set_to_auto">Камера встановлена у автоматичну</string>
+    <string name="toast_failed_to_save_short">Не вдалося зберегти</string>
+    <string name="toast_failed_with_message">Не вдалося: %1$s</string>
+    <string name="toast_camera_id_set">Набір %1$d - наступний цикл ACC</string>
+    <string name="toast_clearing_camera_config">Очищення конфігурації камери…</string>
+    <string name="toast_restarting_camera_daemon">Перезапуск служби камери…</string>
+    <string name="toast_camera_daemon_restarting">Запуск фотокамери з повного зонду</string>
+    <string name="toast_camera_restart_failed">Конфігурації очищено, але не вдалося перезапустити програму. Будь ласка, перезапустіть вручну.</string>
+    <string name="toast_camera_settings_saved_restarting">Налаштування камери збережені — перезапуск служби камери…</string>
+    <string name="toast_camera_settings_restart_failed">Налаштування камери були збережені, але спосіб перезавантаження не вдалося. Будь ласка, перезапустіть його вручну.</string>
+    <string name="toast_failed_with_message_x">Не вдалося: %1$s</string>
+    <string name="toast_soh_reset_success">SOH оцінка скидання - перерахується з наступних даних</string>
+    <string name="toast_soh_reset_failed_no_daemon">Скинути не вдалося - служба не відповідає і файл не має права на запис</string>
+    <string name="toast_soh_reset_failed_with_message">Не вдалося скинути: %1$s</string>
+    <string name="toast_select_at_least_one_category">Виберіть принаймні одну категорію</string>
+    <string name="toast_reset_failed_with_error">Не вдалося скинути: %1$s</string>
+    <string name="toast_traffic_monitor_changing">%1$s traffic monitor…</string>
+    <string name="dialog_close">Закрити</string>
+    <string name="dialog_reset">Reset</string>
+    <string name="dialog_delete">Видалити</string>
+    <string name="dialog_save">Зберегти</string>
+    <string name="dialog_enable">Увімкнено</string>
+    <string name="dialog_disable">Вимкнено</string>
+    <string name="dialog_keep_enabled">Залишати увімкнутим</string>
+    <string name="dialog_keep_disabled">Залишати вимкнутим</string>
+    <string name="dialog_regenerate">Згенерувати новий</string>
+    <string name="dialog_reset_selected">Скинути вибрані</string>
+    <string name="dialog_reset_soh_title">Скинути оцінку SOH?</string>
+    <string name="dialog_reset_soh_message">This will clear all SOH data and force re-estimation from scratch.\n\nUse this if:\n• Battery was replaced\n• SOH reading seems incorrect\n• You want to recalibrate\n\nThe system will re-seed from the next available data source (OEM, charge calibration, or instantaneous reading).</string>
+    <string name="dialog_reset_following_title">Скинути підписки?</string>
+    <string name="dialog_reset_following_message">This cannot be undone.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Reset complete</string>
+    <string name="dialog_traffic_cannot_check_title">Неможливо перевірити статус</string>
+    <string name="dialog_traffic_cannot_check_message">ADB connection is not ready yet.\n\nThe app needs ADB access to manage system packages. Please ensure:\n\n• USB Debugging is enabled in Developer Options\n• The ADB authorization prompt has been accepted\n\nThe status will update automatically once connected.</string>
+    <string name="dialog_traffic_disable_title">Вимкнути моніторинг трафіку BYD?</string>
+    <string name="dialog_traffic_disable_message">The BYD Traffic Monitor (com.byd.trafficmonitor) is a built-in system app that continuously monitors road traffic conditions in the background.\n\nWhy disable it?\n\n• Consumes mobile data (even when parked)\n• Uses CPU and battery in the background\n• Not needed if you use a separate navigation app\n• Can interfere with the dashcam\'s network usage\n\nThis is safe to disable — it only affects the built-in traffic overlay on the map. Your navigation, Bluetooth, and all other car functions remain unaffected.\n\nA hard reboot is required after disabling (hold center console button 5 seconds).</string>
+    <string name="dialog_traffic_enable_title">Увімкнути моніторинг трафіку BYD знову?</string>
+    <string name="dialog_traffic_enable_message">The BYD Traffic Monitor is currently disabled.\n\nRe-enabling it will restore the built-in traffic overlay on the navigation map. Note that it will run in the background and consume mobile data.\n\nA hard reboot is required after enabling (hold center console button 5 seconds).</string>
+    <string name="dialog_traffic_status_title">Монітор трафіку %1$s</string>
+    <string name="dialog_traffic_reboot_message">The change has been applied.\n\nPlease perform a hard reboot now:\nPress and hold the central console button for 5 seconds.</string>
+    <string name="traffic_monitor_loading">Монітор трафіку: Перевірка…</string>
+    <string name="traffic_monitor_tap_to_check">Монітор трафіку (натисніть для перевірки)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">Поїздки</string>
+    <string name="reset_label_soc_history">СоСі + 12V історія</string>
+    <string name="reset_label_soh">Калібрування SoH</string>
+    <string name="reset_label_abrp_token">Токен ABRP</string>
+    <string name="reset_label_byd_cloud">BYD облікові дані Cloud</string>
+    <string name="reset_label_recordings">Записи</string>
+    <string name="reset_label_sentry_events">Стягнення подій</string>
+    <string name="reset_label_proximity">Записи наближення</string>
+    <string name="reset_label_trip_files">Телеметрія поїздок</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">Код доступу скопійовано</string>
+    <string name="dialog_regenerate_token_title">Оновити токен</string>
+    <string name="dialog_regenerate_token_message">Це призведе до анулювання поточного токену. Усі активні сеанси будуть втрачені. Продовжити?</string>
+    <string name="toast_token_regenerated_logged_out">Новий токен створено. Всі сеанси вийшли з системи.</string>
+    <string name="toast_token_regenerated_restart">Регенерація токена. Daemon може знадобитися перезапуск.</string>
+    <string name="toast_token_regenerated_no_notify">Token відновлено. Не вдалося повідомити демон.</string>
+    <string name="toast_token_regenerated">Відновлення токена</string>
+    <string name="dashboard_no_tunnel">Немає запущених тунелів</string>
+    <string name="dashboard_starting_zrok">Запуск тунелю Zrok…</string>
+    <string name="dashboard_starting_cloudflared">Запускається хмарно-шипований тунель…</string>
+    <string name="dashboard_starting_tailscale">Starting Tailscale tunnel…</string>
+    <string name="dashboard_waiting_url">Waiting for tunnel URL…</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d Запуск</string>
+    <string name="tunnel_label_cloudflared">Хмарний вітер</string>
+    <string name="tunnel_label_zrok">Зрок</string>
+    <string name="tunnel_label_tailscale">Гальш</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">Фонова служба камери</string>
+    <string name="daemon_name_surveillance">Surveillance Daemon</string>
+    <string name="daemon_name_acc_surveillance">Огляд ACC</string>
+    <string name="daemon_name_singbox">Проксі sing-box</string>
+    <string name="daemon_name_cloudflared">Непохитний тунель</string>
+    <string name="daemon_name_zrok">Зроцький тунель</string>
+    <string name="daemon_name_tailscale">Тунель для винищення</string>
+    <string name="daemon_name_telegram">Телеграм бот</string>
+    <string name="clip_label_access_code">Код доступу</string>
+    <string name="clip_label_url">Адреса</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">Конфігурації для %1$s не потрібно</string>
+    <string name="dialog_zrok_token_title">Токен для тунелю Зроку</string>
+    <string name="dialog_zrok_token_message">Введіть маркер активації Zrok.\nЗавантажте його на: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">Токен не може бути порожнім</string>
+    <string name="dialog_tailscale_settings_title">Налаштування прогулянок</string>
+    <string name="dialog_tailscale_settings_message">Configure tailscale</string>
+    <string name="tailscale_failed_login_url">Не вдалося згенерувати посилання для входу</string>
+    <string name="tailscale_logged_in_relogin">Увійшов у свій акаунт. Натисніть, щоб увійти в інший обліковий запис</string>
+    <string name="dialog_tailscale_proxy_enable_title">Увімкнути Tailscale проксі?</string>
+    <string name="dialog_tailscale_proxy_enable_message">Цей маршрут MQTT через Tailscal, щоб ви могли досягти приватного брокера на хвості без пересилки портів.\n\nПід час ввімкнення:\n• MQTT в tailnet брокер, працює (наприклад, Mosquitto на пристрої на пристрої на спеціальній мережі)\n• MQTT до публічних брокерів, (HiveMQ, AWS IoT, і т. д. не буде працювати — Tailscale лише маршрути до tailnet\n• Крадій з Tailscale буде перезавантажено, щоб застосувати зміну\n• Інший трафік додатків, а інший пристрій не вплине на\n\nВи можете вимкнути це в будь-який час.</string>
+    <string name="dialog_zrok_reset_title">Скинути середовище Zrok</string>
+    <string name="dialog_zrok_reset_message">This will:\n• Stop the zrok tunnel if running\n• Remove the zrok environment from this device\n• Delete the saved token\n\nYou will need to re-enter your token and re-enable. This uses one of your 5 device slots on zrok.io.\n\nAre you sure?</string>
+    <string name="toast_resetting_zrok">Скидання середовища zrok…</string>
+    <string name="toast_zrok_reset_success">Zrok середовища скинуто. Введіть новий маркер, щоб налаштувати знову.</string>
+    <string name="toast_zrok_reset_partial">Скидання середовища (файл токену може потребувати ручного очищення)</string>
+    <string name="toast_zrok_reset_warnings">Скидання оточення (попередження: %1$s)</string>
+    <string name="zrok_no_token_configured">Немає налаштованого токену. Натисніть для налаштування.</string>
+    <string name="dialog_tailscale_reset_title">Скинути Середовище Тайлгацій</string>
+    <string name="dialog_tailscale_reset_message">This will:\n• Stop the tailscale tunnel if running\n• Remove the tailscale environment from this device\n• You will still need to remove the device from the tailscale console\n\nYou will need to log in again.\n\nAre you sure?</string>
+    <string name="toast_resetting_tailscale">Скидання рушія шкали часу…</string>
+    <string name="toast_tailscale_reset_success">Поворот масштабування скинуто. Увійдіть для повторного встановлення.</string>
+    <string name="toast_tailscale_reset_warnings">Скидання оточення штабу (попередження: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">Проксі-проксі увімкнено</string>
+    <string name="toast_tailscale_proxy_disabled">Проксі Tailшкали вимкнено</string>
+    <string name="toast_tailscale_proxy_save_failed">Не вдалося зберегти настройки проксі</string>
+    <string name="toast_zrok_token_saved">Маркер збережено</string>
+    <string name="toast_zrok_token_save_failed">Не вдалося зберегти маркер</string>
+    <string name="toast_zrok_token_deleted">Маркер видалено</string>
+    <string name="toast_zrok_token_delete_failed">Не вдалося видалити токен</string>
+    <string name="toast_fetching_log">Fetching %1$s log…</string>
+    <string name="toast_log_empty_or_missing">Файл журналу порожній або не знайдений</string>
+    <string name="toast_log_empty">Файл журналу порожній</string>
+    <string name="toast_daemon_manager_unavailable">Менеджер Daemon не готовий, спробуйте знову за мить</string>
+    <string name="toast_log_save_failed">Не вдалося зберегти журнал: %1$s</string>
+    <string name="toast_log_not_found">Файл журналу не знайдено або неможливо прочитати</string>
+    <string name="log_share_title">%1$s Log - %2$s</string>
+    <string name="log_share_chooser">Поділитися журналом %1$s</string>
+    <string name="log_header_title">=== %1$s Log ===</string>
+    <string name="log_header_source">Джерело: %1$s</string>
+    <string name="log_header_exported">Exported: %1$s</string>
+    <string name="log_header_truncated">ПРИМІТКА: Журнал скорочено до останніх 10000 ліній (загалом: %1$d рядків)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">Надіслати журнал %1$s</string>
+    <string name="logs_send_title_plain">Надіслати журнал служби</string>
+    <string name="logs_send_subtitle">%1$s · Виберіть, як надіслати нам</string>
+    <string name="logs_send_upload">Вивантажити &amp; отримати код</string>
+    <string name="logs_send_upload_desc">Надсилайте нам журнал і дайте вам короткий код для підтримки.</string>
+    <string name="logs_send_share">Поділитися файлом…</string>
+    <string name="logs_send_share_desc">Зберегти або відправити журнал себе через спільний лист.</string>
+    <string name="logs_uploading_title">Uploading log…</string>
+    <string name="logs_uploading_subtitle">Переналаштування секретів та надсилання надійно</string>
+    <string name="logs_uploaded_title">Лог завантажено</string>
+    <string name="logs_uploaded_instructions">Поділіться з нами цим кодом та зверніть увагу на те, що ви робите коли розбиваєте. Опублікуйте це в Discord, GitHub проблеми або WhatsApp - посилання на екрані \"Про програму\".</string>
+    <string name="logs_uploaded_privacy">Секрети відновлені · Автовиконання журналу</string>
+    <string name="logs_copy_code">Копіювати код</string>
+    <string name="logs_done">Виконано</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">Помилка мережі</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">Не вдалося відтворити відео: %1$s</string>
+    <string name="dialog_delete_recording_title">Видалити запис</string>
+    <string name="dialog_delete_recording_message">Delete %1$s?\nThis cannot be undone.</string>
+    <string name="toast_recording_deleted">Запис видалено</string>
+    <string name="toast_recording_delete_failed">Не вдалося вилучити запис</string>
+    <string name="toast_batch_delete_partial">%1$d видалено, %2$d не вдалося</string>
+    <string name="play_with_chooser">Грати з</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">Updated to %1$s — re-confirm autostart, BYD wipes it on every install</string>
+    <string name="setup_overlay_already_granted">Вже надано</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">Поради &amp; усунення несправностей</string>
+    <string name="setup_traffic_title">Вимкнути режим передачі даних</string>
+    <string name="setup_traffic_body">Монітор BYD блокує сторонні програми від досягнення Інтернету. Вимкнення дозволяє OverDrive та будь-які інші додатки, які ви встановлюєте, дійсно використовують мережу. Жорстке перезавантаження потрібно після цього.</string>
+    <string name="setup_traffic_button">Відкрити монітор трафіку</string>
+    <string name="setup_camera_fix_title">Камера подає чорне чи некоректне?</string>
+    <string name="setup_camera_fix_body">Відкрийте діагностику → Зупинка камери, встановіть ID камери на 0, натисніть Зберегти, а потім перезавантажте демон камери. Якщо стрічки помилилися, повторити з камерою ID 1. Залиште розділ зіставлення без змін.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">Current: Camera %1$d (Manual)</string>
+    <string name="camera_current_auto_label">Поточний: Авто</string>
+    <string name="soh_estimation_active">Оцінка активна</string>
+    <string name="soh_no_estimate_yet">Ще немає оцінки — очікується очікування даних</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">%1$d selected</string>
+    <string name="video_player_playback_error">Помилка відтворення</string>
+    <string name="video_player_no_events">Немає подій</string>
+    <string name="daemon_configuration_required">Необхідна конфігурація</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">Відеопрогравач</string>
+    <string name="nav_page_telegram">Телеграма</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">ШВИДКІСТЬ</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">Статус Супердиску</string>
+    <string name="status_overlay_notif_text">Status overlay active</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Активний Overdrive</string>
+    <string name="daemon_keepalive_notif_text">Моніторинг транспортних засобів</string>
+    <string name="overdrive_status_summary_title">Овердрайв</string>
+    <string name="overdrive_status_summary_text">Фонові служби працюють</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">Приладна дошка</string>
+    <string name="rail_live">Наживо</string>
+    <string name="rail_recordings">Записи</string>
+    <string name="rail_vehicle">Автомобіль</string>
+    <string name="rail_trips">Поїздки</string>
+    <string name="rail_integrations">Ентеграції</string>
+    <string name="rail_diagnostics">Діагностика</string>
+    <string name="rail_settings">Налаштування</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">Зовнішній вигляд</string>
+    <string name="settings_section_recording">Запис</string>
+    <string name="settings_section_surveillance">Спостереження</string>
+    <string name="settings_section_daemons">Daemons</string>
+    <string name="settings_section_privacy">Конфіденційність &amp; дані</string>
+    <string name="settings_section_overlay">Status overlay</string>
+    <string name="settings_section_security">Безпека</string>
+    <string name="settings_overlay_subtitle">Виберіть, які сегменти плаваючих статусів залишаються видимими.</string>
+    <string name="settings_overlay_camera_title">Індикатор камери</string>
+    <string name="settings_overlay_camera_subtitle">Показувати значок REC / PROX під час запису активний.</string>
+    <string name="settings_overlay_trip_title">Індикатор рейсу</string>
+    <string name="settings_overlay_trip_subtitle">Показувати символ TRIP під час запуску поїздки.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">Про програму</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">НАЛАШТУВАННЯ</string>
+    <string name="cd_settings_subrail">Підзалізничні налаштування</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">Конфіденційність &amp; дані</string>
+    <string name="settings_privacy_body">Скинути очищення індексу записів, кешовані облікові дані, стан і налаштування на пристрої. Дія не може бути скасована.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">Про OverDrive</string>
+    <string name="settings_about_version_label">Версія</string>
+    <string name="settings_about_package_label">Збірка</string>
+    <string name="settings_about_check_update_value">Перевірте останній випуск на GitHub і встановіть новіший.</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">Розроблено такими людьми як ви</string>
+    <string name="settings_about_support_share_title">Розкажіть співрозмовнику</string>
+    <string name="settings_about_support_share_value">Кожне спільне посилання допомагає іншому власнику BYD знаходити Overdrive.</string>
+    <string name="settings_about_support_share_message">Check out Overdrive — open-source surveillance &amp; dashcam for BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">Поділитися OverDrive</string>
+    <string name="settings_about_open_link_failed">Не вдалося відкрити посилання.</string>
+    <string name="settings_about_open_link_copied">Браузер не знайдено. URL-адреса скопійована: %1$s</string>
+    <string name="settings_about_support_kofi_title">Заправте наступний реліз</string>
+    <string name="settings_about_support_kofi_value">Кава з Ko-fi зберігає рух за останню ніч.</string>
+    <string name="settings_about_license_title">Ліцензія</string>
+    <string name="settings_about_license_value">MIT - з відкритим кодом. Натисніть для перегляду повного тексту.</string>
+    <string name="settings_about_source_title">Початковий код</string>
+    <string name="settings_about_source_value">github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">Star us on GitHub</string>
+    <string name="settings_about_star_value">Замикає секунду.</string>
+    <string name="settings_about_thanks_title">Подяка</string>
+    <string name="settings_about_thanks_subtitle">Побудований за допомогою учасників та прихильників.</string>
+    <string name="settings_about_contributors_title">Учасники проекту</string>
+    <string name="settings_about_supporters_title">Прихильники</string>
+    <string name="settings_about_thanks_empty">Список - кількість людей, які піднімаються.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">Тема</string>
+    <string name="settings_theme_auto">Авто (система слідування)</string>
+    <string name="settings_theme_light">Світла</string>
+    <string name="settings_theme_dark">Темна</string>
+    <string name="settings_language_label">Мова:</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">Записи</string>
+    <string name="recordings_segment_dashcam">Дашкам</string>
+    <string name="recordings_segment_surveillance">Спостереження</string>
+    <string name="recordings_action_settings">Налаштування</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d today · %2$d total · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">Dashcam · %d</string>
+    <string name="recordings_segment_surveillance_count">Surveillance · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">Виберіть запис</string>
+    <string name="recordings_preview_placeholder_body">Торкніться будь-якого елементу зліва, щоб відтворити його.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">ADB Консоль</string>
+    <string name="diagnostics_section_traffic">Монітор трафіку</string>
+    <string name="diagnostics_section_camera_probe">Визначення камери</string>
+    <string name="diagnostics_section_battery">Стан акумулятора</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">Діагностика системи</string>
+    <string name="diagnostics_hero_subtitle">Живе здоров\'я, журнали і походи для пристрою.</string>
+    <string name="diagnostics_health_clear">Все ясно</string>
+    <string name="diagnostics_health_section">Здоров\'я</string>
+    <string name="diagnostics_health_network">Мережа</string>
+    <string name="diagnostics_health_storage">Сховище</string>
+    <string name="diagnostics_health_camera">Камера</string>
+    <string name="diagnostics_health_battery">Батарея</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">Онлайн</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">Тунель · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">Онлайн</string>
+    <string name="diagnostics_tunnel_state_offline">В автономному режимі</string>
+    <string name="diagnostics_tunnel_state_connecting">З’єднання</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">Мобільний</string>
+    <string name="diagnostics_network_ethernet">Ethernet</string>
+    <string name="diagnostics_network_offline">В автономному режимі</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">%1$d кліпи · %2$s використано</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s вільно</string>
+    <string name="diagnostics_logs_card_title">Живий журнал подій</string>
+    <string name="diagnostics_logs_card_subtitle">Транслює результат від запущених сервісів.</string>
+    <string name="diagnostics_tools_section">Інструменти</string>
+    <string name="diagnostics_traffic_subtitle">Дивитися живу мережу переведено.</string>
+    <string name="diagnostics_camera_probe_subtitle">Дослідити підключені камери потоки.</string>
+    <string name="diagnostics_adb_subtitle">Відкрийте термінал на пристрої.</string>
+    <string name="diagnostics_battery_subtitle">Дослідити статистику SOH та пакетів.</string>
+    <string name="diagnostics_settings_subtitle">Налаштування програми, тема та мова.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">Ентеграції</string>
+    <string name="integrations_hero_subtitle">Підключити перевантажений до ваших сервісів.</string>
+    <string name="integrations_status_unknown">Торкніться, щоб налаштувати</string>
+    <string name="integrations_status_configured">Налаштовано</string>
+    <string name="integrations_status_not_set_up">Не створено</string>
+    <string name="integrations_telegram_desc">Надсилайте резюме, повідомлення про руху, повідомлення SOS до приватного бота Telegram.</string>
+    <string name="integrations_abrp_desc">Натисніть живий акумулятор і спрямовувати дані до кращого маршрутизатора для прогнозів зарядки батарей.</string>
+    <string name="integrations_mqtt_desc">Опублікувати телеметрію для Home Assistant або будь-якого MQTT брокера.</string>
+    <string name="integrations_byd_cloud_desc">Під\'єднайте ваш обліковий запис у додатку BYD, щоб дозволити віддалені команди, такі як замикання, світло або ріг.</string>
+    <string name="integrations_configure_button">Настроїти</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">Перевірити наявність оновлень</string>
+    <string name="settings_action_reset_data">Reset data…</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">Овердрайв</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">На годиннику</string>
+    <string name="dashboard_subtitle_all_systems">Всі системи онлайн</string>
+    <string name="dashboard_subtitle_some_offline">%1$d of %2$d services online</string>
+    <string name="dashboard_subtitle_no_tunnel">Дистанційний доступ офлайн</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">Сьогоднішні записи</string>
+    <string name="dashboard_metric_storage">Використано пам’яті</string>
+    <string name="dashboard_metric_tunnel">Дистанційний доступ</string>
+    <string name="dashboard_metric_services">Фонові служби</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">Автомобіль</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">Запис</string>
+    <string name="dashboard_chip_recording_idle">В очікуванні</string>
+    <string name="dashboard_vehicle_tap_to_set">Торкніться, щоб встановити</string>
+    <string name="dashboard_vehicle_summary">%1$.1f кВт · %2$s</string>
+    <string name="vehicle_dialog_title">Установити ємність акумулятора</string>
+    <string name="vehicle_dialog_capacity_label">Ємність</string>
+    <string name="vehicle_dialog_capacity_suffix">квт</string>
+    <string name="vehicle_dialog_capacity_helper">Від 15 до 120 кВт . Залиште свою модель, аби користуватись за замовчуванням.</string>
+    <string name="vehicle_dialog_model_label">Модель</string>
+    <string name="vehicle_dialog_save">Зберегти</string>
+    <string name="vehicle_dialog_reset">Скинути до автоматичного визначення</string>
+    <string name="vehicle_dialog_invalid_capacity">Ємність повинна бути 15 - 120 кВт</string>
+    <string name="vehicle_dialog_summary_capacity">Місткість: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">Ефективність: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">Модель: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">Останнє калібро: %1$.1f%% on %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">unavailable</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s використано · %2$s вільно</string>
+    <string name="dashboard_metric_storage_chip_pending">Накопичувач -</string>
+    <string name="dashboard_tunnel_offline">В автономному режимі</string>
+    <string name="dashboard_tunnel_online">Онлайн</string>
+    <string name="dashboard_tunnel_connecting">Підключення…</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">Наживо</string>
+    <string name="dashboard_action_live_subtitle">Відкрити зображення камери</string>
+    <string name="dashboard_action_recordings">Записи</string>
+    <string name="dashboard_action_settings">Налаштування</string>
+    <string name="dashboard_action_settings_subtitle">Налаштування та про</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">Налаштування</string>
+    <string name="settings_hero_overline">Огляд</string>
+    <string name="settings_hero_subtitle">Настроювання зовнішності, запису, спостереження і на пристрої.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">НАЛАШТУВАННЯ</string>
+    <string name="settings_overline_about_data">ДАНІ</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">Тема</string>
+    <string name="settings_quick_language_label">Мова:</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">Увім/пост буферів, кодек, обмеження зберігання.</string>
+    <string name="settings_section_surveillance_subtitle">Виявлення зон, розкладу, чутливість руху.</string>
+    <string name="settings_section_daemons_subtitle">Cloudflared, Zrok, Telegram, MQTT runner\'и.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">Про OverDrive</string>
+    <string name="settings_about_row_subtitle">Версія, ліцензія, підтримка розробки.</string>
+    <string name="settings_reset_row_subtitle">Очистити записи, події або всі кеші.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">OverDrive %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">Тема, мова та візуальні налаштування.</string>
+    <string name="settings_theme_active_auto_caption">Автоматично слідує за системною темою.</string>
+    <string name="settings_theme_active_light_caption">Світла тема завжди включена.</string>
+    <string name="settings_theme_active_dark_caption">Темна тема завжди включена.</string>
+    <string name="settings_language_count_format">%1$d із %2$d мовами доступні</string>
+    <string name="settings_language_card_title">Мова інтерфейсу</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">За замовчуванням</string>
+    <string name="settings_privacy_stance_body">OverDrive працює повністю в підрозділі. Жодна телеметрія не залишає Вашого автомобіля, крім тунелів та інтеграцій які Ви явно встановили.</string>
+    <string name="settings_privacy_overline_storage">ЛОКАЛЬНИЙ СПОРУДА</string>
+    <string name="settings_privacy_overline_reset">СКИНУТИ ДАНІ</string>
+    <string name="settings_privacy_storage_clips_label">Кліпи на диску</string>
+    <string name="settings_privacy_storage_size_label">Загальний розмір</string>
+    <string name="settings_privacy_storage_unavailable">Unavailable</string>
+    <string name="settings_privacy_storage_count_format">%1$d clip</string>
+    <string name="settings_privacy_storage_count_format_plural">%1$d кліпи</string>
+    <string name="settings_privacy_reset_subtitle">Choose categories: recordings, events, daemon configs, cached telemetry…</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">Безпека</string>
+    <string name="settings_security_subtitle">Заблокуйте додаток OverDrive, щоб пасажири та валенти не могли відкрити його без PIN-коду.</string>
+    <string name="settings_security_stance_title">Тільки блокування інтерфейсу</string>
+    <string name="settings_security_stance_body">Перегляд, записування, стримування, оповіщення та фонові служби і затворювати разом з програмою заблоковано. PIN-кодом ворота інтерфейсу OverDrive, більше нічого іншого.</string>
+    <string name="settings_security_overline_lock">Блокування програм</string>
+    <string name="settings_security_overline_recovery">Якщо ви забудете PIN-код</string>
+    <string name="settings_security_toggle_title">Вимагати PIN-код</string>
+    <string name="settings_security_toggle_subtitle_off">Вимкнуто - будь-хто може відкрити овердиск.</string>
+    <string name="settings_security_toggle_subtitle_on">Увімкнено - PIN-код необхідний для відкриття OverDrive.</string>
+    <string name="settings_security_change_title">Змінити PIN-код</string>
+    <string name="settings_security_change_subtitle">Підтвердьте поточний PIN-код, потім встановіть новий.</string>
+    <string name="settings_security_autolock_title">Автоблокування</string>
+    <string name="settings_security_autolock_immediate">Заблокувати зараз</string>
+    <string name="settings_security_autolock_1min">Через 1 хвилину</string>
+    <string name="settings_security_autolock_5min">Після 5 хвилин</string>
+    <string name="settings_security_autolock_15min">Через 15 хвилин</string>
+    <string name="settings_security_autolock_never">Ніколи не блокувати за часом</string>
+    <string name="settings_security_recovery_title">Відновлення ADB</string>
+    <string name="settings_security_recovery_body">Забутий PIN-код можна очистити з хост машини через налагодження USB без повторного заводства. Запустіть цю команду, а потім перевідкрийте додаток.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">Встановити PIN-код</string>
+    <string name="settings_security_dialog_set_body">Виберіть 4–8 цифрний PIN-код. Вам потрібно його кожен раз, коли ви відкриєте додаток.</string>
+    <string name="settings_security_dialog_disable_title">Вимкнути PIN-код блокування?</string>
+    <string name="settings_security_dialog_disable_body">Підтвердьте свій поточний PIN-код, щоб вимкнути блокування додатку.</string>
+    <string name="settings_security_dialog_change_step1_title">Підтвердьте поточний PIN-код</string>
+    <string name="settings_security_dialog_change_step1_body">Введіть поточний PIN-код, потім ви встановите новий.</string>
+    <string name="settings_security_action_set">Встановити PIN-код</string>
+    <string name="settings_security_action_disable">Вимкнути блокування</string>
+    <string name="settings_security_action_continue">Продовжити</string>
+    <string name="settings_security_pin_hint">PIN-код</string>
+    <string name="settings_security_pin_confirm_hint">Підтвердити PIN-код</string>
+    <string name="settings_security_error_length">PIN-код має складатися з 4-8 цифр</string>
+    <string name="settings_security_error_numeric">Тільки цифри</string>
+    <string name="settings_security_error_mismatch">PIN-коди не збігаються</string>
+    <string name="settings_security_error_wrong">Неправильний PIN-код</string>
+    <string name="settings_security_error_locked_out">Забагато спроб. Спробуйте пізніше.</string>
+    <string name="settings_security_error_persist">Не вдалося зберегти PIN-код. Повторіть спробу.</string>
+    <string name="settings_security_toast_set_ok">PIN-код встановлено. Блокування додатка ввімкнено.</string>
+    <string name="settings_security_toast_disable_ok">Блокування додатка вимкнено.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">Введіть PIN-код</string>
+    <string name="pin_lock_title_unlocked">Розблоковано</string>
+    <string name="pin_lock_subtitle_default">Розблокуйте OverDrive щоб продовжити.</string>
+    <string name="pin_lock_subtitle_wrong">Неправильний PIN-код. Спробуйте ще раз.</string>
+    <string name="pin_lock_subtitle_locked_out">Забагато спроб. Спробуйте ще раз.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">Locked. Try again in %1$s.</string>
+    <string name="pin_lock_lockout_seconds">%1$ds</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">Forgot your PIN? Run from a connected computer:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Назад</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="one">%1$d digit entered</item>
+        <item quantity="few">%1$d digits entered</item>
+        <item quantity="many">%1$d digits entered</item>
+        <item quantity="other">%1$d digits entered</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">Немає місцезнаходження</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">Camera %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">Camera %1$d (manual)</string>
+    <string name="diagnostics_camera_value_probing">Probing…</string>
+    <string name="diagnostics_camera_value_offline">В автономному режимі</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">Дані в очікуванні</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">Вітаємо - Overdrive тепер твоя друга пара очей.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">Підроблено %1$s (Revol%2$s) під час припаркування</string>
+    <string name="dashboard_insight_parked_charged">Picked up %1$s while parked</string>
+    <string name="dashboard_insight_parked_drained_kwh">Використовується %1$s (sel%2$s), тому що ви припаркували</string>
+    <string name="dashboard_insight_parked_drained">Використовується %1$s тому, що ви припаркували</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">Попередження про останнє спостереження: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">Остання оплата: +%1$s в %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">%1$d кліпи · %2$s записано</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f кВт</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d hr %2$d min</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="one">%1$d кліп записано сьогодні</item>
+        <item quantity="few">%1$d кліпи записані сьогодні</item>
+        <item quantity="many">%1$d кліпи записані сьогодні</item>
+        <item quantity="other">%1$d кліпи записані сьогодні</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="one">Змінити можливості онлайн для %1$d дня, %2$d год</item>
+        <item quantity="few">Дозволити використання онлайн для %1$d днів, %2$d год</item>
+        <item quantity="many">Дозволити використання онлайн для %1$d днів, %2$d год</item>
+        <item quantity="other">Дозволити використання онлайн для %1$d днів, %2$d год</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="one">Дозволити використання онлайн для %1$d за годину</item>
+        <item quantity="few">Дозволити використання онлайн для %1$d годин</item>
+        <item quantity="many">Дозволити використання онлайн для %1$d годин</item>
+        <item quantity="other">Дозволити використання онлайн для %1$d годин</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="one">%1$d хв</item>
+        <item quantity="few">%1$d хв</item>
+        <item quantity="many">%1$d хв</item>
+        <item quantity="other">%1$d хв</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="one">%1$d hr</item>
+        <item quantity="few">%1$d hr</item>
+        <item quantity="many">%1$d hr</item>
+        <item quantity="other">%1$d hr</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">Роадсенсе</string>
+    <string name="rail_hazard_map">Карта</string>
+    <string name="roadsense_title">Роадсенсе</string>
+    <string name="roadsense_pill_scanning">Сканування</string>
+    <string name="roadsense_pill_idle">Роадсенсе</string>
+    <string name="roadsense_status_idle">В очікуванні</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">Вивчення власного автомобіля</string>
+    <string name="roadsense_cal_ready">Калібровано автомобіль</string>
+    <string name="roadsense_cal_partial">Калібрування покращення</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">Очистити вперед</string>
+    <string name="roadsense_road_mapped">Дорогу, зіставлений · Очистити</string>
+    <string name="roadsense_road_new">Нова дорога · навчання</string>
+    <string name="roadsense_unit_meters">м</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">Попередження</string>
+    <string name="roadsense_toggle_audio">Аудіо</string>
+    <string name="roadsense_toggle_visual">Візуальні</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">Мінор</string>
+    <string name="roadsense_sev_moderate">Помірний</string>
+    <string name="roadsense_sev_severe">Високий</string>
+    <string name="roadsense_type_breaker">Швидкісний вирив</string>
+    <string name="roadsense_type_pothole">Потоле</string>
+    <string name="roadsense_type_hazard">Небезпека</string>
+    <string name="roadsense_type_rough">Група секція</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">%1$d опрацьовувати вперед</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">Rough section · %1$d m</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">Це був ризик?</string>
+    <string name="roadsense_confirm_reject">Ще не небезпека</string>
+    <string name="roadsense_confirm_accept">Підтвердити</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">Рівень калібрування маршруту</string>
+    <string name="roadsense_cd_direction">Напрямок до небезпеки наступного</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">ЛІВА</string>
+    <string name="blindspot_overlay_right">ПРАВО</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">Карта</string>
+    <string name="roadsense_map_route_clear">Очистити</string>
+    <string name="roadsense_map_route_unmapped">Ще не закартографовано</string>
+    <string name="roadsense_map_back">Відмінити</string>
+    <string name="roadsense_map_recenter">Повторно ввести моє розташування</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">Серйозність</string>
+    <string name="roadsense_map_type_label">Тип</string>
+    <string name="roadsense_map_type_unknown">Не вказано</string>
+    <string name="roadsense_map_confirm">Підтвердити</string>
+    <string name="roadsense_map_delete">Видалити</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">Кандидат</string>
+    <string name="roadsense_map_status_local">На пристрої</string>
+    <string name="roadsense_map_status_cloud">Спільні</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% впевненості · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="one">Звіт %1$d</item>
+        <item quantity="few">%1$d reports</item>
+        <item quantity="many">%1$d reports</item>
+        <item quantity="other">%1$d reports</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">Небезпека підтверджена</string>
+    <string name="roadsense_map_deleted_toast">Небезпека видалена</string>
+    <string name="roadsense_map_action_failed">Не вдалося зв\'язатися з RoadSense. Спробуйте знову.</string>
+    <string name="roadsense_map_no_location">Waiting for GPS fix…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">Пошук місця призначення</string>
+    <string name="roadsense_map_search_action">Пошук</string>
+    <string name="roadsense_map_searching">Пошук…</string>
+    <string name="roadsense_map_no_results">Місця не знайдено</string>
+    <string name="roadsense_map_pick_destination">Виберіть місце призначення</string>
+    <string name="roadsense_map_routing">Finding route…</string>
+    <string name="roadsense_map_route_failed">Не вдалося знайти маршрут. Повторіть спробу.</string>
+    <string name="roadsense_map_need_key">Додайте ключ маршрутизації в налаштуваннях RoadSense для навігації.</string>
+    <string name="roadsense_map_rerouting">Немає маршруту - перерахується…</string>
+    <string name="roadsense_map_arrived">Ти прибув.</string>
+    <string name="roadsense_map_nav_started">Навігація на %1$s</string>
+    <string name="roadsense_map_nav_ended">Навігація закінчилася</string>
+    <string name="roadsense_map_end_nav">Завершення навігації</string>
+    <string name="roadsense_map_zoom_in">Збільшити масштаб</string>
+    <string name="roadsense_map_zoom_out">Зменшити масштаб</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">Видимість небезпечного режиму</string>
+    <string name="roadsense_map_hazards_all">Показати всі небезпеки</string>
+    <string name="roadsense_map_hazards_moderate">Помірна та серйозна</string>
+    <string name="roadsense_map_hazards_severe">Тільки важливі</string>
+    <string name="roadsense_map_hazards_hidden">Приховати небезпеки</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">Заряджання та паливо</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">2D / 3D будівлі</string>
+    <string name="roadsense_map_3d_on">3D будівлі увімкнено</string>
+    <string name="roadsense_map_3d_off">3D-будівлі вимкнено</string>
+    <string name="roadsense_map_poi_loading">Finding charging and fuel stops…</string>
+    <string name="roadsense_map_poi_none">поблизу не знайдено станцій</string>
+    <string name="roadsense_map_poi_need_route">Спочатку виберіть пункт призначення</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">Зупинити додані</string>
+    <string name="roadsense_map_remove_stop_action">Видалити зупинку</string>
+    <string name="roadsense_map_poi_navigate">Рухатися сюди</string>
+    <string name="roadsense_map_poi_kind_charging">Зарядна станція</string>
+    <string name="roadsense_map_poi_kind_fuel">Паливна станція</string>
+    <string name="roadsense_map_poi_charging_generic">Зарядна станція</string>
+    <string name="roadsense_map_poi_fuel_generic">Паливна станція</string>
+    <string name="roadsense_map_route_switched">Перемкнений маршрут</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">тоді</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">вийти із %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">%1$d важкий</string>
+    <string name="roadsense_map_pill_moderate">%1$d moderate</string>
+    <string name="roadsense_map_pill_minor">%1$d minor</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">Дані карт недоступні в автономному режимі</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">Очистити пошук</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">Обрати маршрут</string>
+    <string name="roadsense_map_routes_to">Маршрути до %1$s</string>
+    <string name="roadsense_map_routes_cancel">Скасувати</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">Route %1$d</string>
+    <string name="roadsense_map_fastest">Найшвидше</string>
+    <string name="roadsense_map_start">Старт</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">Ваше місцезнаходження</string>
+    <string name="roadsense_map_add_stop">Додати зупинку</string>
+    <string name="roadsense_map_add_stop_hint">Знайдіть зупинку, щоб додати</string>
+    <string name="roadsense_map_stop_removed">Зупинка видалена</string>
+    <string name="roadsense_map_remove_stop">Видалити зупинку</string>
+    <string name="roadsense_map_move_stop_up">Перемістити зупинку вгору</string>
+    <string name="roadsense_map_move_stop_down">Перемістити зупинку вниз</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">Up to %1$d stops allowed</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">Тема мапи</string>
+    <string name="roadsense_map_theme_auto">Тема мапи: автоматична</string>
+    <string name="roadsense_map_theme_light">Тема мапи: світла</string>
+    <string name="roadsense_map_theme_dark">Тема мапи: темна</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">Домашній екран</string>
+    <string name="roadsense_map_saved_work">Праця</string>
+    <string name="roadsense_map_saved_set_home">Встановити домашню сторінку</string>
+    <string name="roadsense_map_saved_set_work">Встановити роботу</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">Вибране</string>
+    <string name="roadsense_map_save_place">Зберегти місце</string>
+    <string name="roadsense_map_save_as_home">Зберегти як домашню сторінку</string>
+    <string name="roadsense_map_save_as_work">Зберегти як роботу</string>
+    <string name="roadsense_map_save_as_custom">Save as favourite…</string>
+    <string name="roadsense_map_saved_added">Збережено</string>
+    <string name="roadsense_map_saved_removed">Видалено із збережених</string>
+    <string name="roadsense_map_saved_remove">Видалити</string>
+    <string name="roadsense_map_recent_remove">Видалити з недавніх</string>
+    <string name="roadsense_map_recent_removed">Видалено з недавніх</string>
+    <string name="roadsense_map_custom_label_hint">Позначка (напр. Gym, Mum\'s)</string>
+    <string name="roadsense_map_custom_label_title">Назвати це місце</string>
+    <string name="roadsense_map_save">Зберегти</string>
+    <string name="roadsense_map_cancel">Скасувати</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">Скинутий контакт</string>
+    <string name="roadsense_map_navigate_here">Рухатися сюди</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">Search a place to set as %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">Поїздку відновлено</string>
+    <!-- dialog_cloudflared_settings -->
+    <string name="cloudflared_token_storage_note">Токен надійно зберігається та спільно використовується програмою та фоновими процесами.</string>
+    <string name="cloudflared_token_hint">Введіть токен cloudflared</string>
+    <string name="cloudflare_paid_version">Платна версія Cloudflare</string>
+    <string name="dialog_cloudflared_settings_title">🌐 Налаштування Cloudflared</string>
+    <string name="dialog_cloudflared_settings_message">Визначте, чи використовуєте ви платний Cloudflare або trycloudflare. Якщо ви використовуєте платний Cloudflare, введіть свій токен тунелю.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">Якщо вибрано платну версію, токен не може бути порожнім</string>
+    <string name="toast_cloudflared_saved_settings">Налаштування Cloudflared збережено</string>
+</resources>

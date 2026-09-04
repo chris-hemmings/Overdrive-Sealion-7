@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Drive-mode quick-action: directions/arrow car silhouette so the
+     chip reads as "record while driving". Tinted at runtime. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M18.92,6.01C18.72,5.42 18.16,5 17.5,5h-11c-0.66,0 -1.21,0.42 -1.42,1.01L3,12v8a1,1 0,0 0,1 1h1a1,1 0,0 0,1 -1v-1h12v1a1,1 0,0 0,1 1h1a1,1 0,0 0,1 -1v-8l-2.08,-5.99zM6.85,7h10.29l1.04,3H5.81l1.04,-3zM5,17a1.5,1.5 0,1 1,0 -3a1.5,1.5 0,0 1,0 3zM19,17a1.5,1.5 0,1 1,0 -3a1.5,1.5 0,0 1,0 3z" />
+</vector>

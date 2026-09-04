@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense mark — M3, single-color, tint-driven (24dp grid).
+
+  Concept: a wide ROAD in gentle perspective + a SHORT, BOLD hazard
+  EXCLAMATION = "road hazard ahead." Authored in the Material Symbols
+  960-unit grid, scaled via the same <group> transform as ic_sentry.
+
+  Material baseline convention: x:0..960, y:-960..0, baseline y=0.
+  LARGER magnitude = HIGHER on screen. Exclamation (top) y≈-800..-470;
+  road (bottom) y≈-440..-110.
+
+  v6 (per steer "make the exclamation short in height"):
+    - Exclamation bar shortened to ~165u tall (was ~275u) and kept bold
+      (~92u wide) so it reads as a stout hazard mark, not a tall stick.
+    - Dot kept bold (r=55) just below the bar.
+    - Road unchanged from v5: broad horizon end (~296u) + wide base
+      (~700u), gentle taper, two centre-line dashes punched via evenOdd.
+  Mirrored 1:1 by the web stroke icon in app-shell.js / road-sense.html.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+
+        <!-- Exclamation bar: short, bold tapered hazard mark (top region). -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M434,-800 Q434,-828 480,-828 Q526,-828 526,-800 L510,-665 Q508,-635 480,-635 Q452,-635 450,-665 Z" />
+
+        <!-- Exclamation dot (bold). -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M480,-548 m-55,0 a55,55 0 1,0 110,0 a55,55 0 1,0 -110,0 Z" />
+
+        <!-- Road: wide perspective band with a broad horizon end (not a
+             wedge) and rounded near base. Two centre-line dashes punched
+             out via evenOdd. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:fillType="evenOdd"
+            android:pathData="M332,-440 L628,-440 L832,-128 Q846,-110 824,-110 L136,-110 Q114,-110 128,-128 L332,-440 Z M468,-410 L463,-330 L497,-330 L492,-410 Z M457,-262 L447,-140 L533,-140 L523,-262 Z" />
+    </group>
+</vector>

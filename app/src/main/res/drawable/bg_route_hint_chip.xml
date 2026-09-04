@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Small M3 tonal pill behind the "Fastest" hint on a route-option row.
+     Uses the theme's primary-container so it reads as a positive accent in
+     both day and night, paired with ?attr/colorOnPrimaryContainer text. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/colorPrimaryContainer" />
+    <corners android:radius="8dp" />
+</shape>

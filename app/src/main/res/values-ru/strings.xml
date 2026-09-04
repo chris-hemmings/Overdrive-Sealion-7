@@ -1,0 +1,1392 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OverDrive</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">Поддерживает активный мониторинг транспортного средства Overdrive на фоне.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">Отмена</string>
+    <string name="action_clear_plain">Очистить</string>
+    <string name="action_select_all">Выберите все</string>
+    <string name="action_select_all_short">Все</string>
+    <string name="action_delete">Удалить</string>
+    <string name="action_share">Поделиться</string>
+    <string name="action_done">Сделано</string>
+    <string name="action_remind_me_later">Вспомни меня позже</string>
+    <string name="action_retry">Повторить</string>
+    <string name="action_run">Беги .</string>
+    <string name="action_clear_output">Прозрачный выход</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">Камера</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">QR-код</string>
+    <string name="cd_show_hide_token">Показывать / скрывать токен</string>
+    <string name="cd_copy_token">Копия знака</string>
+    <string name="cd_copy_url">Копия URL</string>
+    <string name="cd_clear_logs">Чистые журналы</string>
+    <string name="cd_expand_collapse">Расширение/колапс</string>
+    <string name="cd_recording_status">Статус записи</string>
+    <string name="cd_trip_tracking_status">Статус отслеживания путешествий</string>
+    <string name="cd_mic_status">Состояние захвата микрофона</string>
+    <string name="cd_video_thumbnail">Видео миниатюра</string>
+    <string name="cd_play">Воспроизвести</string>
+    <string name="cd_back">Назад</string>
+    <string name="cd_play_pause">Игра / Пауза</string>
+    <string name="cd_player_prev">Предыдущая запись</string>
+    <string name="cd_player_next">Следующая запись</string>
+    <string name="cd_player_maximize">Максимизировать игрок</string>
+    <string name="cd_player_minimize">Выход на полный экран</string>
+    <string name="cd_player_mute">Променить аудио</string>
+    <string name="cd_player_quadrant_all">Показать все камеры</string>
+    <string name="cd_player_quadrant_front">Показать переднюю камеру</string>
+    <string name="cd_player_quadrant_right">Показать правую камеру</string>
+    <string name="cd_player_quadrant_rear">Показать заднюю камеру</string>
+    <string name="cd_player_quadrant_left">Показать левую камеру</string>
+    <string name="cd_delete">Удалить</string>
+    <string name="cd_share">Поделиться</string>
+    <string name="cd_expand">Расширение</string>
+    <string name="cd_configure">Конфигурация</string>
+    <string name="cd_download_log">Загрузка журналов</string>
+    <string name="cd_reset">Сбросить</string>
+    <string name="cd_battery">Аккумулятор</string>
+    <string name="cd_step_completed">Шаг завершен</string>
+    <string name="cd_permission_granted">Разрешение выдано</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">REC</string>
+    <string name="overlay_trip_inactive_label">ТРИП</string>
+    <string name="overlay_mic_inactive_label">МИЦ</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">Остановить запись</string>
+    <string name="overlay_mode_continuous_cd">Непрерывная запись</string>
+    <string name="overlay_mode_drive_cd">Режим диска</string>
+    <string name="overlay_mode_proximity_cd">Запись защиты</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">12:34:56</string>
+    <string name="log_entry_default_tag">[ТАГ]</string>
+    <string name="log_entry_default_message">Сообщение в журнале здесь</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">Имя демона</string>
+    <string name="daemon_card_default_status">Сообщение о состоянии</string>
+    <string name="daemon_card_subprocesses">СУПРОЦЕСЫ</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">Древницы</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">Подключение...</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">Не найдено ни одного браузера. Ссылка скопирована: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">Создать логин URL</string>
+    <string name="tailscale_scan_to_login">Сканирование до входа</string>
+    <string name="tailscale_qr_waiting">Ждём входа URL...</string>
+    <string name="tailscale_enable_proxy">Включить прокси Tailscale</string>
+    <string name="tailscale_proxy_explainer">Маршруты MQTT через Tailscale, так что вы можете связаться с частным брокером на вашей хвостовой сети без портового пересылки.</string>
+    <string name="tailscale_proxy_warning">В то время как включен, MQTT к публичным брокерам (HiveMQ, AWS IoT, и т. Д.) не удастся  Tailscale только маршруты к вашей хвостовой сети.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">Режим приема</string>
+    <string name="camera_mode_subtitle">Выберите путь, который соответствует вашей головной единице. По умолчанию подходит для большинства моделей BYD; DiLink 4 требуется на новейших отделках (Han / Tang 2024+), где AVM HAL излучает заранее зашитую мозаику 2x2.</string>
+    <string name="camera_mode_option_default">По умолчанию  работает на Seal, Atto, Dolphin (большинство автомобилей)</string>
+    <string name="camera_mode_option_dilink4">DiLink 4  новейшие варианты Han / Tang</string>
+    <string name="camera_mode_current_default">Текущая: По умолчанию</string>
+    <string name="camera_mode_current_dilink4">Текущий: Дилинк 4</string>
+    <string name="camera_mode_save">Режим применения</string>
+    <string name="camera_mode_hint">Изменение режима запускает камеры daemon. Если видео выглядит неправильно (скрученные, отсутствующие квадранты, красный наклад), попробуйте другой режим.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">Дилинк 4 квадрант Tweaks</string>
+    <string name="camera_dilink4_tweaks_subtitle">Регулирование на транспортном средстве для маршрута DiLink 4. Действует только при выборе режима DiLink 4 выше.</string>
+    <string name="camera_dilink4_save">Применить корректировки</string>
+    <string name="camera_dilink4_hint">Загрузить их только в том случае, если HAL окрашивает красный хром \"неудачная калибровка\" над подачей.</string>
+    <string name="camera_dilink4_red_mask_label">Снижение красного калибровочного перекрытия (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">Добавляет пропуск фрагмента-теней, который обнаруживает ярко-красные пиксели HAL \"неудачное калибровление\" и заменяет их соседним образцом (или светло-серым, когда баннер слишком большой для покраски).</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">Выбор камеры</string>
+    <string name="camera_selection_subtitle">Выберите источник панорамной камеры</string>
+    <string name="camera_current_auto">Текущий: Авто</string>
+    <string name="camera_option_auto">Автомобильный (отчет при запуске)</string>
+    <string name="camera_option_0">Камера 0  Atto отделки</string>
+    <string name="camera_option_1">Камера 1  Seal (по умолчанию)</string>
+    <string name="camera_option_2">Камера 2</string>
+    <string name="camera_option_3">Камера 3</string>
+    <string name="camera_option_4">Камера 4</string>
+    <string name="camera_option_5">Камера 5</string>
+    <string name="camera_selection_hint">Камера 1 = BYD Seal, Камера 0 = Atto. Возобновить загрузку после изменения идентификатора камеры, чтобы настройка вступила в силу.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">OEM Dashcam камера ID</string>
+    <string name="camera_oem_dashcam_hint">Выберите идентификатор AVMCamera, который указывает на датчик приборной панели вперед. Дашкэм – это ВЫПОЗИТА панели: Seal/Han pano = 1 → dashcam = 0; Atto / Tang pano = 0 → dashcam = 1. Оставьте на авто, чтобы OverDrive выбрать.</string>
+    <string name="camera_oem_dashcam_auto_resolved">Авто — с id %1$d (pano id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">Авто — pano id %1$d, не может отобразить dashcam</string>
+    <string name="camera_oem_dashcam_save">Сохранить</string>
+    <string name="camera_concurrent_probe_label">Тест поддержки двойной камеры при следующей загрузке</string>
+    <string name="camera_concurrent_probe_subtitle">Одноразовая проверка, которая открывает обе камеры сразу для подтверждения этого транспортного средства может запустить pano + dashcam одновременно. Выполняется один раз при следующем перезапуске во время парка. Оставьте OFF, если записи не выглядят неправильно — это не требуется и может вкратце прервать запись, если она активна при запуске.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">Камера 0 — Печать / Хан (по умолчанию)</string>
+    <string name="camera_oem_option_1">Камера 1 — Атто / Танг</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">Картировка с помощью камеры</string>
+    <string name="camera_role_label">Картировка роли</string>
+    <string name="camera_candidate_previous">Предыдущие</string>
+    <string name="camera_candidate_next">Далее</string>
+    <string name="camera_preview_unavailable">Пока не доступно предварительное просмотр. Попробуйте другого кандидата или обновьте, открыв диалог после запуска демона.</string>
+    <string name="camera_mapping_save">Сохранить картографию</string>
+    <string name="camera_mapping_clear">Ясная роль</string>
+    <string name="camera_mapping_saved">Камера сохранила картинку.</string>
+    <string name="camera_mapping_cleared">Карта роли камеры очищена.</string>
+    <string name="camera_mapping_summary_format">Панорамный поток: Камера %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">Панорамный поток: автоматическое обнаружение / исследование наследия</string>
+    <string name="camera_mapping_current_format">Нынешнее отображение: %1$s</string>
+    <string name="camera_mapping_current_none">Нынешнее отображение: автоматическое / по умолчанию</string>
+    <string name="camera_mapping_hint">OverDrive поддерживает традиционное поведение запуска по умолчанию, но теперь позволяет правильно калибровывать сливную панорамную ленту. Предусмотреть каждый сырый слитый слайд, отобразить логические 360-роли на слайд, который на самом деле показывает передний / правый / задний / левый на вашем автомобиле, и демон будет повторно использовать этот макет для записи, потоковой передачи и ИИ после перезапуска.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">Сканировать для подключения</string>
+    <string name="dashboard_qr_waiting">Ждём туннеля...</string>
+    <string name="dashboard_daemons_running_default">0/5 Бег</string>
+    <string name="dashboard_device_id_loading">- Я не знаю .</string>
+    <string name="dashboard_access_code">Код доступа</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">Регенерация знака</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">Начало</string>
+    <string name="setup_guide_subtitle">Три быстрых шага для получения лучшего опыта:</string>
+    <string name="setup_step_one_label">1 .</string>
+    <string name="setup_step_two_label">2 .</string>
+    <string name="setup_step_three_label">3 .</string>
+    <string name="setup_language_title">Выберите свой язык</string>
+    <string name="setup_language_body">Нажмите, чтобы выбрать другой язык для приложения OverDrive и веб- туннеля.</string>
+    <string name="setup_language_button">Выберите язык</string>
+    <string name="setup_autostart_title">Отключить ограничение автозапуска</string>
+    <string name="setup_autostart_body">Нажмите ниже, чтобы открыть BYD Auto-Start. Найдите OverDrive в списке и отберите поле. BYD стирает это при каждой установке  Вы будете переделать его после обновлений.</string>
+    <string name="setup_autostart_button">Откройте BYD Автозапуск</string>
+    <string name="setup_overlay_title">Позвольте отображаться в других приложениях</string>
+    <string name="setup_overlay_body">Определить это, чтобы показать плавающий индикатор состояния для записи и отслеживания путешествий на вершине других приложений.</string>
+    <string name="setup_overlay_button">Откройте настройки перекрытия</string>
+    <!-- Onboarding guide (novice track). Parked-only, glanceable. Overdrive is a
+         protected brand name — keep it verbatim. -->
+    <!-- Shared button labels -->
+    <string name="onboarding_next">Следующий</string>
+    <string name="onboarding_back">Назад</string>
+    <string name="onboarding_skip">Пропустить</string>
+    <string name="onboarding_later">Сделать это позже</string>
+    <string name="onboarding_dismiss">Отклонить</string>
+    <string name="onboarding_exit">Выйти из тура</string>
+    <string name="onboarding_done_short">Понятно</string>
+    <!-- Step 0: authorize the daemon (system ADB popup) -->
+    <string name="onboarding_authorize_title">Активируйте Overdrive</string>
+    <string name="onboarding_authorize_body">Overdrive runs your cameras through a small on-device helper. Android will ask once to allow USB debugging — tap <b>Allow</b> and check <b>Always allow from this device</b> so it stays on after every restart.</string>
+    <string name="onboarding_authorize_button">Разрешить доступ</string>
+    <string name="onboarding_authorize_waiting_title">Ожидание разрешения…</string>
+    <string name="onboarding_authorize_waiting_body">Принять всплывающее окно Android. Если вы его не увидите, может быть предоставлено — это будет продолжено самостоятельно.</string>
+    <string name="onboarding_authorize_retry_title">Все еще не подключен</string>
+    <string name="onboarding_authorize_retry_body">Помощник еще не запущен. Возможно, разрешение Android было отклонено. Попробуйте еще раз и не забудьте проверить <b>всегда разрешить</b>.</string>
+    <string name="onboarding_authorize_retry_button">Попробовать еще раз</string>
+    <string name="onboarding_mode_title">Когда должно выполняться переключение?</string>
+    <string name="onboarding_mode_body">Выберите, как перегрузка ведет себя после отключения автомобиля.\n\n<b>On &amp; Off</b> держит наблюдение во время парковки — слежение и фоновый мониторинг активны, Таким образом, автомобиль тянет немного электроэнергии.\n\n<b>Только</b> полностью выключает перегрузку после выхода. Dashcam, поездки и зарядка всё ещё работают во время вождения, и при включении автомобиля все начинается автоматически. Вы можете изменить это в любое время в настройках.</string>
+    <string name="onboarding_mode_on_off_button">При &amp; выкл</string>
+    <string name="onboarding_mode_on_only_button">Только на</string>
+    <!-- Camera mapping chapter -->
+    <string name="onboarding_camera_step_label">Камера · шаг %1$d из %2$d</string>
+    <string name="onboarding_camera_intro_title">Настройка камер</string>
+    <string name="onboarding_camera_intro_body">Давайте расскажем Overdrive о том, какая камера является вашим 360 просмотром и какая из них является вашей панелью. Это займет около минуты, и вы можете изменить ее позже.</string>
+    <string name="onboarding_camera_intro_primary">Начать</string>
+    <string name="onboarding_camera_opening_title">Открытие настройки камеры…</string>
+    <string name="onboarding_camera_opening_body">Загрузка предварительного просмотра в реальном времени с ваших камер. Это может занять несколько секунд.</string>
+    <string name="onboarding_camera_pano_title">Это ваш 360 вид</string>
+    <string name="onboarding_camera_pano_body">Используйте стрелки, чтобы найти изображение разметки 4-вверх и прочтите его из BOTTOM: внизу слева находится REAR, внизу справа находится левая сторона.</string>
+    <string name="onboarding_camera_dashcam_title">Теперь найдите дорогу впереди камеру</string>
+    <string name="onboarding_camera_dashcam_body">Пройдите через камеру с помощью стрелок и остановитесь на одной с показом ветрового щита / вперед. Обратите внимание на его номер — вы выберете его дальше.</string>
+    <string name="onboarding_camera_pick_title">Выберите вашу 360 камеру</string>
+    <string name="onboarding_camera_pick_body">В верхней карте выберите номер для вашей 360 / обычной камеры. Не уверены? Оставьте его на AUTO и Overdrive фигуры.</string>
+    <string name="onboarding_camera_pick_primary">Следующий</string>
+    <string name="onboarding_camera_pick_dash_title">Выберите камеру приборной камеры</string>
+    <string name="onboarding_camera_pick_dash_body">В этой карте выберите ранее имевшийся номер панели инструментов — или оставьте его на AUTO.</string>
+    <string name="onboarding_camera_save_primary">Сохранить &amp; перезапустить</string>
+    <string name="onboarding_camera_applying_title">Применение — перезапуск камер</string>
+    <string name="onboarding_camera_applying_body">Лента будет темная и мигающая в течение примерно 10 секунд. Это нормально — повесить плотность.</string>
+    <string name="onboarding_camera_verify_title">Быстрая проверка</string>
+    <string name="onboarding_camera_verify_body">Показывает ли 360 вид вышитое изображение, а панель показывает дорогу вперед? Если лента выглядит неправильной, нажмите Re-pick — ничего не сломано.</string>
+    <string name="onboarding_camera_verify_ok">Выглядит правильно</string>
+    <string name="onboarding_camera_verify_repick">Перевыбрать</string>
+    <string name="onboarding_camera_windshield_title">Предыдущая полоса при записях? (опционально)</string>
+    <string name="onboarding_camera_windshield_body">Для макета панели OEM — ветрозащитная камера в виде полосы поверх вашей записи — выберите ветровой щит в меню ролей, выберите камеру перенаправления, и Save. Большинство владельцев могут пропустить это.</string>
+    <string name="onboarding_camera_windshield_primary">Покажите мне</string>
+    <string name="onboarding_camera_windshield_skip">Нет благодарности</string>
+    <!-- Vehicle profile chapter -->
+    <string name="onboarding_vehicle_title">Укажите Overdrive вашу батарею</string>
+    <string name="onboarding_vehicle_body">Выберите свою модель и мы заполним кВт или напечатаем ее самостоятельно (15–120). Это повышает точность оценок диапазона и зарядки. Вы можете пропустить и установить их позже.</string>
+    <string name="onboarding_vehicle_primary">Установить батарею</string>
+    <!-- Dashboard orientation chapter -->
+    <string name="onboarding_dash_tiles_title">Ваш коктейль на взгляд</string>
+    <string name="onboarding_dash_tiles_body">Эти карты являются кнопками — нажмите для открытия живых камер, записей, услуг или автомобиля.</string>
+    <string name="onboarding_dash_chips_title">Они просто показывают статус</string>
+    <string name="onboarding_dash_chips_body">Фишки вверх по топ-шоу, службам и вашей удаленной ссылке. Они сами обновляются — они не кнопки.</string>
+    <string name="onboarding_dash_chips_body_land">Ваш живой статус — запись, сервисы и удаленная ссылка — здесь отображается самостоятельно.</string>
+    <!-- Completion -->
+    <string name="onboarding_done_title">Cockpit готов</string>
+    <string name="onboarding_done_body">Камеры сопоставлены и настроены батареи. Нажмите \"Живой\", чтобы посмотреть ваши каналы — или откройте более широкие настройки в любое время.</string>
+    <string name="onboarding_done_primary">Готово</string>
+    <string name="onboarding_done_secondary">Узнать настройки</string>
+    <!-- Expert track (chaptered walkthrough of deeper config; footguns warned, never fired) -->
+    <string name="onboarding_help_cd">Тур с гидом</string>
+    <string name="onboarding_reset_toast">Сброс посадки — повтор руководства</string>
+    <string name="onboarding_expert_chapter_label">Глава %1$d из %2$d</string>
+    <string name="onboarding_expert_finish">Закончить</string>
+    <string name="onboarding_expert_menu_title">Тур с гидом</string>
+    <string name="onboarding_expert_menu_body">Быстрый переход к более глубокой настройке — ваш профиль автомобиля, интеграция, наблюдение, диагностика, услуги и безопасность. Вы можете остановить его в любое время.</string>
+    <string name="onboarding_expert_menu_start">Начать тур</string>
+    <string name="onboarding_expert_vehicle_title">Профиль автомобиля</string>
+    <string name="onboarding_expert_vehicle_body">Нажмите на плитку транспортного средства, чтобы установить размер и модель батареи — она обеспечивает точный диапазон и оценку здоровья.</string>
+    <string name="onboarding_expert_recordings_title">Ваши записи</string>
+    <string name="onboarding_expert_recordings_body">Переключение между Dashcam (продолжение+клипы приближения) и Наблюдение (события припаркованного чувства) с этим переключателем — каждая из них хранит свою собственную библиотеку. Нажмите на клип, чтобы сыграть.</string>
+    <string name="onboarding_expert_live_title">Живые камеры</string>
+    <string name="onboarding_expert_live_body">Откройте \"Живой\" отсюда, чтобы посмотреть все камеры в режиме реального времени. Удобно для просмотра перед дисплеем или во время парковки рядом с ним.</string>
+    <string name="onboarding_expert_trips_title">История поездок</string>
+    <string name="onboarding_expert_trips_body">Поездки регистрируют каждый автомобиль — маршрут, расстояние, длительность и энергопотребление, так что вы можете проверить, где был автомобиль.</string>
+    <string name="onboarding_expert_roadsense_title">RoadSense</string>
+    <string name="onboarding_expert_roadsense_body">RoadSense использует датчики движения автомобиля и GPS для обнаружения дорожных опасностей — бумпы, капсулы, взломщики скорости — и предупреждает вас перед известными. Обнаружение закладок, карты опасности, предупреждающие фишки и слепые споты. Включите переключатель, чтобы использовать любой из них.</string>
+    <string name="onboarding_expert_blindspot_title">Слепой спот</string>
+    <string name="onboarding_expert_blindspot_body">Включите слепые споты на вкладке здесь и, когда вы сигнализируете о повороте, вид боковой камеры появляется на экране автоматически — слева от левого сигнала, справа — и вскоре скрывается. Он запускается только при включенном сигнале.</string>
+    <string name="onboarding_expert_maps_title">Navigation</string>
+    <string name="onboarding_expert_maps_body">Откройте Карту для полной походной навигации — ищите место назначения, ищите маршрут и живую инструкцию, плюс близлежащие точки интереса и любые дорожные опасности RoadSense вошел в путь. Вы также можете автоматически создать его в кластере инструментов, когда начнете ездить — это переключает жизнь на вкладке RoadSense.</string>
+    <string name="onboarding_expert_integrations_title">Интеграции</string>
+    <string name="onboarding_expert_integrations_body">Подключите оповещения Telegram, лучший планировщик, MQTT или BYD Cloud. Каждая карта открывает настройки внутри приложения. Таблетка вверх становится зеленым, когда все связано.</string>
+    <string name="onboarding_expert_bydcloud_title">Облако BYD разблокирует пульт дистанционного управления</string>
+    <string name="onboarding_expert_bydcloud_body">Привязывая ваш BYD аккаунт, вы получаете возможность удаленного блокирования, мигания и рога с вашего телефона. Рассматривайте связанный аккаунт и код доступа как чувствительный.</string>
+    <string name="onboarding_expert_surveillance_title">Наблюдение &amp; запись</string>
+    <string name="onboarding_expert_surveillance_body">Точное обнаружение, качество и хранение здесь. Они открыты как внутри-приложенные страницы конфигурации, обслуживаемые в вашем автомобиле — пустой экран означает, что помощник все еще запускается.</string>
+    <string name="onboarding_expert_camprobe_title">Проб камеры — осторожный</string>
+    <string name="onboarding_expert_camprobe_body">Это переопределяет каналы физической камеры и перезапускает камеры. Измените его, если лента выглядит неправильно — вы настроили это раньше в руководстве.</string>
+    <string name="onboarding_expert_traffic_title">Монитор трафика — необходим для удаленного доступа</string>
+    <string name="onboarding_expert_traffic_body">Встроенный Traffic Monitor блокирует другие приложения от использования встроенной SIM-карты автомобиля. Если вы хотите дистанционно добраться до своего автомобиля через BYD SIM, вы должны отключить его здесь. Главное устройство перезагрузится, чтобы применить изменения.</string>
+    <string name="onboarding_expert_daemons_title">Услуги — обработка с осторожностью</string>
+    <string name="onboarding_expert_daemons_body">Эти переключатели запускают и останавливают фоновые службы. Выключение камеры, монитора или ACC Sentry останавливает запись и не отключает ее до тех пор, пока вы их не включите, даже после перезагрузки.</string>
+    <string name="onboarding_expert_security_title">Заблокировать PIN-кодом</string>
+    <string name="onboarding_expert_security_body">Установите PIN-код для доступа к приложению для общих автомобилей. Наблюдение и регистрация продолжаются пока приложение заблокировано. Забыли PIN-код можно удалить только с компьютера по USB.</string>
+    <string name="onboarding_expert_reset_title">Сброс данных — навсегда</string>
+    <string name="onboarding_expert_reset_body">Это стирает записи, события и настройки и не может быть отменено. Это если вы когда-либо продаете автомобиль — не часть обычного использования.</string>
+    <string name="onboarding_expert_done_title">Это тур</string>
+    <string name="onboarding_expert_done_body">Вы видели более широкие настройки. Откройте это руководство снова в любое время с помощью кнопки справки.</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">Закрыть</string>
+    <string name="language_picker_title">Язык</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">Языки %1$d доступны</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">Выберите язык</string>
+    <string name="language_auto_title">Автомобиль</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">Следующая система · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · Авто</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">$</string>
+    <string name="adb_command_hint">Введите команду...</string>
+    <string name="adb_preset_commands_header">Предназначенные команды</string>
+    <string name="adb_output_header">Выход</string>
+    <string name="adb_output_ready">Готовы к команде...</string>
+    <string name="adb_console_hero_title">Консоль ADB</string>
+    <string name="adb_console_hero_subtitle">Используйте команды shell на устройстве</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">Загрузка...</string>
+    <string name="webview_camera_daemon_not_running">Камера Деймон не работает</string>
+    <string name="webview_start_camera_daemon">Запустите Деймон Камеры с экрана Деймонов, чтобы получить доступ к этой странице.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">Включить токен</string>
+    <string name="zrok_token_storage_note">Токен хранится безопасно и делится между процессами приложения и демона.</string>
+    <string name="zrok_reset_environment">Перезагрузка окружающей среды Zrok</string>
+    <string name="zrok_reset_environment_desc">Удалить среду и токен. Вам нужно будет повторно включить с помощью своего токен (использует слот устройства).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">Перезагрузка данных</string>
+    <string name="reset_subtitle">Стерть накопленные данные по категориям</string>
+    <string name="reset_warning">Записи, поездки и история аккумулятора будут удалены навсегда.</string>
+    <string name="reset_cat_trips">Поездки</string>
+    <string name="reset_cat_trips_desc">История путешествий, маршруты, еженедельные/месячные переходы</string>
+    <string name="reset_cat_soc_history">История SoC &amp; 12V</string>
+    <string name="reset_cat_soc_history_desc">Образцы СОК, зарядные сеансы, журналы напряжения</string>
+    <string name="reset_cat_soh">калибровка SOH</string>
+    <string name="reset_cat_soh_desc">Вновь обнаруживает номинальную мощность, оценку пересева из BMS</string>
+    <string name="reset_cat_abrp_token">Токен ABRP</string>
+    <string name="reset_cat_abrp_token_desc">Отключает телеметрию ABRP до ремонта</string>
+    <string name="reset_cat_byd_cloud">BYD Квалификации облака</string>
+    <string name="reset_cat_byd_cloud_desc">Имя пользователя, ключ входа, VIN  необходимо перезарегистрироваться</string>
+    <string name="reset_cat_recordings">Записи (видео)</string>
+    <string name="reset_cat_recordings_desc">Все MP4 в папке записей</string>
+    <string name="reset_cat_sentry_events">События наблюдения</string>
+    <string name="reset_cat_sentry_events_desc">Клип для событий наблюдения и боковые вагоны JSON</string>
+    <string name="reset_cat_proximity">Записи приближения</string>
+    <string name="reset_cat_proximity_desc">MP4 событий с радиолокационным задействованием</string>
+    <string name="reset_cat_trip_files">Поездка телеметрические файлы</string>
+    <string name="reset_cat_trip_files_desc">Телеметрия за поездку JSON на диске</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">Любая</string>
+    <string name="recording_lib_chip_person">Человек</string>
+    <string name="recording_lib_chip_vehicle">Автомобиль</string>
+    <string name="recording_lib_chip_bike">Велосипед</string>
+    <string name="recording_lib_chip_animal">Животные</string>
+    <string name="recording_lib_chip_alert">Предупреждение</string>
+    <string name="recording_lib_chip_critical">Критическая</string>
+    <string name="recording_lib_selected_count_zero">0 выбран</string>
+    <string name="recording_lib_no_recordings">Никаких записей</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">Фильтр</string>
+    <string name="recording_lib_filter_button_active">Фильтр · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">Фильтровые записи</string>
+    <string name="recording_lib_filter_apply">Применить</string>
+    <string name="recording_lib_filter_reset">Сбросить</string>
+    <string name="recording_lib_filter_section_what">Что ?</string>
+    <string name="recording_lib_filter_section_severity">Тяжесть</string>
+    <string name="recording_lib_filter_section_type">Тип</string>
+    <string name="recording_lib_filter_section_place">Место</string>
+    <string name="recording_lib_filter_section_storage">Хранилище</string>
+    <!-- Storage filter chip labels (full words; the tile badge uses the short
+         SD/USB/INT forms above). -->
+    <string name="recording_lib_storage_filter_internal">Внутренний</string>
+    <string name="recording_lib_storage_filter_sd">SD-карта</string>
+    <string name="recording_lib_storage_filter_usb">USB</string>
+    <string name="recording_lib_place_search_hint">Поиск мест…</string>
+    <string name="recording_lib_chip_type_normal">Норм.</string>
+    <string name="recording_lib_chip_type_proximity">Близость</string>
+    <string name="recording_lib_date_today">Сегодня</string>
+    <string name="recording_lib_date_yesterday">Вчера .</string>
+    <string name="recording_lib_clip_count">Клипки %1$d</string>
+    <string name="recording_lib_clip_count_one">Клип %1$d</string>
+    <string name="recording_lib_pick_date">Выберите свидание .</string>
+    <string name="recording_lib_date_all_days">Всего</string>
+    <string name="cd_clear_date_filter">Все дни</string>
+    <string name="recording_lib_section_morning">Утром .</string>
+    <string name="recording_lib_section_afternoon">Добрый день .</string>
+    <string name="recording_lib_section_evening">Вечером</string>
+    <string name="recording_lib_section_night">Ночь</string>
+    <string name="cd_previous_day">Предыдущий день</string>
+    <string name="cd_next_day">На следующий день</string>
+    <string name="cd_open_filters">Открытые фильтры</string>
+    <string name="cd_clear_filter">Чистый фильтр</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">Записи не найдены</string>
+    <string name="recording_lib_empty_body">Попробуйте изменить диапазон дат или фильтры микросхем.</string>
+    <string name="recording_lib_empty_clear_filters">Очистить фильтры</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">Ничего не записано</string>
+    <string name="recording_lib_empty_disk_body">Захваты появятся здесь, как только приборная камера или трубопровод наблюдения записывает клип.</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">Индекс библиотеки</string>
+    <string name="recording_lib_building_index_body">Одно мгновение, пока демон сканирует ваши записи.</string>
+    <string name="recording_lib_building_index_progress">Индексированный %1$d из %2$d клипов…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">CAM</string>
+    <string name="recording_lib_type_event">СОБЫТИЕ</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">OEM</string>
+    <!-- Per-clip storage tag — where the clip actually landed. Surfaces the
+         silent SD→internal fallback (SD bridged behind the USB power rail). -->
+    <string name="recording_lib_storage_sd">УР</string>
+    <string name="recording_lib_storage_usb">USB</string>
+    <string name="recording_lib_storage_internal">СОБСТВЕННЫЙ</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">Совместное использование %1$d записей</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">Запись</string>
+    <string name="player_time_zero">0: 00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">Службы с фоном</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">Услуги по загрузке...</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d из %2$d работающий</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">Подготавливаю обновление...</string>
+    <string name="update_percent_zero">0%</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">Здоровье батареи</string>
+    <string name="battery_health_subtitle">Состояние здоровья</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">Ждём данных...</string>
+    <string name="battery_health_source">Источник</string>
+    <string name="battery_health_method">Метод</string>
+    <string name="battery_health_capacity">Пропускная способность</string>
+    <string name="battery_health_samples">Образцы</string>
+    <string name="battery_health_last_updated">Последнее обновление</string>
+    <string name="battery_health_reset">Перезагрузить оценку SOH</string>
+    <string name="battery_health_reset_desc">Убирает все данные и переоценивает с нуля. Используйте, если батарея была заменена или чтение кажется неверным.</string>
+    <string name="soh_dialog_model_label">Модель</string>
+    <string name="soh_dialog_pack_capacity_label">Пропускная способность упаковки</string>
+    <string name="soh_dialog_estimated_capacity_label">Эффективная способность</string>
+    <string name="soh_dialog_calibration_anchor_label">Последняя калибровка</string>
+    <string name="soh_dialog_source_user">пользовательский набор</string>
+    <string name="soh_dialog_source_auto">автоматически обнаруживается</string>
+    <string name="soh_dialog_model_not_selected">Не отобрано</string>
+    <string name="soh_dialog_capacity_not_detected">Не обнаружено</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% на %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">Наблюдаемая полная оплата</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh наблюдается в полном объеме (%2$d/%3$d образцы)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh, наблюдаемый в полном объеме (сбор образцов %2$d/%3$d)</string>
+    <string name="soh_dialog_frame_mismatch_title">Несовместимость рамки емкости упаковки</string>
+    <string name="soh_dialog_frame_mismatch_format">Автомобиль сообщает %1$.1f kWh при полном заряде, но емкость упаковки установлена на %2$.1f kWh.</string>
+    <string name="soh_dialog_use_observed_value">Использовать наблюдаемое значение</string>
+    <string name="soh_dialog_use_observed_value_pending">Сохранение…</string>
+    <string name="toast_soh_observed_value_saved">Пропускная способность упаковки обновлена на %1$.1f kWh.</string>
+    <string name="toast_soh_observed_value_failed">Не удалось обновлять емкость упаковки (%1$s).</string>
+    <string name="diagnostics_battery_needs_review">Требует проверки</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">ОК</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="one">Запись %d удалена</item>
+        <item quantity="few">Записи %d удалены</item>
+        <item quantity="many">Записи %d удалены</item>
+        <item quantity="other">Записи %d удалены</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="one">Удалить запись %d</item>
+        <item quantity="few">Удалить записи %d</item>
+        <item quantity="many">Удалить записи %d</item>
+        <item quantity="other">Удалить записи %d</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="one">Это навсегда удалит запись %d.</item>
+        <item quantity="few">Это навсегда удалит записи %d.</item>
+        <item quantity="many">Это навсегда удалит записи %d.</item>
+        <item quantity="other">Это навсегда удалит записи %d.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">Обновлено на %1$s</string>
+    <string name="toast_update_install_failed">Не удалось установить обновление: %1$s</string>
+    <string name="toast_checking_for_updates">Проверяю обновления...</string>
+    <string name="toast_app_up_to_date">Приложение обновлено (%1$s)</string>
+    <string name="toast_update_check_failed">Не удалось проверить обновление: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">Доступно обновление</string>
+    <string name="update_dialog_subtitle">Новая сборка готова к установке</string>
+    <string name="update_dialog_current">Текущий: v%1$s</string>
+    <string name="update_dialog_new">Новый: v%1$s</string>
+    <string name="update_dialog_current_label">Установлено</string>
+    <string name="update_dialog_new_label">Новая версия</string>
+    <string name="update_dialog_whats_new">Что нового</string>
+    <string name="update_dialog_install_now">Установить сейчас</string>
+    <string name="update_dialog_later">Позже</string>
+    <string name="update_picker_title">Выберите версию</string>
+    <string name="update_picker_subtitle">Установить все опубликованные сборки — новее или старше</string>
+    <string name="update_picker_empty">Версии ещё не опубликованы.</string>
+    <string name="update_picker_current_suffix">%1$s (установлен)</string>
+    <string name="update_picker_older_suffix">%1$s (старше)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">Обновление Overdrive</string>
+    <string name="update_step_downloading">Загрузка обновления…</string>
+    <string name="update_step_verifying">Проверка загрузки…</string>
+    <string name="update_step_stopping">Остановка демонов…</string>
+    <string name="update_step_installing">Установка обновления…</string>
+    <string name="update_step_installed">Обновление установлено</string>
+    <string name="update_step_restarting">Перезапуск приложения…</string>
+    <string name="update_step_queued">Запуск обновления…</string>
+    <string name="update_error_title">Не удалось обновить</string>
+    <string name="update_error_daemon_down">Демон камеры не запущен. Запустите его с экрана демонов, затем попробуйте обновить снова.</string>
+    <string name="update_error_start_failed">Не удалось запустить обновление: %1$s</string>
+    <string name="update_error_lost_headunit">Потерян контакт с головным блоком перед установкой. На туннеле? Проверьте Telegram на новый URL или используйте локальный IP.</string>
+    <string name="update_hide">Скрыть</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">Обновить канал</string>
+    <string name="settings_update_channel_alpha">Альфа</string>
+    <string name="settings_update_channel_braveheart">Храбрый сердец</string>
+    <string name="settings_update_channel_alpha_desc">Стабильный релиз. Каждая опубликованная версия хранится — выбирайте любую из них для установки (возможны перезагрузки). Рекомендуется для повседневного использования.</string>
+    <string name="settings_update_channel_braveheart_desc">Блестящие сборки, поставленные сразу после их публикации. Вы получите новые возможности, но они могут быть нестабильными или ошибочными. Если что-то сломается, откройте экран демонов, коснитесь журнала демона, выберите «Загрузить &amp; получить код» и поделитесь кодом с нами на каналах сообщества.</string>
+    <string name="settings_update_channel_save_failed">Не удалось сохранить канал обновления</string>
+    <string name="settings_update_channel_braveheart_toast">Переключено на Braveheart. Сборки могут быть нестабильными — если что-то ломается, отправьте журнал демона и сообщите об этом в Discord/GitHub/WhatsApp.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">Разрешение на хранение требуется для записей</string>
+    <string name="toast_url_copied_short">URL скопирован!</string>
+    <string name="toast_camera_set_to_auto">Камера настроена на Авто</string>
+    <string name="toast_failed_to_save_short">Не удалось сохранить</string>
+    <string name="toast_failed_with_message">Не удалось: %1$s</string>
+    <string name="toast_camera_id_set">Набор камеры %1$d  следующий цикл ACC</string>
+    <string name="toast_clearing_camera_config">Очищает конфигурацию камеры...</string>
+    <string name="toast_restarting_camera_daemon">Возобновляем работу демона камеры...</string>
+    <string name="toast_camera_daemon_restarting">Димон камеры запускается с полным зондом</string>
+    <string name="toast_camera_restart_failed">Конфигурация очищена, но перезагрузка демона не удалась. Пожалуйста, перезагрузите ее вручную.</string>
+    <string name="toast_camera_settings_saved_restarting">Настройки камеры сохранились  перезагрузка демона камеры...</string>
+    <string name="toast_camera_settings_restart_failed">Настройки камеры были сохранены, но восстановление демона не удалось.</string>
+    <string name="toast_failed_with_message_x">Не удалось: %1$s</string>
+    <string name="toast_soh_reset_success">Перезагрузка оценки SOH  будет пересчитываться из следующих данных</string>
+    <string name="toast_soh_reset_failed_no_daemon">Перезагрузка не удалась  демона не отвечает и файл не может быть написан</string>
+    <string name="toast_soh_reset_failed_with_message">Не удалось перезагрузить: %1$s</string>
+    <string name="toast_select_at_least_one_category">Выберите хотя бы одну категорию</string>
+    <string name="toast_reset_failed_with_error">Не удалось перезагрузить: %1$s</string>
+    <string name="toast_traffic_monitor_changing">%1$s traffic monitor…</string>
+    <string name="dialog_close">Закрыть</string>
+    <string name="dialog_reset">Сбросить</string>
+    <string name="dialog_delete">Удалить</string>
+    <string name="dialog_save">Сохранить</string>
+    <string name="dialog_enable">Включить</string>
+    <string name="dialog_disable">Отключить</string>
+    <string name="dialog_keep_enabled">Оставайтесь в состоянии</string>
+    <string name="dialog_keep_disabled">Оставайся инвалидом</string>
+    <string name="dialog_regenerate">Регенерация</string>
+    <string name="dialog_reset_selected">Настройка перезагрузки</string>
+    <string name="dialog_reset_soh_title">Возобновить оценку SOH?</string>
+    <string name="dialog_reset_soh_message">Это очистит все данные SOH и заставит переоценку с нуля.\n\nИспользуйте это, если:\n• батарея была заменена\n• чтение SOH кажется неверным\n• Вы хотите перекалибрировать\n\nСистема будет пересеять из следующего доступного источника данных (OEM, калибровка заряда или мгновенное чтение).</string>
+    <string name="dialog_reset_following_title">Перезагрузить следующее?</string>
+    <string name="dialog_reset_following_message">This cannot be undone.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Перезагрузка завершена</string>
+    <string name="dialog_traffic_cannot_check_title">Не могу проверить статус</string>
+    <string name="dialog_traffic_cannot_check_message">Подключение ADB еще не готово.\n\nПриложение нуждается в доступе ADB для управления системными пакетами. Пожалуйста, убедитесь:\n\n• USB Debugging включена в параметрах разработчика\n• Просьба о разрешении ADB была принята\n\nСтатус будет обновляться автоматически после подключения.</string>
+    <string name="dialog_traffic_disable_title">Отключить монитор трафика BYD?</string>
+    <string name="dialog_traffic_disable_message">BYD Traffic Monitor (com.byd.trafficmonitor) - встроенное системное приложение, которое постоянно отслеживает условия дорожного движения в фоне.\n\n️ Почему отключить его?\n\n• Потребляет мобильные данные (даже при парковке)\n• Использует CPU и батарею в фоне\n• Не требуется, если вы используете отдельное навигационное приложение\n• Может помешать использованию сети Dashcam\n\nЭто безопасно отключить  это влияет только на встроенное перекрытие дорожного движения на карте. Ваша навигация, Bluetooth и все другие функции автомобиля остаются незатронутыми.\n\nСердкий перезагрузка</string>
+    <string name="dialog_traffic_enable_title">Возобновить управление на дороге BYD?</string>
+    <string name="dialog_traffic_enable_message">Монитор трафика BYD в настоящее время отключен.\n\nВосстановление его активации восстановит встроенный перекрытие трафика на навигационной карте. Обратите внимание, что он будет работать в фоне и потреблять мобильные данные.\n\nСердкое перезагрузка требуется после включения (поддерживайте кнопку центральной консоли 5 секунд).</string>
+    <string name="dialog_traffic_status_title">Монитор дорожного движения %1$s</string>
+    <string name="dialog_traffic_reboot_message">Изменение было применено.\n\nПожалуйста, выполните жесткий перезапуск сейчас:\nНажмите и держите кнопку центральной консоли в течение 5 секунд.</string>
+    <string name="traffic_monitor_loading">Монитор дорожного движения: проверка...</string>
+    <string name="traffic_monitor_tap_to_check">Монитор трафика (нажмите, чтобы проверить)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">Поездки</string>
+    <string name="reset_label_soc_history">История SoC + 12V</string>
+    <string name="reset_label_soh">калибровка SOH</string>
+    <string name="reset_label_abrp_token">Токен ABRP</string>
+    <string name="reset_label_byd_cloud">BYD Квалификации облака</string>
+    <string name="reset_label_recordings">Записи</string>
+    <string name="reset_label_sentry_events">События наблюдения</string>
+    <string name="reset_label_proximity">Записи приближения</string>
+    <string name="reset_label_trip_files">Поездка телеметрические файлы</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">Код доступа скопирован</string>
+    <string name="dialog_regenerate_token_title">Регенерация знака</string>
+    <string name="dialog_regenerate_token_message">Все активные сеансы будут выведены.</string>
+    <string name="toast_token_regenerated_logged_out">Создан новый токен, все сеансы выведены.</string>
+    <string name="toast_token_regenerated_restart">Даймон может потребовать перезагрузки для применения.</string>
+    <string name="toast_token_regenerated_no_notify">Токен регенерирован, не смог уведомить Деймона.</string>
+    <string name="toast_token_regenerated">Регенерированный токен</string>
+    <string name="dashboard_no_tunnel">Никакого туннеля .</string>
+    <string name="dashboard_starting_zrok">Запуск туннеля Zrok...</string>
+    <string name="dashboard_starting_cloudflared">Запуск туннеля Cloudflared…</string>
+    <string name="dashboard_starting_tailscale">Запуск туннеля Tailscale...</string>
+    <string name="dashboard_waiting_url">Ждём туннеля URL...</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d Бег</string>
+    <string name="tunnel_label_cloudflared">Cloudflared</string>
+    <string name="tunnel_label_zrok">Zrok</string>
+    <string name="tunnel_label_tailscale">Tailscale</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">Камера Daemon</string>
+    <string name="daemon_name_surveillance">Daemon наблюдения</string>
+    <string name="daemon_name_acc_surveillance">ACC Наблюдение</string>
+    <string name="daemon_name_singbox">Sing-box Прокси</string>
+    <string name="daemon_name_cloudflared">Тоннель Cloudflared</string>
+    <string name="daemon_name_zrok">Тоннель Zrok</string>
+    <string name="daemon_name_tailscale">Тоннель Tailscale</string>
+    <string name="daemon_name_telegram">Telegram Бот</string>
+    <string name="clip_label_access_code">Код доступа</string>
+    <string name="clip_label_url">URL</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">Не требуется конфигурации для %1$s</string>
+    <string name="dialog_zrok_token_title">Токен туннеля Zrok</string>
+    <string name="dialog_zrok_token_message">Введите свой токен Zrok включить.\nПолучайте один на: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">Токен не может быть пустым</string>
+    <string name="dialog_tailscale_settings_title">Настройки туннеля Tailscale</string>
+    <string name="dialog_tailscale_settings_message">Настроить Tailscale</string>
+    <string name="tailscale_failed_login_url">Не удалось создать URL-адрес входа</string>
+    <string name="tailscale_logged_in_relogin">Зарегистрировано. Нажмите, чтобы зайти на другой счет</string>
+    <string name="dialog_tailscale_proxy_enable_title">Включить Tailscale Proxy?</string>
+    <string name="dialog_tailscale_proxy_enable_message">Это направляет MQTT через Tailscale, чтобы вы могли добраться до частного брокера на вашей хвостовой сети без портового пересылки.\n\nПока включен:\n• MQTT к брокеру хвостовой сети работает (например, Mosquitto на устройстве на вашей хвостовой сети)\n• MQTT к публичным брокерам (HiveMQ, AWS IoT, и т. Д.) не удастся  Tailscale только маршруты к вашей хвостовой сети\n• Daemon Tailscale будет перезагрузиться, чтобы применить изменение\n• Другие приложения и трафик остального устройства не пострадают\n\nВы можете отключить это в любое время.</string>
+    <string name="dialog_zrok_reset_title">Перезагрузка окружающей среды Zrok</string>
+    <string name="dialog_zrok_reset_message">Это:\n• остановит туннель zrok, если он работает\n• удалите среду zrok с этого устройства\n• удалите сохраненный токен\n\nВы должны снова ввести свой токен и включить его снова. Это использует один из ваших 5 слотов устройств на zrok.io.\n\nВы уверены?</string>
+    <string name="toast_resetting_zrok">Сброс среды Zrok…</string>
+    <string name="toast_zrok_reset_success">Восстановление среды Zrok. Введите новый токен для восстановления.</string>
+    <string name="toast_zrok_reset_partial">Настройка окружающей среды (файл токена может потребовать ручной очистки)</string>
+    <string name="toast_zrok_reset_warnings">Резагрузка окружающей среды (с предупреждениями: %1$s)</string>
+    <string name="zrok_no_token_configured">Никакой токен не настроен, нажмите, чтобы настроить.</string>
+    <string name="dialog_tailscale_reset_title">Перезагрузка окружающей среды Tailscale</string>
+    <string name="dialog_tailscale_reset_message">Это:\n• остановит туннель Tailscale, если он запущен\n• удалит среду Tailscale с этого устройства\n• устройство всё равно нужно будет удалить из консоли Tailscale\n\nПотребуется войти снова.\n\nВы уверены?</string>
+    <string name="toast_resetting_tailscale">Сброс среды Tailscale…</string>
+    <string name="toast_tailscale_reset_success">Возобновить настройку среды Tailscale. Зарегистрируйтесь, чтобы снова настроить.</string>
+    <string name="toast_tailscale_reset_warnings">Настройка окружающей среды Tailscale (с предупреждениями: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">Задействованный прокси Tailscale</string>
+    <string name="toast_tailscale_proxy_disabled">Tailscale прокси отключен</string>
+    <string name="toast_tailscale_proxy_save_failed">Не удалось сохранить настройки прокси</string>
+    <string name="toast_zrok_token_saved">Токен сохранен</string>
+    <string name="toast_zrok_token_save_failed">Не удалось сохранить токен</string>
+    <string name="toast_zrok_token_deleted">Удалённый токен</string>
+    <string name="toast_zrok_token_delete_failed">Не удалось удалить токен</string>
+    <string name="toast_fetching_log">Привозить журнал %1$s...</string>
+    <string name="toast_log_empty_or_missing">Файл журнала пустой или не найден</string>
+    <string name="toast_log_empty">Файл журнала пустой</string>
+    <string name="toast_daemon_manager_unavailable">Менеджер Daemon не готов, попробуйте снова через минуту.</string>
+    <string name="toast_log_save_failed">Не удалось сохранить журнал: %1$s</string>
+    <string name="toast_log_not_found">Файл журнала не найден или нечитаемый</string>
+    <string name="log_share_title">%1$s Журнал - %2$s</string>
+    <string name="log_share_chooser">Поделиться %1$s Log</string>
+    <string name="log_header_title">=== %1$s Логотип ===</string>
+    <string name="log_header_source">Источник: %1$s</string>
+    <string name="log_header_exported">Экспорт: %1$s</string>
+    <string name="log_header_truncated">Примечание: Журнал, сокращенный до 10000 строк (всего: %1$d строк)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">Отправить журнал %1$s</string>
+    <string name="logs_send_title_plain">Отправить журнал демона</string>
+    <string name="logs_send_subtitle">%1$s · Выберите, как отправить нам</string>
+    <string name="logs_send_upload">Загрузить &amp; получить код</string>
+    <string name="logs_send_upload_desc">Отправляет логи нам и предоставляет вам короткий код. Легкая для поддержки.</string>
+    <string name="logs_send_share">Поделиться файлом…</string>
+    <string name="logs_send_share_desc">Сохраните или отправьте журнал самостоятельно через лист общего доступа.</string>
+    <string name="logs_uploading_title">Загрузка журнала…</string>
+    <string name="logs_uploading_subtitle">Исправление секретов и безопасная отправка</string>
+    <string name="logs_uploaded_title">Журнал загружен</string>
+    <string name="logs_uploaded_instructions">Поделитесь этим кодом с нами вместе с примечанием о том, что вы делали, когда он сломал. Разместите его в Discord, GitHub Issues или WhatsApp — ссылки на экране \"О программе\".</string>
+    <string name="logs_uploaded_privacy">Тайны отредактированы · журнал автоистекает</string>
+    <string name="logs_copy_code">Копировать код</string>
+    <string name="logs_done">Готово</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">Ошибка сети</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">Не могу воспроизвести видео: %1$s</string>
+    <string name="dialog_delete_recording_title">Удалить запись</string>
+    <string name="dialog_delete_recording_message">Удалить %1$s? Это невозможно отменить.</string>
+    <string name="toast_recording_deleted">Запись удалена</string>
+    <string name="toast_recording_delete_failed">Не удалось удалить запись</string>
+    <string name="toast_batch_delete_partial">%1$d удалено, %2$d не удалось</string>
+    <string name="play_with_chooser">Играть с</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">Обновлено до %1$s — повторно подтвердите автозапуск, BYD удаляет его при каждой установке</string>
+    <string name="setup_overlay_already_granted">Уже предоставлено</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">Советы и решение проблем</string>
+    <string name="setup_traffic_title">Отключить монитор трафика BYD</string>
+    <string name="setup_traffic_body">Монитор трафика BYD блокирует доступ третьих лиц к Интернету. Отключение позволяет OverDrive и любым другим приложениям, которые вы устанавливаете, фактически использовать сеть.</string>
+    <string name="setup_traffic_button">Открытый монитор трафика</string>
+    <string name="setup_camera_fix_title">Камера подает черный или неточный?</string>
+    <string name="setup_camera_fix_body">Откройте диагностику → Зонд камеры, нажмите идентификатор камеры на 0, нажмите Save, а затем перезагрузите демона камеры. Если ленты все еще неправильны, повторяйте с идентификатором камеры 1. Оставьте раздел отображения нетронутым.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">Текущая: Камера %1$d (учебное пособие)</string>
+    <string name="camera_current_auto_label">Текущий: Авто</string>
+    <string name="soh_estimation_active">Оценка активная</string>
+    <string name="soh_no_estimate_yet">Пока нет оценки  ожидается информация</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">%1$d выбран</string>
+    <string name="video_player_playback_error">Ошибка воспроизведения</string>
+    <string name="video_player_no_events">Никаких событий</string>
+    <string name="daemon_configuration_required">Необходимая конфигурация</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">Видеоплейер</string>
+    <string name="nav_page_telegram">Telegram</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">MQTT</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">Статус OverDrive</string>
+    <string name="status_overlay_notif_text">Статус накладки активный</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Overdrive активна</string>
+    <string name="daemon_keepalive_notif_text">Мониторинг систем транспортных средств</string>
+    <string name="overdrive_status_summary_title">Overdrive</string>
+    <string name="overdrive_status_summary_text">Фоновые службы запущены</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">Дисбордная панель</string>
+    <string name="rail_live">Жизнь</string>
+    <string name="rail_recordings">Записи</string>
+    <string name="rail_vehicle">Автомобиль</string>
+    <string name="rail_projection">Проекция</string>
+    <string name="rail_trips">Поездки</string>
+    <string name="rail_charging">Зарядка</string>
+    <string name="rail_automations">Автоматизации</string>
+    <string name="rail_key_mapping">Сопоставление клавиш</string>
+    <string name="rail_integrations">Интеграции</string>
+    <string name="rail_diagnostics">Диагностика</string>
+    <string name="rail_settings">Настройки</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">Внешний вид</string>
+    <string name="settings_section_recording">Запись</string>
+    <string name="settings_section_surveillance">Наблюдение</string>
+    <string name="settings_section_daemons">Демоны</string>
+    <string name="settings_section_privacy">Конфиденциальность и данные</string>
+    <string name="settings_section_overlay">Переложение состояния</string>
+    <string name="settings_section_security">Безопасность</string>
+    <string name="settings_overlay_subtitle">Выберите, какие сегменты плавающей таблетки остаются видимыми.</string>
+    <string name="settings_overlay_camera_title">Камера указатель</string>
+    <string name="settings_overlay_camera_subtitle">Покажите значок REC / PROX, пока запись работает.</string>
+    <string name="settings_overlay_trip_title">Показать Trip</string>
+    <string name="settings_overlay_trip_subtitle">Покажите значок TRIP, пока работает детекция путешествий.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">О приложении</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">Устройства</string>
+    <string name="cd_settings_subrail">Настройки подпоезда</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">Конфиденциальность и данные</string>
+    <string name="settings_privacy_body">Ресет очищает индекс записей, кешированные учетные данные, состояние демона и предпочтения на устройстве.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">О OverDrive</string>
+    <string name="settings_about_version_label">Версия</string>
+    <string name="settings_about_package_label">Построение</string>
+    <string name="settings_about_check_update_value">Проверьте последнюю версию GitHub и установите, если она новее.</string>
+    <!-- Backup & Restore (same-device). The backup file contains credentials +
+         the device key, so the copy warns the user to keep it private. -->
+    <string name="settings_backup_export_title">Настройки экспорта</string>
+    <string name="settings_backup_export_value">Сохраните резервную копию ваших текущих настроек. Сохраните её конфиденциальной — в ней хранятся ваши учетные данные.</string>
+    <string name="settings_backup_import_title">Восстановить настройки</string>
+    <string name="settings_backup_import_value">Загрузить файл резервной копии с той же самой головной единицей.</string>
+    <string name="settings_backup_default_filename">overdrive-backup.json</string>
+    <string name="settings_backup_exporting">Создание резервной копии…</string>
+    <string name="settings_backup_export_failed">Не удалось сделать резервную копию</string>
+    <string name="settings_backup_saved">Резервная копия сохранена</string>
+    <string name="settings_backup_saved_to">Резервная копия сохранена в %1$s</string>
+    <string name="settings_backup_save_failed">Не удалось сохранить файл резервной копии</string>
+    <string name="settings_backup_pick_file">Выберите резервную копию для восстановления</string>
+    <string name="settings_backup_no_files">Файлы резервных копий не найдены. Экспортируйте один раз или копируйте резервную копию .json в %1$s, затем попробуйте снова.</string>
+    <string name="settings_backup_read_failed">Не удалось прочитать файл</string>
+    <string name="settings_backup_invalid_file">Этот файл не является допустимой резервной копией Overdrive</string>
+    <string name="settings_backup_restoring">Восстановление…</string>
+    <string name="settings_backup_restored">Настройки восстановлены</string>
+    <string name="settings_backup_restore_failed">Не удалось восстановить</string>
+    <string name="settings_backup_daemon_down">Служба камеры должна быть запущена для резервного копирования или восстановления. Запустите её из демонов, а затем повторите попытку.</string>
+    <string name="settings_backup_restore_confirm_title">Восстановить настройки?</string>
+    <string name="settings_backup_restore_confirm_msg">Это заменяет ваши текущие настройки Overdrive на службы резервного копирования и перезагрузки. Он работает только на том же блоке резервного копирования, на котором была сделана резервная копия.</string>
+    <string name="settings_backup_restore_confirm_btn">Восстановить</string>
+    <string name="settings_backup_restart_hint">Настройки восстановлены. Перезапустите демон камеры (Daemons → Camera → Перезапустить), чтобы убедиться, что все восстановленные настройки будут применены.</string>
+    <string name="settings_backup_trips_prompt">Включите историю вашей поездки (расстояние, энергия, стоимость, результаты, начальные и конечные места)? Детали телеметрии по поездкам не включены. Файл будет содержать историю вашего местоположения — сохранить его приватным.</string>
+    <string name="settings_backup_settings_only">Только настройки</string>
+    <string name="settings_backup_with_trips">Включить поездки</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">Поддерживаются такими людьми, как ты.</string>
+    <string name="settings_about_support_share_title">Расскажите другому владельцу</string>
+    <string name="settings_about_support_share_value">Каждый общий ссылка помогает другому владельцу BYD обнаружить Overdrive.</string>
+    <string name="settings_about_support_share_message">Проверьте Overdrive  открытый код наблюдения и дашкамы для BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">Поделиться Overdrive</string>
+    <string name="settings_about_open_link_failed">Не удалось открыть ссылку.</string>
+    <string name="settings_about_open_link_copied">Никакой браузер не найден. URL скопирован: %1$s</string>
+    <string name="settings_about_support_kofi_title">Заправляйте следующий выпуск</string>
+    <string name="settings_about_support_kofi_value">Кофе на Ко-Фи заставляет задерживаться поздней ночи.</string>
+    <string name="settings_about_license_title">Лицензия</string>
+    <string name="settings_about_license_value">MIT  открытый код. Нажмите, чтобы просмотреть полный текст.</string>
+    <string name="settings_about_source_title">Исходный код</string>
+    <string name="settings_about_source_value">Github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">Отпустить на GitHub</string>
+    <string name="settings_about_star_value">Это много значит.</string>
+    <string name="settings_about_thanks_title">Спасибо</string>
+    <string name="settings_about_thanks_subtitle">Создано с помощью контрибьюторов и сторонников.</string>
+    <string name="settings_about_contributors_title">Контрибьюторы</string>
+    <string name="settings_about_supporters_title">Сторонники</string>
+    <string name="settings_about_thanks_empty">Список заполнится, когда подключатся люди.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">Тема</string>
+    <string name="settings_theme_auto">Автомобильная (последующая система)</string>
+    <string name="settings_theme_light">Свет</string>
+    <string name="settings_theme_dark">Тёмный</string>
+    <string name="settings_language_label">Язык</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">Записи</string>
+    <string name="recordings_segment_dashcam">Дашкам</string>
+    <string name="recordings_segment_surveillance">Наблюдение</string>
+    <string name="recordings_action_settings">Настройки</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d сегодня · %2$d общее · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">Dashcam · %d</string>
+    <string name="recordings_segment_surveillance_count">Наблюдение · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">Выберите запись</string>
+    <string name="recordings_preview_placeholder_body">Нажмите на любую вещь слева, чтобы просматривать ее.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">Консоль ADB</string>
+    <string name="diagnostics_section_traffic">Монитор дорожного движения</string>
+    <string name="diagnostics_section_camera_probe">Зонд камеры</string>
+    <string name="diagnostics_section_battery">Состояние батареи</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">Диагностика системы</string>
+    <string name="diagnostics_hero_subtitle">Живое здоровье, журналы и зонды устройства.</string>
+    <string name="diagnostics_health_clear">Всё ясно.</string>
+    <string name="diagnostics_health_section">Здоровье</string>
+    <string name="diagnostics_health_network">Сеть</string>
+    <string name="diagnostics_health_storage">Сохранение</string>
+    <string name="diagnostics_health_camera">Камера</string>
+    <string name="diagnostics_health_battery">Аккумулятор</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">Онлайн</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">Тоннель · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">Онлайн</string>
+    <string name="diagnostics_tunnel_state_offline">Оффлайн</string>
+    <string name="diagnostics_tunnel_state_connecting">Подключение</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">Мобильные</string>
+    <string name="diagnostics_network_ethernet">Этернет</string>
+    <string name="diagnostics_network_offline">Оффлайн</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">Используемые клипы %1$d · %2$s</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s свободный</string>
+    <string name="diagnostics_logs_card_title">Запись событий в прямом эфире</string>
+    <string name="diagnostics_logs_card_subtitle">Поток выхода из работающих сервисов.</string>
+    <string name="diagnostics_tools_section">Инструменты</string>
+    <string name="diagnostics_traffic_subtitle">Смотрите на живую передачу сети.</string>
+    <string name="diagnostics_camera_probe_subtitle">Проверьте подключенные потоки камер.</string>
+    <string name="diagnostics_adb_subtitle">Откройте устройство.</string>
+    <string name="diagnostics_battery_subtitle">Проверьте камеру SOH и упаковывайте статистику.</string>
+    <string name="diagnostics_settings_subtitle">Предпочтения приложения, тема и язык.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">Интеграции</string>
+    <string name="integrations_hero_subtitle">Подключите Overdrive к вашим услугам.</string>
+    <string name="integrations_status_unknown">Нажмите на настройку</string>
+    <string name="integrations_status_configured">Конфигурированные</string>
+    <string name="integrations_status_not_set_up">Не установлено</string>
+    <string name="integrations_telegram_desc">Пошлите резюме дисков, сигналы о движении и SOS-уведомления в свой частный бот Telegram.</string>
+    <string name="integrations_abrp_desc">Передай живую батарею и маршрутные данные в A Better Routeplanner для предсказаний зарядки.</string>
+    <string name="integrations_mqtt_desc">Публикуйте телеметрию транспортного средства домашнему ассистенту или любому брокеру MQTT.</string>
+    <string name="integrations_byd_cloud_desc">Подключите свой аккаунт приложения BYD для включения удаленных команд, таких как блокировка двери, мигание фар и сигнал.</string>
+    <string name="integrations_configure_button">Конфигурация</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">Проверяйте обновления</string>
+    <string name="settings_action_reset_data">Перезагрузить данные...</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">OverDrive</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">На страже</string>
+    <string name="dashboard_subtitle_all_systems">Все системы онлайн</string>
+    <string name="dashboard_subtitle_some_offline">%1$d услуг %2$d онлайн</string>
+    <string name="dashboard_subtitle_no_tunnel">Дистанционный доступ в автономном режиме</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">Сегодняшние записи</string>
+    <string name="dashboard_metric_storage">Используемое хранилище</string>
+    <string name="dashboard_metric_tunnel">Дистанционный доступ</string>
+    <string name="dashboard_metric_services">Службы с фоном</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">Автомобиль</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">Запись</string>
+    <string name="dashboard_chip_recording_idle">Простой</string>
+    <string name="dashboard_vehicle_tap_to_set">Нажмите на настройку</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWh · %2$s</string>
+    <string name="vehicle_dialog_title">Установка емкости батареи</string>
+    <string name="vehicle_dialog_capacity_label">Пропускная способность (kWh)</string>
+    <string name="vehicle_dialog_capacity_suffix">kWh</string>
+    <string name="vehicle_dialog_capacity_helper">от 15 до 120 kWh. Оставьте, чтобы использовать модель по умолчанию.</string>
+    <string name="vehicle_dialog_model_label">Модель</string>
+    <string name="vehicle_dialog_save">Сохранить</string>
+    <string name="vehicle_dialog_reset">Перезагрузка на автоматическое обнаружение</string>
+    <string name="vehicle_dialog_invalid_capacity">Пропускная способность должна быть 15 - 120 kWh</string>
+    <string name="vehicle_dialog_summary_capacity">Пропускная способность: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">Эффективность: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">Модель: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">Последняя калибровка: %1$.1f%% на %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">недоступна</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s используется · %2$s свободный</string>
+    <string name="dashboard_metric_storage_chip_pending">Сохранение </string>
+    <string name="dashboard_tunnel_offline">Оффлайн</string>
+    <string name="dashboard_tunnel_online">Онлайн</string>
+    <string name="dashboard_tunnel_connecting">Подключение...</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">Вид в прямом эфире</string>
+    <string name="dashboard_action_live_subtitle">Открытый вид камеры</string>
+    <string name="dashboard_action_recordings">Записи</string>
+    <string name="dashboard_action_settings">Настройки</string>
+    <string name="dashboard_action_settings_subtitle">Предпочтения и о</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">Настройки</string>
+    <string name="settings_hero_overline">ОПРЕДРИВАНИЕ</string>
+    <string name="settings_hero_subtitle">Настройка внешнего вида, записи, наблюдения и данных на устройстве.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">Преференции</string>
+    <string name="settings_overline_about_data">О &amp; DATA</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">Тема</string>
+    <string name="settings_quick_language_label">Язык</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">Пре/пост буферы, кодеки, ограничения хранения.</string>
+    <string name="settings_section_surveillance_subtitle">Зон обнаружения, график, чувствительность к движению.</string>
+    <string name="settings_section_daemons_subtitle">Службы Cloudflared, Zrok, Telegram, MQTT.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">О OverDrive</string>
+    <string name="settings_about_row_subtitle">Версия, лицензия, поддержка разработки.</string>
+    <string name="settings_reset_row_subtitle">Чистые записи, события или все скрытые.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">OverDrive %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">Тема, язык и визуальные предпочтения.</string>
+    <string name="settings_theme_active_auto_caption">Автомобиль следит за темой вашей системы.</string>
+    <string name="settings_theme_active_light_caption">Светочная тема всегда включена.</string>
+    <string name="settings_theme_active_dark_caption">Темная тема всегда включена.</string>
+    <string name="settings_language_count_format">%1$d из языков %2$d доступны</string>
+    <string name="settings_language_card_title">Язык отображения</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">На устройстве по умолчанию</string>
+    <string name="settings_privacy_stance_body">OverDrive работает полностью на головном устройстве. Никакая телеметрия не покидает вашу машину, кроме как через туннели и интеграции, которые вы изъявлено настройка.</string>
+    <string name="settings_privacy_overline_storage">МЕЧЕСТВОЕ Хранилище</string>
+    <string name="settings_privacy_overline_reset">Перезагрузка данных</string>
+    <string name="settings_privacy_storage_clips_label">Клип на диске</string>
+    <string name="settings_privacy_storage_size_label">Общий размер</string>
+    <string name="settings_privacy_storage_unavailable">Недоступная</string>
+    <string name="settings_privacy_storage_count_format">Клип %1$d</string>
+    <string name="settings_privacy_storage_count_format_plural">Клипки %1$d</string>
+    <string name="settings_privacy_reset_subtitle">Выберите категории: записи, события, конфигурации демона, кешированная телеметрия...</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">Безопасность</string>
+    <string name="settings_security_subtitle">Заблокируйте приложение OverDrive, чтобы пассажиры и доспехи не могли открыть его без вашего PIN-кода.</string>
+    <string name="settings_security_stance_title">Только UI блокировка</string>
+    <string name="settings_security_stance_body">Наблюдение, запись, сдерживание, оповещения и фоновые сервисы остаются работающими пока приложение заблокировано. ПИН-код открывает интерфейс OverDrive, ничего больше.</string>
+    <string name="settings_security_overline_lock">Блокировка приложений</string>
+    <string name="settings_security_overline_recovery">Если вы забыли PIN-код</string>
+    <string name="settings_security_toggle_title">Требовать PIN-код</string>
+    <string name="settings_security_toggle_subtitle_off">Выключен — любой может открыть OverDrive.</string>
+    <string name="settings_security_toggle_subtitle_on">Вкл — PIN-код необходим для открытия OverDrive.</string>
+    <string name="settings_security_change_title">Изменить PIN-код</string>
+    <string name="settings_security_change_subtitle">Подтвердите текущий PIN-код, затем установите новый.</string>
+    <string name="settings_security_autolock_title">Автоблокировка</string>
+    <string name="settings_security_autolock_immediate">Заблокировать немедленно</string>
+    <string name="settings_security_autolock_1min">Через 1 минуту</string>
+    <string name="settings_security_autolock_5min">Через 5 минут</string>
+    <string name="settings_security_autolock_15min">Через 15 минут</string>
+    <string name="settings_security_autolock_never">Никогда не блокировать по времени</string>
+    <string name="settings_security_recovery_title">Отладка восстановления</string>
+    <string name="settings_security_recovery_body">Забыли PIN-код можно удалить с хоста по USB отладке без сброса настроек. Выполните эту команду, а затем перезапустите приложение.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">Установить PIN-код</string>
+    <string name="settings_security_dialog_set_body">Выберите 4-8 значный PIN-код. Вам понадобится это каждый раз при открытии приложения.</string>
+    <string name="settings_security_dialog_disable_title">Отключить PIN-код блокировку?</string>
+    <string name="settings_security_dialog_disable_body">Подтвердите ваш текущий PIN-код для отключения блокировки приложения.</string>
+    <string name="settings_security_dialog_change_step1_title">Подтвердите текущий PIN-код</string>
+    <string name="settings_security_dialog_change_step1_body">Введите ваш текущий PIN-код, затем вы установите новый.</string>
+    <string name="settings_security_action_set">Установить PIN-код</string>
+    <string name="settings_security_action_disable">Выключить блокировку</string>
+    <string name="settings_security_action_continue">Продолжить</string>
+    <string name="settings_security_pin_hint">ПИН-код</string>
+    <string name="settings_security_pin_confirm_hint">Подтвердите PIN-код</string>
+    <string name="settings_security_error_length">PIN должен быть от 4 до 8 цифр</string>
+    <string name="settings_security_error_numeric">Только цифры</string>
+    <string name="settings_security_error_mismatch">PIN-коды не совпадают</string>
+    <string name="settings_security_error_wrong">Неверный PIN-код</string>
+    <string name="settings_security_error_locked_out">Слишком много попыток. Попробуйте еще раз через некоторое время.</string>
+    <string name="settings_security_error_persist">Не удалось сохранить PIN-код. Попробуйте еще раз.</string>
+    <string name="settings_security_toast_set_ok">PIN-код установлен. Блокировка приложения включена.</string>
+    <string name="settings_security_toast_disable_ok">Блокировка приложения выключена.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">Введите PIN-код</string>
+    <string name="pin_lock_title_unlocked">Разблокирован</string>
+    <string name="pin_lock_subtitle_default">Разблокируйте OverDrive, чтобы продолжить.</string>
+    <string name="pin_lock_subtitle_wrong">Неверный PIN-код. Попробуйте еще раз.</string>
+    <string name="pin_lock_subtitle_locked_out">Слишком много попыток. Попробуйте позже.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">Заблокировано. Попробуйте снова через %1$s.</string>
+    <string name="pin_lock_lockout_seconds">%1$dсек</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">Забыли PIN-код? Запустите с подключенного компьютера:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Заднее место</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="one">Введена цифра %1$d</item>
+        <item quantity="few">Введены цифры %1$d</item>
+        <item quantity="many">Введены цифры %1$d</item>
+        <item quantity="other">Введена цифра %1$d</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">Нет места.</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">Камера %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">Камера %1$d (учебная)</string>
+    <string name="diagnostics_camera_value_probing">Проверка...</string>
+    <string name="diagnostics_camera_value_offline">Оффлайн</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">Ожидаемые данные</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">Добро пожаловать — Overdrive теперь ваша вторая пара глаз.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">Взял %1$s (≈%2$s) во время парковки</string>
+    <string name="dashboard_insight_parked_charged">Взял %1$s, когда был на парковке.</string>
+    <string name="dashboard_insight_parked_drained_kwh">Использую %1$s (≈%2$s) с тех пор, как вы парковали</string>
+    <string name="dashboard_insight_parked_drained">Использую %1$s с тех пор, как ты остановился.</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">Последнее предупреждение по наблюдению: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">Последний заряд: +%1$s в %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">Клип %1$d · Запись %2$s</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f kWh</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d hr %2$d мин</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="one">Клип %1$d записан сегодня</item>
+        <item quantity="few">Клип %1$d, записанный сегодня.</item>
+        <item quantity="many">Клип %1$d, записанный сегодня.</item>
+        <item quantity="other">Клип %1$d, записанный сегодня.</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="one">Перегонка в режиме онлайн на %1$d день, %2$d ч</item>
+        <item quantity="few">Перегонка в режиме онлайн в течение %1$d дней, %2$d часов</item>
+        <item quantity="many">Перегонка в режиме онлайн в течение %1$d дней, %2$d часов</item>
+        <item quantity="other">Перегонка в режиме онлайн в течение %1$d дней, %2$d часов</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="one">Перегонка в режиме %1$d часа</item>
+        <item quantity="few">Превышение скорости движения в режиме онлайн в течение %1$d часов</item>
+        <item quantity="many">Превышение скорости движения в режиме онлайн в течение %1$d часов</item>
+        <item quantity="other">Превышение скорости движения в режиме онлайн в течение %1$d часов</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="one">%1$d минуты</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минуты</item>
+        <item quantity="other">%1$d минуты</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="one">%1$d hr</item>
+        <item quantity="few">%1$d hr</item>
+        <item quantity="many">%1$d hr</item>
+        <item quantity="other">%1$d hr</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">RoadSense</string>
+    <string name="rail_hazard_map">Карта</string>
+    <string name="roadsense_title">RoadSense</string>
+    <string name="roadsense_pill_scanning">Сканирование</string>
+    <string name="roadsense_pill_idle">RoadSense</string>
+    <string name="roadsense_status_idle">Простой</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">Обучение автомобилю</string>
+    <string name="roadsense_cal_ready">Калибровка транспортного средства</string>
+    <string name="roadsense_cal_partial">Калибровка улучшена</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">Очистить впереди</string>
+    <string name="roadsense_road_mapped">Карта дорог · ясна</string>
+    <string name="roadsense_road_new">Новая дорога · Обучение</string>
+    <string name="roadsense_unit_meters">м</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">Предупреждение</string>
+    <string name="roadsense_toggle_audio">Аудио</string>
+    <string name="roadsense_toggle_visual">Визуальный</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">Небольшой</string>
+    <string name="roadsense_sev_moderate">Модерировать</string>
+    <string name="roadsense_sev_severe">Серьезный</string>
+    <string name="roadsense_type_breaker">Разбиватель скорости</string>
+    <string name="roadsense_type_pothole">Порог</string>
+    <string name="roadsense_type_hazard">Опасность</string>
+    <string name="roadsense_type_rough">Грубое сечение</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">%1$d бросков впереди</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">Грубая секция · %1$d м</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">Это была опасность?</string>
+    <string name="roadsense_confirm_reject">Не опасность</string>
+    <string name="roadsense_confirm_accept">Подтвердить</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">Уровень калибровки маршрута</string>
+    <string name="roadsense_cd_direction">Направление к следующей опасности</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">ЛЕВО</string>
+    <string name="blindspot_overlay_right">ПРАВО</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">Карта</string>
+    <string name="roadsense_map_route_clear">Очистить</string>
+    <string name="roadsense_map_route_unmapped">Еще не сопоставлено</string>
+    <string name="roadsense_map_back">Назад</string>
+    <string name="roadsense_map_recenter">Повторить на моем местоположении</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">Серьезность</string>
+    <string name="roadsense_map_type_label">Тип</string>
+    <string name="roadsense_map_type_unknown">Неизвестен</string>
+    <string name="roadsense_map_confirm">Подтвердить</string>
+    <string name="roadsense_map_delete">Удалить</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">Кандидат</string>
+    <string name="roadsense_map_status_local">На устройстве</string>
+    <string name="roadsense_map_status_cloud">Общий доступ</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% доверия · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="one">%1$d отчет</item>
+        <item quantity="few">%1$d отчетов</item>
+        <item quantity="many">%1$d отчетов</item>
+        <item quantity="other">%1$d отчетов</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">Опасность подтверждена</string>
+    <string name="roadsense_map_deleted_toast">Удалена опасность</string>
+    <string name="roadsense_map_action_failed">Не удалось добраться до RoadSense. Повторите попытку.</string>
+    <string name="roadsense_map_no_location">Ожидание исправления GPS…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">Поиск назначения</string>
+    <string name="roadsense_map_search_action">Искать</string>
+    <string name="roadsense_map_searching">Поиск…</string>
+    <string name="roadsense_map_no_results">Места отсутствуют</string>
+    <string name="roadsense_map_search_network">Не удалось подключиться к службе поиска. Проверьте соединение или прокси и повторите попытку.</string>
+    <string name="roadsense_map_pick_destination">Выберите место назначения</string>
+    <string name="roadsense_map_routing">Поиск маршрута…</string>
+    <string name="roadsense_map_route_failed">Не удалось найти маршрут. Попробуйте еще раз.</string>
+    <string name="roadsense_map_need_key">Добавьте ключ маршрутизации в настройках RoadSense для навигации.</string>
+    <string name="roadsense_map_route_key_rejected">Ключ маршрутизации отклонен. Проверьте ваш ключ в настройках RoadSense</string>
+    <string name="roadsense_map_route_network">Сеть слишком медленно, чтобы найти маршрут. Проверьте подключение и повторите попытку.</string>
+    <string name="roadsense_map_route_http">Ошибка службы маршрутизации (%1$d). Попробуйте позже.</string>
+    <string name="roadsense_map_rerouting">Выходной маршрут — пересчет…</string>
+    <string name="roadsense_map_arrived">Вы прибыли.</string>
+    <string name="roadsense_map_nav_started">Переход к %1$s</string>
+    <string name="roadsense_map_nav_ended">Навигация завершена</string>
+    <string name="roadsense_map_end_nav">Конец навигации</string>
+    <string name="roadsense_map_zoom_in">Увеличить</string>
+    <string name="roadsense_map_zoom_out">Уменьшить</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">Видимость с опасностью</string>
+    <string name="roadsense_map_hazards_all">Показать все опасности</string>
+    <string name="roadsense_map_hazards_moderate">Умеренный и серьезный</string>
+    <string name="roadsense_map_hazards_severe">Только тяжелые</string>
+    <string name="roadsense_map_hazards_hidden">Скрыть опасности</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">Зарядка и топливо</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">2D / 3D здания</string>
+    <string name="roadsense_map_3d_on">3D здания вкл</string>
+    <string name="roadsense_map_3d_off">3D здания выкл</string>
+    <string name="roadsense_map_poi_loading">Поиск остановки зарядки и топлива…</string>
+    <string name="roadsense_map_poi_none">Нет станций поблизости</string>
+    <string name="roadsense_map_poi_need_route">Сначала выберите место назначения</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">Стоп добавлен</string>
+    <string name="roadsense_map_remove_stop_action">Удалить остановку</string>
+    <string name="roadsense_map_poi_navigate">Перейдите здесь</string>
+    <string name="roadsense_map_poi_kind_charging">Зарядка станции</string>
+    <string name="roadsense_map_poi_kind_fuel">Заправочная станция</string>
+    <string name="roadsense_map_poi_charging_generic">Зарядка станции</string>
+    <string name="roadsense_map_poi_fuel_generic">Заправочная станция</string>
+    <string name="roadsense_map_route_switched">Сменный маршрут</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">затем</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">выйти из %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">Тяжелое %1$d</string>
+    <string name="roadsense_map_pill_moderate">%1$d модерируемый</string>
+    <string name="roadsense_map_pill_minor">%1$d младший</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">Данные карты недоступны в автономном режиме</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">Очистить поиск</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">Выберите маршрут</string>
+    <string name="roadsense_map_routes_to">Маршруты к %1$s</string>
+    <string name="roadsense_map_routes_cancel">Отмена</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">Маршрут %1$d</string>
+    <string name="roadsense_map_fastest">Самый быстрый</string>
+    <string name="roadsense_map_start">Начать</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">Ваше местоположение</string>
+    <string name="roadsense_map_add_stop">Добавить остановку</string>
+    <string name="roadsense_map_add_stop_hint">Поиск остановки для добавления</string>
+    <string name="roadsense_map_stop_removed">Остановить удалено</string>
+    <string name="roadsense_map_remove_stop">Удалить остановку</string>
+    <string name="roadsense_map_move_stop_up">Остановка вверх</string>
+    <string name="roadsense_map_move_stop_down">Остановить вниз</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">Допускается до %1$d остановки</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">Тема карты</string>
+    <string name="roadsense_map_theme_auto">Тема карты: авто</string>
+    <string name="roadsense_map_theme_light">Тема карты: Светлая</string>
+    <string name="roadsense_map_theme_dark">Тема карты: темная</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">Домашний</string>
+    <string name="roadsense_map_saved_work">Работа</string>
+    <string name="roadsense_map_saved_set_home">Установить дом</string>
+    <string name="roadsense_map_saved_set_work">Задать работу</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">Избранное</string>
+    <string name="roadsense_map_save_place">Сохранить место</string>
+    <string name="roadsense_map_save_as_home">Сохранить как главную</string>
+    <string name="roadsense_map_save_as_work">Сохранить как Работу</string>
+    <string name="roadsense_map_save_as_custom">Сохранить как избранное…</string>
+    <string name="roadsense_map_saved_added">Сохранено</string>
+    <string name="roadsense_map_saved_removed">Удалено из сохраненных</string>
+    <string name="roadsense_map_saved_remove">Удалить</string>
+    <string name="roadsense_map_recent_remove">Удалить из недавних</string>
+    <string name="roadsense_map_recent_removed">Удалено из недавних</string>
+    <string name="roadsense_map_custom_label_hint">Метка (например, Gym, Mum\'s)</string>
+    <string name="roadsense_map_custom_label_title">Назовите это место</string>
+    <string name="roadsense_map_save">Сохранить</string>
+    <string name="roadsense_map_cancel">Отмена</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">Выброшен маркер</string>
+    <string name="roadsense_map_navigate_here">Перейдите здесь</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">Искать место для установки как %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">Поездка восстановлена</string>
+    <!-- Cloudflared paid-tunnel settings -->
+    <string name="cloudflared_token_storage_note">Токен надежно хранится между приложениями и демонами.</string>
+    <string name="cloudflared_token_hint">Введите токен cloudflared</string>
+    <string name="cloudflare_paid_version">Платная версия Cloudflare</string>
+    <string name="dialog_cloudflared_settings_title">Настройки Cloudflared</string>
+    <string name="dialog_cloudflared_settings_message">Определите, используете ли вы платный Cloudflare или trycloudflare. Если вы используете платный Cloudflare, введите свой маркер туннеля.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">Если вы установили платную версию, токен не может быть пустым</string>
+    <string name="toast_cloudflared_token_invalid">Неверный токен: используйте только буквы, цифры и . _ - = символы</string>
+    <string name="toast_cloudflared_saved_settings">Настройки Cloudflared сохранены</string>
+    <!-- Projection screen -->
+    <string name="projection_hero_title">Проекция</string>
+    <string name="projection_hero_subtitle">Добавляет приложение в кластер драйвера и зеркалирует его здесь.</string>
+    <string name="projection_pick_app">Выберите приложение для проекта</string>
+    <string name="projection_cast">Транслировать на панель</string>
+    <string name="projection_stop">Остановить</string>
+    <string name="projection_cast_failed">Не удалось выбросить приложение в кластер.</string>
+    <string name="projection_status_idle">Не проектируется.</string>
+    <string name="projection_status_live">Живое зеркало — нажмите и проведите пальцем для управления.</string>
+    <string name="projection_status_preview">Режим предварительного просмотра (пониженная скорость рамы на этом транспортном средстве).</string>
+    <string name="projection_status_none">Пока ничего не прогнозируется — выберите приложение и транслируйте.</string>
+    <string name="projection_status_unsupported">Живое зеркало не поддерживается на этом автомобиле. Приложение все еще прогнозируется на кластере.</string>
+    <string name="projection_note_single_app">Одно приложение может быть спроектировано на кластере одновременно.</string>
+    <string name="projection_adjust_bounds">Настроить область</string>
+    <string name="projection_done_adjusting">Готово</string>
+    <string name="projection_bounds_hint_idle">Область зеркала</string>
+    <string name="projection_status_adjust">Перетащите, чтобы переместить · перетащите угол, чтобы изменить размер.</string>
+    <string name="projection_scale_title">Масштабирование</string>
+    <string name="projection_scale_desc">Как приборная панель заполняет область зеркала.</string>
+    <string name="projection_scale_fit">Вписать</string>
+    <string name="projection_scale_fill">Растянуть</string>
+    <string name="projection_scale_zoom">Масштаб</string>
+    <string name="projection_autostart_title">Автозапуск при включении</string>
+    <string name="projection_autostart_desc">Автоматически транслирует последнее использованное приложение на приборную панель при каждом включении автомобиля. (Зеркало открывается при переходе на этот экран.)</string>
+    <string name="projection_autostart_need_app">Сначала транслируйте приложение, затем включите это.</string>
+    <string name="projection_autostart_conflict_title">RoadSense использует приборную панель</string>
+    <string name="projection_autostart_conflict_body">RoadSense настроен на автоматическую проекцию карты на приборную панель водителя при включении автомобиля. Панель может показывать только одно за раз. Отключить это и вместо этого автоматически запускать это приложение?</string>
+    <string name="projection_autostart_conflict_confirm">Использовать это приложение</string>
+    <string name="projection_app_uninstalled">Это приложение больше не установлено.</string>
+    <string name="projection_status_service_down">Служба зеркала не готова — перезапустите приложение (или демон камеры) и повторите попытку.</string>
+    <string name="cd_replay_status">Статус мгновенного повтора</string>
+    <string name="recording_lib_type_replay">ПОВТОРИТЬ</string>
+    <string name="settings_overlay_replay_title">Индикатор мгновенного повтора</string>
+    <string name="settings_overlay_replay_subtitle">Показать значок CLIP: зеленый во время повтора, синий для 5 после сохранения, красный при сбое. Появляется только тогда, когда существует привязка или автоматизация повтора.</string>
+    <string name="recordings_segment_replays">Повторы</string>
+    <string name="recordings_segment_replays_count">Повторы · %d</string>
+    <string name="vehicle_model_seagull">BYD Seagull</string>
+    <string name="projection_window_title">Окно кластера</string>
+    <string name="projection_window_desc">Перемещение приложения на кластере драйверов. Пресет его привязку к общим макетам; Изменение размера окна позволяет перетащить его свободно.</string>
+    <string name="projection_preset_full">Полностью</string>
+    <string name="projection_preset_left">Левая половина</string>
+    <string name="projection_preset_right">Правая половина</string>
+    <string name="projection_preset_center">По центру</string>
+    <string name="projection_lock_aspect">Сохранять аспект кластера</string>
+</resources>

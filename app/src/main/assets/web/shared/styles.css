@@ -1,0 +1,4521 @@
+/**
+ * Overdrive — primary stylesheet.
+ *
+ * The base palette / surface / shape / type / motion tokens are imported
+ * from design-tokens.css (generated from dev/design-tokens.json, which
+ * mirrors the native Android M3 palette). This file only defines the
+ * supplemental tokens that don't have a native counterpart (chart palette,
+ * translucent panel-overlays, layout dimensions) and the actual CSS rules.
+ */
+@import url("design-tokens.css");
+@import url("app-shell.css");
+@import url("app-tabs.css");
+@import url("app-collapse.css");
+
+:root {
+    --brand-gradient: linear-gradient(135deg, var(--primary) 0%, var(--tertiary) 100%);
+    --bg-glass: rgba(22, 22, 26, 0.85);
+
+    /* Chart palette — accents used by data visualizations / legends.
+       Mid-luminance hues that read OK on either theme; the light-theme
+       overlay below tweaks them for AA contrast on light surfaces. */
+    --chart-line-1: var(--primary); /* original brand teal kept as data-viz accent */
+    --chart-line-2: #0EA5E9;
+    --chart-warning: #fbbf24;
+    --chart-soh: #a855f7;
+    --chart-batt-1: #2dd4bf;
+    --chart-batt-2: #06b6d4;
+    --chart-batt-3: #3b82f6;
+
+    /* Chart canvas labels — read by performance.js via getComputedStyle. */
+    --chart-text: rgba(255, 255, 255, 0.55);
+    --chart-text-strong: #FFFFFF;
+    --chart-grid: rgba(255, 255, 255, 0.06);
+    --chart-crosshair: rgba(255, 255, 255, 0.3);
+    --chart-tooltip-bg: rgba(20, 20, 30, 0.95);
+    --chart-tooltip-border: rgba(255, 255, 255, 0.1);
+    --chart-tooltip-text: #FFFFFF;
+
+    /* Borders & glow */
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-default: rgba(255, 255, 255, 0.1);
+    --shadow-glow: 0 0 20px rgba(0, 212, 170, 0.15);
+
+    /* Translucent overlay surfaces (toasts, modals, cards over maps). */
+    --panel-overlay-bg: rgba(10, 10, 15, 0.96);
+    --panel-overlay-bg-strong: rgba(15, 15, 20, 0.95);
+    --panel-overlay-bg-soft: rgba(0, 0, 0, 0.4);
+    --panel-overlay-bg-faint: rgba(0, 0, 0, 0.2);
+    --panel-overlay-bg-deep: rgba(0, 0, 0, 0.6);
+    --modal-backdrop: rgba(0, 0, 0, 0.75);
+    --shadow-overlay: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+    /* Layout */
+    --sidebar-width: 260px;
+    --header-height: 64px;
+    --app-bar-height: 64px;
+
+    /* Safe Areas */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Light-theme overrides — only the supplementals; palette / shadow / shape
+   are flipped automatically by design-tokens.css. */
+:root[data-theme="light"] {
+    --bg-glass: rgba(247, 250, 247, 0.88);
+
+    --chart-line-1: #007A62;
+    --chart-line-2: #00658F;
+    --chart-warning: #B45309;
+    --chart-soh: #7C3AED;
+    --chart-batt-1: #0F766E;
+    --chart-batt-2: #0369A1;
+    --chart-batt-3: #1D4ED8;
+
+    --chart-text: rgba(24, 28, 26, 0.70);
+    --chart-text-strong: #181C1A;
+    --chart-grid: rgba(24, 28, 26, 0.10);
+    --chart-crosshair: rgba(24, 28, 26, 0.40);
+    --chart-tooltip-bg: rgba(247, 250, 247, 0.97);
+    --chart-tooltip-border: rgba(24, 28, 26, 0.15);
+    --chart-tooltip-text: #181C1A;
+
+    --border-subtle: rgba(0, 0, 0, 0.06);
+    --border-default: rgba(0, 0, 0, 0.10);
+    --shadow-glow: 0 0 20px rgba(0, 135, 108, 0.16);
+
+    --panel-overlay-bg: rgba(247, 250, 247, 0.96);
+    --panel-overlay-bg-strong: rgba(247, 250, 247, 0.92);
+    --panel-overlay-bg-soft: rgba(24, 28, 26, 0.10);
+    --panel-overlay-bg-faint: rgba(24, 28, 26, 0.05);
+    --panel-overlay-bg-deep: rgba(24, 28, 26, 0.18);
+    --modal-backdrop: rgba(24, 28, 26, 0.45);
+    --shadow-overlay: 0 8px 24px rgba(0, 0, 0, 0.14);
+}
+
+/* No prefers-color-scheme fallback — pages default to DARK in Chrome / any
+   browser that doesn't set [data-theme="light"]. This matches the primary
+   in-car experience (the head-unit deployment) and the brand identity, and
+   keeps developer testing in Chrome consistent with how users see the app
+   most often. The Android WebViewFragment stamps data-theme on every
+   page-load to follow the app's appearance setting; an explicit
+   [data-theme="light"] from any other context still flips the palette. */
+
+/* === RESET & BASE === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+body {
+    font-family: var(--family-sans);
+    background: var(--bg-base);
+    color: var(--text-primary);
+    line-height: 1.5;
+    /* Static vh as the floor for any engine that runs before theme.js sets
+       --vh (and as the no-JS fallback); the --vh calc is the live value kept
+       fresh across rotation by theme.js Step 0. Source order means the calc
+       wins wherever var() is supported (Chrome 49+ / our Chrome 58 floor). */
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, select { font-family: inherit; }
+
+/* Chrome 58-compatible focus baseline. Keep :focus as the fallback instead
+   of relying only on :focus-visible, which the head-unit WebView lacks. */
+button:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus,
+[tabindex]:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Shared asynchronous-state primitives. Page-specific rules may refine
+   layout, but color, typography, and spacing stay consistent. */
+.empty-state,
+.loading-state,
+.error-state {
+    padding: var(--card-pad);
+    text-align: center;
+    color: var(--on-surface-variant);
+}
+
+.empty-icon,
+.error-state .state-icon {
+    width: 40px;
+    height: 40px;
+    margin: 0 auto 12px;
+    color: var(--outline);
+}
+
+.empty-title,
+.state-title {
+    color: var(--on-surface);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.empty-text,
+.empty-state-hint,
+.state-message {
+    max-width: 46ch;
+    margin: 6px auto 0;
+    color: var(--on-surface-variant);
+    font-size: 13px;
+}
+
+.error-state {
+    color: var(--status-danger);
+    background: var(--status-danger-container);
+    border: 1px solid var(--status-danger);
+    border-radius: var(--radius-md);
+}
+
+.loading-state .spinner,
+.loading > .spinner {
+    border-color: var(--outline-variant);
+    border-top-color: var(--primary);
+}
+
+/* === APP LAYOUT === */
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+}
+
+/* === SIDEBAR === */
+.sidebar {
+    width: var(--sidebar-width);
+    background: var(--bg-surface);
+    border-right: 1px solid var(--border-subtle);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 100;
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+[dir="rtl"] .sidebar {
+    left: auto;
+    right: 0;
+    border-right: 0;
+    border-left: 1px solid var(--border-subtle);
+}
+
+[dir="rtl"] .main-content {
+    margin-left: 0;
+    margin-right: var(--sidebar-width);
+}
+
+[dir="rtl"] .setting-control {
+    margin-left: 0;
+    margin-right: 24px;
+}
+
+.sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: var(--border-subtle);
+    border-radius: 4px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    background: var(--bg-surface);
+    z-index: 1;
+    /* Pad past the iOS notch / Android cutout so the text isn't
+       visually clipped or cut off by the system status bar. The
+       viewport-fit=cover meta tag on each page makes safe-area-inset-top
+       non-zero on devices with a notch. */
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+}
+
+
+.sidebar-close {
+    display: none;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.sidebar-close svg {
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar-close:hover {
+    background: var(--danger);
+    color: white;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0; /* Allow brand-text to shrink + ellipsis when locale text is long */
+    flex: 1;
+}
+
+.brand-logo {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    overflow: hidden;
+    /* Container takes a design-system surface so the tile blends with the
+       page chrome at any elevation. Glyph webp inside is transparent — no
+       luminance mismatch between baked icon bg and surrounding sidebar. */
+    background: var(--bg-elevated);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.16),
+        0 4px 10px rgba(0, 0, 0, 0.14);
+}
+:root[data-theme="dark"] .brand-logo {
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.45),
+        0 4px 12px rgba(0, 0, 0, 0.40),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.brand-logo img {
+    width: 78%;
+    height: 78%;
+    object-fit: contain;
+}
+
+.brand-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0; /* allow children to ellipsis instead of overflowing the sidebar */
+    flex: 1;
+}
+
+.brand-name {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.brand-tagline {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    /* Allow up to 2 wrapped lines for longer locales (e.g. French "Système Sentinelle")
+       so the tagline never clips below the brand name. */
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.brand-version {
+    font-size: 10px;
+    color: var(--brand-primary);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    opacity: 0.8;
+}
+
+/* === SIDEBAR NAV === */
+.sidebar-nav {
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0; /* Nav links never shrink — always fully visible */
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    min-height: 48px;
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    /* Long French/German labels (e.g. "Contrôle du véhicule") need to wrap
+       gracefully rather than overflow the sidebar. line-height keeps wrapped
+       links aligned with single-line ones. */
+    line-height: 1.25;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.nav-link > span {
+    min-width: 0;
+    flex: 1;
+}
+
+.nav-link:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.nav-link.active {
+    background: rgba(0, 212, 170, 0.1);
+    color: var(--brand-primary);
+}
+
+.nav-link.active .nav-icon { color: var(--brand-primary); }
+
+.nav-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: var(--text-muted);
+    transition: color 0.2s;
+}
+
+.nav-link:hover .nav-icon { color: var(--text-secondary); }
+
+/* === SIDEBAR FOOTER === */
+.sidebar-footer {
+    padding: 16px;
+    /* Stack the device-status / EV / fuel cards as flex children so a
+       single `gap` separates them consistently across viewports. */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+@media (max-width: 768px) {
+    .sidebar-footer {
+        padding-bottom: calc(16px + 70px); /* Account for mobile nav */
+    }
+}
+
+.status-card {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    padding: 14px;
+}
+
+.status-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    gap: 8px; /* never let label and value collide when locale text is long */
+}
+
+.status-row + .status-row { margin-top: 10px; }
+
+.status-label {
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0; /* allow flex item to shrink so long labels don't push value off-screen */
+    flex: 1 1 auto;
+    /* Long status labels in French / German wrap gracefully rather than overflow */
+    line-height: 1.25;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+}
+
+.status-value {
+    font-weight: 600;
+    font-family: 'JetBrains Mono', 'SF Mono', monospace;
+    flex-shrink: 0;        /* numeric / status values keep their full width */
+    text-align: right;
+    max-width: 60%;        /* but not so wide they squash the label */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status-value.on { color: var(--success); }
+.status-value.off { color: var(--text-muted); }
+.status-value.stale { color: var(--warning); font-size: 0.85em; }
+
+/* Network info - stacked SSID + IP in sidebar */
+.status-value.net-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+    line-height: 1.2;
+}
+.net-ssid {
+    font-size: 0.82em;
+    color: var(--success);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* 140px instead of 120 so localized labels like "Données mobiles"
+       (FR: "Mobile Data") fit without clipping while WiFi SSIDs still
+       truncate cleanly when very long. */
+    max-width: 140px;
+}
+.net-ip {
+    font-size: 0.7em;
+    color: var(--text-muted);
+    opacity: 0.8;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.stale {
+    color: var(--warning) !important;
+    opacity: 0.8;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}
+
+.status-dot.connected {
+    background: var(--success);
+    animation: pulse 2s infinite;
+}
+
+.status-dot.live {
+    background: var(--danger);
+    animation: pulse 1.5s infinite;
+}
+
+.status-dot.off {
+    background: var(--text-muted);
+    animation: none;
+}
+
+/* Compact status pills (for example Live, vehicle lock, and monitoring).
+   Android System WebView 58 does not support flex `gap`, so the dot owns the
+   spacing. Keep that compatibility detail here instead of reimplementing it
+   in every page-specific pill. */
+.compact-status-pill {
+    display: -webkit-inline-flex;
+    display: inline-flex;
+    -webkit-align-items: center;
+    align-items: center;
+}
+
+.compact-status-pill > .compact-status-pill__dot {
+    display: inline-block;
+    -webkit-flex: 0 0 auto;
+    flex: 0 0 auto;
+    margin-right: 6px;
+    margin-right: var(--compact-status-pill-dot-gap, 6px);
+}
+
+[dir="rtl"] .compact-status-pill > .compact-status-pill__dot {
+    margin-right: 0;
+    margin-left: 6px;
+    margin-left: var(--compact-status-pill-dot-gap, 6px);
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+/* === MAIN CONTENT === */
+.main-content {
+    flex: 1;
+    /* A flex item defaults to min-width:auto, which lets it grow to its widest
+       non-wrapping descendant instead of the flex container's width. On a narrow
+       (mobile) viewport a long, nowrap child — e.g. a key-mapping binding row's
+       action name — then stretched .main-content past the screen, and because
+       .card / .page-body are overflow:hidden the surplus was CLIPPED off the right
+       edge (the reported crop). min-width:0 lets the item shrink to the container
+       so the descendants' own overflow:hidden + text-overflow:ellipsis truncate as
+       intended. No effect when content already fits (verified: desktop unchanged). */
+    min-width: 0;
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    display: flex;
+    flex-direction: column;
+}
+
+/* === VIEWPORT HEIGHT / ORIENTATION ===
+   The old @media (display-mode: standalone) svh/lvh override lived here. It
+   was a workaround for "Android PWA makes the height too big with both lvh
+   and dvh; rotating to landscape and back fixes it" — i.e. the stale-vh
+   rotation bug. That dance is now obsolete: theme.js (Step 0) publishes a
+   live --vh on load AND on every resize / orientationchange, so the
+   `min-height: calc(var(--vh,1vh)*100)` rules above always reflect the
+   CURRENT viewport in standalone PWA, in-app WebView, and plain browser
+   alike — without the engine-specific unit guessing that the svh/lvh
+   override depended on. Keeping the override would re-introduce a stale,
+   competing value on rotation, so it is intentionally removed. */
+
+/* === PAGE HEADER === */
+.page-header {
+    height: var(--header-height);
+    padding: 0 var(--page-pad-x);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.page-title {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.header-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-full);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.header-badge svg { width: 16px; height: 16px; color: var(--text-muted); }
+
+/* === PAGE BODY === */
+.page-body {
+    flex: 1;
+    padding: var(--page-pad-y) var(--page-pad-x);
+    padding-bottom: calc(var(--page-pad-y) + 80px); /* Account for fixed footer */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* === CARDS === */
+.card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    position: relative;
+    z-index: 0;
+}
+
+.card + .card { margin-top: var(--card-gap); }
+
+/* RoadSense: a dependent card whose master switch is OFF. Dimmed + non-interactive
+   so its toggles don't read as live while they have no effect (the master_enable
+   gate). Controls are also `disabled` in JS; this is the visual half. The card
+   title/badge stay legible enough to read what the section is. */
+.card.rs-gated {
+    opacity: 0.45;
+    filter: saturate(0.6);
+    pointer-events: none;
+    transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+/* Single-line text/url input, design-system styled (the RoadSense worker-URL
+   field uses this; previously the class was undefined so it rendered with raw
+   browser chrome). Matches the elevated-surface + brand-accent focus language of
+   the rest of the app. */
+.text-input {
+    width: 100%;
+    min-width: 200px;
+    box-sizing: border-box;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-family: inherit;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.text-input::placeholder { color: var(--text-muted); }
+.text-input:hover { border-color: var(--brand-primary); }
+.text-input:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px var(--brand-primary-translucent, rgba(87, 199, 255, 0.18));
+}
+.text-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* `.text-input` on a <select> (RoadSense cluster-size / chime-channel pickers):
+   drop the native control chrome and draw the same chevron the other select
+   classes use, so it reads as one system rather than raw WebView chrome. */
+select.text-input {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 32px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+}
+[dir="rtl"] select.text-input {
+    padding-right: 14px;
+    padding-left: 32px;
+    background-position: left 12px center;
+}
+:root[data-theme="light"] select.text-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23586068' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+/* The <option> list is OS-rendered; only background/color are themeable. Without
+   these it renders as a white popup against the dark surface. */
+select.text-input option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    padding: 8px;
+}
+
+.card-header {
+    padding: var(--card-pad);
+    border-bottom: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-title svg {
+    width: 20px;
+    height: 20px;
+    color: var(--brand-primary);
+}
+
+.card-body { padding: var(--card-pad); }
+
+.card-footer {
+    padding: 16px var(--card-pad);
+    border-top: 1px solid var(--border-subtle);
+    background: var(--bg-elevated);
+}
+
+/* === SETTINGS ROWS === */
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.setting-row:last-child { border-bottom: none; }
+
+/* Vertical variant of .setting-row for long-value controls (e.g. a URL field):
+   label/description on top, full-width input below — same padding/divider so it
+   sits flush with the flex rows above it. */
+.setting-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-subtle);
+}
+.setting-stack:last-child { border-bottom: none; }
+
+.setting-info { flex: 1; min-width: 0; }
+
+.setting-name {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.setting-badge {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--bg-elevated);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.setting-desc {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.setting-hint {
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--bg-elevated);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    margin-top: -8px;
+    margin-bottom: 16px;
+    border-left: 3px solid var(--brand-primary);
+}
+
+.setting-control {
+    flex-shrink: 0;
+    margin-left: 24px;
+}
+
+/* === TOGGLE SWITCH === */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 48px;
+}
+
+.toggle-switch input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    background: var(--bg-hover);
+    border-radius: var(--radius-full);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    left: 3px;
+    bottom: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: 0.3s;
+    box-shadow: var(--shadow-sm);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    background: var(--brand-primary);
+}
+
+.toggle-switch input:focus + .toggle-slider {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+    transform: translateX(20px);
+}
+
+/* === BUTTON GROUPS === */
+.btn-group {
+    display: flex;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    padding: 4px;
+}
+
+.btn-group > * + * {
+    margin-left: 4px;
+}
+
+.btn-toggle {
+    padding: 8px 12px;
+    min-height: 48px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    -webkit-appearance: none;
+    outline: none;
+}
+
+.btn-toggle:hover { color: var(--text-primary); }
+
+.btn-toggle.active {
+    background: var(--brand-primary);
+    color: var(--on-primary);
+}
+
+/* === BUTTONS === */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    min-height: 48px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    transition: all 0.2s;
+}
+
+/* Icon/label spacing inside buttons. The BYD head-unit WebView (Chrome 58 /
+   Android 7.1 floor) does NOT support flex `gap` — it shipped in Chrome 84 —
+   so a `gap` on .btn is silently ignored on-car and the icon butts straight
+   against the text. Use the same sibling-margin idiom .btn-group already uses
+   for exactly this reason; it works on Chrome 58 AND modern engines, and adds
+   no leading margin (so icon-only / text-only buttons are unaffected). */
+.btn > * + * {
+    margin-left: 8px;
+}
+
+/* Normalize button icon glyphs to one box so different viewBox densities
+   (e.g. the trash glyph fills its 24-unit box while the cloud-with-X glyph
+   sits smaller within the same box) render at a consistent visual size.
+   flex-shrink:0 keeps the icon from being squeezed when the label wraps in
+   a narrow control column or a long-locale translation. */
+.btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.btn-primary {
+    background: var(--brand-primary);
+    color: var(--on-primary);
+}
+
+.btn-primary:hover { filter: brightness(1.1); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover { background: rgba(239, 68, 68, 0.25); }
+.btn-danger.on { background: var(--danger); color: white; }
+
+/* === SLIDERS === */
+.slider-control {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.slider-track-control {
+    width: 120px;
+}
+
+.slider-track-control .slider {
+    display: block;
+    width: 100%;
+}
+
+.slider-track-control .slider-range-labels {
+    box-sizing: border-box;
+    margin-top: 6px;
+    width: 100%;
+}
+
+.slider-value {
+    min-width: 70px;
+    text-align: right;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand-primary);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.slider {
+    width: 120px;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--bg-hover);
+    border-radius: var(--radius-full);
+    outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--brand-primary);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+}
+
+/* === CHECKBOXES === */
+.checkbox-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+/* === SELECT DROPDOWNS === */
+.select-control {
+    padding: 8px 32px 8px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    min-width: 120px;
+    transition: border-color 0.15s ease;
+}
+
+[dir="rtl"] .select-control {
+    padding-right: 12px;
+    padding-left: 32px;
+    background-position: left 10px center;
+}
+
+.select-control:hover {
+    border-color: var(--border-default);
+}
+
+.select-control:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.15);
+}
+
+.select-control option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    padding: 8px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.checkbox-item:hover { border-color: var(--border-default); }
+
+.checkbox-item.active {
+    background: rgba(0, 212, 170, 0.1);
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+}
+
+.checkbox-item input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.checkbox-item:focus-within {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* === TELEMETRY OVERLAY FIELD PICKER ===========================
+ * Chip grid for choosing which telemetry fields burn into recordings.
+ * Reuses the .checkbox-item chip look (active = brand-teal fill). The
+ * wrapper indents slightly under its parent toggle row and animates in
+ * when the overlay is enabled. Purely additive — no other page uses it. */
+.telemetry-fields {
+    padding: 4px 0 12px;
+    border-bottom: none;
+}
+.telemetry-fields-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 4px;
+}
+.telemetry-fields-grid .checkbox-item {
+    padding: 8px 14px;
+    font-size: 12px;
+    user-select: none;
+}
+
+/* === M3 OUTLINED TEXT FIELD ====================================
+ * SOTA input pattern used by BYD Cloud and any future credential / data-entry
+ * form. Pure CSS — no JS — leans on the "placeholder-shown" trick so the
+ * floating label sits inside the box when empty, then floats to the border
+ * when the input is focused or filled.
+ *
+ * Markup contract:
+ *   <div class="md-field [md-field-trailing]">
+ *     <input class="md-input" id="x" placeholder=" "> <!-- single space placeholder -->
+ *     <label class="md-label" for="x">Label</label>
+ *     <button class="md-trailing-btn">…</button>     <!-- optional, with md-field-trailing -->
+ *     <span class="md-supporting">Helper text</span> <!-- optional -->
+ *   </div>
+ *
+ * The placeholder MUST be exactly " " (a single space) — not empty — so the
+ * :placeholder-shown selector flips at the right time. Real placeholder text
+ * would defeat the floating-label affordance.
+ *
+ * The supporting-text lives BELOW the input box, outside the border — its
+ * height is part of the .md-field's reserved space so the next field's
+ * margin-top doesn't have to know whether helper text is present.
+ *
+ * Theme-aware via design tokens; no raw hex.
+ */
+.md-field {
+    position: relative;
+    margin-bottom: 14px;
+    /* Reserve room above for the floated label so it never collides with the
+       previous field's supporting-text. */
+    padding-top: 6px;
+}
+.md-field:first-of-type { margin-top: 4px; }
+
+/* The actual input wrapper — gives a single hit-area for the bordered box,
+   independent of the supporting-text below it. */
+.md-field-box {
+    position: relative;
+}
+
+.md-input {
+    width: 100%;
+    box-sizing: border-box;
+    height: 56px;
+    /* Top padding clears the floated label; bottom is uniform. */
+    padding: 20px 14px 8px;
+    background: transparent;
+    border: 1px solid var(--border-default);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.4;
+    outline: none;
+    transition: border-color 160ms ease-out,
+                box-shadow 160ms ease-out,
+                background-color 160ms ease-out;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Selects render to match the rest of the site's `.select-control` chip:
+ * elevated bg, M3 radius, muted chevron asset, native option list with the
+ * surface palette. Floating-label still works because the label sibling
+ * floats whenever the select carries a value (selects always do). */
+select.md-input {
+    padding-right: 40px;
+    cursor: pointer;
+    background-color: var(--bg-elevated);
+    border-color: var(--border-subtle);
+    border-radius: var(--radius-md);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    background-size: 12px;
+}
+
+:root[data-theme="light"] select.md-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23586068' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+select.md-input:hover {
+    border-color: var(--border-default);
+}
+
+/* The native <option> list is rendered by the OS — browsers expose only
+   `background` and `color` for theming. Match the rest of the site by
+   using the surface token + primary text token, with the OS picking its
+   own selection / hover highlight. */
+select.md-input option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    padding: 8px;
+}
+
+/* When the select is the floating-label variant, the label needs a matching
+   background swatch behind it so the cut-through of the border reads clean
+   against the elevated select chip (not the surrounding bg-surface). */
+.md-field-box select.md-input ~ .md-label {
+    background: var(--bg-elevated);
+}
+
+.md-input:hover {
+    border-color: var(--text-muted);
+}
+
+.md-input:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.15);
+}
+
+.md-input::placeholder { color: transparent; }
+
+.md-label {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 6px;
+    pointer-events: none;
+    font-size: 15px;
+    line-height: 1;
+    color: var(--text-muted);
+    background: transparent;
+    /* Use a transition curve that lands the label cleanly on the border
+       without overshoot, regardless of input height. */
+    transition: top 160ms ease-out,
+                transform 160ms ease-out,
+                font-size 160ms ease-out,
+                color 160ms ease-out,
+                background-color 160ms ease-out;
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Float the label when the field is focused OR has a value, OR is a select
+   (selects always have a value, so the label always floats). */
+.md-input:focus ~ .md-label,
+.md-input:not(:placeholder-shown) ~ .md-label,
+select.md-input ~ .md-label {
+    top: 0;
+    transform: translateY(-50%) scale(1);
+    font-size: 12px;
+    color: var(--text-secondary);
+    background: var(--bg-surface);
+}
+
+.md-input:focus ~ .md-label {
+    color: var(--brand-primary);
+}
+
+.md-supporting {
+    display: block;
+    margin: 6px 14px 0;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Trailing icon button (eye, clear, etc.) sits inside the field bounds.
+   Pinned to the .md-field-box so its position is independent of the
+   supporting-text length. */
+.md-field-trailing .md-input { padding-right: 52px; }
+
+.md-trailing-btn {
+    position: absolute;
+    right: 6px;
+    /* Center vertically inside the 56px box (height 40px → 8px margin). */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background-color 160ms ease-out, color 160ms ease-out;
+}
+.md-trailing-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+.md-trailing-btn svg { width: 20px; height: 20px; }
+
+/* PIN field — monospace + centered + letter-spacing for digit clarity.
+   The label aligns the same way as other md-input rows by floating to the
+   border on focus; resting position uses the SAME font-size / line-height
+   as the standard label to keep the baseline consistent across fields. */
+.md-input-pin {
+    text-align: center;
+    letter-spacing: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    /* Slightly more top padding so the centered text doesn't crash into
+       the floated label on focus. */
+    padding-top: 22px;
+    padding-bottom: 6px;
+}
+
+/* === RECOMMENDATION CALLOUT (expandable) =======================
+ * Native <details> + <summary> for the BYD Cloud "use a secondary
+ * authorization profile" guidance. Closed by default; expands to reveal
+ * a numbered step list. Same identity stripe + glass background as the
+ * rest of the shell so it reads as part of the page, not a tooltip.
+ *
+ * Markup contract:
+ *   <details class="recommend-callout">
+ *     <summary class="recommend-callout-summary">
+ *       <span class="recommend-callout-icon">…</span>
+ *       <span class="recommend-callout-text">…title + sub…</span>
+ *       <span class="recommend-callout-chevron">…</span>
+ *     </summary>
+ *     <ol class="recommend-steps">…</ol>
+ *   </details>
+ */
+.recommend-callout {
+    position: relative;
+    margin-bottom: 18px;
+    padding: 0;
+    background: linear-gradient(135deg, rgba(0, 212, 170, 0.08) 0%, rgba(14, 165, 233, 0.06) 100%);
+    border: 1px solid rgba(0, 212, 170, 0.30);
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.recommend-callout::before {
+    /* Identity stripe — same primary→tertiary gradient used elsewhere. */
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--brand-primary) 0%, var(--chart-line-2) 100%);
+}
+
+.recommend-callout-summary {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px 14px 22px;
+    cursor: pointer;
+    list-style: none;
+    -webkit-user-select: none;
+            user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    transition: background-color 160ms ease-out;
+}
+.recommend-callout-summary::-webkit-details-marker { display: none; }
+.recommend-callout-summary:hover { background: rgba(0, 212, 170, 0.05); }
+
+.recommend-callout-icon {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(0, 212, 170, 0.15);
+    color: var(--brand-primary);
+}
+.recommend-callout-icon svg { width: 18px; height: 18px; }
+
+.recommend-callout-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+.recommend-callout-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+.recommend-callout-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.4;
+}
+
+.recommend-callout-chevron {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: var(--text-muted);
+    transition: transform 240ms cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+.recommend-callout-chevron svg { width: 16px; height: 16px; }
+.recommend-callout[open] .recommend-callout-chevron { transform: rotate(180deg); }
+
+.recommend-steps {
+    list-style: decimal;
+    margin: 0;
+    padding: 4px 22px 18px 50px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.55;
+}
+.recommend-steps li { padding: 4px 0; }
+.recommend-steps li::marker {
+    color: var(--brand-primary);
+    font-weight: 600;
+}
+.recommend-steps strong { color: var(--text-primary); font-weight: 600; }
+
+/* Action row — used below an .md-field stack to host primary + secondary buttons. */
+.byd-action-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+.byd-action-row .btn { flex: 1 1 160px; }
+
+/* Secondary button modifier — outlined variant, used for "Test Connection"
+   when the primary "Save" is teal-filled. Lives here so any tabbed page
+   can reuse it. */
+.btn-secondary {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-default);
+}
+.btn-secondary:hover { border-color: var(--brand-primary); color: var(--brand-primary); }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+/* Selected state for a choice group (e.g. blind-spot corner) — M3 tonal-primary
+   fill + primary border so the saved option reads as "currently active". */
+.btn-secondary.active {
+    background: rgba(0, 212, 170, 0.16);
+    border-color: var(--brand-primary);
+    color: var(--brand-primary);
+    font-weight: 600;
+}
+
+@media (max-width: 540px) {
+    .byd-action-row .btn { flex: 1 1 100%; }
+}
+
+/* === INFO BOX === */
+.info-box {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-top: 16px;
+}
+
+/* Variants — note (neutral) and warning. Each gets a small leading icon
+   beside the text via flex layout. Both variants are stand-alone (don't
+   combine with `.info-box`).
+   The note variant is INTENTIONALLY chrome-less — no background, no
+   border, no radius — so it sits as a flat, leading-icon hint inside an
+   already-elevated `.card-body` surface without reading as a nested box.
+   The warning variant keeps a tinted surface because its job is to draw
+   attention. */
+.info-box-note,
+.info-box-warning {
+    display: flex;
+    align-items: flex-start;
+    margin-top: 12px;
+}
+
+.info-box-note[hidden],
+.info-box-warning[hidden] {
+    display: none;
+}
+
+.info-box-note {
+    padding: 4px 0 0;
+    background: transparent;
+    border: 0;
+}
+.info-box-warning {
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.30);
+}
+.info-box-note > .info-icon,
+.info-box-warning > .info-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    margin-right: 10px;
+    /* Nudge to optical-center with the first line of body text — body sits
+       at the box's flex baseline, the icon glyph reads slightly low at its
+       SVG bounding box. 2px lift lines them up. */
+    margin-top: 1px;
+}
+.info-box-note > .info-icon { color: var(--brand-primary); }
+
+.info-box-note > *:not(.info-icon),
+.info-box-warning > *:not(.info-icon) {
+    flex: 1;
+    min-width: 0;
+}
+
+.info-box-warning > .info-icon { color: var(--warning); }
+
+/* When the body of an info-box-note is just a `.info-note` text line
+   (no info-row table inside), it must read as a plain flat line beside the
+   icon. The standalone `.info-note` rule (used elsewhere as a boxed callout)
+   carries padding/background/border-left; reset those here so the text sits
+   flush against the flex-start icon instead of as an offset padded box —
+   otherwise a multi-line note renders visibly misaligned. */
+.info-box-note .info-note,
+.info-box-warning .info-note {
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 0;
+    background: none;
+    border: 0;
+    border-radius: 0;
+}
+.info-box-note .info-note { color: var(--text-secondary); }
+.info-box-warning .info-note { color: var(--warning); }
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+}
+
+.info-row + .info-row { margin-top: 10px; }
+.info-row .label { color: var(--text-muted); }
+.info-row .value { font-weight: 500; }
+.info-row .link-value {
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.2s, opacity 0.2s;
+}
+.info-row .link-value:hover {
+    color: var(--accent-hover);
+    opacity: 0.85;
+}
+
+/* === SAFE LOCATIONS === */
+.safe-loc-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 0;
+    max-width: 70%;
+    text-align: right;
+}
+.safe-loc-status::before {
+    content: '';
+    width: 9px;
+    height: 9px;
+    margin-right: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--text-muted);
+}
+.safe-loc-status.is-safe::before {
+    background: var(--success);
+    box-shadow: 0 0 0 3px var(--status-success-container);
+}
+.safe-loc-status.is-outside::before {
+    background: var(--warning);
+}
+.safe-loc-status.is-pending {
+    color: var(--text-muted);
+}
+[dir="rtl"] .safe-loc-status {
+    text-align: left;
+}
+[dir="rtl"] .safe-loc-status::before {
+    margin-right: 0;
+    margin-left: 8px;
+}
+
+.safe-zone-radius-control {
+    margin-top: 12px;
+}
+.safe-zone-radius-header,
+.safe-zone-dialog-radius-header,
+.safe-zone-range-labels,
+.safe-zone-dialog-range-labels {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.safe-zone-radius-header {
+    margin-bottom: 8px;
+}
+.safe-zone-radius-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+.safe-zone-radius-value,
+.safe-zone-dialog-radius-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--brand-primary);
+    font-variant-numeric: tabular-nums;
+}
+.safe-zone-radius-slider,
+.safe-zone-dialog-slider {
+    display: block;
+    width: 100%;
+}
+.safe-zone-range-labels,
+.safe-zone-dialog-range-labels {
+    margin-top: 6px;
+    color: var(--text-muted);
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+}
+
+.safe-zone-list-title {
+    margin-top: 18px;
+    padding-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+.safe-zone-list {
+    border-top: 1px solid var(--border-subtle);
+}
+.safe-zone-row {
+    display: flex;
+    align-items: center;
+    min-height: 64px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-subtle);
+}
+.safe-zone-row > * + * {
+    margin-left: 12px;
+}
+[dir="rtl"] .safe-zone-row > * + * {
+    margin-left: 0;
+    margin-right: 12px;
+}
+.safe-zone-indicator {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}
+.safe-zone-indicator.is-enabled {
+    background: var(--success);
+    box-shadow: 0 0 0 3px var(--status-success-container);
+}
+.safe-zone-info {
+    flex: 1;
+    min-width: 0;
+}
+.safe-zone-row.is-disabled .safe-zone-info {
+    opacity: 0.62;
+}
+.safe-zone-name {
+    overflow: hidden;
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.safe-zone-meta {
+    margin-top: 2px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+.safe-zone-actions {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+.safe-zone-actions > * + * {
+    margin-left: 4px;
+}
+[dir="rtl"] .safe-zone-actions > * + * {
+    margin-left: 0;
+    margin-right: 4px;
+}
+.safe-zone-toggle {
+    flex-shrink: 0;
+}
+.safe-zone-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    flex: 0 0 48px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.safe-zone-icon-btn svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+}
+.safe-zone-icon-btn:hover,
+.safe-zone-icon-btn:focus-visible {
+    border-color: var(--border-default);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+}
+.safe-zone-icon-btn.is-danger {
+    color: var(--danger);
+}
+.safe-zone-icon-btn.is-danger:hover,
+.safe-zone-icon-btn.is-danger:focus-visible {
+    border-color: rgba(239, 68, 68, 0.35);
+    background: rgba(239, 68, 68, 0.10);
+}
+.safe-zone-empty {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--text-muted);
+    font-size: 13px;
+}
+.safe-zone-popup {
+    min-width: 96px;
+}
+.safe-zone-popup-name,
+.safe-zone-popup-radius {
+    display: block;
+}
+.safe-zone-popup-name {
+    color: #1f2937;
+    font-size: 13px;
+}
+.safe-zone-popup-radius {
+    margin-top: 2px;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+/* === STATUS BADGES === */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.status-badge.active {
+    background: var(--status-success-container);
+    color: var(--success);
+}
+
+.status-badge.inactive {
+    background: var(--bg-elevated);
+    color: var(--text-muted);
+}
+
+.status-badge.errored {
+    background: var(--status-danger-container);
+    color: var(--danger);
+}
+
+/* Explicit reduced-motion opt-in works on the Chrome 58 WebView. The media
+   query below provides the standard automatic behavior on newer engines. */
+:root[data-reduced-motion="true"] *,
+:root[data-reduced-motion="true"] *::before,
+:root[data-reduced-motion="true"] *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* === TIMELINE === */
+.timeline-visual {
+    display: flex;
+    height: 40px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    margin-top: 16px;
+}
+
+.timeline-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.timeline-pre { background: rgba(14, 165, 233, 0.3); flex: 0.5; }
+.timeline-event { background: var(--brand-primary); color: var(--on-primary); flex: 0.2; }
+.timeline-post { background: rgba(245, 158, 11, 0.3); flex: 0.5; }
+
+.timeline-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+/* === STORAGE BAR === */
+.storage-bar {
+    height: 8px;
+    background: var(--bg-hover);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.storage-fill {
+    height: 100%;
+    background: var(--brand-gradient);
+    border-radius: var(--radius-full);
+    transition: width 0.3s;
+}
+
+.storage-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* === SD CARD STATUS === */
+.sd-card-status {
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    margin: 8px 0 16px 0;
+}
+
+/* Storage fallback banner — recordings configured for SD/USB but landing on
+   internal because the external volume is unavailable/full. Amber-tinted so it
+   reads as a warning, not an error. */
+.storage-fallback-banner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(240, 160, 32, 0.12);
+    border: 1px solid rgba(240, 160, 32, 0.35);
+    border-radius: var(--radius-md);
+    padding: 10px 12px;
+    margin: 8px 0 16px 0;
+    font-size: 12px;
+    color: var(--text-primary);
+}
+
+.sd-status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sd-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.sd-status-dot.online {
+    background: var(--success);
+    box-shadow: 0 0 6px var(--success);
+}
+
+.sd-status-dot.offline {
+    background: var(--text-muted);
+}
+
+.sd-status-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.sd-space-info {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    padding-left: 16px;
+}
+
+/* Slider range labels */
+.slider-range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: -4px;
+    padding: 0 4px;
+}
+
+/* === FLOATING PIP CAMERA === */
+.pip-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 320px;
+    max-height: 50vh;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 250;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: move;
+    pointer-events: auto;
+}
+
+.pip-container.expanded {
+    width: 480px;
+}
+
+.pip-container.minimized {
+    width: 200px;
+}
+
+.pip-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.pip-title {
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pip-title .live-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--danger);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+.pip-controls {
+    display: flex;
+    gap: 4px;
+}
+
+.pip-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    transition: all 0.2s;
+}
+
+.pip-btn:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+}
+
+.pip-btn svg { width: 16px; height: 16px; }
+
+.pip-video {
+    aspect-ratio: 16/9;
+    background: #000;
+    position: relative;
+}
+
+.pip-video video, .pip-video canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.pip-placeholder {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.pip-placeholder svg {
+    width: 32px;
+    height: 32px;
+    opacity: 0.5;
+}
+
+.pip-footer {
+    display: flex;
+    gap: 6px;
+    padding: 10px;
+    background: var(--bg-elevated);
+}
+
+.pip-cam-btn {
+    flex: 1;
+    padding: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: var(--bg-hover);
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+}
+
+.pip-cam-btn:hover { color: var(--text-primary); }
+
+.pip-cam-btn.active {
+    background: var(--brand-primary);
+    color: #000;
+}
+
+.pip-cam-btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* PiP Toggle Button */
+.pip-toggle-btn {
+    position: fixed;
+    bottom: 160px;
+    right: 24px;
+    width: 56px;
+    height: 56px;
+    background: var(--brand-gradient);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    z-index: 150;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pip-toggle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg), 0 0 30px rgba(0, 212, 170, 0.3);
+}
+
+.pip-toggle-btn svg {
+    width: 24px;
+    height: 24px;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .pip-toggle-btn {
+        bottom: 150px;
+        right: 16px;
+        width: 48px;
+        height: 48px;
+    }
+    
+    .pip-toggle-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* === DECODER BADGE === */
+.decoder-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: var(--radius-sm);
+    color: var(--brand-primary);
+    display: none;
+}
+
+/* === LIVE VIEW PAGE (FULLSCREEN) === */
+.live-view-page .main-content {
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    /* Live view is a FULLSCREEN flex root (video fills it, no page scroll),
+       so it needs a rigid height — which is exactly what makes the stale-vh
+       rotation bug bite hardest here. Drive it off the live --vh from
+       theme.js so a landscape→portrait flip recomputes instead of stranding
+       the video at the old landscape height (the bottom car-selector strip
+       was getting clipped). 100vh is the pre-theme.js fallback. */
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+}
+
+/* Live view mobile header - visible with background */
+.live-view-page .mobile-header {
+    position: relative;
+    z-index: 60;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+    transition: background-color 200ms ease-out, border-color 200ms ease-out, backdrop-filter 200ms ease-out;
+}
+
+/* When the user is on the map tab (body.live-map-active flips on it),
+   the mobile header floats translucent over the map so the leaflet tiles
+   paint edge-to-edge to the very top of the viewport. The hamburger and
+   brand stay readable thanks to the saturated blur and the soft shadow.
+   The map-overlay-actions (My Location / Directions FABs) shift down so
+   they don't crash into the floating header. */
+.live-view-page.live-view-page .main-content { /* no-op — selector tightening to keep specificity stable */ }
+
+@media (max-width: 768px) {
+    body.live-map-active.live-view-page .mobile-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 60;
+        background: var(--bg-glass, rgba(22, 22, 26, 0.55));
+        -webkit-backdrop-filter: saturate(180%) blur(14px);
+                backdrop-filter: saturate(180%) blur(14px);
+        border-bottom: 1px solid transparent;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
+    }
+
+    /* Push the floating action buttons below the header so the hamburger
+       isn't crowded against the My Location chip. */
+    body.live-map-active #panelMap .map-overlay-actions {
+        top: calc(72px + env(safe-area-inset-top, 0px));
+    }
+
+    /* On the map tab the mobile-header is position:absolute (floats over
+       the map), so the mini-preview chip sitting at top:70/80px slides
+       under it once safe-area-inset-top kicks in (PWA standalone iOS).
+       On the cameras tab the header is position:relative — it pushes
+       content down already, so we only lift here. */
+    body.live-map-active .mini-preview {
+        top: calc(70px + env(safe-area-inset-top, 0px));
+    }
+}
+
+/* On wider viewports the mobile-header is hidden anyway (display:none
+   above 768px), so nothing to do — the map already fills the panel. */
+
+/* === SPLIT VIEW LAYOUT === */
+.live-split-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* === TAB-BASED LAYOUT (Tesla Style) === */
+.live-tabs-view {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+    /* Add padding for mobile navigation bar */
+    padding-bottom: var(--safe-bottom);
+}
+
+/* Tab Bar */
+.tab-bar {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+}
+
+.tab-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.tab-btn svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
+.tab-btn:hover {
+    color: var(--text-secondary);
+    background: var(--bg-hover);
+}
+
+.tab-btn.active {
+    color: var(--brand-primary);
+    background: rgba(0, 212, 170, 0.1);
+    border-color: rgba(0, 212, 170, 0.3);
+}
+
+/* Tab Content */
+.tab-content {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.tab-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: none;
+    flex-direction: column;
+}
+
+.tab-panel.active {
+    display: flex;
+}
+
+/* Map Panel */
+#panelMap {
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+#panelMap .map-container {
+    flex: 1;
+    position: relative;
+    background: var(--bg-base);
+    min-height: 0;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Map overlay actions - must be above Leaflet */
+#panelMap .map-overlay-actions {
+    position: absolute;
+    top: 16px;
+    top: max(16px, env(safe-area-inset-top, 16px));
+    right: 16px;
+    right: max(16px, env(safe-area-inset-right, 16px));
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 1000;
+}
+
+/* Map info bar at bottom */
+#panelMap .map-info-bar {
+    flex-shrink: 0;
+    z-index: 1000;
+    position: relative;
+}
+
+/* Ensure Leaflet map fills container */
+#mapContainer {
+    width: 100%;
+    height: 100%;
+}
+
+/* Constrain Leaflet z-index within map container */
+#mapContainer .leaflet-pane {
+    z-index: 1 !important;
+}
+
+#mapContainer .leaflet-tile-pane {
+    z-index: 1 !important;
+}
+
+#mapContainer .leaflet-overlay-pane {
+    z-index: 2 !important;
+}
+
+#mapContainer .leaflet-shadow-pane {
+    z-index: 3 !important;
+}
+
+#mapContainer .leaflet-marker-pane {
+    z-index: 4 !important;
+}
+
+#mapContainer .leaflet-tooltip-pane {
+    z-index: 5 !important;
+}
+
+#mapContainer .leaflet-popup-pane {
+    z-index: 6 !important;
+}
+
+#mapContainer .leaflet-control-container {
+    z-index: 10 !important;
+}
+
+.btn-map-float {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 25, 25, 0.8);
+    border: 1px solid rgba(0,212,170,0.25);
+    border-radius: 14px;
+    color: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 30px rgba(0,212,170,0.1);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(12px);
+}
+
+.btn-map-float:hover {
+    background: rgba(0, 60, 55, 0.9);
+    border-color: rgba(0,212,170,0.5);
+    color: #00ffcc;
+    transform: scale(1.08);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.5), 0 0 40px rgba(0,212,170,0.2);
+}
+
+.btn-map-float.btn-directions {
+    background: linear-gradient(135deg, var(--primary) 0%, #00a080 100%);
+    border: none;
+    color: #000;
+    box-shadow: 0 4px 20px rgba(0,212,170,0.4);
+}
+
+.btn-map-float.btn-directions:hover {
+    background: linear-gradient(135deg, #00ffcc 0%, var(--primary) 100%);
+    transform: scale(1.08);
+    box-shadow: 0 6px 30px rgba(0,212,170,0.5);
+}
+
+.btn-map-float svg {
+    width: 22px;
+    height: 22px;
+}
+
+.btn-map-float.loading {
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Bottom info strip on the Live View map tab (distance + last-GPS-update).
+   Backdrop, text colour, and the brand-tinted accents flip with theme so
+   the strip doesn't read as a black slab on a light cabin display. */
+.map-info-bar {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding: 14px 20px;
+    padding-bottom: 14px;
+    padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+    background: var(--bg-glass, rgba(10, 20, 20, 0.9));
+    border-top: 1px solid var(--lv-pill-border, rgba(255, 255, 255, 0.10));
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+}
+
+.map-info-bar .map-info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--lv-overlay-text, rgba(255, 255, 255, 0.85));
+}
+
+.map-info-bar .map-info-item svg {
+    width: 16px;
+    height: 16px;
+    color: var(--brand-primary);
+    filter: drop-shadow(0 0 4px rgba(0, 212, 170, 0.40));
+}
+
+/* Cameras Panel — outer background flips with theme. The inner
+   .seamless-camera-view paints its own light/dark gradient via
+   --lv-panel-bg in index.html, but a hardcoded #000 here used to leak
+   through the borders/gaps and read as "black with a white tint" on
+   light theme. Use the page surface so dark theme stays dark and light
+   theme stays light. */
+#panelCameras {
+    background: var(--bg-base);
+    z-index: 1;
+}
+
+#panelCameras .stream-container {
+    flex: 1;
+    position: relative;
+}
+
+/* Floating Mini Preview */
+.mini-preview {
+    position: absolute;
+    top: 80px;
+    left: 24px;
+    width: 80px;
+    height: 80px;
+    background: rgba(26, 26, 46, 0.95);
+    border: 2px solid rgba(0, 212, 170, 0.4);
+    border-radius: var(--radius-lg);
+    cursor: grab;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(0, 212, 170, 0.15);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+    will-change: transform, top, left, right, bottom;
+}
+
+.mini-preview:hover {
+    transform: scale(1.05);
+    border-color: var(--brand-primary);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5), 0 0 25px rgba(0, 212, 170, 0.35);
+}
+
+/* Active drag state — Material-3 elevation lift + brand glow.
+   Disable the position transition during free drag so the chip tracks the
+   pointer; the .snap-anim class is added on release for the slide-to-corner
+   animation. */
+.mini-preview.dragging {
+    cursor: grabbing;
+    transform: scale(1.10);
+    border-color: var(--brand-primary);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 212, 170, 0.45);
+    transition: transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 140ms cubic-bezier(0.2, 0.8, 0.2, 1),
+                border-color 140ms ease;
+}
+
+.mini-preview.snap-anim {
+    transition: top 240ms cubic-bezier(0.2, 0.7, 0.2, 1),
+                left 240ms cubic-bezier(0.2, 0.7, 0.2, 1),
+                right 240ms cubic-bezier(0.2, 0.7, 0.2, 1),
+                bottom 240ms cubic-bezier(0.2, 0.7, 0.2, 1),
+                transform 240ms cubic-bezier(0.2, 0.7, 0.2, 1),
+                box-shadow 240ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.mini-preview-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 212, 170, 0.08);
+    color: var(--brand-primary);
+}
+
+.mini-preview-content svg {
+    width: 28px;
+    height: 28px;
+    stroke: var(--brand-primary);
+}
+
+.mini-preview-label {
+    padding: 4px;
+    font-size: 9px;
+    font-weight: 700;
+    text-align: center;
+    color: var(--brand-primary);
+    background: rgba(0, 212, 170, 0.12);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Map container (used in tab panel) */
+.map-container {
+    flex: 1;
+    background: #0a0f0f;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Leaflet overrides for modern dark map theme */
+.map-container .leaflet-container {
+    background: #0a0f0f;
+    z-index: 1 !important;
+}
+
+.map-container .leaflet-control-zoom {
+    border: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+}
+
+.map-container .leaflet-control-zoom a {
+    background: rgba(15, 25, 25, 0.85);
+    color: var(--primary);
+    border: none;
+    border-bottom: 1px solid rgba(0,212,170,0.1);
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.map-container .leaflet-control-zoom a:hover {
+    background: rgba(0, 60, 55, 0.9);
+    color: #00ffcc;
+}
+
+.map-container .leaflet-control-zoom a:last-child {
+    border-bottom: none;
+}
+
+/* Recenter button -- appears (top-right, clear of the bottom-right zoom
+   control) when the user pans/zooms away from the car while auto-follow
+   is running. Same dark-glass brand-teal language as .btn-map-float. */
+.map-recenter-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 25, 25, 0.85);
+    border: 1px solid rgba(0,212,170,0.3);
+    border-radius: 50%;
+    color: var(--primary);
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.45), 0 0 20px rgba(0,212,170,0.12);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    opacity: 0;
+    transform: scale(0.85);
+    pointer-events: none;
+    transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.map-recenter-btn.visible {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.map-recenter-btn:hover {
+    background: rgba(0, 60, 55, 0.9);
+    border-color: rgba(0,212,170,0.55);
+    color: #00ffcc;
+}
+
+.map-recenter-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* The dashboard's minimap card is small (180px tall) -- keep the button
+   proportionally smaller so it doesn't crowd the marker/zoom control. */
+.dash-location-map .map-recenter-btn {
+    width: 32px;
+    height: 32px;
+    top: 8px;
+    right: 8px;
+}
+
+.dash-location-map .map-recenter-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
+/* Car marker on map */
+.car-map-marker {
+    background: none;
+    border: none;
+}
+
+.car-icon-wrapper {
+    width: 24px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: transform 0.5s ease;
+}
+
+.car-icon-wrapper svg {
+    width: 44px;
+    height: 44px;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.6));
+}
+
+/* Car icon image for map marker */
+.car-icon-img {
+    width: 24px;
+    height: 50px;
+    filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)) drop-shadow(0 0 12px rgba(0,212,170,0.3));
+    z-index: 2;
+    transition: filter 0.3s ease;
+}
+
+/* Enhanced glow when GPS location is active */
+.car-icon-wrapper.has-location .car-icon-img {
+    filter: 
+        drop-shadow(0 2px 6px rgba(0,0,0,0.6)) 
+        drop-shadow(0 0 20px rgba(0,212,170,0.8))
+        drop-shadow(0 0 40px rgba(0,212,170,0.5))
+        drop-shadow(0 0 60px rgba(0,212,170,0.3));
+    animation: carGlow 2s ease-in-out infinite;
+}
+
+@keyframes carGlow {
+    0%, 100% { 
+        filter: 
+            drop-shadow(0 2px 6px rgba(0,0,0,0.6)) 
+            drop-shadow(0 0 20px rgba(0,212,170,0.8))
+            drop-shadow(0 0 40px rgba(0,212,170,0.5))
+            drop-shadow(0 0 60px rgba(0,212,170,0.3));
+    }
+    50% { 
+        filter: 
+            drop-shadow(0 2px 6px rgba(0,0,0,0.6)) 
+            drop-shadow(0 0 30px rgba(0,212,170,1))
+            drop-shadow(0 0 50px rgba(0,212,170,0.7))
+            drop-shadow(0 0 80px rgba(0,212,170,0.4));
+    }
+}
+
+.car-pulse {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,170,0.5) 0%, rgba(0,212,170,0) 70%);
+    animation: none;
+    opacity: 0;
+    z-index: 1;
+}
+
+.car-pulse.active {
+    animation: carPulse 2s infinite;
+    opacity: 1;
+}
+
+/* Enhanced pulse when location is active */
+.car-icon-wrapper.has-location .car-pulse.active {
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(0,212,170,0.7) 0%, rgba(0,212,170,0.3) 40%, rgba(0,212,170,0) 70%);
+}
+
+@keyframes carPulse {
+    0% { transform: scale(0.5); opacity: 1; }
+    100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* User location marker */
+.user-map-marker {
+    background: none;
+    border: none;
+}
+
+.user-icon-wrapper {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.user-dot {
+    width: 14px;
+    height: 14px;
+    background: #4285f4;
+    border: 3px solid white;
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 1;
+}
+
+.user-pulse {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(66, 133, 244, 0.3);
+    animation: userPulse 2s infinite;
+}
+
+@keyframes userPulse {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(2); opacity: 0; }
+}
+
+/* Distance label on route line */
+.distance-label {
+    background: none;
+    border: none;
+}
+
+.distance-label-content {
+    background: rgba(0, 212, 170, 0.9);
+    color: #000;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Camera Section (legacy - now in tab panel) */
+.camera-section {
+    flex: 1;
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* Stream container — matches the theme-aware --lv-video-bg used by the
+   newer .video-display-area in index.html so the camera view doesn't read
+   as a black slab on light theme. Dark theme still resolves to #000 (the
+   classic letterbox look); light theme falls back to the page surface. */
+.stream-container {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--lv-video-bg, var(--bg-base, #000));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.stream-container video, .stream-container canvas {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+/* === STREAM CONTROLS (Mini Car Selector) === */
+.stream-controls {
+    position: absolute;
+    bottom: calc(24px + var(--safe-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+}
+
+.cam-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 10px 16px;
+    min-width: 60px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.cam-btn svg { 
+    width: 32px; 
+    height: 32px;
+    transition: all 0.2s ease;
+}
+
+.cam-btn span {
+    transition: color 0.2s ease;
+}
+
+.cam-btn:hover { 
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+}
+
+.cam-btn:hover svg {
+    transform: scale(1.05);
+}
+
+.cam-btn.active {
+    background: rgba(0, 212, 170, 0.12);
+    color: var(--brand-primary);
+    border-color: rgba(0, 212, 170, 0.3);
+}
+
+.cam-btn.active svg {
+    filter: drop-shadow(0 0 6px rgba(0, 212, 170, 0.5));
+}
+
+/* Loading state */
+.cam-btn.loading {
+    pointer-events: none;
+}
+
+.cam-btn.loading::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    animation: shimmer 1s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* === STREAM PLACEHOLDER & CAR SELECTOR === */
+.stream-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 30px 20px;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, rgba(0, 212, 170, 0.03) 0%, transparent 70%);
+}
+
+.stream-hint {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* Car Selector Visual */
+.car-selector-visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.car-diagram {
+    width: 180px;
+    height: 306px;
+    filter: drop-shadow(0 0 40px rgba(0, 212, 170, 0.08));
+}
+
+/* Camera Areas (clickable) */
+.cam-area {
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cam-area:hover .cam-indicator {
+    fill: rgba(0, 212, 170, 0.3);
+    stroke: var(--brand-primary);
+    stroke-width: 2;
+    filter: drop-shadow(0 0 12px rgba(0, 212, 170, 0.6));
+}
+
+.cam-area:hover .cam-line {
+    stroke: var(--brand-primary);
+    opacity: 1;
+}
+
+/* Car section highlight on hover */
+.cam-area.hover-front ~ .car-body-front,
+.cam-area:hover[id="camFrontArea"] ~ * .car-front-section {
+    fill: rgba(0, 212, 170, 0.1);
+}
+
+.cam-hitbox {
+    cursor: pointer;
+}
+
+/* Camera Indicators */
+.cam-indicator {
+    fill: rgba(255, 255, 255, 0.08);
+    stroke: rgba(255, 255, 255, 0.25);
+    stroke-width: 1.5;
+    transition: all 0.25s ease;
+}
+
+.cam-indicator.active {
+    fill: var(--brand-primary);
+    stroke: var(--brand-primary);
+    filter: drop-shadow(0 0 16px rgba(0, 212, 170, 0.9));
+}
+
+.cam-line {
+    stroke: rgba(255, 255, 255, 0.15);
+    transition: all 0.2s ease;
+}
+
+/* Camera Labels */
+.cam-labels {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cam-label {
+    position: absolute;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    padding: 5px 10px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.cam-label:hover,
+.cam-label.hover {
+    color: var(--text-primary);
+    border-color: rgba(0, 212, 170, 0.4);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.cam-label.active {
+    color: var(--brand-primary);
+    border-color: var(--brand-primary);
+    background: rgba(0, 212, 170, 0.15);
+    box-shadow: 0 0 12px rgba(0, 212, 170, 0.3);
+}
+
+/* Label Positions - aligned with camera indicators */
+.cam-label.front {
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cam-label.rear {
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.cam-label.left {
+    left: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.cam-label.right {
+    right: -60px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.cam-label.front:hover,
+.cam-label.front.hover,
+.cam-label.rear:hover,
+.cam-label.rear.hover {
+    transform: translateX(-50%) scale(1.05);
+}
+
+.cam-label.left:hover,
+.cam-label.left.hover,
+.cam-label.right:hover,
+.cam-label.right.hover {
+    transform: translateY(-50%) scale(1.05);
+}
+
+/* Upfront Quality Selector */
+.quality-selector-upfront {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.quality-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.quality-select-large {
+    padding: 10px 40px 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2300D4AA' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    transition: all 0.2s ease;
+}
+
+.quality-select-large:hover {
+    border-color: var(--brand-primary);
+    background-color: rgba(0, 212, 170, 0.05);
+}
+
+.quality-select-large:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.1);
+}
+
+.quality-select-large option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    padding: 8px;
+}
+
+/* Stream Actions */
+.stream-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-stream-all {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+    background: var(--brand-gradient);
+    border: none;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 20px rgba(0, 212, 170, 0.3);
+}
+
+.btn-stream-all:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 28px rgba(0, 212, 170, 0.4);
+}
+
+.btn-stream-all:active {
+    transform: translateY(0);
+}
+
+.btn-stream-all svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* === STREAM OVERLAY (when streaming) === */
+.stream-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+.stream-overlay > * {
+    pointer-events: auto;
+}
+
+.stream-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 16px 20px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+}
+
+.stream-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.stream-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    border-radius: var(--radius-full);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stream-badge.live {
+    background: rgba(34, 197, 94, 0.2);
+    border-color: rgba(34, 197, 94, 0.4);
+    color: var(--status-success);
+}
+
+.stream-badge.connecting {
+    background: rgba(245, 158, 11, 0.25);
+    border-color: rgba(245, 158, 11, 0.5);
+    color: #fbbf24;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+}
+
+.status-dot.live {
+    background: var(--status-success);
+    animation: pulse 1.5s infinite;
+}
+
+.status-dot.connecting {
+    background: #fbbf24;
+    animation: pulse 0.8s infinite;
+}
+
+/* Stream Actions Bar */
+.stream-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quality-select {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    padding-right: 28px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.quality-select:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.quality-select option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+}
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.btn-icon.btn-stop:hover {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: var(--danger);
+}
+
+/* Fullscreen mode */
+.stream-container.fullscreen {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: 1000;
+}
+
+.stream-container.fullscreen .stream-controls {
+    bottom: 40px;
+}
+
+/* === TOAST === */
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.toast {
+    padding: 12px 20px;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-default);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    box-shadow: var(--shadow-lg);
+    animation: slideUp 0.3s ease;
+}
+
+.toast.success { border-color: var(--success); }
+.toast.error { border-color: var(--danger); }
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* === MOBILE RESPONSIVE === */
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 100%;
+    }
+    
+    .sidebar {
+        transform: translateX(-100%);
+        width: 280px;
+    }
+    
+    /* On mobile the sidebar must layer ABOVE the bottom-tab bar so the user
+       sees the full nav when the hamburger is open. The tab bar is at z=400
+       (set in app-tabs.css) so we sit above it; the overlay sits between. */
+    .sidebar.open { transform: translateX(0); z-index: 500; }
+    
+    .sidebar-close {
+        display: flex;
+    }
+    
+    .main-content { margin-left: 0; }
+    
+    .mobile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        /* Pad past the iOS notch / Android cutout so the hamburger isn't
+           visually clipped or cut off by the system status bar. The
+           viewport-fit=cover meta tag on each page makes safe-area-inset-top
+           non-zero on devices with a notch. */
+        padding: calc(12px + env(safe-area-inset-top, 0px)) 16px 12px;
+        padding-left: calc(16px + env(safe-area-inset-left, 0px));
+        padding-right: calc(16px + env(safe-area-inset-right, 0px));
+        background: var(--bg-surface);
+        border-bottom: 1px solid var(--border-subtle);
+    }
+    
+    .menu-toggle {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: var(--radius-md);
+        color: var(--text-primary);
+        background: transparent;
+        transition: background 0.2s;
+    }
+    
+    .menu-toggle:hover { background: var(--bg-hover); }
+    .menu-toggle svg { width: 22px; height: 22px; }
+    
+    .page-header { display: none; }
+    
+    .page-body { 
+        padding: 16px;
+        padding-bottom: calc(16px + 120px + var(--safe-bottom)); /* Account for fixed footer + mobile nav */
+    }
+    
+    .card-body { padding: 16px; }
+    
+    .setting-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    /* Sibling-margin stand-in for the `gap` above: flex `gap` is Chrome 84+ and is
+       silently ignored on the head-unit WebView, so the label and its control butted
+       together with zero space once the row stacked. */
+    .setting-row > * + * { margin-top: 12px; }
+
+    /* Stacked, the control owns the full row — so let a <select> fill it instead of
+       sitting at its 120px minimum with a ragged right edge. `.setting-control` is
+       flex-shrink:0 with a 24px lead margin for the SIDE-BY-SIDE layout; neither
+       applies once stacked, and keeping them clipped long localized labels (the card
+       is overflow:hidden, so the excess was cut off rather than scrolled). */
+    .setting-control {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
+        min-width: 0;
+    }
+    .setting-control > .select-control,
+    .setting-control > select,
+    .setting-control > .text-input { width: 100%; box-sizing: border-box; }
+    /* Let the label text wrap rather than force the row wider than the card. */
+    .setting-row > .setting-info { min-width: 0; max-width: 100%; }
+    
+    .pip-container {
+        bottom: 80px;
+        right: 16px;
+        left: auto;
+        width: 200px;
+    }
+    
+    /* Car Selector Mobile - no extra padding needed since header is visible */
+    .stream-placeholder {
+        padding-top: 20px;
+    }
+    
+    .car-diagram {
+        width: 140px;
+        height: 238px;
+    }
+    
+    .cam-label {
+        font-size: 9px;
+        padding: 4px 8px;
+    }
+    
+    .cam-label.front { top: -16px; }
+    .cam-label.rear { bottom: -16px; }
+    .cam-label.left { left: -48px; }
+    .cam-label.right { right: -48px; }
+    
+    .quality-selector-upfront {
+        margin-top: 8px;
+    }
+    
+    .quality-select-large {
+        padding: 8px 32px 8px 12px;
+        font-size: 13px;
+    }
+    
+    .btn-stream-all {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+    
+    .stream-hint {
+        font-size: 12px;
+    }
+    
+    /* Stream Controls Mobile - above mobile nav */
+    .stream-controls {
+        bottom: calc(80px + var(--safe-bottom));
+        left: 12px;
+        right: 12px;
+        transform: none;
+        justify-content: center;
+        gap: 3px;
+        padding: 6px;
+    }
+    
+    .cam-btn { 
+        padding: 6px 8px;
+        min-width: 44px;
+    }
+    
+    .cam-btn svg {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .cam-btn span {
+        font-size: 8px;
+    }
+    
+    /* Stream Header Mobile */
+    .stream-header {
+        padding: 12px 16px;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .stream-info {
+        gap: 6px;
+    }
+    
+    .stream-badge {
+        padding: 5px 8px;
+        font-size: 10px;
+    }
+    
+    .stream-actions-bar {
+        gap: 6px;
+    }
+    
+    .quality-select {
+        padding: 6px 10px;
+        padding-right: 24px;
+        font-size: 11px;
+    }
+    
+    /* Map Section Mobile */
+    .map-section {
+        flex: 1;
+        min-height: 200px;
+    }
+    
+    /* Tab Bar Mobile */
+    .tab-bar {
+        padding: 8px 12px;
+        gap: 6px;
+    }
+    
+    .tab-btn {
+        padding: 10px 12px;
+        font-size: 12px;
+        gap: 6px;
+    }
+    
+    .tab-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* Map Overlay Mobile */
+    .map-overlay-actions {
+        top: 12px;
+        right: 12px;
+        gap: 6px;
+    }
+    
+    #panelMap .map-overlay-actions {
+        top: 12px;
+        top: max(12px, env(safe-area-inset-top, 12px));
+        right: 12px;
+        right: max(12px, env(safe-area-inset-right, 12px));
+    }
+    
+    .btn-map-float {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+    }
+    
+    .btn-map-float svg {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .map-info-bar {
+        padding: 10px 16px;
+        padding-bottom: 10px;
+        padding-bottom: calc(10px + var(--safe-bottom, 0px));
+        gap: 20px;
+    }
+    
+    .map-info-bar .map-info-item {
+        font-size: 12px;
+    }
+    
+    /* Mini Preview Mobile */
+    .mini-preview {
+        top: 70px;
+        left: 16px;
+        width: 64px;
+        height: 64px;
+    }
+    
+    .mini-preview-content svg {
+        width: 22px;
+        height: 22px;
+    }
+    
+    .mini-preview-label {
+        font-size: 8px;
+        padding: 3px;
+    }
+    
+    .btn-icon {
+        width: 34px;
+        height: 34px;
+    }
+    
+    .btn-icon svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    /* Mobile bottom nav */
+    .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--bg-surface);
+        border-top: 1px solid var(--border-subtle);
+        padding: 8px 16px calc(8px + var(--safe-bottom));
+        z-index: 100;
+    }
+    
+    .mobile-nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 8px;
+        color: var(--text-muted);
+        font-size: 11px;
+        font-weight: 500;
+    }
+    
+    .mobile-nav-item svg { width: 22px; height: 22px; }
+    
+    .mobile-nav-item.active { color: var(--brand-primary); }
+}
+
+@media (min-width: 769px) {
+    .mobile-header { display: none; }
+    .mobile-nav { display: none; }
+}
+
+/* === OVERLAY === */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+}
+
+/* Overlay sits between the bottom-tabs (z=400) and the open sidebar (z=500)
+   so a tap on the dimmed area dismisses the menu without leaking the click
+   to the tab bar underneath. */
+.sidebar-overlay.show { display: block; z-index: 450; }
+
+/* === UNSAVED INDICATOR === */
+.unsaved-indicator {
+    display: none;
+    color: var(--warning);
+    font-size: 11px;
+    margin-left: 8px;
+}
+
+.unsaved-indicator.show { display: inline; }
+
+/* === FOOTER BAR === */
+.footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: var(--sidebar-width);
+    right: 0;
+    padding: 16px 32px;
+    padding-bottom: calc(16px + var(--safe-bottom));
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
+    z-index: 300;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+}
+
+@media (max-width: 768px) {
+    .footer-bar {
+        left: 0;
+        padding: 12px 16px;
+        padding-bottom: calc(12px + 40px + var(--safe-bottom));
+    }
+}
+
+
+/* === SOTA WHITE RIMS & FLOW === */
+.ev-card {
+    /* Theme-aware gradient — dark slate in dark mode, soft tinted-white in
+       light mode. Was previously hardcoded `#1e293b → #0f172a` which left
+       the bottom card on the sidebar visibly black under light theme.
+       Spacing from the .status-card above it is provided by
+       .sidebar-footer's flex `gap` — no per-card margin needed. */
+    background: linear-gradient(180deg, var(--bg-elevated) 0%, var(--bg-surface) 100%);
+    border: 1px solid var(--border-default);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow-md);
+}
+
+.ev-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+}
+
+.ev-title {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ev-percent-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.ev-svg-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 8px 0;
+    filter: drop-shadow(0 25px 20px rgba(0,0,0,0.5));
+}
+
+.ev-car-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+/* Battery + charging viz used to be a separate <rect> bar with a
+   moving-stripe pattern. That layer is gone; the GLB body's emissive
+   channel now carries SOC-tinted glow and the slow charging pulse (see
+   ev-card-3d.js setSocPercent / setCharging). The bolt icon below
+   stays as the only overlay badge — it pops in on .charging. */
+
+.ev-card.charging #svgChargeIcon {
+    transform: translate(160px, 5px) scale(1.2);
+}
+
+/* Footer */
+.ev-info-row {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-subtle);
+    font-size: 12px;
+}
+
+.ev-range {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+}
+
+.ev-range svg {
+    width: 14px;
+    height: 14px;
+    opacity: 0.7;
+}
+
+.ev-power-status {
+    display: flex;
+    align-items: center;
+}
+
+.ev-power-val {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.ev-card.charging .ev-power-val {
+    color: var(--brand-primary);
+}
+
+/* Personalized Range Row */
+.ev-personalized-range {
+    margin-top: 8px;
+    padding: 8px 10px;
+    background: rgba(0, 212, 170, 0.08);
+    border: 1px solid rgba(0, 212, 170, 0.15);
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ev-personalized-label {
+    font-size: 11px;
+    color: var(--brand-primary);
+    font-weight: 500;
+}
+
+.ev-personalized-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brand-primary);
+}
+
+/* SOH Row */
+.ev-soh-row {
+    margin-top: 8px;
+    padding: 6px 10px;
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.15);
+    border-radius: var(--radius-sm);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ev-soh-label {
+    font-size: 11px;
+    color: #a855f7;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.ev-soh-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--status-success);
+}
+
+/* === FUEL CARD (PHEV only) === */
+.fuel-card {
+    background: linear-gradient(180deg, rgba(245,158,11,0.08) 0%, rgba(245,158,11,0.02) 100%);
+    border: 1px solid rgba(245,158,11,0.15);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    margin-top: 12px;
+}
+.fuel-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.fuel-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    flex: 1;
+}
+.fuel-percent {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--status-warning);
+}
+.fuel-bar-track {
+    height: 6px;
+    background: rgba(245,158,11,0.1);
+    border-radius: 3px;
+    overflow: hidden;
+}
+.fuel-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--status-warning), #FBBF24);
+    border-radius: 3px;
+    transition: width 0.6s ease;
+}
+.fuel-info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+}
+.fuel-range {
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Status icon in label */
+.status-icon {
+    width: 14px;
+    height: 14px;
+    color: var(--text-muted);
+    vertical-align: middle;
+    margin-right: 2px;
+}
+
+/* ==================== RECORDING MODE SELECTOR (SOTA M3) ==================
+ * Each mode is a tappable card with:
+ *   - 56dp tonal icon container on the leading edge (M3 list-item lockup)
+ *   - title + description in the body
+ *   - trailing M3 radio dot that animates on selection
+ *   - selected state: 2dp primary border + tonal-primary background +
+ *     accent glow stripe, matching the .card collapse + accent-stripe identity
+ *
+ * Theme-aware via tokens (--surface, --primary, --on-surface) so light + dark
+ * modes both look right; no raw hex.
+ */
+
+.mode-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+@media (max-width: 540px) {
+    .mode-selector { grid-template-columns: 1fr; }
+}
+
+/* Hydration dim — until loadOemDashcam clears aria-busy, the picker
+ * looks "loading" rather than "currently set to Off". Avoids a visible
+ * flash from Off → actual saved mode on slow links. */
+.mode-selector[aria-busy="true"] .mode-card {
+    opacity: 0.55;
+    pointer-events: none;
+}
+
+.mode-option {
+    cursor: pointer;
+    display: block;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mode-option input[type="radio"] {
+    /* Hide visually but stay focusable for keyboards / a11y. */
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px; border: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+}
+
+.mode-card {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    padding-right: 44px; /* room for the trailing radio */
+    min-height: 88px;
+    border: 1px solid var(--border-default);
+    border-radius: 16px;
+    background: var(--bg-elevated);
+    transition: border-color 200ms ease-out,
+                background-color 200ms ease-out,
+                box-shadow 200ms ease-out,
+                transform 120ms ease-out;
+}
+
+.mode-card:hover {
+    border-color: var(--border-default);
+    background: var(--bg-hover, var(--surface-container-high));
+}
+
+.mode-card:active { transform: scale(0.99); }
+
+.mode-option input[type="radio"]:focus-visible + .mode-card {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+}
+
+.mode-option input[type="radio"]:checked + .mode-card {
+    border-color: var(--brand-primary);
+    background: rgba(0, 212, 170, 0.08);
+    box-shadow: 0 0 0 1px var(--brand-primary), var(--shadow-glow);
+}
+
+/* Identity stripe — left-edge accent that lights up only on the selected
+   card. Matches the sidebar active-link inset stripe so the "selected"
+   metaphor is consistent across the shell. */
+.mode-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 12px; bottom: 12px;
+    width: 3px;
+    background: var(--brand-primary);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+}
+
+.mode-option input[type="radio"]:checked + .mode-card::before {
+    opacity: 1;
+}
+
+/* Block-level icon chip. Must be `display: flex` (not inline-flex) — Chrome 58
+   on the BYD head-unit fails to expand an inline-flex container to its declared
+   width/height when the inline SVG child has no intrinsic dimensions, leaving
+   the icon collapsed to 0x0. Position relative + a centered absolute SVG would
+   also work, but plain `display: flex` matches modern browsers and is enough
+   once the SVGs themselves carry width/height attributes (see recording.html). */
+.mode-icon {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    box-sizing: border-box;
+    transition: background-color 200ms ease-out,
+                color 200ms ease-out,
+                border-color 200ms ease-out;
+}
+
+.mode-icon svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+    flex-shrink: 0;
+}
+
+.mode-option input[type="radio"]:checked + .mode-card .mode-icon {
+    background: var(--brand-primary);
+    border-color: var(--brand-primary);
+    color: var(--bg-base);
+}
+
+.mode-body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mode-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.2;
+    letter-spacing: 0;
+}
+
+.mode-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Trailing radio indicator — purely visual; the real input is .sr-only-ish.
+   A 2dp ring + a 10dp inner dot matches M3 radio anatomy. */
+.mode-radio {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid var(--border-default);
+    background: transparent;
+    transition: border-color 200ms ease-out;
+    flex-shrink: 0;
+}
+
+.mode-radio::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    transform: scale(0);
+    transition: transform 200ms cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+.mode-option input[type="radio"]:checked + .mode-card .mode-radio {
+    border-color: var(--brand-primary);
+}
+
+.mode-option input[type="radio"]:checked + .mode-card .mode-radio::after {
+    transform: scale(1);
+}
+
+/* "None" mode reads as the safer default; tag it with .mode-card-default so
+   the accent uses a muted ring instead of full primary fill. Optional — only
+   applies when the markup adds the modifier class. */
+.mode-card-default .mode-icon {
+    color: var(--text-muted);
+}
+
+/* ==================== PROXIMITY TIMELINE VISUAL ==================== */
+
+.timeline-visual {
+    display: flex;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 48px;
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.timeline-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    position: relative;
+}
+
+.timeline-segment.pre {
+    flex: 1;
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.3));
+    border-right: 2px solid rgba(59, 130, 246, 0.5);
+}
+
+.timeline-segment.event {
+    flex: 0 0 auto;
+    min-width: 100px;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(251, 146, 60, 0.3));
+    border-left: 2px solid rgba(239, 68, 68, 0.5);
+    border-right: 2px solid rgba(239, 68, 68, 0.5);
+}
+
+.timeline-segment.post {
+    flex: 2;
+    background: linear-gradient(90deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.3));
+    border-left: 2px solid rgba(34, 197, 94, 0.5);
+}
+
+.timeline-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #f1f5f9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-note {
+    font-size: 13px;
+    color: #94a3b8;
+    line-height: 1.5;
+    padding: 12px;
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #3b82f6;
+}
+
+.select-input {
+    padding: 10px 14px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 8px;
+    color: #f1f5f9;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 200px;
+}
+
+.select-input:hover {
+    border-color: rgba(148, 163, 184, 0.4);
+    background: rgba(15, 23, 42, 0.8);
+}
+
+.select-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.select-input option {
+    background: #0f172a;
+    color: #f1f5f9;
+    padding: 8px;
+}
+
+/* ==================== PROXIMITY BADGE ==================== */
+
+.recording-badge.proximity {
+    background: linear-gradient(135deg, #f97316, #fb923c);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 0 12px rgba(249, 115, 22, 0.3);
+}
+
+/* === LANGUAGE PICKER === */
+/* Globe chip in the sidebar footer. Inserts above the status card so it
+   reads as a control rather than a metric. */
+.lang-chip {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-md);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.lang-chip:hover {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-default);
+}
+.lang-chip-globe {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+.lang-chip-text {
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s;
+}
+
+/* Bottom-sheet picker. On wide screens it reads as a centered modal; on
+   narrow / head-unit displays it slides up from the bottom. */
+.lang-sheet-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 9000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+.lang-sheet-backdrop.open { opacity: 1; }
+
+.lang-sheet {
+    width: 100%;
+    max-width: 480px;
+    max-height: 80vh;
+    background: var(--bg-surface);
+    border-radius: 20px 20px 0 0;
+    display: flex;
+    flex-direction: column;
+    transform: translateY(100%);
+    transition: transform 0.28s cubic-bezier(0.32, 0.72, 0, 1);
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.5);
+}
+.lang-sheet-backdrop.open .lang-sheet { transform: translateY(0); }
+
+@media (min-width: 768px) {
+    .lang-sheet-backdrop { align-items: center; }
+    .lang-sheet { border-radius: 20px; }
+}
+
+.lang-sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--border-default);
+    border-radius: 2px;
+    margin: 10px auto 0;
+}
+
+.lang-sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px 12px;
+}
+.lang-sheet-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+.lang-sheet-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    color: var(--text-muted);
+    transition: background 0.15s, color 0.15s;
+}
+.lang-sheet-close:hover {
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+}
+.lang-sheet-close svg { width: 18px; height: 18px; }
+
+.lang-sheet-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 20px 12px;
+    padding: 10px 12px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-subtle);
+}
+.lang-sheet-search svg {
+    width: 16px;
+    height: 16px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+.lang-sheet-search input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 14px;
+}
+.lang-sheet-search input::placeholder { color: var(--text-muted); }
+
+.lang-sheet-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 8px 16px;
+    overflow-y: auto;
+    flex: 1;
+    -webkit-overflow-scrolling: touch;
+}
+.lang-sheet-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin: 2px 0;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+.lang-sheet-item:hover,
+.lang-sheet-item:focus { background: var(--bg-hover); outline: none; }
+.lang-sheet-item.active { background: rgba(0, 212, 170, 0.1); }
+.lang-sheet-name {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+.lang-sheet-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.lang-sheet-check {
+    width: 18px;
+    height: 18px;
+    color: var(--brand-primary);
+    flex-shrink: 0;
+}
+.lang-sheet-auto {
+    border-bottom: 1px solid var(--border-subtle);
+    margin-bottom: 6px;
+    padding-bottom: 14px;
+}
+.lang-sheet-auto .lang-sheet-name { color: var(--brand-primary); }
+
+/* === Modal (SOH battery-capacity picker) === */
+.modal-backdrop {
+    position: fixed;
+    /* Explicit edges instead of `inset: 0` — the shorthand was added in
+       Chrome 87 and the BYD head-unit WebView (Chrome 58) silently ignores
+       it, leaving the backdrop with no top/right/bottom/left and collapsing
+       it to content size. The result was a transparent 0×0 fixed element
+       with the modal-card floating at the upper-left of the viewport
+       instead of a full-screen overlay. */
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: var(--modal-backdrop);
+    /* z-index has to clear the WebView shell's footer-bar at 10000 (set in
+       WebViewFragment.kt's INJECT_JS) AND the toast container at 20000.
+       Without this, the bottom of the modal-card — where the action
+       buttons live — is overlaid by the Apply bar in the in-app WebView,
+       making "Remove image" / "Save" / "Cancel" untappable. */
+    z-index: 30000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+.modal-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    border-radius: 16px;
+    padding: 24px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    color: var(--text-primary);
+    box-shadow: var(--shadow-lg);
+}
+
+/* === SOH battery-capacity modal — theme-aware fields ===
+ * The legacy modal pinned colors inline (background:var(--bg-elevated) etc.)
+ * which read fine in dark mode but produced weak contrast on the light-theme
+ * surface. Pulling the rules out as classes lets each token resolve normally
+ * for the active theme. */
+.soh-modal-card {
+    /* Slightly more breathing room than .modal-card defaults; modal needs
+       to host two stacked field rows + a 3-button action row cleanly. */
+    padding: 22px 22px 18px;
+}
+.soh-modal-title {
+    margin: 0 0 18px 0;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0;
+    color: var(--text-primary);
+}
+.soh-modal-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 14px 0 6px;
+    font-weight: 600;
+}
+.soh-modal-label:first-of-type { margin-top: 0; }
+
+.soh-modal-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-default);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+    outline: none;
+    transition: border-color 160ms ease-out, box-shadow 160ms ease-out;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.soh-modal-input::placeholder { color: var(--text-muted); }
+.soh-modal-input:hover { border-color: var(--text-muted); }
+.soh-modal-input:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 2px rgba(0, 212, 170, 0.15);
+}
+
+.safe-zone-dialog {
+    max-width: 440px;
+}
+.safe-zone-dialog .soh-modal-label {
+    margin-top: 14px;
+}
+.safe-zone-dialog .soh-modal-title + .soh-modal-label {
+    margin-top: 0;
+}
+.safe-zone-dialog-radius-header {
+    margin-top: 4px;
+}
+.safe-zone-dialog-radius-header .soh-modal-label {
+    margin-bottom: 6px;
+}
+.safe-zone-dialog-range-labels {
+    margin-bottom: 0;
+}
+.safe-zone-dialog-error {
+    margin-top: 10px;
+    color: var(--danger);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+/* Capacity (number) — monospace digits read better than proportional. */
+.soh-modal-input-num {
+    font-family: var(--family-mono, 'JetBrains Mono', monospace);
+    font-size: 16px;
+    letter-spacing: 0.02em;
+}
+
+/* Model selector — site-consistent chevron, theme-aware option list. */
+.soh-modal-select {
+    padding-right: 36px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+}
+:root[data-theme="light"] .soh-modal-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23586068' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+.soh-modal-select option {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+}
+
+/* A WRAPPING button row: the community detail modal can show five buttons
+   (Edit / Unpublish / Report / Close / Add). flex `gap` is Chrome 84+ and is
+   silently ignored on the head-unit WebView, so the buttons butted together
+   there. Negative-inset shim (not sibling margins) because it must also space
+   the second and later LINES; the -4px inset keeps the row flush with the
+   modal's padding and folds into the 22px top margin (18 + 4). */
+.soh-modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin: 18px -4px 0;
+    flex-wrap: wrap;
+}
+.soh-modal-actions > * { margin: 4px; }
+
+/* Stacked-button fallback on narrow viewports so labels don't crash. */
+@media (max-width: 480px) {
+    /* Stacked: no horizontal shim to cancel, so drop the container's side insets
+       too — otherwise the buttons hang 4px past the modal on both edges. */
+    .soh-modal-actions {
+        flex-direction: column-reverse;
+        margin: 18px 0 0;
+    }
+    .soh-modal-actions > * { margin: 4px 0; }
+    .soh-modal-actions .btn { width: auto; align-self: stretch; }
+}
+/* No [dir="rtl"] mirror needed: the shim uses a symmetric `margin: 4px`, and
+   flex-direction/justify-content already flip with the document direction. */
+
+#sohCapacityRow:hover {
+    background: var(--bg-hover);
+}
+.soh-row-source {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+.soh-caption {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-top: 6px;
+    line-height: 1.35;
+}
+
+/* Storage fallback warning — shown under the storage-usage line when the
+   configured external volume (SD/USB) isn't the one we're actually writing
+   to (unmounted because USB power is off and the SD rides that rail, or the
+   volume is full), so clips silently land on internal storage. Tinted with
+   the warning token to draw the eye without alarming red. */
+.storage-fallback-warning {
+    color: var(--warning);
+    font-weight: 600;
+    margin-top: 4px;
+}

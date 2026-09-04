@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded: lock_reset (24px). Used for "Change PIN" row. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M11,9V7Q11,6.175 11.587,5.587Q12.175,5 13,5L17,5Q17.825,5 18.413,5.587Q19,6.175 19,7V9Q19.825,9 20.413,9.587Q21,10.175 21,11V19Q21,19.825 20.413,20.413Q19.825,21 19,21L11,21Q10.175,21 9.587,20.413Q9,19.825 9,19V11Q9,10.175 9.587,9.587Q10.175,9 11,9ZM11,19H19V11H11V19ZM15,17Q15.825,17 16.413,16.413Q17,15.825 17,15Q17,14.175 16.413,13.587Q15.825,13 15,13Q14.175,13 13.587,13.587Q13,14.175 13,15Q13,15.825 13.587,16.413Q14.175,17 15,17ZM13,9H17V7H13V9ZM3,13Q3,13 3,13Q3,13 3,13Q3,11.45 3.575,10.075Q4.15,8.7 5.225,7.6Q5.875,6.95 6.7,6.475Q7.525,6 8.45,5.7L8.45,7.825Q7.95,8.05 7.525,8.388Q7.1,8.725 6.65,9.175Q5.85,9.975 5.425,10.95Q5,11.925 5,13L5,13.05Z"/>
+</vector>

@@ -1,0 +1,1343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">OverDrive</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">Overdrive araç izlemesini arka planda etkin tutar. Bu hizmet ekran içeriğini okumaz veya onunla etkileşime girmez.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">İptal</string>
+    <string name="action_clear_plain">Temizle</string>
+    <string name="action_select_all">Tümünü seç</string>
+    <string name="action_select_all_short">Hepsi .</string>
+    <string name="action_delete">Sil</string>
+    <string name="action_share">Paylaş</string>
+    <string name="action_done">Yapıldı</string>
+    <string name="action_remind_me_later">Beni daha sonra hatırla .</string>
+    <string name="action_retry">Tekrar dene</string>
+    <string name="action_run">Kaç .</string>
+    <string name="action_clear_output">Açık Çıkış</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">Kamera</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">QR kodu</string>
+    <string name="cd_show_hide_token">Göster / Sakla İşaret</string>
+    <string name="cd_copy_token">Kopya Tokeni</string>
+    <string name="cd_copy_url">Kopya URL</string>
+    <string name="cd_clear_logs">Açık kütükler</string>
+    <string name="cd_expand_collapse">Genişleme / çökme</string>
+    <string name="cd_recording_status">Kayıt durumu</string>
+    <string name="cd_trip_tracking_status">Seyahat izleme durumu</string>
+    <string name="cd_mic_status">Mikrofon yakalama durumu</string>
+    <string name="cd_video_thumbnail">Video miniatürü</string>
+    <string name="cd_play">Oynat</string>
+    <string name="cd_back">Geri</string>
+    <string name="cd_play_pause">Çalışma/Aravalı</string>
+    <string name="cd_player_prev">Önceki kayıt</string>
+    <string name="cd_player_next">Sonraki kayıt</string>
+    <string name="cd_player_maximize">Oyuncunu en üst seviyeye çıkar</string>
+    <string name="cd_player_minimize">Dışarı çıkış tam ekran</string>
+    <string name="cd_player_mute">Ses değiştir</string>
+    <string name="cd_player_quadrant_all">Tüm kameraları göster</string>
+    <string name="cd_player_quadrant_front">Ön kamerayı göster</string>
+    <string name="cd_player_quadrant_right">Sağ kamerayı göster</string>
+    <string name="cd_player_quadrant_rear">Arka kamerayı göster</string>
+    <string name="cd_player_quadrant_left">Sol kamerayı göster</string>
+    <string name="cd_delete">Sil</string>
+    <string name="cd_share">Paylaş</string>
+    <string name="cd_expand">Genişle</string>
+    <string name="cd_configure">Yapılandırma</string>
+    <string name="cd_download_log">İndirme günlüğü</string>
+    <string name="cd_reset">Sıfırla</string>
+    <string name="cd_battery">Batarya</string>
+    <string name="cd_step_completed">Adım tamamlandı</string>
+    <string name="cd_permission_granted">Verilmiş izin</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">REC</string>
+    <string name="overlay_trip_inactive_label">YOLCULUK</string>
+    <string name="overlay_mic_inactive_label">MİK</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">Kaydı durdur</string>
+    <string name="overlay_mode_continuous_cd">Sürekli kayıt</string>
+    <string name="overlay_mode_drive_cd">Sürüş modu kaydı</string>
+    <string name="overlay_mode_proximity_cd">Yakınlık koruması kaydı</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">12:34:56\'da.</string>
+    <string name="log_entry_default_tag">- Hayır, hayır.</string>
+    <string name="log_entry_default_message">Kayıt mesajı buraya</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">Daemon Adı</string>
+    <string name="daemon_card_default_status">Durum mesajı</string>
+    <string name="daemon_card_subprocesses">İLKATLAR</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">Kaynaklar</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">Bağlantı...</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">Tarayıcı bulunamadı. Bağlantı kopyalandı: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">Giriş URL oluştur</string>
+    <string name="tailscale_scan_to_login">Giriş için taray</string>
+    <string name="tailscale_qr_waiting">URL girişini bekliyorum...</string>
+    <string name="tailscale_enable_proxy">Tailscale Proxy etkinleştir</string>
+    <string name="tailscale_proxy_explainer">MQTT\'den Tailscale\'e giden yollar, böylece port yönlendirmesi olmadan arka ağınızda özel bir broker\'a ulaşabilirsiniz.</string>
+    <string name="tailscale_proxy_warning">MQTT etkinleştirildiği sürece kamu ajanlarına (HiveMQ, AWS IoT, vb.)  Tailscale sadece kuyruk ağınıza giden yolları başarısız olacaktır.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">İçecek Modu</string>
+    <string name="camera_mode_subtitle">Öntanımlı olarak çoğu BYD modeline uygundur; AVM HAL\'ın önceden dikili 2x2 mozaik ürettiği daha yeni süslerde (Han / Tang 2024+) DiLink 4 gereklidir.</string>
+    <string name="camera_mode_option_default">Öntanımlı  Seal, Atto, Dolphin (çoğu araba) üzerinde çalışır</string>
+    <string name="camera_mode_option_dilink4">DiLink 4  yeni Han / Tang çeşitleri</string>
+    <string name="camera_mode_current_default">Geçerli: Öntanımlı</string>
+    <string name="camera_mode_current_dilink4">Akım: DiLink 4</string>
+    <string name="camera_mode_save">Uygulama modusu</string>
+    <string name="camera_mode_hint">Modu değiştirmek kamera daemon\'i yeniden başlatır. Eğer video yanlış görünüyorsa (squished, missing quadrants, red overlay), diğer modu deneyin.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">DiLink 4 Çeyreği Düzenlemeleri</string>
+    <string name="camera_dilink4_tweaks_subtitle">DiLink 4 yolu için araç başına ayarlamalar. DiLink 4 modunun yukarıda seçildiği zaman geçerlidir.</string>
+    <string name="camera_dilink4_save">Düzenlemeleri uygula</string>
+    <string name="camera_dilink4_hint">Daemon yeniden başlatma değişikliği uyguluyor.</string>
+    <string name="camera_dilink4_red_mask_label">Kırmızı kalibrasyon örtüsünü (GL) bastır</string>
+    <string name="camera_dilink4_red_mask_subtitle">Parlak kırmızı HAL \"kalibrasyon başarısız\" piksellerini tespit eden ve komşu bir örnekle (veya pankart boyamayacak kadar büyük olduğunda parlaklık gri) değiştiren bir parça-ölümleme geçişi ekler.</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">Kamera Seçimi</string>
+    <string name="camera_selection_subtitle">Panoramik kamera kaynağını seçin</string>
+    <string name="camera_current_auto">Akım: Otomatik</string>
+    <string name="camera_option_auto">Otomatik (başlatma sırasında tespit)</string>
+    <string name="camera_option_0">Kamera 0  Atto süsleri</string>
+    <string name="camera_option_1">Kamera 1  Seal (öntemli olarak)</string>
+    <string name="camera_option_2">Kamera 2</string>
+    <string name="camera_option_3">Kamera 3</string>
+    <string name="camera_option_4">Kamera 4</string>
+    <string name="camera_option_5">Kamera 5</string>
+    <string name="camera_selection_hint">Otomatik olarak her çubukta trim için doğru kamera seçilir. Kamera 1 = BYD Seal, Kamera 0 = Atto trimler. Kurulumun yürürlüğe girmesi için kamera kimliğini değiştirdikten sonra daemon\'u yeniden başlatın.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">OEM Dashcam Kamera Kimliği</string>
+    <string name="camera_oem_dashcam_hint">Ön dashcam sensörünü gösteren AVMCamera kimliğini seçin. Dashcam pano\'nun TERSİDİR: Seal/Han pano = 1 → dashcam = 0; Atto / Tang pano = 0 → dashcam = 1. OverDrive\'ın seçmesi için Auto\'da bırakın.</string>
+    <string name="camera_oem_dashcam_auto_resolved">Otomatik — id %1$d kullanılıyor (pano id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">Otomatik — pano id %1$d, dashcam çıkarılamıyor</string>
+    <string name="camera_oem_dashcam_save">Kaydet</string>
+    <string name="camera_concurrent_probe_label">Sonraki açılışta çift kamera desteğini test et</string>
+    <string name="camera_concurrent_probe_subtitle">Bu aracın pano + araç kamerasını eşzamanlı çalıştırabildiğini doğrulamak için her iki kamerayı aynı anda açan tek seferlik bir kontrol. Park halindeyken bir sonraki yeniden başlatmada bir kez çalışır. Kayıtlar hatalı görünmedikçe KAPALI bırakın — gerekli değildir ve çalışırken etkin bir kayıt varsa onu kısa süreliğine kesintiye uğratabilir.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">Kamera 0 — Seal / Han (varsayılan)</string>
+    <string name="camera_oem_option_1">Kamera 1 — Atto / Tang</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">Kamera Haritası</string>
+    <string name="camera_role_label">Rol haritası</string>
+    <string name="camera_candidate_previous">Önceki</string>
+    <string name="camera_candidate_next">İleri</string>
+    <string name="camera_preview_unavailable">Ön görünüm henüz mevcut değil. Başka bir aday deneyin veya daemon yeniden başlatıldıktan sonra iletişim kutusunu yeniden açarak yenilenti yapın.</string>
+    <string name="camera_mapping_save">Haritayı kaydet</string>
+    <string name="camera_mapping_clear">Açık bir rol</string>
+    <string name="camera_mapping_saved">Kamera haritası kaydedildi.</string>
+    <string name="camera_mapping_cleared">Kamera rol haritası temizlendi.</string>
+    <string name="camera_mapping_summary_format">Panoramik akış: Kamera %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">Panoramik akış: Miras otomatik tespit / araştırma</string>
+    <string name="camera_mapping_current_format">Akım haritası: %1$s</string>
+    <string name="camera_mapping_current_none">Akım haritası: Otomatik / Varsayılan</string>
+    <string name="camera_mapping_hint">OverDrive varsayılan olarak eski başlangıç davranışını korur, ancak şimdi birleşik panoramik şeridi düzgün kalibre etmenizi sağlar. Her çiğ birleşik parçayı önceden görüntüleyin, mantıksal 360 rollerini aracınızda ön/sağ/arktaki/sol gösterilen parçaya haritasınız ve daemon bu düzeni kaydetme, akış ve AI için yeniden başlatıldıktan sonra tekrar kullanacaktır.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">Bağlantı için taray</string>
+    <string name="dashboard_qr_waiting">Tünel için bekliyordum...</string>
+    <string name="dashboard_daemons_running_default">0/5 Çıkıyor</string>
+    <string name="dashboard_device_id_loading">- Evet .</string>
+    <string name="dashboard_access_code">Erişim Kodu</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">Yeniden Yükleme İşaretleri</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">Başlamak</string>
+    <string name="setup_guide_subtitle">En iyi deneyimi elde etmek için üç hızlı adım:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2</string>
+    <string name="setup_step_three_label">3</string>
+    <string name="setup_language_title">Dilinizi Seçin</string>
+    <string name="setup_language_body">OverDrive uygulaması ve web tüneli için farklı bir dil seçmek için basın.</string>
+    <string name="setup_language_button">Dil Seç</string>
+    <string name="setup_autostart_title">Otomatik Başlatma Sınırını Engelle</string>
+    <string name="setup_autostart_body">BYD Otomatik Başlatma açmak için aşağıdakine tıklayın. OverDrive listesinde bulun ve kutuyu açın. BYD bunu her yüklemede siler  güncelleştirmelerden sonra yeniden yapacaksınız.</string>
+    <string name="setup_autostart_button">BYD Otomatik Başlatma Aç</string>
+    <string name="setup_overlay_title">Diğer Uygulamalarda Gösterilmesine İzin Ver</string>
+    <string name="setup_overlay_body">Diğer uygulamalar üzerinde kaydetme ve seyahat izleme için yüzen bir durum göstergesi göstermek için bunu etkinleştirin.</string>
+    <string name="setup_overlay_button">Açık Ekleme Ayarları</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">Kapat</string>
+    <string name="language_picker_title">Dil</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">%1$d dilleri mevcut</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">Dil seçin</string>
+    <string name="language_auto_title">Otomatik</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">İzleme sistemi · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · Otomatik</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">$</string>
+    <string name="adb_command_hint">Komutanlığı girin...</string>
+    <string name="adb_preset_commands_header">Öntanımlı komutlar</string>
+    <string name="adb_output_header">Çıktı</string>
+    <string name="adb_output_ready">Komutlara hazır...</string>
+    <string name="adb_console_hero_title">ADB Konsolu</string>
+    <string name="adb_console_hero_subtitle">Cihazda Shell komutlarını çalıştır</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">Karga...</string>
+    <string name="webview_camera_daemon_not_running">Kamera Daemon çalışmıyor .</string>
+    <string name="webview_start_camera_daemon">Bu sayfaya erişmek için Kamera Daemon\'unu Daemon ekranından başlatın.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">İşaret etkinleştir</string>
+    <string name="zrok_token_storage_note">Token güvenli bir şekilde saklanır ve uygulama ve daemon süreçleri arasında paylaşılar.</string>
+    <string name="zrok_reset_environment">Zrok Çevresini Yeniden Oturt</string>
+    <string name="zrok_reset_environment_desc">Çevre ve token çıkarır. token ile yeniden etkinleştirmeniz gerekir (bir cihaz yuvasını kullanır).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">Verileri Yeniden Oturt</string>
+    <string name="reset_subtitle">Toplanan verileri kategoriye göre sil</string>
+    <string name="reset_warning">Bu işlem iptal edilemez. Kayıtlar, yolculuklar ve pil geçmişi kalıcı olarak silinecektir.</string>
+    <string name="reset_cat_trips">Seyahatler</string>
+    <string name="reset_cat_trips_desc">Gezinti tarihi, rotalar, haftalık/aylık uçuşlar</string>
+    <string name="reset_cat_soc_history">SoC &amp; 12V tarihi</string>
+    <string name="reset_cat_soc_history_desc">SoC örnekleri, şarj seansları, voltaj kayıtları</string>
+    <string name="reset_cat_soh">SoH kalibrasyonu</string>
+    <string name="reset_cat_soh_desc">İsimsel kapasiteyi yeniden tespit eder, BMS\'den yeniden tohumların tahminini</string>
+    <string name="reset_cat_abrp_token">ABRP simgesi</string>
+    <string name="reset_cat_abrp_token_desc">ABRP telemetrisi tamir edilene kadar devre dışı bırakılır</string>
+    <string name="reset_cat_byd_cloud">BYD Bulut Sertifikaları</string>
+    <string name="reset_cat_byd_cloud_desc">Kullanıcı adı, giriş anahtarı, VIN  yeniden giriş gereklidir</string>
+    <string name="reset_cat_recordings">Kayıtlar (videolar)</string>
+    <string name="reset_cat_recordings_desc">Kayıtlar klasöründeki tüm MP4\'ler</string>
+    <string name="reset_cat_sentry_events">Gözetim etkinlikleri</string>
+    <string name="reset_cat_sentry_events_desc">Gözetim etkinliği klipleri ve JSON yan arabaları</string>
+    <string name="reset_cat_proximity">Yakınlık kayıtları</string>
+    <string name="reset_cat_proximity_desc">Radarla tetiklenen etkinlik MP4\'leri</string>
+    <string name="reset_cat_trip_files">Yolculuk Telemetri Dosyaları</string>
+    <string name="reset_cat_trip_files_desc">JSON\'in bir yolculuk için disket telemetrisi</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">Herhangi bir</string>
+    <string name="recording_lib_chip_person">Kişiler</string>
+    <string name="recording_lib_chip_vehicle">Araç</string>
+    <string name="recording_lib_chip_bike">Bisiklet</string>
+    <string name="recording_lib_chip_animal">Hayvan</string>
+    <string name="recording_lib_chip_alert">Uyarı</string>
+    <string name="recording_lib_chip_critical">Kritik</string>
+    <string name="recording_lib_selected_count_zero">0 seçili</string>
+    <string name="recording_lib_no_recordings">Kayıt yok.</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">Filtre</string>
+    <string name="recording_lib_filter_button_active">Filtre · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">Filtre kayıtları</string>
+    <string name="recording_lib_filter_apply">Uygula</string>
+    <string name="recording_lib_filter_reset">Sıfırla</string>
+    <string name="recording_lib_filter_section_what">Ne oldu?</string>
+    <string name="recording_lib_filter_section_severity">Ağırlık</string>
+    <string name="recording_lib_filter_section_type">Tür</string>
+    <string name="recording_lib_filter_section_place">Yer</string>
+    <string name="recording_lib_place_search_hint">Yer ara…</string>
+    <string name="recording_lib_chip_type_normal">Normal</string>
+    <string name="recording_lib_chip_type_proximity">Yakınlık</string>
+    <string name="recording_lib_date_today">Bugün</string>
+    <string name="recording_lib_date_yesterday">- Dün .</string>
+    <string name="recording_lib_clip_count">%1$d klipleri</string>
+    <string name="recording_lib_clip_count_one">%1$d klipi</string>
+    <string name="recording_lib_pick_date">Bir randevu seç .</string>
+    <string name="recording_lib_date_all_days">Tüm Günler</string>
+    <string name="cd_clear_date_filter">Tüm günleri göster</string>
+    <string name="recording_lib_section_morning">Sabah .</string>
+    <string name="recording_lib_section_afternoon">Günaydın .</string>
+    <string name="recording_lib_section_evening">Akşam</string>
+    <string name="recording_lib_section_night">Gece .</string>
+    <string name="cd_previous_day">Önceki gün</string>
+    <string name="cd_next_day">Ertesi gün</string>
+    <string name="cd_open_filters">Açık filtreler</string>
+    <string name="cd_clear_filter">Açık filtre</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">Eşleşen kayıt yok</string>
+    <string name="recording_lib_empty_body">Tarih aralığınızı veya çip filtrelerinizi ayarlamayı deneyin.</string>
+    <string name="recording_lib_empty_clear_filters">Filtreleri temizle</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">Henüz kayıt yok</string>
+    <string name="recording_lib_empty_disk_body">Dashcam veya gözetim hattı bir klip yazar yazmaz görüntüler burada görünür.</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">Kitaplık dizini oluşturuluyor</string>
+    <string name="recording_lib_building_index_body">Daemon kayıtlarınızı tararken bir dakika bekleyin.</string>
+    <string name="recording_lib_building_index_progress">%2$d klipten %1$d tanesi dizinlendi…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">CAM</string>
+    <string name="recording_lib_type_event">OLAY</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">OEM</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">%1$d kayıt paylaşılıyor</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">Kayıt</string>
+    <string name="player_time_zero">Saat 0: 00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">Arka plan hizmetleri</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">Kargo hizmetleri...</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d\'nin %2$d\'i çalıştırmak</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">Güncellemeye hazırlanıyorum...</string>
+    <string name="update_percent_zero">% 0</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">Batarya Sağlığı</string>
+    <string name="battery_health_subtitle">Sağlık durumu</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">Verileri bekliyoruz...</string>
+    <string name="battery_health_source">Kaynak</string>
+    <string name="battery_health_method">Metod</string>
+    <string name="battery_health_capacity">Kapasite</string>
+    <string name="battery_health_samples">Örnekler</string>
+    <string name="battery_health_last_updated">Son Güncelleştirilmiş</string>
+    <string name="battery_health_reset">SOH Tahmini Yeniden Değiştir</string>
+    <string name="battery_health_reset_desc">Tüm verileri temizler ve sıfırdan yeniden değerlendirir.</string>
+    <string name="soh_dialog_model_label">Model</string>
+    <string name="soh_dialog_pack_capacity_label">Paket kapasitesi</string>
+    <string name="soh_dialog_estimated_capacity_label">Etkili kapasite</string>
+    <string name="soh_dialog_calibration_anchor_label">Son kalibrlenmiş</string>
+    <string name="soh_dialog_source_user">Kullanıcı seti</string>
+    <string name="soh_dialog_source_auto">Otomatik olarak tespit edilir</string>
+    <string name="soh_dialog_model_not_selected">Seçilmemiş</string>
+    <string name="soh_dialog_capacity_not_detected">tespit edilmedi</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% %2$s üzerinde</string>
+    <string name="soh_dialog_frame_anchor_label">Gözlem edilen tam yükümlülük</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh tam olarak gözlemlenmiştir (%2$d/%3$d örnekleri)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh tam olarak gözlemlenmiştir (%2$d/%3$d örnekleri toplanmaktadır)</string>
+    <string name="soh_dialog_frame_mismatch_title">Paket kapasitesi çerçevesinin uygunsuzluğu</string>
+    <string name="soh_dialog_frame_mismatch_format">Araç tam şarj ile %1$.1f kWh rapor eder, ancak paket kapasitesi %2$.1f kWh olarak ayarlanmıştır. Yukarıdaki rakam, gerçek bir bozulma değil, birim eşleşmezliğini yansıtabilir. Araç raporlarını eşleştirmek için %1$.1f kWh\'i girmeyi düşünün.</string>
+    <string name="soh_dialog_use_observed_value">Gözlenen değeri kullan</string>
+    <string name="soh_dialog_use_observed_value_pending">Kaydediliyor…</string>
+    <string name="toast_soh_observed_value_saved">Paket kapasitesi %1$.1f kWh\'ye güncellenmiştir.</string>
+    <string name="toast_soh_observed_value_failed">Paket kapasitesini güncelleyememiştim (%1$s).</string>
+    <string name="diagnostics_battery_needs_review">İnceleme gerekli</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">Tamam</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="one">%d kaydı kaldırıldı</item>
+        <item quantity="other">%d kayıtları silindi</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="one">%d Kayıtını Sil</item>
+        <item quantity="other">%d Kayıtlarını Sil</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="one">%d kayıtlarını kalıcı olarak siler.</item>
+        <item quantity="other">Bu %d kayıtlarını kalıcı olarak siler.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">%1$s\'e güncellenmiştir</string>
+    <string name="toast_update_install_failed">Güncelleme yükleme başarısız oldu: %1$s</string>
+    <string name="toast_checking_for_updates">Güncellemeleri kontrol ediyorum...</string>
+    <string name="toast_app_up_to_date">Uygulama güncel (v%1$s)</string>
+    <string name="toast_update_check_failed">Güncelleme kontrol başarısız oldu: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">Güncelleme mevcut</string>
+    <string name="update_dialog_subtitle">Daha yeni bir sürüm yüklenmeye hazır</string>
+    <string name="update_dialog_current">Mevcut: v%1$s</string>
+    <string name="update_dialog_new">Yeni: v%1$s</string>
+    <string name="update_dialog_current_label">Yüklendi</string>
+    <string name="update_dialog_new_label">Yeni sürüm</string>
+    <string name="update_dialog_whats_new">Yenilikler</string>
+    <string name="update_dialog_install_now">Şimdi yükle</string>
+    <string name="update_dialog_later">Daha sonra</string>
+    <string name="update_picker_title">Bir sürüm seçin</string>
+    <string name="update_picker_subtitle">Yayınlanmış herhangi bir sürümü yükleyin — yeni veya eski</string>
+    <string name="update_picker_empty">Henüz sürüm yayınlanmadı.</string>
+    <string name="update_picker_current_suffix">%1$s (yüklü)</string>
+    <string name="update_picker_older_suffix">%1$s (eski)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">Overdrive güncelleniyor</string>
+    <string name="update_step_downloading">Güncelleme indiriliyor…</string>
+    <string name="update_step_verifying">İndirme doğrulanıyor…</string>
+    <string name="update_step_stopping">Daemon\'lar durduruluyor…</string>
+    <string name="update_step_installing">Güncelleme yükleniyor…</string>
+    <string name="update_step_installed">Güncelleme yüklendi</string>
+    <string name="update_step_restarting">Uygulama yeniden başlatılıyor…</string>
+    <string name="update_step_queued">Güncelleme başlatılıyor…</string>
+    <string name="update_error_title">Güncelleme başarısız</string>
+    <string name="update_error_daemon_down">Kamera servisi çalışmıyor. Servisler ekranından başlatın, ardından tekrar güncellemeyi deneyin.</string>
+    <string name="update_error_start_failed">Güncelleme başlatılamadı: %1$s</string>
+    <string name="update_error_lost_headunit">Yükleme bitmeden ana üniteyle bağlantı kesildi. Bir tünelde misiniz? Yeni URL için Telegram\'ı kontrol edin veya yerel IP\'yi kullanın.</string>
+    <string name="update_hide">Gizle</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">Güncelleme kanalı</string>
+    <string name="settings_update_channel_alpha">Alfa</string>
+    <string name="settings_update_channel_braveheart">Braveheart</string>
+    <string name="settings_update_channel_alpha_desc">Kararlı sürüm. Yayınlanan her sürüm saklanır — yüklemek için herhangi birini seçin (eski sürüme geçişe izin verilir). Günlük kullanım için önerilir.</string>
+    <string name="settings_update_channel_braveheart_desc">Yayınlandıkları anda sunulan en yeni sürümler. Yeni özelliklere ilk siz sahip olursunuz, ancak bunlar kararsız veya hatalı olabilir. Bir sorun oluşursa, Servisler ekranını açın, bir servisin günlüğüne dokunun, \"Yükle ve kod al\" seçeneğini seçin ve kodu topluluk kanallarımızda bizimle paylaşın.</string>
+    <string name="settings_update_channel_save_failed">Güncelleme kanalı kaydedilemedi</string>
+    <string name="settings_update_channel_braveheart_toast">Braveheart\'a geçildi. Sürümler kararsız olabilir — bir sorun oluşursa, servis günlüğünü gönderin ve Discord/GitHub/WhatsApp üzerinden bildirin.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">Kayıtlar için gerekli depolama izni</string>
+    <string name="toast_url_copied_short">URL kopyalandı!</string>
+    <string name="toast_camera_set_to_auto">Otomatik olarak ayarlanmış kamera</string>
+    <string name="toast_failed_to_save_short">Kurtaramadım.</string>
+    <string name="toast_failed_with_message">Başarısız: %1$s</string>
+    <string name="toast_camera_id_set">Kamera %1$d seti  sonraki ACC döngüsü</string>
+    <string name="toast_clearing_camera_config">Kamera konfigürasyonunu temizliyorum...</string>
+    <string name="toast_restarting_camera_daemon">Kamera demonu yeniden başlatmak...</string>
+    <string name="toast_camera_daemon_restarting">Kamera demonu tam sonda ile yeniden başlatılıyor</string>
+    <string name="toast_camera_restart_failed">Yapılandırma temizlendi ama daemon yeniden başlatılamadı. Lütfen elle yeniden başlatın.</string>
+    <string name="toast_camera_settings_saved_restarting">Kamera ayarları kaydedildi  kamera demonu yeniden başlatmak...</string>
+    <string name="toast_camera_settings_restart_failed">Kamera ayarları kaydedildi ama daemon yeniden başlatılamadı.</string>
+    <string name="toast_failed_with_message_x">Başarısız: %1$s</string>
+    <string name="toast_soh_reset_success">SOH tahminini yeniden ayarlamak  sonraki verilerden yeniden hesaplanacak</string>
+    <string name="toast_soh_reset_failed_no_daemon">Yeniden ayarlama başarısız  daemon cevap vermiyor ve dosya yazılamaz</string>
+    <string name="toast_soh_reset_failed_with_message">Yeniden ayarlama başarısız oldu: %1$s</string>
+    <string name="toast_select_at_least_one_category">En az bir kategori seçin</string>
+    <string name="toast_reset_failed_with_error">Yeniden ayarlama başarısız oldu: %1$s</string>
+    <string name="toast_traffic_monitor_changing">%1$s trafik monitörü...</string>
+    <string name="dialog_close">Kapat</string>
+    <string name="dialog_reset">Sıfırla</string>
+    <string name="dialog_delete">Sil</string>
+    <string name="dialog_save">Kaydet</string>
+    <string name="dialog_enable">Etkinleştir</string>
+    <string name="dialog_disable">Devre dışı</string>
+    <string name="dialog_keep_enabled">İzin Vermeye Devam Edin</string>
+    <string name="dialog_keep_disabled">Engelli Kalın</string>
+    <string name="dialog_regenerate">Yenilenme</string>
+    <string name="dialog_reset_selected">Seçili Yeniden Oturtma</string>
+    <string name="dialog_reset_soh_title">SOH Tahmini yeniden ayarlayalım mı?</string>
+    <string name="dialog_reset_soh_message">Bu, tüm SOH verilerini temizleyecek ve sıfırdan yeniden değerlendirmeyi zorlayacaktır.\n\nBattery değiştirildiyse bunu kullanın\n• SOH okuma yanlış görünüyor\n• Yeniden kalibrlemek isterseniz\n\nSistem bir sonraki mevcut veri kaynağından (OEM, şarj kalibrasyonu veya anlık okuma) yeniden üretecektir.</string>
+    <string name="dialog_reset_following_title">Aşağıdakileri yeniden ayarlıyor musun?</string>
+    <string name="dialog_reset_following_message">Bu geri alınamaz.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Yeniden ayarlama tamamlandı</string>
+    <string name="dialog_traffic_cannot_check_title">Durumu kontrol edemiyorum</string>
+    <string name="dialog_traffic_cannot_check_message">ADB bağlantısı henüz hazır değil.\n\nSistem paketlerini yönetmek için uygulamaya ADB erişimi gerekir. Lütfen emin olun:\n\n• USB Debugging geliştiricisi seçeneklerinde etkinleştirilmiştir\n• ADB yetki sorusu kabul edilmiştir\n\nStatus otomatik olarak bağlandıktan sonra güncellenir.</string>
+    <string name="dialog_traffic_disable_title">BYD Trafik Gözlemini devre dışı bırakmak mı?</string>
+    <string name="dialog_traffic_disable_message">BYD Traffic Monitor (com.byd.trafficmonitor) arka planda yol trafiği koşullarını sürekli olarak izleyen bir sistem uygulamasıdır.\n\n️ Neden devre dışı bırakın?\n\n• Mobil verileri tüketir (parkedildiğinde bile)\n• ZCPU ve arka planda pil kullanır\n• Ayrı bir navigasyon uygulaması kullanırsanız gerekmez\n• Dashcam\'ın ağ kullanımına müdahale edebilir\n\nBu, sadece haritada yerleşmiş trafik örtüsünü etkilemektedir. Navigasyonunuz, ZBluetooth ve diğer tüm otomobil fonksiyonları etkilenmez kalır.\n\n\nBir sert yeniden başlatma devre dışı bırakıldıktan sonra gereklidir (orta konsol düğmesini 5 saniye tutun).</string>
+    <string name="dialog_traffic_enable_title">BYD Trafik Monitörü yeniden etkinleştirmek mi?</string>
+    <string name="dialog_traffic_enable_message">BYD Traffic Monitor şu anda devre dışı.\n\nOnun yeniden etkinleştirilmesi, gezinme haritasındaki yerleşik trafik örtüsünü geri getirecektir.Arka planda çalışacak ve mobil verileri tüketeceğini unutmayın.\n\nOnun etkinleştirildikten sonra sert bir yeniden başlatma gereklidir (orta konsol düğmesini 5 saniye tutun).</string>
+    <string name="dialog_traffic_status_title">Trafik İzleyicisi %1$s</string>
+    <string name="dialog_traffic_reboot_message">Değişim uygulandı. Lütfen şimdi sert bir yeniden başlatma yapın:</string>
+    <string name="traffic_monitor_loading">Trafik monitörü: Kontrol...</string>
+    <string name="traffic_monitor_tap_to_check">Trafik monitörü (kontrol etmek için dokun)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">Seyahatler</string>
+    <string name="reset_label_soc_history">SoC + 12V tarihi</string>
+    <string name="reset_label_soh">SoH kalibrasyonu</string>
+    <string name="reset_label_abrp_token">ABRP simgesi</string>
+    <string name="reset_label_byd_cloud">BYD Bulut Sertifikaları</string>
+    <string name="reset_label_recordings">Kayıtlar</string>
+    <string name="reset_label_sentry_events">Gözetim etkinlikleri</string>
+    <string name="reset_label_proximity">Yakınlık kayıtları</string>
+    <string name="reset_label_trip_files">Yolculuk Telemetri Dosyaları</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">Giriş kodu kopyalandı</string>
+    <string name="dialog_regenerate_token_title">Yeniden Yükleme İşaretleri</string>
+    <string name="dialog_regenerate_token_message">Bu, mevcut token\'ı geçersiz kılacak.</string>
+    <string name="toast_token_regenerated_logged_out">Yeni bir token oluşturuldu.</string>
+    <string name="toast_token_regenerated_restart">Daemon uygulamak için yeniden başlatılması gerekebilir.</string>
+    <string name="toast_token_regenerated_no_notify">Token yenilenmiş, daemon\'u haberdar edemedim.</string>
+    <string name="toast_token_regenerated">Token Yenilenmiş</string>
+    <string name="dashboard_no_tunnel">Hiç tünel yürümedi .</string>
+    <string name="dashboard_starting_zrok">Zrok tünelini başlatıyorum...</string>
+    <string name="dashboard_starting_cloudflared">Cloudflared tüneli başlatılıyor…</string>
+    <string name="dashboard_starting_tailscale">Tailscale tünelini başlatıyorum...</string>
+    <string name="dashboard_waiting_url">URL tünelini bekliyoruz...</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d Çalışma</string>
+    <string name="tunnel_label_cloudflared">Cloudflared</string>
+    <string name="tunnel_label_zrok">Zrok</string>
+    <string name="tunnel_label_tailscale">Tailscale</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">Kamera Daemon</string>
+    <string name="daemon_name_surveillance">Gözlem Daemon</string>
+    <string name="daemon_name_acc_surveillance">ACC Denetim</string>
+    <string name="daemon_name_singbox">Sing-box Proxy</string>
+    <string name="daemon_name_cloudflared">Cloudflared Tunel</string>
+    <string name="daemon_name_zrok">Zrok Tunel</string>
+    <string name="daemon_name_tailscale">Tailscale Tunel</string>
+    <string name="daemon_name_telegram">Telegram Bot</string>
+    <string name="clip_label_access_code">Erişim Kodu</string>
+    <string name="clip_label_url">URL</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">%1$s için yapılandırma gerekmez</string>
+    <string name="dialog_zrok_token_title">Zrok tünel simgesi</string>
+    <string name="dialog_zrok_token_message">Zrok etkinleştirme simgelerinizi girin.</string>
+    <string name="toast_token_cannot_be_empty">İşaret boş olamaz .</string>
+    <string name="dialog_tailscale_settings_title">Tailscale Tunel Ayarları</string>
+    <string name="dialog_tailscale_settings_message">Tailscale\'i yapılandır</string>
+    <string name="tailscale_failed_login_url">Giriş URL\'si oluşturulamadı</string>
+    <string name="tailscale_logged_in_relogin">Giriş. Farklı bir hesabına giriş için tıklayın</string>
+    <string name="dialog_tailscale_proxy_enable_title">Tailscale Proxy\'yi etkinleştirmek mi?</string>
+    <string name="dialog_tailscale_proxy_enable_message">Bu yollar MQTT ile Tailscale arasındadır, böylece port yönlendirmesi olmadan arka ağınızda özel bir broker\'a ulaşabilirsiniz.\n\nEğer etkinleştirilmişse:\n• MQTT\'e arka ağ broker\'ı çalıştırırsa (örneğin arka ağınızdaki bir cihazda Mosquitto)\n• MQTT\'e kamu brokerlerine (HiveMQ, AWS IoT, vb.) başarısız olur  Tailscale sadece arka ağınıza giden yolları\n• Tailscale daemon değişimi uygulayarak yeniden başlatılır\n• Diğer uygulama trafiği ve cihazın geri kalanı etkilenmez\n\n•Bunu herhangi bir zamanda kapatmanız mümkün.</string>
+    <string name="dialog_zrok_reset_title">Zrok Çevresini Yeniden Oturt</string>
+    <string name="dialog_zrok_reset_message">Bu:\n• Zrok tünelini durdurur eğer çalışır\n• Zrok ortamını bu cihazdan çıkarın\n• Kaydedilen token\'u silin\n\nToken\'inizi yeniden girmeniz ve yeniden etkinleştirmeniz gerekir. Bu zrok.io\'daki 5 cihaz yuvasından birini kullanır.\n\nEmin misiniz?</string>
+    <string name="toast_resetting_zrok">Zrok ortamını yeniden ayarlayın...</string>
+    <string name="toast_zrok_reset_success">Zrok ortamı yeniden ayarlayın. Yeniden ayarlamak için yeni bir token girin.</string>
+    <string name="toast_zrok_reset_partial">Çevre sıfırlaması (token dosyası manuel temizlenmeye ihtiyaç duyabilir)</string>
+    <string name="toast_zrok_reset_warnings">Çevre sıfırlaması (açıklamalarla: %1$s)</string>
+    <string name="zrok_no_token_configured">İşaret yapılandırılmamış.</string>
+    <string name="dialog_tailscale_reset_title">Tailscale Çevresini Yeniden Oturt</string>
+    <string name="dialog_tailscale_reset_message">Bu işlem:\n• Çalışıyorsa Tailscale tünelini durdurur\n• Tailscale ortamını bu cihazdan kaldırır\n• Cihazı Tailscale konsolundan da kaldırmanız gerekir\n\nTekrar giriş yapmanız gerekecek.\n\nEmin misiniz?</string>
+    <string name="toast_resetting_tailscale">Tailscale ortamı sıfırlanıyor…</string>
+    <string name="toast_tailscale_reset_success">Tailscale ortamı yeniden ayarlayın.</string>
+    <string name="toast_tailscale_reset_warnings">Tailscale ortamı yeniden ayarlandı (açıklamalarla: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">Tailscale vekili etkinleştirildi</string>
+    <string name="toast_tailscale_proxy_disabled">Tailscale vekili devre dışı bırakıldı</string>
+    <string name="toast_tailscale_proxy_save_failed">Vekil ayarlarını kaydetmek başarısız oldu</string>
+    <string name="toast_zrok_token_saved">Kaydedilen token</string>
+    <string name="toast_zrok_token_save_failed">Token kaydetmeyi başaramadım</string>
+    <string name="toast_zrok_token_deleted">İşaret silinmiş</string>
+    <string name="toast_zrok_token_delete_failed">Token silmeyi başaramadı</string>
+    <string name="toast_fetching_log">%1$s logunu getirmek...</string>
+    <string name="toast_log_empty_or_missing">Günlük dosyası boş veya bulunamadı</string>
+    <string name="toast_log_empty">Günlük dosyası boş</string>
+    <string name="toast_daemon_manager_unavailable">Daemon yöneticisi hazır değil, bir an sonra tekrar dene.</string>
+    <string name="toast_log_save_failed">Kayıt kaydedilemedi: %1$s</string>
+    <string name="toast_log_not_found">Günlük dosyası bulunamadı veya okunamıyor</string>
+    <string name="log_share_title">%1$s Günlüğü - %2$s</string>
+    <string name="log_share_chooser">Paylaşım %1$s Log</string>
+    <string name="log_header_title">%1$s Log</string>
+    <string name="log_header_source">Kaynak: %1$s</string>
+    <string name="log_header_exported">İhracat: %1$s</string>
+    <string name="log_header_truncated">NOT: 10000 satır boyunca kısaltılmış kütüphane (toplamı: %1$d satırlar)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">%1$s günlüğünü gönder</string>
+    <string name="logs_send_title_plain">Servis günlüğünü gönder</string>
+    <string name="logs_send_subtitle">%1$s · bize nasıl göndereceğinizi seçin</string>
+    <string name="logs_send_upload">Yükle ve kod al</string>
+    <string name="logs_send_upload_desc">Günlüğü bize gönderir ve size kısa bir kod verir. Destek için en kolay yol.</string>
+    <string name="logs_send_share">Dosyayı paylaş…</string>
+    <string name="logs_send_share_desc">Günlüğü paylaşım sayfası aracılığıyla kendiniz kaydedin veya gönderin.</string>
+    <string name="logs_uploading_title">Günlük yükleniyor…</string>
+    <string name="logs_uploading_subtitle">Gizli bilgiler gizleniyor ve güvenli bir şekilde gönderiliyor</string>
+    <string name="logs_uploaded_title">Günlük yüklendi</string>
+    <string name="logs_uploaded_instructions">Bu kodu, sorun oluştuğunda ne yaptığınıza dair bir notla birlikte bizimle paylaşın. Discord, GitHub Issues veya WhatsApp\'ta yayınlayın — bağlantılar Hakkında ekranında bulunmaktadır.</string>
+    <string name="logs_uploaded_privacy">Gizli bilgiler gizlendi · günlük otomatik olarak sona erer</string>
+    <string name="logs_copy_code">Kodu kopyala</string>
+    <string name="logs_done">Bitti</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">Ağ hatası</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">Video çalılamıyor: %1$s</string>
+    <string name="dialog_delete_recording_title">Kayıtları Sil</string>
+    <string name="dialog_delete_recording_message">%1$s\'i sil?</string>
+    <string name="toast_recording_deleted">Kayıt kaldırıldı</string>
+    <string name="toast_recording_delete_failed">Kayıt silinemedi</string>
+    <string name="toast_batch_delete_partial">%1$d silindi, %2$d başarısız oldu</string>
+    <string name="play_with_chooser">Oynayın .</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">V%1$s\'ye güncellenmiş  Otomatik başlatmayı yeniden onaylayın, BYD onu her kurulumda siler</string>
+    <string name="setup_overlay_already_granted">Zaten verildi</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">İpuç ve sorun çözme</string>
+    <string name="setup_traffic_title">BYD Trafik Monitörü Etkinleştir</string>
+    <string name="setup_traffic_body">BYD Traffic Monitor üçüncü taraf uygulamaların internet\'e ulaşmasını engeller. Bu uygulamayı devre dışı bırakmak, OverDrive ve yüklediğiniz diğer uygulamaların ağı kullanmasına izin verir.</string>
+    <string name="setup_traffic_button">Açık Trafik İzleyici</string>
+    <string name="setup_camera_fix_title">Kamera siyah mı yanlış mı?</string>
+    <string name="setup_camera_fix_body">Açık Diagnostics → Kamera sondası, Camera ID\'yi 0 olarak ayarlayın, Save\'e dokunun ve sonra kamera demonu yeniden başlatın.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">Şimdiki: Kamera %1$d (Manual)</string>
+    <string name="camera_current_auto_label">Akım: Otomatik</string>
+    <string name="soh_estimation_active">Değerlendirme etkinliği</string>
+    <string name="soh_no_estimate_yet">Henüz bir tahmin yok  Veriler bekliyor</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">%1$d seçili</string>
+    <string name="video_player_playback_error">Çalışma hatası</string>
+    <string name="video_player_no_events">Hiçbir olay yok .</string>
+    <string name="daemon_configuration_required">Yapılandırma Gerekli</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">Video Oyuncusu</string>
+    <string name="nav_page_telegram">Telegram</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">MQTT</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">OverDrive Durumu</string>
+    <string name="status_overlay_notif_text">Durum üstü aktif</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Overdrive Etkin</string>
+    <string name="daemon_keepalive_notif_text">Araç sistemleri izleniyor</string>
+    <string name="overdrive_status_summary_title">Overdrive</string>
+    <string name="overdrive_status_summary_text">Arka plan hizmetleri çalışıyor</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">Tablo</string>
+    <string name="rail_live">Canlı</string>
+    <string name="rail_recordings">Kayıtlar</string>
+    <string name="rail_vehicle">Araç</string>
+    <string name="rail_projection">Yansıtma</string>
+    <string name="rail_trips">Seyahatler</string>
+    <string name="rail_integrations">Entegreler</string>
+    <string name="rail_diagnostics">Teşhisler</string>
+    <string name="rail_settings">Ayarlar</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">Görünüm</string>
+    <string name="settings_section_recording">Kayıt</string>
+    <string name="settings_section_surveillance">Gözetim</string>
+    <string name="settings_section_daemons">Şeytanlar</string>
+    <string name="settings_section_privacy">Gizlilik &amp; Veriler</string>
+    <string name="settings_section_overlay">Durum örtüsü</string>
+    <string name="settings_section_security">Güvenlik</string>
+    <string name="settings_overlay_subtitle">Uçan durum hapının hangi bölümlerinin görünür kalmasını seçin.</string>
+    <string name="settings_overlay_camera_title">Kamera göstergesi</string>
+    <string name="settings_overlay_camera_subtitle">Kayıt aktifken REC / PROX badgesini göster.</string>
+    <string name="settings_overlay_trip_title">Trip\'i gösterir</string>
+    <string name="settings_overlay_trip_subtitle">Seyahat tespiti çalışırken TRIP rozetini göster.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">Hakkında</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">SETIMLER</string>
+    <string name="cd_settings_subrail">Yapılandırma alt demiryolu</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">Gizlilik &amp; Veriler</string>
+    <string name="settings_privacy_body">Reset kayıt indeksini, önbelleğe alınan kimlik bilgileri, daemon durumunu ve cihazdaki tercihleri temizler.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">OverDrive hakkında</string>
+    <string name="settings_about_version_label">Versiyon</string>
+    <string name="settings_about_package_label">İnşaat</string>
+    <string name="settings_about_check_update_value">En son GitHub sürümünü kontrol edin ve daha yeniyse yükleyin.</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">Senin gibi insanlar tarafından güçlendirilmiş.</string>
+    <string name="settings_about_support_share_title">Başka bir araç sahibine bahset</string>
+    <string name="settings_about_support_share_value">Paylaşılan her bağlantı başka bir BYD sahibinin Overdrive\'i keşfetmesine yardımcı olur.</string>
+    <string name="settings_about_support_share_message">BYD için Overdrive  açık kaynaklı gözetim &amp; dashcam\'ı kontrol edin: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">Overdrive\'ı Paylaş</string>
+    <string name="settings_about_open_link_failed">Bağlantıyı açamadım.</string>
+    <string name="settings_about_open_link_copied">URL kopyalandı: %1$s</string>
+    <string name="settings_about_support_kofi_title">Sonraki versiyon için yakıt</string>
+    <string name="settings_about_support_kofi_value">Ko-Fi\'de kahve içmek gece geç saatleri bekliyor.</string>
+    <string name="settings_about_license_title">Lisans</string>
+    <string name="settings_about_license_value">MIT  açık kaynak. Tam metni görüntülemek için dokunun.</string>
+    <string name="settings_about_source_title">Kaynak kodu</string>
+    <string name="settings_about_source_value">github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">GitHub\'da bir bırak</string>
+    <string name="settings_about_star_value">Bir saniye sürer, çok şey ifade eder.</string>
+    <string name="settings_about_thanks_title">Teşekkürler</string>
+    <string name="settings_about_thanks_subtitle">Katkıda bulunanların ve destekçilerin yardımıyla kuruldu.</string>
+    <string name="settings_about_contributors_title">Katkıda bulunanlar</string>
+    <string name="settings_about_supporters_title">Destekçiler</string>
+    <string name="settings_about_thanks_empty">İnsanlar katıldıkça liste dolmaya başlar.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">Tema</string>
+    <string name="settings_theme_auto">Otomatik (önderleme sistemi)</string>
+    <string name="settings_theme_light">Işık</string>
+    <string name="settings_theme_dark">Karanlık</string>
+    <string name="settings_language_label">Dil</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">Kayıtlar</string>
+    <string name="recordings_segment_dashcam">Dashcam</string>
+    <string name="recordings_segment_surveillance">Gözetim</string>
+    <string name="recordings_action_settings">Ayarlar</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d bugün · %2$d toplam · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">Dashcam · %d</string>
+    <string name="recordings_segment_surveillance_count">Gözetim · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">Kayıt seçin</string>
+    <string name="recordings_preview_placeholder_body">Soldaki herhangi bir şeyi çalmak için dokun.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">ADB Konsolu</string>
+    <string name="diagnostics_section_traffic">Trafik monitörü</string>
+    <string name="diagnostics_section_camera_probe">Kamera sondası</string>
+    <string name="diagnostics_section_battery">Batarya sağlığı</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">Sistem teşhisleri</string>
+    <string name="diagnostics_hero_subtitle">Sağlık kayıtları ve cihazın sondajları.</string>
+    <string name="diagnostics_health_clear">Her şey açık .</string>
+    <string name="diagnostics_health_section">Sağlık</string>
+    <string name="diagnostics_health_network">Ağ</string>
+    <string name="diagnostics_health_storage">Depolama</string>
+    <string name="diagnostics_health_camera">Kamera</string>
+    <string name="diagnostics_health_battery">Batarya</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">Çevrimiçi</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">Tunel · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">Çevrimiçi</string>
+    <string name="diagnostics_tunnel_state_offline">İletişimden uzak</string>
+    <string name="diagnostics_tunnel_state_connecting">Bağlantı</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">Mobil</string>
+    <string name="diagnostics_network_ethernet">Ethernet</string>
+    <string name="diagnostics_network_offline">İletişimden uzak</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">%1$d klipleri · %2$s kullanılır</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s ücretsiz</string>
+    <string name="diagnostics_logs_card_title">Canlı etkinlik kaydı</string>
+    <string name="diagnostics_logs_card_subtitle">Çalışan hizmetlerden gelen akış çıkışı.</string>
+    <string name="diagnostics_tools_section">Araçlar</string>
+    <string name="diagnostics_traffic_subtitle">Canlı ağ geçişini izle.</string>
+    <string name="diagnostics_camera_probe_subtitle">Bağlı kamera akışlarını kontrol et.</string>
+    <string name="diagnostics_adb_subtitle">Cihazın terminalini aç.</string>
+    <string name="diagnostics_battery_subtitle">SOH hücresini kontrol et ve istatistikleri topla.</string>
+    <string name="diagnostics_settings_subtitle">Uygulama tercihleri, tema ve dil.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">Entegreler</string>
+    <string name="integrations_hero_subtitle">Overdrive\'ı hizmetlerinize bağlayın.</string>
+    <string name="integrations_status_unknown">Yapılandırmak için dokun</string>
+    <string name="integrations_status_configured">Yapılandırılmış</string>
+    <string name="integrations_status_not_set_up">Yapılandırılmamış .</string>
+    <string name="integrations_telegram_desc">Sürücü özetleri, hareket uyarıları ve SOS bildirimlerini özel Telegram botunuza gönderin.</string>
+    <string name="integrations_abrp_desc">Şarj tahminleri için canlı pil ve rota verilerini A Better Routeplanner\'a gönderin.</string>
+    <string name="integrations_mqtt_desc">Aracın telemetrisini ev asistanına veya herhangi bir MQTT aracıya gönderin.</string>
+    <string name="integrations_byd_cloud_desc">Kapı kilidi, far yanıp sönmesi ve korna gibi uzaktan komutları etkinleştirmek için BYD uygulama hesabınızı bağlayın.</string>
+    <string name="integrations_configure_button">Yapılandırma</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">Güncellemeleri kontrol edin</string>
+    <string name="settings_action_reset_data">Verileri yeniden ayarlayın...</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">OverDrive</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">Nöbette</string>
+    <string name="dashboard_subtitle_all_systems">Tüm sistemler çevrimiçi</string>
+    <string name="dashboard_subtitle_some_offline">%1$d of %2$d online hizmetleri</string>
+    <string name="dashboard_subtitle_no_tunnel">Uzaktan erişim çevrimdışı</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">Bugünün kayıtları .</string>
+    <string name="dashboard_metric_storage">Kullanılan depolama</string>
+    <string name="dashboard_metric_tunnel">Uzaktan erişim</string>
+    <string name="dashboard_metric_services">Arka plan hizmetleri</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">Araç</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">Kayıt</string>
+    <string name="dashboard_chip_recording_idle">Boşta</string>
+    <string name="dashboard_vehicle_tap_to_set">Yapılandırmaya dokun</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWh · %2$s</string>
+    <string name="vehicle_dialog_title">Batarya kapasitesini ayarlayın</string>
+    <string name="vehicle_dialog_capacity_label">Kapasite (kWh)</string>
+    <string name="vehicle_dialog_capacity_suffix">kWh</string>
+    <string name="vehicle_dialog_capacity_helper">15 ila 120 kWh. Model varsayılanını kullanmak için bırakın.</string>
+    <string name="vehicle_dialog_model_label">Model</string>
+    <string name="vehicle_dialog_save">Kaydet</string>
+    <string name="vehicle_dialog_reset">Otomatik tespit için yeniden ayarlayın</string>
+    <string name="vehicle_dialog_invalid_capacity">Kapasite 15 - 120 kWh olmalıdır.</string>
+    <string name="vehicle_dialog_summary_capacity">Kapasite: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">Etkili: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">Model: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">Son kalibrasyon: %1$.1f%% %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">kullanılamıyor</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s kullanıldı · %2$s ücretsiz</string>
+    <string name="dashboard_metric_storage_chip_pending">Depolama </string>
+    <string name="dashboard_tunnel_offline">İletişimden uzak</string>
+    <string name="dashboard_tunnel_online">Çevrimiçi</string>
+    <string name="dashboard_tunnel_connecting">Bağlantı...</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">Canlı görüntü</string>
+    <string name="dashboard_action_live_subtitle">Açık kamera görüntüsü</string>
+    <string name="dashboard_action_recordings">Kayıtlar</string>
+    <string name="dashboard_action_settings">Ayarlar</string>
+    <string name="dashboard_action_settings_subtitle">Tercihleri ve hakkında</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">Ayarlar</string>
+    <string name="settings_hero_overline">ÜZÜR KATLAR</string>
+    <string name="settings_hero_subtitle">Görünüm, kayıt, gözetim ve cihazdaki verileri ayarlayın.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">ÖNEMLER</string>
+    <string name="settings_overline_about_data">BİRLEŞİK &amp; DATA</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">Tema</string>
+    <string name="settings_quick_language_label">Dil</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">Ön / sonrası tamponlar, kodekler, depolama sınırları.</string>
+    <string name="settings_section_surveillance_subtitle">Deteksiyon bölgeleri, program, hareket hassasiyeti.</string>
+    <string name="settings_section_daemons_subtitle">Cloudflared, Zrok, Telegram, MQTT çalıştırıcıları.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">OverDrive hakkında</string>
+    <string name="settings_about_row_subtitle">Versiyon, lisans, destek geliştirme.</string>
+    <string name="settings_reset_row_subtitle">Kayıtları, olayları ya da tüm gizli yerleri temizle.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">OverDrive %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">Tema, dil ve görsel tercihler.</string>
+    <string name="settings_theme_active_auto_caption">Otomatik sistem temasını takip eder.</string>
+    <string name="settings_theme_active_light_caption">Işık teması her zaman açık.</string>
+    <string name="settings_theme_active_dark_caption">Karanlık konu her zaman açık.</string>
+    <string name="settings_language_count_format">%1$d\'den %2$d dillerinde mevcut</string>
+    <string name="settings_language_card_title">Gösterim dili</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">Öntanımlı olarak cihazda</string>
+    <string name="settings_privacy_stance_body">OverDrive tamamen ana birimle çalışır. Arabanızdan açıkça ayarladığınız tüneller ve entegrasyonlar dışında hiçbir telemetri çıkmaz.</string>
+    <string name="settings_privacy_overline_storage">Yerel depolama</string>
+    <string name="settings_privacy_overline_reset">Veri Yeniden Sunu</string>
+    <string name="settings_privacy_storage_clips_label">Disk üzerindeki klipler</string>
+    <string name="settings_privacy_storage_size_label">Toplam boyut</string>
+    <string name="settings_privacy_storage_unavailable">Kullanılamıyor</string>
+    <string name="settings_privacy_storage_count_format">%1$d klipi</string>
+    <string name="settings_privacy_storage_count_format_plural">%1$d klipleri</string>
+    <string name="settings_privacy_reset_subtitle">Kategorileri seçin: kayıtlar, olaylar, daemon yapılandırmaları, önbelleğe alınmış telemetri...</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">Güvenlik</string>
+    <string name="settings_security_subtitle">Yolcuların ve vale görevlilerinin PIN\'iniz olmadan açamaması için OverDrive uygulamasını kilitleyin.</string>
+    <string name="settings_security_stance_title">Yalnızca arayüz kilidi</string>
+    <string name="settings_security_stance_body">Uygulama kilitliyken gözetim, kayıt, caydırıcı, uyarılar ve arka plan hizmetleri çalışmaya devam eder. PIN yalnızca OverDrive arayüzünü kısıtlar, başka hiçbir şeyi değil.</string>
+    <string name="settings_security_overline_lock">Uygulama kilidi</string>
+    <string name="settings_security_overline_recovery">PIN\'inizi unutursanız</string>
+    <string name="settings_security_toggle_title">PIN gerektir</string>
+    <string name="settings_security_toggle_subtitle_off">Kapalı — herkes OverDrive\'ı açabilir.</string>
+    <string name="settings_security_toggle_subtitle_on">Açık — OverDrive\'ı açmak için PIN gerekli.</string>
+    <string name="settings_security_change_title">PIN Değiştir</string>
+    <string name="settings_security_change_subtitle">Mevcut PIN\'i onaylayın, ardından yeni bir tane belirleyin.</string>
+    <string name="settings_security_autolock_title">Otomatik kilit</string>
+    <string name="settings_security_autolock_immediate">Hemen kilitle</string>
+    <string name="settings_security_autolock_1min">1 dakika sonra</string>
+    <string name="settings_security_autolock_5min">5 dakika sonra</string>
+    <string name="settings_security_autolock_15min">15 dakika sonra</string>
+    <string name="settings_security_autolock_never">Zamana göre otomatik kilitleme</string>
+    <string name="settings_security_recovery_title">ADB kurtarma</string>
+    <string name="settings_security_recovery_body">Unutulan PIN, fabrika ayarlarına dönmeden USB hata ayıklama üzerinden bir ana bilgisayardan temizlenebilir. Bu komutu çalıştırın, ardından uygulamayı yeniden açın.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">PIN Ayarla</string>
+    <string name="settings_security_dialog_set_body">4–8 haneli bir PIN seçin. Uygulamayı her açtığınızda buna ihtiyacınız olacak.</string>
+    <string name="settings_security_dialog_disable_title">PIN kilidi kapatılsın mı?</string>
+    <string name="settings_security_dialog_disable_body">Uygulama kilidini kapatmak için mevcut PIN\'inizi onaylayın.</string>
+    <string name="settings_security_dialog_change_step1_title">Mevcut PIN\'i onayla</string>
+    <string name="settings_security_dialog_change_step1_body">Mevcut PIN\'inizi girin, ardından yeni bir tane belirleyeceksiniz.</string>
+    <string name="settings_security_action_set">PIN Ayarla</string>
+    <string name="settings_security_action_disable">Kilidi kapat</string>
+    <string name="settings_security_action_continue">Devam</string>
+    <string name="settings_security_pin_hint">PIN</string>
+    <string name="settings_security_pin_confirm_hint">PIN\'i Onayla</string>
+    <string name="settings_security_error_length">PIN 4 ile 8 haneli olmalıdır</string>
+    <string name="settings_security_error_numeric">Yalnızca rakam</string>
+    <string name="settings_security_error_mismatch">PIN\'ler eşleşmiyor</string>
+    <string name="settings_security_error_wrong">Yanlış PIN</string>
+    <string name="settings_security_error_locked_out">Çok fazla deneme. Birazdan tekrar deneyin.</string>
+    <string name="settings_security_error_persist">PIN kaydedilemedi. Tekrar deneyin.</string>
+    <string name="settings_security_toast_set_ok">PIN ayarlandı. Uygulama kilidi açık.</string>
+    <string name="settings_security_toast_disable_ok">Uygulama kilidi kapatıldı.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">PIN girin</string>
+    <string name="pin_lock_title_unlocked">Kilidi açıldı</string>
+    <string name="pin_lock_subtitle_default">Devam etmek için OverDrive\'ın kilidini açın.</string>
+    <string name="pin_lock_subtitle_wrong">Yanlış PIN. Tekrar deneyin.</string>
+    <string name="pin_lock_subtitle_locked_out">Çok fazla deneme. Kısa süre sonra tekrar deneyin.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">Kilitlendi. %1$s sonra tekrar deneyin.</string>
+    <string name="pin_lock_lockout_seconds">%1$ds</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">PIN\'inizi mi unuttunuz? Bağlı bir bilgisayardan çalıştırın:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Geri Sil</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="one">%1$d digit entered</item>
+        <item quantity="other">%1$d digits entered</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">Yer yok .</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">Kamera %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">Kamera %1$d (elçici)</string>
+    <string name="diagnostics_camera_value_probing">Araştıran...</string>
+    <string name="diagnostics_camera_value_offline">İletişimden uzak</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">Bekleyen veriler</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">Hoşgeldiniz  Overdrive şimdi ikinci göz çiftiniz.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">%1$s (≈%2$s) park ederken alındı.</string>
+    <string name="dashboard_insight_parked_charged">%1$s\'i park ederken aldım.</string>
+    <string name="dashboard_insight_parked_drained_kwh">Park ettiğinden beri %1$s (≈%2$s) kullandın</string>
+    <string name="dashboard_insight_parked_drained">Park ettiğinden beri %1$s kullanıyorum.</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">Son güvenlik uyarısı: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">Son şarj: %2$s\'de +%1$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">%1$d klipleri · %2$s kaydedildi</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f kWh</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d sa %2$d dk</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="one">%1$d klipi bugün kaydedildi .</item>
+        <item quantity="other">Bugün kaydedilen %1$d klipleri</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="one">%1$d gün, %2$d saat için çevrimiçi sürüş</item>
+        <item quantity="other">%1$d günleri, %2$d saatleri için online sürüş</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="one">%1$d saat boyunca online sürüş</item>
+        <item quantity="other">%1$d saat boyunca online sürüş</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="one">%1$d dakika</item>
+        <item quantity="other">%1$d dakika</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="one">%1$d hr</item>
+        <item quantity="other">%1$d hr</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">RoadSense</string>
+    <string name="rail_hazard_map">Harita</string>
+    <string name="roadsense_title">RoadSense</string>
+    <string name="roadsense_pill_scanning">Taranıyor</string>
+    <string name="roadsense_pill_idle">RoadSense</string>
+    <string name="roadsense_status_idle">Boşta</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">Aracınız öğreniliyor</string>
+    <string name="roadsense_cal_ready">Araç kalibre edildi</string>
+    <string name="roadsense_cal_partial">Kalibrasyon iyileşiyor</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">İleri açık</string>
+    <string name="roadsense_road_mapped">Yol haritalandı · temiz</string>
+    <string name="roadsense_road_new">Yeni yol · öğreniliyor</string>
+    <string name="roadsense_unit_meters">m</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">Uyar</string>
+    <string name="roadsense_toggle_audio">Ses</string>
+    <string name="roadsense_toggle_visual">Görsel</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">Hafif</string>
+    <string name="roadsense_sev_moderate">Orta</string>
+    <string name="roadsense_sev_severe">Ciddi</string>
+    <string name="roadsense_type_breaker">Hız kesici</string>
+    <string name="roadsense_type_pothole">Çukur</string>
+    <string name="roadsense_type_hazard">Tehlike</string>
+    <string name="roadsense_type_rough">Engebeli bölüm</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">İleride %1$d tümsek</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">Engebeli bölüm · %1$d m</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">Bu bir tehlike miydi?</string>
+    <string name="roadsense_confirm_reject">Tehlike değil</string>
+    <string name="roadsense_confirm_accept">Onayla</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">Araç kalibrasyon seviyesi</string>
+    <string name="roadsense_cd_direction">Sonraki tehlikeye yön</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">SOL</string>
+    <string name="blindspot_overlay_right">SAĞ</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">Harita</string>
+    <string name="roadsense_map_route_clear">Temizle</string>
+    <string name="roadsense_map_route_unmapped">Henüz haritalanmadı</string>
+    <string name="roadsense_map_back">Geri</string>
+    <string name="roadsense_map_recenter">Konumuma göre yeniden ortala</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">Şiddet</string>
+    <string name="roadsense_map_type_label">Tür</string>
+    <string name="roadsense_map_type_unknown">Bilinmiyor</string>
+    <string name="roadsense_map_confirm">Onayla</string>
+    <string name="roadsense_map_delete">Sil</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">Aday</string>
+    <string name="roadsense_map_status_local">Cihazda</string>
+    <string name="roadsense_map_status_cloud">Paylaşılan</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% güven · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="one">%1$d report</item>
+        <item quantity="other">%1$d reports</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">Tehlike onaylandı</string>
+    <string name="roadsense_map_deleted_toast">Tehlike kaldırıldı</string>
+    <string name="roadsense_map_action_failed">RoadSense\'e ulaşılamadı. Tekrar deneyin.</string>
+    <string name="roadsense_map_no_location">GPS sinyali bekleniyor…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">Hedef ara</string>
+    <string name="roadsense_map_search_action">Ara</string>
+    <string name="roadsense_map_searching">Aranıyor…</string>
+    <string name="roadsense_map_no_results">Yer bulunamadı</string>
+    <string name="roadsense_map_search_network">Arama hizmetine ulaşılamadı. Bağlantınızı veya proxy ayarınızı kontrol edip tekrar deneyin.</string>
+    <string name="roadsense_map_pick_destination">Hedef seçin</string>
+    <string name="roadsense_map_routing">Rota bulunuyor…</string>
+    <string name="roadsense_map_route_failed">Rota bulunamadı. Tekrar deneyin.</string>
+    <string name="roadsense_map_need_key">Navigasyon için RoadSense ayarlarından bir rota anahtarı ekleyin.</string>
+    <string name="roadsense_map_rerouting">Rotadan sapıldı — yeniden hesaplanıyor…</string>
+    <string name="roadsense_map_arrived">Hedefe ulaştınız.</string>
+    <string name="roadsense_map_nav_started">%1$s konumuna gidiliyor</string>
+    <string name="roadsense_map_nav_ended">Navigasyon sona erdi</string>
+    <string name="roadsense_map_end_nav">Navigasyonu bitir</string>
+    <string name="roadsense_map_zoom_in">Yakınlaştır</string>
+    <string name="roadsense_map_zoom_out">Uzaklaştır</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">Tehlike görünürlüğü</string>
+    <string name="roadsense_map_hazards_all">Tüm tehlikeleri göster</string>
+    <string name="roadsense_map_hazards_moderate">Orta ve şiddetli</string>
+    <string name="roadsense_map_hazards_severe">Sadece şiddetli</string>
+    <string name="roadsense_map_hazards_hidden">Tehlikeleri gizle</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">Şarj ve yakıt</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">2D / 3D binalar</string>
+    <string name="roadsense_map_3d_on">3B binalar açık</string>
+    <string name="roadsense_map_3d_off">3B binalar kapalı</string>
+    <string name="roadsense_map_poi_loading">Şarj ve yakıt istasyonları aranıyor…</string>
+    <string name="roadsense_map_poi_none">Yakınlarda istasyon bulunamadı</string>
+    <string name="roadsense_map_poi_need_route">Önce bir hedef seçin</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">Durak eklendi</string>
+    <string name="roadsense_map_remove_stop_action">Durağı kaldır</string>
+    <string name="roadsense_map_poi_navigate">Buraya git</string>
+    <string name="roadsense_map_poi_kind_charging">Şarj istasyonu</string>
+    <string name="roadsense_map_poi_kind_fuel">Yakıt istasyonu</string>
+    <string name="roadsense_map_poi_charging_generic">Şarj istasyonu</string>
+    <string name="roadsense_map_poi_fuel_generic">Yakıt istasyonu</string>
+    <string name="roadsense_map_route_switched">Rota değiştirildi</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">sonra</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">çıkış %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">%1$d şiddetli</string>
+    <string name="roadsense_map_pill_moderate">%1$d orta</string>
+    <string name="roadsense_map_pill_minor">%1$d hafif</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">Harita verileri çevrimdışı kullanılamıyor</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">Aramayı temizle</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">Bir rota seçin</string>
+    <string name="roadsense_map_routes_to">%1$s konumuna yönlendirir</string>
+    <string name="roadsense_map_routes_cancel">İptal</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">Rota %1$d</string>
+    <string name="roadsense_map_fastest">En hızlı</string>
+    <string name="roadsense_map_start">Başlat</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">Konumunuz</string>
+    <string name="roadsense_map_add_stop">Durak ekle</string>
+    <string name="roadsense_map_add_stop_hint">Eklenecek bir durak arayın</string>
+    <string name="roadsense_map_stop_removed">Durak kaldırıldı</string>
+    <string name="roadsense_map_remove_stop">Durağı kaldır</string>
+    <string name="roadsense_map_move_stop_up">Durağı yukarı taşı</string>
+    <string name="roadsense_map_move_stop_down">Durağı aşağı taşı</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">En fazla %1$d durağa izin verilir</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">Harita teması</string>
+    <string name="roadsense_map_theme_auto">Harita teması: Otomatik</string>
+    <string name="roadsense_map_theme_light">Harita teması: Açık</string>
+    <string name="roadsense_map_theme_dark">Harita teması: Koyu</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">Ana Sayfa</string>
+    <string name="roadsense_map_saved_work">İş</string>
+    <string name="roadsense_map_saved_set_home">Evi Ayarla</string>
+    <string name="roadsense_map_saved_set_work">İş olarak ayarla</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">Favori</string>
+    <string name="roadsense_map_save_place">Yeri kaydet</string>
+    <string name="roadsense_map_save_as_home">Ev olarak kaydet</string>
+    <string name="roadsense_map_save_as_work">İş olarak kaydet</string>
+    <string name="roadsense_map_save_as_custom">Favori olarak kaydet…</string>
+    <string name="roadsense_map_saved_added">Kaydedildi</string>
+    <string name="roadsense_map_saved_removed">Kaydedilenlerden kaldırıldı</string>
+    <string name="roadsense_map_saved_remove">Kaldır</string>
+    <string name="roadsense_map_recent_remove">Son kullanılanlardan kaldır</string>
+    <string name="roadsense_map_recent_removed">Son kullanılanlardan kaldırıldı</string>
+    <string name="roadsense_map_custom_label_hint">Etiket (örn. Spor Salonu, Anne\'nin Evi)</string>
+    <string name="roadsense_map_custom_label_title">Bu yeri adlandır</string>
+    <string name="roadsense_map_save">Kaydet</string>
+    <string name="roadsense_map_cancel">İptal</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">Bırakılan pin</string>
+    <string name="roadsense_map_navigate_here">Buraya git</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">%1$s olarak ayarlamak için bir yer arayın</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">Yolculuk geri yüklendi</string>
+
+    <!-- Cloudflared paid-tunnel settings -->
+    <string name="cloudflared_token_storage_note">Token şifrelenmiş olarak saklanır ve uygulama ile daemon süreçleri arasında paylaşılır.</string>
+    <string name="cloudflared_token_hint">cloudflared token\'ını girin</string>
+    <string name="cloudflare_paid_version">Cloudflare Ücretli Sürüm</string>
+    <string name="dialog_cloudflared_settings_title">Cloudflared Ayarları</string>
+    <string name="dialog_cloudflared_settings_message">Ücretli Cloudflare mi yoksa trycloudflare mi kullandığınızı belirleyin. Ücretli Cloudflare kullanıyorsanız tünel token\'ınızı girin.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">Ücretli sürümü ayarlarsanız token boş olamaz</string>
+    <string name="toast_cloudflared_token_invalid">Geçersiz token: yalnızca harf, rakam ve . _ - = karakterlerini kullanın</string>
+    <string name="toast_cloudflared_saved_settings">Cloudflared ayarları kaydedildi</string>
+    <string name="settings_backup_restore_confirm_btn">Geri yükle</string>
+    <string name="onboarding_expert_done_title">Tur bu kadar</string>
+    <string name="onboarding_done_body">Kameralar eşlendi ve batarya ayarlandı. Yayınlarınızı izlemek için Canlı\'ya dokunun — ya da istediğiniz zaman daha derin ayarları keşfedin.</string>
+    <string name="onboarding_expert_maps_title">Navigasyon</string>
+    <string name="onboarding_vehicle_primary">Bataryayı ayarla</string>
+    <string name="recording_lib_storage_filter_sd">SD kart</string>
+    <string name="onboarding_camera_windshield_title">Kayıtlarda yol şeridi? (isteğe bağlı)</string>
+    <string name="onboarding_camera_applying_title">Uygulanıyor — kameralar yeniden başlatılıyor</string>
+    <string name="onboarding_dismiss">Kapat</string>
+    <string name="onboarding_authorize_waiting_body">Android açılır penceresini kabul edin. Görmüyorsanız zaten verilmiş olabilir — bu işlem kendi kendine devam edecektir.</string>
+    <string name="onboarding_authorize_waiting_title">İzin bekleniyor…</string>
+    <string name="settings_backup_restore_failed">Geri yükleme başarısız oldu</string>
+    <string name="onboarding_authorize_title">Overdrive\'ı uyandır</string>
+    <string name="onboarding_expert_integrations_body">Telegram bildirimlerini, A Better Routeplanner\'ı, MQTT\'yi veya BYD Cloud\'u bağlayın. Her kart kurulumunu uygulama içinde açar. Her şey bağlandığında üstteki hap yeşile döner.</string>
+    <string name="settings_backup_restore_confirm_msg">Bu işlem mevcut Overdrive ayarlarınızı yedekle değiştirir ve hizmetleri yeniden yükler. Yalnızca yedeğin oluşturulduğu aynı kafa ünitesinde çalışır.</string>
+    <string name="onboarding_camera_dashcam_body">Oklarla kameralar arasında geçiş yapın ve ön cam / ileri görünümü gösterende durun. Numarasını not edin — bir sonraki adımda onu seçeceksiniz.</string>
+    <string name="onboarding_later">Bunu sonra yap</string>
+    <string name="onboarding_camera_pano_body">Birleştirilmiş 4\'lü görüntüyü bulmak için okları kullanın. ALTTAN okuyun: sol alt ARKA, sağ alt SOL taraftır.</string>
+    <string name="onboarding_expert_roadsense_body">RoadSense, yol tehlikelerini — tümsekler, çukurlar, kasisler — algılamak için aracın hareket sensörlerini ve GPS\'i kullanır ve bilinenlerden önce sizi uyarır. Sekmeleri algılama, tehlike haritası, uyarı zilleri ve Kör Nokta\'yı kapsar. Herhangi birini kullanmak için ana anahtarı açın.</string>
+    <string name="onboarding_expert_traffic_title">Trafik monitörü — uzaktan erişim için gerekli</string>
+    <string name="onboarding_expert_daemons_body">Bu anahtarlar arka plan hizmetlerini başlatır ve durdurur. Kamera, Gözetim veya ACC Sentry\'yi KAPATMAK kaydı durdurur ve siz tekrar açana kadar — yeniden başlatmadan sonra bile — kapalı tutar.</string>
+    <string name="onboarding_camera_verify_repick">Yeniden seç</string>
+    <string name="onboarding_dash_chips_body">Üstteki çipler kayıt, hizmetler ve uzaktan bağlantınızı gösterir. Kendi kendilerine güncellenir — düğme değildirler.</string>
+    <string name="onboarding_dash_chips_title">Bunlar yalnızca durum gösterir</string>
+    <string name="onboarding_expert_trips_body">Yolculuklar her sürüşü kaydeder — rota, mesafe, süre ve enerji kullanımı — böylece aracın nerelerde bulunduğunu inceleyebilirsiniz.</string>
+    <string name="onboarding_expert_live_title">Canlı kameralar</string>
+    <string name="settings_backup_pick_file">Geri yüklenecek bir yedek seçin</string>
+    <string name="onboarding_camera_applying_body">Görüntü yaklaşık 10 saniye kararacak ve titreyecek. Bu normaldir — biraz bekleyin.</string>
+    <string name="onboarding_expert_menu_start">Tura başla</string>
+    <string name="onboarding_expert_security_body">Paylaşılan araçlar için uygulamayı korumak üzere bir PIN belirleyin. Uygulama kilitliyken Gözetim ve kayıt çalışmaya devam eder. Unutulan bir PIN yalnızca bir bilgisayardan USB üzerinden temizlenebilir.</string>
+    <string name="settings_backup_default_filename">overdrive-backup.json</string>
+    <string name="settings_backup_import_value">Aynı bu kafa ünitesinde oluşturulmuş bir yedek dosyasını yükleyin.</string>
+    <string name="onboarding_camera_opening_body">Kameralarınızdan canlı bir önizleme yükleniyor. Bu birkaç saniye sürebilir.</string>
+    <string name="roadsense_map_route_http">Rota hizmeti hatası (%1$d). Birazdan tekrar deneyin.</string>
+    <string name="onboarding_camera_pick_primary">İleri</string>
+    <string name="onboarding_help_cd">Rehberli tur</string>
+    <string name="onboarding_dash_tiles_body">Bu kartlar birer düğmedir — Canlı kameralar, Kayıtlar, Hizmetler veya Aracınızı açmak için dokunun.</string>
+    <string name="onboarding_vehicle_title">Overdrive\'a bataryanızı tanıtın</string>
+    <string name="onboarding_expert_security_title">PIN ile kilitle</string>
+    <string name="settings_backup_restoring">Geri yükleniyor…</string>
+    <string name="onboarding_expert_surveillance_title">Gözetim ve kayıt</string>
+    <string name="onboarding_expert_camprobe_title">Kamera sondası — dikkatli olun</string>
+    <string name="onboarding_camera_step_label">Kamera · adım %1$d / %2$d</string>
+    <string name="onboarding_authorize_button">Erişime izin ver</string>
+    <string name="recording_lib_filter_section_storage">Depolama</string>
+    <string name="onboarding_camera_pick_dash_body">Bu kartta daha önce bulduğunuz dashcam numarasını seçin — ya da OTOMATİK\'te bırakın.</string>
+    <string name="settings_backup_restore_confirm_title">Ayarlar geri yüklensin mi?</string>
+    <string name="settings_backup_exporting">Yedek oluşturuluyor…</string>
+    <string name="settings_backup_export_failed">Yedek dışa aktarma başarısız oldu</string>
+    <string name="onboarding_vehicle_body">Modelinizi seçin, kWh\'yi biz dolduralım ya da kendiniz yazın (15–120). Bu, menzil ve şarj tahminlerini doğru hale getirir. Atlayıp sonra ayarlayabilirsiniz.</string>
+    <string name="onboarding_expert_vehicle_title">Araç profili</string>
+    <string name="onboarding_done_primary">Bitti</string>
+    <string name="settings_backup_export_title">Ayarları dışa aktar</string>
+    <string name="onboarding_back">Geri</string>
+    <string name="onboarding_done_secondary">Kurulumu Keşfet</string>
+    <string name="onboarding_expert_live_body">Tüm kameraları gerçek zamanlı izlemek için Canlı\'yı buradan açın. Sürüşten önce veya yakında park halindeyken görüntüyü kontrol etmek için kullanışlıdır.</string>
+    <string name="onboarding_camera_pano_title">Bu sizin 360 görünümünüz</string>
+    <string name="onboarding_camera_save_primary">Kaydet ve yeniden başlat</string>
+    <string name="settings_backup_import_title">Ayarları geri yükle</string>
+    <string name="onboarding_authorize_retry_title">Hâlâ bağlanılamadı</string>
+    <string name="onboarding_expert_recordings_body">Bu anahtarla Dashcam (sürekli + yakınlık klipleri) ile Gözetim (park halindeki nöbet olayları) arasında geçiş yapın — her biri kendi kitaplığını tutar. Oynatmak için bir klibe dokunun.</string>
+    <string name="onboarding_reset_toast">Tanıtım sıfırlandı — rehber yeniden oynatılıyor</string>
+    <string name="recording_lib_storage_filter_usb">USB</string>
+    <string name="onboarding_expert_blindspot_body">Buradaki sekmede Kör Nokta\'yı etkinleştirin; dönüş sinyali verdiğinizde ekranda otomatik olarak bir yan kamera görünümü belirir — sol sinyal için sol, sağ sinyal için sağ — ardından kısa süre sonra gizlenir. Yalnızca bir dönüş sinyali açıkken çalışır.</string>
+    <string name="onboarding_expert_reset_title">Verileri sıfırla — kalıcı</string>
+    <string name="onboarding_exit">Turdan çık</string>
+    <string name="onboarding_authorize_retry_body">Yardımcı henüz çalışmıyor. Android izni kapatılmış olabilir. Tekrar deneyin ve <b>Her zaman izin ver</b> seçeneğini işaretlemeyi unutmayın.</string>
+    <string name="settings_backup_export_value">Mevcut ayarlarınızın bir yedek dosyasını kaydedin. Gizli tutun — kimlik bilgilerinizi içerir.</string>
+    <string name="settings_backup_restart_hint">Ayarlar geri yüklendi. Geri yüklenen tüm ayarların uygulandığından emin olmak için kamera arka plan hizmetini yeniden başlatın (Arka Plan Hizmetleri → Kamera → Yeniden Başlat).</string>
+    <string name="onboarding_camera_opening_title">Kamera kurulumu açılıyor…</string>
+    <string name="settings_backup_no_files">Yedek dosyası bulunamadı. Önce bir tane dışa aktarın ya da bir yedek .json dosyasını %1$s konumuna kopyalayıp tekrar deneyin.</string>
+    <string name="settings_backup_save_failed">Yedek dosyası kaydedilemedi</string>
+    <string name="onboarding_expert_finish">Bitir</string>
+    <string name="onboarding_expert_reset_body">Bu işlem kayıtları, olayları ve ayarları siler ve geri alınamaz. Aracı bir gün satarsanız diye burada bulunur — normal kullanımın parçası değildir.</string>
+    <string name="onboarding_camera_dashcam_title">Şimdi yol kamerasını bulun</string>
+    <string name="onboarding_expert_blindspot_title">Kör Nokta</string>
+    <string name="onboarding_camera_verify_title">Hızlı kontrol</string>
+    <string name="onboarding_dash_chips_body_land">Canlı durumunuz — kayıt, hizmetler ve uzaktan bağlantı — burada görünür. Kendi kendine güncellenir.</string>
+    <string name="onboarding_next">İleri</string>
+    <string name="onboarding_camera_pick_title">360 kameranızı seçin</string>
+    <string name="onboarding_expert_recordings_title">Kayıtlarınız</string>
+    <string name="onboarding_camera_verify_ok">Doğru görünüyor</string>
+    <string name="recording_lib_storage_sd">SD</string>
+    <string name="settings_backup_trips_prompt">Yolculuk geçmişiniz (mesafe, enerji, maliyet, puanlar, başlangıç/bitiş konumları) dahil edilsin mi? Yolculuk başına ayrıntılı telemetri dahil edilmez. Dosya konum geçmişinizi içerecektir — gizli tutun.</string>
+    <string name="settings_backup_saved_to">Yedek %1$s konumuna kaydedildi</string>
+    <string name="onboarding_camera_windshield_primary">Bana göster</string>
+    <string name="onboarding_expert_menu_body">Daha derin kurulumda hızlı bir gezinti — araç profiliniz, entegrasyonlar, gözetim, tanılama, hizmetler ve güvenlik. İstediğiniz zaman durabilirsiniz.</string>
+    <string name="onboarding_expert_bydcloud_title">BYD Cloud uzaktan kontrolü açar</string>
+    <string name="roadsense_map_route_key_rejected">Rota anahtarı reddedildi. RoadSense ayarlarından anahtarınızı kontrol edin.</string>
+    <string name="roadsense_map_route_network">Rota bulmak için ağ çok yavaş. Bağlantınızı kontrol edip tekrar deneyin.</string>
+    <string name="onboarding_camera_intro_title">Kameralarınızı kurun</string>
+    <string name="onboarding_dash_tiles_title">Bir bakışta kokpitiniz</string>
+    <string name="recording_lib_storage_usb">USB</string>
+    <string name="settings_backup_settings_only">Yalnızca ayarlar</string>
+    <string name="onboarding_camera_pick_dash_title">Dashcam kameranızı seçin</string>
+    <string name="onboarding_camera_intro_primary">Başla</string>
+    <string name="onboarding_expert_vehicle_body">Batarya boyutunuzu ve modelinizi ayarlamak için Araç kutusuna dokunun — doğru menzil ve sağlık tahminlerini sağlar.</string>
+    <string name="onboarding_expert_camprobe_body">Bu, her role hangi fiziksel kameranın yayın yapacağını yeniden eşler ve kameraları yeniden başlatır. Yalnızca bir yayın yanlış görünüyorsa değiştirin — bunu rehberde daha önce ayarlamıştınız.</string>
+    <string name="onboarding_done_title">Kokpit hazır</string>
+    <string name="onboarding_authorize_body">Overdrive, kameralarınızı küçük bir cihaz içi yardımcı üzerinden çalıştırır. Android bir kez USB hata ayıklamaya izin vermenizi isteyecek — <b>İzin Ver</b>\'e dokunun ve her yeniden başlatmadan sonra açık kalması için <b>Bu cihazdan her zaman izin ver</b> seçeneğini işaretleyin.</string>
+    <string name="onboarding_camera_intro_body">Overdrive\'a hangi kameranın 360 görünümünüz, hangisinin dashcam\'iniz olduğunu söyleyelim. Yaklaşık bir dakika sürer ve sonradan değiştirebilirsiniz.</string>
+    <string name="settings_backup_invalid_file">Bu dosya geçerli bir Overdrive yedeği değil</string>
+    <string name="onboarding_camera_verify_body">360 görünüm birleştirilmiş görüntüyü, dashcam ise önündeki yolu gösteriyor mu? Bir görüntü yanlış görünüyorsa Yeniden Seç\'e dokunun — hiçbir şey bozulmadı.</string>
+    <string name="onboarding_expert_bydcloud_body">BYD hesabınızı buraya bağlamak, telefonunuzdan uzaktan kilitleme, sinyal çakma ve korna çalma özelliklerini etkinleştirir. Bağlı hesabı ve erişim kodunu hassas bilgi olarak ele alın.</string>
+    <string name="settings_backup_restored">Ayarlar geri yüklendi</string>
+    <string name="settings_backup_saved">Yedek kaydedildi</string>
+    <string name="onboarding_expert_done_body">Daha derin ayarları gördünüz. Bu rehberi yardım düğmesinden istediğiniz zaman tekrar açın.</string>
+    <string name="onboarding_expert_chapter_label">Bölüm %1$d / %2$d</string>
+    <string name="rail_charging">Şarj</string>
+    <string name="rail_automations">Otomasyonlar</string>
+    <string name="onboarding_skip">Atla</string>
+    <string name="onboarding_expert_traffic_body">BYD\'nin yerleşik Trafik Monitörü, diğer uygulamaların aracın yerleşik SIM\'ini kullanmasını engeller. Aracınıza BYD SIM üzerinden uzaktan erişmek istiyorsanız, bunu buradan devre dışı bırakmanız gerekir. Değişikliğin uygulanması için kafa ünitesi yeniden başlatılır.</string>
+    <string name="onboarding_expert_surveillance_body">Algılama, kalite ve depolamayı buradan ince ayarlayın. Bunlar aracınızdan sunulan uygulama içi yapılandırma sayfaları olarak açılır — boş bir ekran yalnızca yardımcının hâlâ başlamakta olduğu anlamına gelir.</string>
+    <string name="settings_backup_with_trips">Yolculukları dahil et</string>
+    <string name="onboarding_expert_roadsense_title">RoadSense</string>
+    <string name="settings_backup_daemon_down">Yedekleme veya geri yükleme için kamera hizmetinin çalışıyor olması gerekir. Arka Plan Hizmetleri\'nden başlatın, ardından tekrar deneyin.</string>
+    <string name="onboarding_expert_menu_title">Rehberli tur</string>
+    <string name="onboarding_authorize_retry_button">Tekrar dene</string>
+    <string name="onboarding_mode_title">Overdrive ne zaman çalışsın?</string>
+    <string name="onboarding_mode_body">Aracı kapattıktan sonra Overdrive\'ın nasıl davranacağını seçin.\n\n<b>Açık &amp; Kapalı</b> park halindeyken izlemeye devam eder — gözetim ve arka plan izleme etkin kalır, böylece araç gece boyunca biraz güç çeker.\n\n<b>Yalnızca açık</b>, siz ayrıldığınızda Overdrive\'ı tamamen kapatır. Dashcam, yolculuklar ve şarj siz sürerken çalışmaya devam eder ve aracı çalıştırdığınızda her şey otomatik olarak yeniden başlar. Bunu istediğiniz zaman Ayarlar\'dan değiştirebilirsiniz.</string>
+    <string name="onboarding_mode_on_off_button">Açık &amp; Kapalı</string>
+    <string name="onboarding_mode_on_only_button">Yalnızca açık</string>
+    <string name="onboarding_expert_trips_title">Yolculuk geçmişi</string>
+    <string name="onboarding_expert_maps_body">Tam adım adım navigasyon için Haritayı açın — bir hedef arayın, rota ve canlı yönlendirme alın, ayrıca yakındaki ilgi noktaları ve RoadSense\'in yol boyunca kaydettiği tüm yol tehlikeleri. Sürüşe başladığınızda bunu gösterge paneline otomatik olarak da yansıtabilirsiniz — bu anahtar RoadSense\'in Harita sekmesinde bulunur.</string>
+    <string name="settings_backup_read_failed">Dosya okunamadı</string>
+    <string name="onboarding_expert_daemons_title">Hizmetler — dikkatli kullanın</string>
+    <string name="onboarding_done_short">Anladım</string>
+    <string name="onboarding_camera_pick_body">Üstteki kartta 360 / normal kameranızın numarasını seçin. Emin değil misiniz? OTOMATİK\'te bırakın, Overdrive halletsin.</string>
+    <string name="recording_lib_storage_filter_internal">Dahili</string>
+    <string name="recording_lib_storage_internal">DAH</string>
+    <string name="onboarding_camera_windshield_body">OEM dashcam düzeni için — ön cam kamerası kaydınızın üstünde bir şerit olarak — rol menüsünden Ön Cam\'i seçin, ileri kamerayı belirleyin ve Kaydedin. Çoğu kullanıcı bunu atlayabilir.</string>
+    <string name="onboarding_camera_windshield_skip">Hayır, teşekkürler</string>
+    <string name="onboarding_expert_integrations_title">Entegrasyonlar</string>
+    <!-- Projection screen -->
+    <string name="projection_hero_title">Yansıtma</string>
+    <string name="projection_hero_subtitle">Bir uygulamayı gösterge paneline aktarın ve burada yansıtın.</string>
+    <string name="projection_pick_app">Yansıtılacak bir uygulama seçin</string>
+    <string name="projection_cast">Gösterge paneline aktar</string>
+    <string name="projection_stop">Durdur</string>
+    <string name="projection_cast_failed">Bu uygulama gösterge paneline aktarılamadı.</string>
+    <string name="projection_status_idle">Yansıtma yapılmıyor.</string>
+    <string name="projection_status_live">Canlı yansıma — kontrol etmek için dokunun ve kaydırın.</string>
+    <string name="projection_status_preview">Önizleme modu (bu araçta kare hızı düşürülür).</string>
+    <string name="projection_status_none">Henüz hiçbir şey yansıtılmıyor — bir uygulama seçin ve aktarın.</string>
+    <string name="projection_status_unsupported">Canlı yansıma bu araçta desteklenmiyor. Uygulama yine de gösterge paneline yansıtılıyor.</string>
+    <string name="projection_note_single_app">Gösterge paneline aynı anda tek bir uygulama yansıtılabilir.</string>
+    <string name="projection_adjust_bounds">Alanı ayarla</string>
+    <string name="projection_done_adjusting">Bitti</string>
+    <string name="projection_bounds_hint_idle">Yansıma alanı</string>
+    <string name="projection_status_adjust">Taşımak için sürükleyin · yeniden boyutlandırmak için bir köşeyi sürükleyin.</string>
+    <string name="projection_scale_title">Ölçekleme</string>
+    <string name="projection_scale_desc">Gösterge panelinin ayna alanını nasıl doldurduğu.</string>
+    <string name="projection_scale_fit">Sığdır</string>
+    <string name="projection_scale_fill">Uzat</string>
+    <string name="projection_scale_zoom">Yakınlaştır</string>
+    <string name="projection_autostart_title">Açılışta otomatik başlat</string>
+    <string name="projection_autostart_desc">Araç her çalıştığında son kullanılan uygulamayı gösterge paneline otomatik olarak yayınlar. (Ayna, bu ekrana girdiğinizde açılır.)</string>
+    <string name="projection_autostart_need_app">Önce bir uygulama yayınlayın, sonra bunu açın.</string>
+    <string name="projection_autostart_conflict_title">RoadSense gösterge panelini kullanıyor</string>
+    <string name="projection_autostart_conflict_body">RoadSense, araç çalıştığında haritayı sürücü gösterge paneline otomatik yansıtacak şekilde ayarlı. Gösterge paneli aynı anda yalnızca bir şey gösterebilir. Bunu kapatıp bunun yerine bu uygulamayı otomatik başlatmak ister misiniz?</string>
+    <string name="projection_autostart_conflict_confirm">Bu uygulamayı kullan</string>
+    <string name="projection_app_uninstalled">O uygulama artık yüklü değil.</string>
+    <string name="projection_status_service_down">Ayna hizmeti hazır değil — uygulamayı (veya kamera arka plan hizmetini) yeniden başlatıp tekrar deneyin.</string>
+</resources>

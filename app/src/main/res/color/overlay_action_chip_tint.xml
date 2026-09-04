@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tint applied to the action-chip icon. Flips to bg_base (the
+     pill's body color, near-white in light, near-black in night) when
+     the chip is selected so the glyph stays legible against the
+     brand_primary fill. text_primary on the unselected variant gives
+     a strong contrast against the muted overlay_pill_stroke fill. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/bg_base" android:state_selected="true" />
+    <item android:color="@color/text_primary" />
+</selector>

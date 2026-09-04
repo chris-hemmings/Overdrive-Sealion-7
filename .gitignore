@@ -1,0 +1,31 @@
+/.gradle
+/.idea
+/.kotlin
+/local.properties
+/build
+
+/app/build
+/app/.cxx
+/app/src/main/cpp/opencv
+/app/src/main/cpp/openh264
+
+/dilink-probe/build
+/dilink-probe/.cxx
+/scratch
+*.raw
+*.zip
+*.png
+dilink5_camera_dump*
+.DS_Store
+
+ref
+device_backup
+logs_debug
+downloaded_logs
+frame_grabber_light
+
+# Signed release builds — build artifacts, not source. ~78MB each, dozens
+# accumulate during iteration; never belong in version control.
+*.apk
+*.aab
+overdrive_fast_cam_release.tar.gz

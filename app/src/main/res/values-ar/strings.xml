@@ -1,0 +1,1405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">تجاوز القرص</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">يحافظ على مراقبة المركبات الزائدة على القيادة نشطة في الخلفية. هذه الخدمة لا تقرأ أو تتفاعل مع محتوى الشاشة.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">إلغاء</string>
+    <string name="action_clear_plain">مسح</string>
+    <string name="action_select_all">حدد الكل</string>
+    <string name="action_select_all_short">الكل</string>
+    <string name="action_delete">حذف</string>
+    <string name="action_share">مشاركة</string>
+    <string name="action_done">تم</string>
+    <string name="action_remind_me_later">اعاد لي اللاعب</string>
+    <string name="action_retry">إعادة المحاولة</string>
+    <string name="action_run">تشغيل</string>
+    <string name="action_clear_output">مسح المخرجات</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">الكاميرا</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">QR Code</string>
+    <string name="cd_show_hide_token">إظهار/إخفاء الرمز المميز</string>
+    <string name="cd_copy_token">نسخ الرمز المميز</string>
+    <string name="cd_copy_url">نسخ الرابط</string>
+    <string name="cd_clear_logs">مسح السجلات</string>
+    <string name="cd_expand_collapse">التوسع/الإغلاق</string>
+    <string name="cd_recording_status">حالة التسجيل</string>
+    <string name="cd_trip_tracking_status">حالة تتبع الرحلة</string>
+    <string name="cd_mic_status">حالة التقاط الميكروفون</string>
+    <string name="cd_video_thumbnail">الصورة المصغرة للفيديو</string>
+    <string name="cd_play">تشغيل</string>
+    <string name="cd_back">الرجوع</string>
+    <string name="cd_play_pause">تشغيل/إيقاف</string>
+    <string name="cd_player_prev">التسجيل السابق</string>
+    <string name="cd_player_next">التسجيل التالي</string>
+    <string name="cd_player_maximize">تعظيم اللاعب</string>
+    <string name="cd_player_minimize">الخروج من ملء الشاشة</string>
+    <string name="cd_player_mute">تبديل الصوت</string>
+    <string name="cd_player_quadrant_all">إظهار جميع الكاميرات</string>
+    <string name="cd_player_quadrant_front">إظهار الكاميرا الأمامية</string>
+    <string name="cd_player_quadrant_right">إظهار الكاميرا الصحيحة</string>
+    <string name="cd_player_quadrant_rear">إظهار الكاميرا الخلفية</string>
+    <string name="cd_player_quadrant_left">إظهار الكاميرا اليسرى</string>
+    <string name="cd_delete">حذف</string>
+    <string name="cd_share">مشاركة</string>
+    <string name="cd_expand">توسيع</string>
+    <string name="cd_configure">تكوين</string>
+    <string name="cd_download_log">سجل التنزيل</string>
+    <string name="cd_reset">Reset</string>
+    <string name="cd_battery">البطارية</string>
+    <string name="cd_step_completed">اكتملت الخطوة</string>
+    <string name="cd_permission_granted">تم منح الإذن</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">إريك</string>
+    <string name="overlay_trip_inactive_label">TRIP</string>
+    <string name="overlay_mic_inactive_label">MIC</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">إيقاف التسجيل</string>
+    <string name="overlay_mode_continuous_cd">تسجيل مستمر</string>
+    <string name="overlay_mode_drive_cd">تسجيل وضع القيادة</string>
+    <string name="overlay_mode_proximity_cd">تسجيل حراسة القرب</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">12:34:56</string>
+    <string name="log_entry_default_tag">[TAG]</string>
+    <string name="log_entry_default_message">تسجيل رسالة هنا</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">اسم دايمون</string>
+    <string name="daemon_card_default_status">رسالة الحالة</string>
+    <string name="daemon_card_subprocesses">SUBPROCESSES</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">السجلات</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">جارٍ توصيل…</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">لم يتم العثور على المتصفح. تم نسخ الرابط: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">إنشاء رابط تسجيل الدخول</string>
+    <string name="tailscale_scan_to_login">مسح لتسجيل الدخول</string>
+    <string name="tailscale_qr_waiting">في انتظار رابط تسجيل الدخول…</string>
+    <string name="tailscale_enable_proxy">تمكين وكيل Tailscale</string>
+    <string name="tailscale_proxy_explainer">يوجّه MQTT عبر Tailscale حتى تتمكن من الوصول إلى وسيط خاص على شبكة tailnet الخاصة بك دون إعادة توجيه المنافذ.</string>
+    <string name="tailscale_proxy_warning">أثناء التمكين، سيفشل MQTT مع الوسطاء العامّين (HiveMQ، AWS IoT، إلخ) — إذ يوجّه Tailscale إلى شبكة tailnet الخاصة بك فقط. سيؤدي الحفظ إلى إعادة تشغيل الخدمة.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">وضع الازدحام</string>
+    <string name="camera_mode_subtitle">اختر المسار الذي يطابق وحدة رأسك. يناسب الافتراضي معظم نماذج BYD ؛ DiLink 4 مطلوب على المسارات الأحدث (Han / Tang 2024+) حيث تصدر AVM HL فسيفساء 2x2 مسبقاً.</string>
+    <string name="camera_mode_option_default">الافتراضي - يعمل على الختم، أتو، دولفين (معظم السيارات)</string>
+    <string name="camera_mode_option_dilink4">DiLink 4 - المتغيرات الأحدث Han / Tang</string>
+    <string name="camera_mode_current_default">الحالي: افتراضي</string>
+    <string name="camera_mode_current_dilink4">حالي: اتصال هاتفي 4</string>
+    <string name="camera_mode_save">تطبيق &amp; إعادة تشغيل</string>
+    <string name="camera_mode_hint">تغيير الوضع يقوم بإعادة تشغيل الكاميرا الرديمون. إذا بدا الفيديو خاطئًا (تم تبديده، مفقود، تراكب الأحمر)، جرب الوضع الآخر.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">ربط 4 تعديلات أربعة</string>
+    <string name="camera_dilink4_tweaks_subtitle">تعديلات لكل مركبة لمسار DiLink 4. فقط تكون فعالة عندما يتم اختيار وضع DiLink 4 أعلاه.</string>
+    <string name="camera_dilink4_save">تطبيق</string>
+    <string name="camera_dilink4_hint">قم بتبديل هذه فقط إذا قام HL برسم كرتون أحمر \"فشل المعايرة\" على التغذية. إعادة تشغيل دايمون تطبق التغيير.</string>
+    <string name="camera_dilink4_red_mask_label">قمع تراكب المعايرة الحمراء (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">يضيف شريط لمسار الشظايا الذي يكتشف هول أحمر مشرق \"فشلت المعايرة\" ويستبدلها بعينة من الجيران (أو رمادي اللوحة عندما يكون البانر أكبر من أن يطبع). التجميل فقط - لا يؤثر على حالة المعايرة الأساسية.</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">اختيار الكاميرا</string>
+    <string name="camera_selection_subtitle">حدد مصدر الكاميرا البانورامية</string>
+    <string name="camera_current_auto">الحالي: تلقائي</string>
+    <string name="camera_option_auto">تلقائي (الكشف عند البدء)</string>
+    <string name="camera_option_0">الكاميرا 0 - المسافات</string>
+    <string name="camera_option_1">الكاميرا 1 - ختم (افتراضي)</string>
+    <string name="camera_option_2">الكاميرا 2</string>
+    <string name="camera_option_3">الكاميرا 3</string>
+    <string name="camera_option_4">الكاميرا 4</string>
+    <string name="camera_option_5">الكاميرا 5</string>
+    <string name="camera_selection_hint">يختار تلقائياً الكاميرا الصحيحة لتلخيصك في كل تشغيل تشغيلي. الكاميرا 1 = خاتم BYD، الكاميرا 0 = مسافات آتو. أعد تشغيل الرديمون بعد تغيير معرف الكاميرا لتفعيل الإعداد.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">معرف الكاميرا OEM</string>
+    <string name="camera_oem_dashcam_hint">اختر معرف AVMCamera الذي يشير إلى مستشعر داشكامو الأمامي. دشكام هو تفتح بانو: Seal/Han Pano = 1 → dashcam = 0؛ آتو / تانغ بانو = 0 → dashcam = 1. اترك تلقائياً لترك تجاوز القرص يختر.</string>
+    <string name="camera_oem_dashcam_auto_resolved">تلقائي - استخدام معرف %1$d (معرف الذاكرة %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">تلقائيًا — معرف الذاكرة %1$d، لا يمكن استنتاج Dashcam</string>
+    <string name="camera_oem_dashcam_save">حفظ</string>
+    <string name="camera_concurrent_probe_label">اختبار دعم ثنائي الكاميرا في التمهيد التالي</string>
+    <string name="camera_concurrent_probe_subtitle">التحقق لمرة واحدة من أن كلا الكاميرين يفتح مرة واحدة لتأكيد أن هذه السيارة يمكنها تشغيل بانو + داشكامم في نفس الوقت. تشغيل مرة واحدة في إعادة التشغيل التالية أثناء وقوفها. اتركه متوقفا ما لم تبدو التسجيلات خاطئة - ليس مطلوبا وقد يقطع التسجيل لفترة وجيزة إذا كان نشطا عند تشغيله.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">الكاميرا 0 - الفقمة / هان (الافتراضي)</string>
+    <string name="camera_oem_option_1">الكاميرا 1 - آتو / تانغ</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">تعيين الكاميرا</string>
+    <string name="camera_role_label">تعيين الأدوار</string>
+    <string name="camera_candidate_previous">السابق</string>
+    <string name="camera_candidate_next">التالي</string>
+    <string name="camera_preview_unavailable">معاينة غير متوفرة حتى الآن. حاول مرشح آخر أو تحديث عن طريق إعادة فتح مربع الحوار بعد إعادة تشغيل ديميون.</string>
+    <string name="camera_mapping_save">حفظ</string>
+    <string name="camera_mapping_clear">امسح الدور</string>
+    <string name="camera_mapping_saved">تم حفظ تعيين الكاميرا.</string>
+    <string name="camera_mapping_cleared">تم مسح تعيين دور الكاميرا.</string>
+    <string name="camera_mapping_summary_format">بث بانورامي: الكاميرا %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">البث البانورامي: الكشف التلقائي / البحث القديم</string>
+    <string name="camera_mapping_current_format">التخطيط الحالي: %1$s</string>
+    <string name="camera_mapping_current_none">التعيين الحالي: تلقائي / افتراضي</string>
+    <string name="camera_mapping_hint">يحافظ تجاوز القرص على سلوك بدء التشغيل القديم بشكل افتراضي، ولكن يتيح لك الآن معايرة الشريط البنورامي المدمج بشكل صحيح. معاينة كل شريحة مدمجة ، رسم خريطة منطقية 360 دور إلى الشريحة التي تظهر في الواقع الأمام/اليمين/الخلفية/اليسار على سيارتك ، وسوف يقوم دايمون بإعادة استخدام هذا التخطيط للتسجيل، والبث، والذكاء الاصطناعي بعد إعادة التشغيل.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">فحص للاتصال</string>
+    <string name="dashboard_qr_waiting">في انتظار النفق…</string>
+    <string name="dashboard_daemons_running_default">0/5 قيد التشغيل</string>
+    <string name="dashboard_device_id_loading">…</string>
+    <string name="dashboard_access_code">رمز الوصول</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">تجديد الرمز المميز</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">بدء العمل</string>
+    <string name="setup_guide_subtitle">ثلاث خطوات سريعة للحصول على أفضل تجربة:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2</string>
+    <string name="setup_step_three_label">3</string>
+    <string name="setup_language_title">اختر لغتك</string>
+    <string name="setup_language_body">الافتراضي إلى لغة وحدة الرأس الخاصة بك. انقر لاختيار واحدة مختلفة لتطبيق OverDrive ونفق الويب.</string>
+    <string name="setup_language_button">اختر اللغة</string>
+    <string name="setup_autostart_title">تعطيل تقييد البدء التلقائي</string>
+    <string name="setup_autostart_body">انقر أدناه لفتح BYD Stto-Start. ابحث عن تجاوز القرص في القائمة وألغي تحديد المربع. يمحو BYD هذا على كل تثبيت - ستعيد القيام به بعد التحديثات.</string>
+    <string name="setup_autostart_button">فتح BYD التشغيل التلقائي</string>
+    <string name="setup_overlay_title">السماح بالعرض فوق التطبيقات الأخرى</string>
+    <string name="setup_overlay_body">تمكين هذا لإظهار مؤشر حالة عائم للتسجيل وتتبع الرحلة على أعلى التطبيقات الأخرى.</string>
+    <string name="setup_overlay_button">فتح إعدادات التراكب</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">أغلق</string>
+    <string name="language_picker_title">اللغة</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">اللغات المتاحة %1$d</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">اختر لغة</string>
+    <string name="language_auto_title">تلقائي</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">تتبع النظام · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · تلقائي</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">$</string>
+    <string name="adb_command_hint">أدخل الأمر…</string>
+    <string name="adb_preset_commands_header">أوامر الإعداد المسبق</string>
+    <string name="adb_output_header">الناتج</string>
+    <string name="adb_output_ready">$ جاهز للأوامر…</string>
+    <string name="adb_console_hero_title">وحدة تحكم ADB</string>
+    <string name="adb_console_hero_subtitle">تشغيل أوامر القذيفة على الجهاز</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">جاري التحميل…</string>
+    <string name="webview_camera_daemon_not_running">لا تعمل الكاميرا دايمون</string>
+    <string name="webview_start_camera_daemon">ابدأ \"دايمون\" الكاميرا من شاشة \"دايمون\" للوصول إلى هذه الصفحة.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">تمكين الرمز المميز</string>
+    <string name="zrok_token_storage_note">يتم تخزين الرمز المميز بشكل آمن ويتم تقاسمه بين عمليات التطبيق والعملية الرمزية.</string>
+    <string name="zrok_reset_environment">إعادة تعيين بيئة Zrok</string>
+    <string name="zrok_reset_environment_desc">إزالة البيئة والرمز المميز. سوف تحتاج إلى إعادة التمكين باستخدام الرمز المميز الخاص بك (يستخدم فتحة الجهاز).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">إعادة تعيين البيانات</string>
+    <string name="reset_subtitle">مسح البيانات المتراكمة حسب الفئة</string>
+    <string name="reset_warning">لا يمكن التراجع عن هذا. سيتم حذف التسجيلات والرحلات وسجل البطارية بشكل دائم.</string>
+    <string name="reset_cat_trips">رحلات</string>
+    <string name="reset_cat_trips_desc">تاريخ الرحلة، الطرق، الدفعات الأسبوعية/الشهرية</string>
+    <string name="reset_cat_soc_history">سجل SoC &amp; 12V</string>
+    <string name="reset_cat_soc_history_desc">عينات سوك، وجلسات الشحن، وسجلات الفولطية</string>
+    <string name="reset_cat_soh">معايرة سوهي</string>
+    <string name="reset_cat_soh_desc">إعادة اكتشاف القدرة الاسمية، إعادة تقدير البذور من نظام إدارة المباني</string>
+    <string name="reset_cat_abrp_token">رمز ABRP</string>
+    <string name="reset_cat_abrp_token_desc">تعطيل القياس عن بعد ABRP حتى إعادة الاقتران</string>
+    <string name="reset_cat_byd_cloud">بيانات اعتماد سحابة BYD</string>
+    <string name="reset_cat_byd_cloud_desc">اسم المستخدم، مفتاح تسجيل الدخول، VIN - مطلوب إعادة تسجيل الدخول</string>
+    <string name="reset_cat_recordings">التسجيلات (الفيديو)</string>
+    <string name="reset_cat_recordings_desc">جميع MP4 في مجلد التسجيلات</string>
+    <string name="reset_cat_sentry_events">أنشطة المراقبة</string>
+    <string name="reset_cat_sentry_events_desc">مقاطع أحداث المراقبة وأطراف JSON</string>
+    <string name="reset_cat_proximity">التسجيلات القريبة</string>
+    <string name="reset_cat_proximity_desc">حدث مشغل رادار MP4</string>
+    <string name="reset_cat_trip_files">رحلة ملفات القياس عن بعد</string>
+    <string name="reset_cat_trip_files_desc">القياس عن بعد في الرحلة لكل JSON على القرص</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">أي</string>
+    <string name="recording_lib_chip_person">شخص</string>
+    <string name="recording_lib_chip_vehicle">السيارة</string>
+    <string name="recording_lib_chip_bike">دراجة</string>
+    <string name="recording_lib_chip_animal">حيوان</string>
+    <string name="recording_lib_chip_alert">تنبيه</string>
+    <string name="recording_lib_chip_critical">حرج</string>
+    <string name="recording_lib_selected_count_zero">0 محدد</string>
+    <string name="recording_lib_no_recordings">لا توجد تسجيلات</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">تصفية</string>
+    <string name="recording_lib_filter_button_active">تصفية · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">تصفية التسجيلات</string>
+    <string name="recording_lib_filter_apply">تطبيق</string>
+    <string name="recording_lib_filter_reset">Reset</string>
+    <string name="recording_lib_filter_section_what">ماذا</string>
+    <string name="recording_lib_filter_section_severity">الخطورة</string>
+    <string name="recording_lib_filter_section_type">نوع</string>
+    <string name="recording_lib_filter_section_place">مكان</string>
+    <string name="recording_lib_place_search_hint">البحث عن الأماكن…</string>
+    <string name="recording_lib_chip_type_normal">عادي</string>
+    <string name="recording_lib_chip_type_proximity">القرب</string>
+    <string name="recording_lib_date_today">اليوم</string>
+    <string name="recording_lib_date_yesterday">أمس</string>
+    <string name="recording_lib_clip_count">%1$d مقطع</string>
+    <string name="recording_lib_clip_count_one">%1$d clip</string>
+    <string name="recording_lib_pick_date">اختيار تاريخ</string>
+    <string name="recording_lib_date_all_days">كل الأيام</string>
+    <string name="cd_clear_date_filter">إظهار كل الأيام</string>
+    <string name="recording_lib_section_morning">صباحا</string>
+    <string name="recording_lib_section_afternoon">بعد الظهر</string>
+    <string name="recording_lib_section_evening">المساء</string>
+    <string name="recording_lib_section_night">الليل</string>
+    <string name="cd_previous_day">اليوم السابق</string>
+    <string name="cd_next_day">اليوم التالي</string>
+    <string name="cd_open_filters">فتح الفلاتر</string>
+    <string name="cd_clear_filter">مسح الفلتر</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">لا توجد تسجيلات متطابقة</string>
+    <string name="recording_lib_empty_body">حاول تعديل نطاق التاريخ أو فلاتر الرقائق الخاصة بك.</string>
+    <string name="recording_lib_empty_clear_filters">مسح الفلاتر</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">لا شيء مسجل حتى الآن</string>
+    <string name="recording_lib_empty_disk_body">سيظهر التقاط هنا حالما يكتب خط الأنابيب أو خط الأنابيب المقطوعة</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">فهرس مكتبة البناء</string>
+    <string name="recording_lib_building_index_body">لحظة واحدة بينما يقوم الديمون بفحص تسجيلاتك.</string>
+    <string name="recording_lib_building_index_progress">مفهرس %1$d من مقطع %2$d…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">كاميرا</string>
+    <string name="recording_lib_type_event">إنش</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">OEM</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">مشاركة تسجيلات %1$d</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">التسجيل</string>
+    <string name="player_time_zero">0:00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">خدمات المعلومات الأساسية</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">جاري تحميل الخدمات…</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d من %2$d قيد التشغيل</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">جارٍ إعداد التحديث…</string>
+    <string name="update_percent_zero">0%</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">صحة البطارية</string>
+    <string name="battery_health_subtitle">حالة الصحة</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">في انتظار البيانات…</string>
+    <string name="battery_health_source">المصدر</string>
+    <string name="battery_health_method">الطريقة</string>
+    <string name="battery_health_capacity">السعة</string>
+    <string name="battery_health_samples">عينات</string>
+    <string name="battery_health_last_updated">آخر تحديث</string>
+    <string name="battery_health_reset">إعادة تعيين تقدير SOH</string>
+    <string name="battery_health_reset_desc">مسح جميع البيانات وإعادة التقدير من الصفر. استخدام إذا تم استبدال البطارية أو إذا كانت القراءة تبدو غير صحيحة.</string>
+    <string name="soh_dialog_model_label">الموديل</string>
+    <string name="soh_dialog_pack_capacity_label">سعة الحزمة</string>
+    <string name="soh_dialog_estimated_capacity_label">القدرة الفعالة</string>
+    <string name="soh_dialog_calibration_anchor_label">آخر معايرة</string>
+    <string name="soh_dialog_source_user">مجموعة المستخدمين</string>
+    <string name="soh_dialog_source_auto">الكشف التلقائي</string>
+    <string name="soh_dialog_model_not_selected">غير محدد</string>
+    <string name="soh_dialog_capacity_not_detected">لم يتم الكشف</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% على %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">الشحن الكامل للملاحظة</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh observed at full (%2$d/%3$d samples)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh observed at full (collecting %2$d/%3$d samples)</string>
+    <string name="soh_dialog_frame_mismatch_title">عدم تطابق إطار سعة الحزمة</string>
+    <string name="soh_dialog_frame_mismatch_format">تبلغ المركبة %1$.1f كيلو وات في الساعة بالشحن الكامل ولكن يتم تعيين سعة الحزمة إلى %2$.1f كيلو واو. الرقم أعلاه قد يعكس عدم تطابق الوحدة (لوحة اسم مقابل قابليتها للاستخدام)، وليس التحلل الحقيقي. فكر في الدخول إلى %1$.1f كيلو وات ساعة لمطابقة ما تقوله السيارة.</string>
+    <string name="soh_dialog_use_observed_value">استخدام القيمة الملاحظة</string>
+    <string name="soh_dialog_use_observed_value_pending">حفظ…</string>
+    <string name="toast_soh_observed_value_saved">تم تحديث سعة الحزمة إلى %1$.1f كيلو واو.</string>
+    <string name="toast_soh_observed_value_failed">تعذر تحديث سعة الحزمة (%1$s).</string>
+    <string name="diagnostics_battery_needs_review">استعراض الاحتياجات</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">حسناً</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="zero">تم حذف تسجيلات %d</item>
+        <item quantity="one">تم حذف تسجيل %d</item>
+        <item quantity="two">تم حذف تسجيلات %d</item>
+        <item quantity="few">تم حذف تسجيلات %d</item>
+        <item quantity="many">تم حذف تسجيلات %d</item>
+        <item quantity="other">تم حذف تسجيلات %d</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="zero">حذف تسجيلات %d</item>
+        <item quantity="one">حذف تسجيل %d</item>
+        <item quantity="two">حذف تسجيلات %d</item>
+        <item quantity="few">حذف تسجيلات %d</item>
+        <item quantity="many">حذف تسجيلات %d</item>
+        <item quantity="other">حذف تسجيلات %d</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="zero">سيؤدي هذا إلى حذف تسجيلات %d بشكل دائم. لا يمكن التراجع عن ذلك.</item>
+        <item quantity="one">سيؤدي هذا إلى حذف تسجيل %d بشكل دائم. لا يمكن التراجع عنه.</item>
+        <item quantity="two">سيؤدي هذا إلى حذف تسجيلات %d بشكل دائم. لا يمكن التراجع عن ذلك.</item>
+        <item quantity="few">سيؤدي هذا إلى حذف تسجيلات %d بشكل دائم. لا يمكن التراجع عن ذلك.</item>
+        <item quantity="many">سيؤدي هذا إلى حذف تسجيلات %d بشكل دائم. لا يمكن التراجع عن ذلك.</item>
+        <item quantity="other">سيؤدي هذا إلى حذف تسجيلات %d بشكل دائم. لا يمكن التراجع عن ذلك.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">تم التحديث إلى %1$s</string>
+    <string name="toast_update_install_failed">فشل تثبيت التحديث: %1$s</string>
+    <string name="toast_checking_for_updates">التحقق من وجود تحديثات…</string>
+    <string name="toast_app_up_to_date">التطبيق محدث (%1$s)</string>
+    <string name="toast_update_check_failed">فشل التحقق من التحديث: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">التحديث متاح</string>
+    <string name="update_dialog_subtitle">بناء أحدث جاهز للتثبيت</string>
+    <string name="update_dialog_current">الحالي: v%1$s</string>
+    <string name="update_dialog_new">جديد: ضد%1$s</string>
+    <string name="update_dialog_current_label">مثبت</string>
+    <string name="update_dialog_new_label">إصدار جديد</string>
+    <string name="update_dialog_whats_new">ما الجديد</string>
+    <string name="update_dialog_install_now">تثبيت الآن</string>
+    <string name="update_dialog_later">لاحقاً</string>
+    <string name="update_picker_title">اختر نسخة</string>
+    <string name="update_picker_subtitle">تثبيت أي بناء منشور - أحدث أو أقدم</string>
+    <string name="update_picker_empty">لا توجد إصدارات منشورة بعد.</string>
+    <string name="update_picker_current_suffix">%1$s (مثبت)</string>
+    <string name="update_picker_older_suffix">%1$s (قديم)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">تحديث فوق القرص</string>
+    <string name="update_step_downloading">تحميل التحديث…</string>
+    <string name="update_step_verifying">التحقق من التحميل…</string>
+    <string name="update_step_stopping">إيقاف الهدايا…</string>
+    <string name="update_step_installing">تثبيت التحديث…</string>
+    <string name="update_step_installed">تم تثبيت التحديث</string>
+    <string name="update_step_restarting">إعادة تشغيل التطبيق…</string>
+    <string name="update_step_queued">بدء التحديث…</string>
+    <string name="update_error_title">فشل التحديث</string>
+    <string name="update_error_daemon_down">لم يتم تشغيل الكاميرا. ابدأ من شاشة دايمونز، ثم حاول التحديث مرة أخرى.</string>
+    <string name="update_error_start_failed">تعذر بدء التحديث: %1$s</string>
+    <string name="update_error_lost_headunit">الاتصال الضائع مع وحدة الرأس قبل انتهاء التثبيت. على النفق؟ تحقق من تيليجرام لعنوان URL الجديد، أو استخدم IP المحلي.</string>
+    <string name="update_hide">إخفاء</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">تحديث القناة</string>
+    <string name="settings_update_channel_alpha">ألفا</string>
+    <string name="settings_update_channel_braveheart">قلب الشجاعة</string>
+    <string name="settings_update_channel_alpha_desc">الإصدار المستقر. يتم الاحتفاظ بكل نسخة منشورة - اختر أي شيء لتثبيته (يسمح بالدرجات). مستحسن للاستخدام اليومي.</string>
+    <string name="settings_update_channel_braveheart_desc">بنايات النزلاق ، سلمت لحظة نشرها. تحصل على ميزات جديدة أولا، ولكن قد تكون غير مستقرة أو غير مستقرة. إذا توقف شيء ما، افتح شاشة دايمونز، اضغط على سجل دايمون، اختر \"تحميل &amp; احصل على رمز\"، وشارك الكود معنا على قنوات المجتمع.</string>
+    <string name="settings_update_channel_save_failed">تعذر حفظ قناة التحديث</string>
+    <string name="settings_update_channel_braveheart_toast">تم التبديل إلى القلب الشجاع. قد تكون المباني غير مستقرة - إذا توقف شيء ما، وإرسال سجل الديمون والإبلاغ عنه على ديسكورد/GitHub/WhatsApp.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">إذن التخزين مطلوب للتسجيلات</string>
+    <string name="toast_url_copied_short">تم نسخ الرابط!</string>
+    <string name="toast_camera_set_to_auto">تم تعيين الكاميرا إلى تلقائي</string>
+    <string name="toast_failed_to_save_short">فشل في الحفظ</string>
+    <string name="toast_failed_with_message">فشل: %1$s</string>
+    <string name="toast_camera_id_set">تم تعيين الكاميرا %1$d - الدورة التالية للجنة التنسيق الإدارية</string>
+    <string name="toast_clearing_camera_config">مسح تكوين الكاميرا…</string>
+    <string name="toast_restarting_camera_daemon">إعادة تشغيل الكاميرا Demon…</string>
+    <string name="toast_camera_daemon_restarting">إعادة تشغيل كاميرا دايمون مع المسح الكامل</string>
+    <string name="toast_camera_restart_failed">تم مسح الإعدادات ولكن فشلت إعادة تشغيل دييمون. الرجاء إعادة التشغيل يدوياً.</string>
+    <string name="toast_camera_settings_saved_restarting">تم حفظ إعدادات الكاميرا — إعادة تشغيل الكاميرا الرديمون…</string>
+    <string name="toast_camera_settings_restart_failed">تم حفظ إعدادات الكاميرا، ولكن فشلت إعادة تشغيل ديمون. الرجاء إعادة تشغيلها يدويا.</string>
+    <string name="toast_failed_with_message_x">فشل: %1$s</string>
+    <string name="toast_soh_reset_success">إعادة تعيين تقدير SOH - سيتم إعادة الحساب من البيانات التالية</string>
+    <string name="toast_soh_reset_failed_no_daemon">فشلت إعادة الضبط - دايمون لا يستجيب والملف غير قابل للكتابة</string>
+    <string name="toast_soh_reset_failed_with_message">فشلت إعادة الضبط: %1$s</string>
+    <string name="toast_select_at_least_one_category">حدد فئة واحدة على الأقل</string>
+    <string name="toast_reset_failed_with_error">فشلت إعادة الضبط: %1$s</string>
+    <string name="toast_traffic_monitor_changing">%1$s مراقبة حركة المرور…</string>
+    <string name="dialog_close">أغلق</string>
+    <string name="dialog_reset">Reset</string>
+    <string name="dialog_delete">حذف</string>
+    <string name="dialog_save">حفظ</string>
+    <string name="dialog_enable">تمكين</string>
+    <string name="dialog_disable">تعطيل</string>
+    <string name="dialog_keep_enabled">الحفاظ على التمكين</string>
+    <string name="dialog_keep_disabled">إبقاء معطل</string>
+    <string name="dialog_regenerate">تجديد</string>
+    <string name="dialog_reset_selected">إعادة تعيين المحدد</string>
+    <string name="dialog_reset_soh_title">إعادة تعيين تقدير SOH؟</string>
+    <string name="dialog_reset_soh_message">سيؤدي هذا إلى مسح جميع بيانات مركز الصحة وإعادة تقدير القوة من الصفر.\n\nاستخدم هذا إذا:\n• تم استبدال البطارية\n• يبدو أن قراءة SOH غير صحيحة\n• تريد إعادة معايرة\n\nسيتم إعادة بذور النظام من مصدر البيانات التالي (OEM)، معايرة الشحنات أو القراءة الفورية).</string>
+    <string name="dialog_reset_following_title">إعادة تعيين التالي؟</string>
+    <string name="dialog_reset_following_message">لا يمكن التراجع عن هذا.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Reset complete</string>
+    <string name="dialog_traffic_cannot_check_title">لا يمكن التحقق من الحالة</string>
+    <string name="dialog_traffic_cannot_check_message">اتصال ADB غير جاهز بعد.\n\nيحتاج التطبيق إلى الوصول إلى ADB لإدارة حزم النظام. الرجاء ضمان:\n\n• تم تمكين تصحيح أخطاء USB في خيارات المطور\n• تم قبول طلب تفويض ADB\n\nسيتم تحديث الحالة تلقائياً بمجرد الاتصال.</string>
+    <string name="dialog_traffic_disable_title">تعطيل مراقب بيانات BYD؟</string>
+    <string name="dialog_traffic_disable_message">مرصد حركة المرور BYD (com.byd.trafficmonitor) هو تطبيق نظام داخلي يرصد باستمرار ظروف حركة المرور على الطرق في الخلفية.\n\nلماذا تعطيله؟\n\n• يستهلك بيانات الجوال (حتى عند وقوفها)\n• يستخدم وحدة المعالجة المركزية والبطارية في الخلفية\n• لا حاجة إليها إذا كنت تستخدم تطبيق تنقل منفصل\n• يمكن أن يتداخل مع استخدام شبكة DashCam\'s\n\nهذا آمن لتعطيله - فإنه يؤثر فقط على تراكب حركة المرور المدمج على الخريطة. لا يتأثر تصفحك و البلوتوث و جميع وظائف السيارة الأخرى.\n\nمطلوب إعادة تشغيل صلبة بعد التعطيل (الضغط على زر وحدة التحكم للمركز 5 ثوان).</string>
+    <string name="dialog_traffic_enable_title">إعادة تمكين مراقب بيانات BYD؟</string>
+    <string name="dialog_traffic_enable_message">مراقب حركة البيانات BYD معطل حاليا.\n\nإعادة تمكينه سوف يستعيد تراكب حركة المرور المدمج على خريطة التنقل. لاحظ أنه سيتم تشغيله في الخلفية ويستهلك بيانات الجوال.\n\nمطلوب إعادة تشغيل صلبة بعد التمكين (الضغط على زر وحدة التحكم المركزية 5 ثوان).</string>
+    <string name="dialog_traffic_status_title">مراقبة حركة المرور %1$s</string>
+    <string name="dialog_traffic_reboot_message">The change has been applied.\n\nPlease perform a hard reboot now:\nPress and hold the central console button for 5 seconds.</string>
+    <string name="traffic_monitor_loading">مراقبة البيانات: التحقق…</string>
+    <string name="traffic_monitor_tap_to_check">مراقبة حركة المرور (انقر للتحقق من)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">رحلات</string>
+    <string name="reset_label_soc_history">تاريخ SoC + 12V</string>
+    <string name="reset_label_soh">معايرة سوهي</string>
+    <string name="reset_label_abrp_token">رمز ABRP</string>
+    <string name="reset_label_byd_cloud">بيانات اعتماد سحابة BYD</string>
+    <string name="reset_label_recordings">التسجيلات</string>
+    <string name="reset_label_sentry_events">أنشطة المراقبة</string>
+    <string name="reset_label_proximity">التسجيلات القريبة</string>
+    <string name="reset_label_trip_files">رحلة ملفات القياس عن بعد</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">تم نسخ رمز الوصول</string>
+    <string name="dialog_regenerate_token_title">تجديد الرمز المميز</string>
+    <string name="dialog_regenerate_token_message">سيؤدي هذا إلى إلغاء الرمز المميز الحالي. سيتم تسجيل الخروج من جميع الجلسات النشطة. هل تريد المتابعة؟</string>
+    <string name="toast_token_regenerated_logged_out">تم إنشاء رمز جديد. تم تسجيل الخروج من جميع الجلسات.</string>
+    <string name="toast_token_regenerated_restart">تم تجديد الرمز المميز. قد يحتاج دايمون إلى إعادة تشغيل للتطبيق.</string>
+    <string name="toast_token_regenerated_no_notify">تم تجديد الرمز المميز. لا يمكن إخطار الرمز.</string>
+    <string name="toast_token_regenerated">تم تجديد الرمز</string>
+    <string name="dashboard_no_tunnel">لا يوجد نفق قيد التشغيل</string>
+    <string name="dashboard_starting_zrok">بدء نفق Zrok…</string>
+    <string name="dashboard_starting_cloudflared">بدء نفق Cloudflared…</string>
+    <string name="dashboard_starting_tailscale">بدء نفق Tailscale…</string>
+    <string name="dashboard_waiting_url">في انتظار رابط النفق…</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d قيد التشغيل</string>
+    <string name="tunnel_label_cloudflared">Cloudflared</string>
+    <string name="tunnel_label_zrok">Zrok</string>
+    <string name="tunnel_label_tailscale">Tailscale</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">كاميرا دايمون</string>
+    <string name="daemon_name_surveillance">Surveillance Daemon</string>
+    <string name="daemon_name_acc_surveillance">مراقبة لجنة التنسيق الإدارية</string>
+    <string name="daemon_name_singbox">وكيل فردي</string>
+    <string name="daemon_name_cloudflared">نفق Cloudflared</string>
+    <string name="daemon_name_zrok">نفق Zrok</string>
+    <string name="daemon_name_tailscale">نفق Tailscale</string>
+    <string name="daemon_name_telegram">بوت تيليجرام</string>
+    <string name="clip_label_access_code">رمز الوصول</string>
+    <string name="clip_label_url">الرابط</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">لا توجد اعدادات مطلوبة ل %1$s</string>
+    <string name="dialog_zrok_token_title">رمز نفق Zrok</string>
+    <string name="dialog_zrok_token_message">Enter your Zrok enable token.\nGet one at: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">لا يمكن أن تكون الرمز فارغة</string>
+    <string name="dialog_tailscale_settings_title">إعدادات نفق Tailscale</string>
+    <string name="dialog_tailscale_settings_message">Configure tailscale</string>
+    <string name="tailscale_failed_login_url">فشل في إنشاء رابط تسجيل الدخول</string>
+    <string name="tailscale_logged_in_relogin">تسجيل الدخول. انقر لتسجيل الدخول إلى حساب مختلف</string>
+    <string name="dialog_tailscale_proxy_enable_title">تمكين وكيل Tailscale؟</string>
+    <string name="dialog_tailscale_proxy_enable_message">هذا الطريق MQTT من خلال تايلباس حتى تتمكن من الوصول إلى وسيط خاص على شبكة الذيل الخاصة بك بدون شحن المنفذ.\n\nأثناء التفعيل:\n• MQTT لعمل وسيط لشبكة الذيل (على سبيل المثال البعوض على جهاز على شبكة الذيل الخاصة بك)\n• MQTT للسماسرة العموميين (HiveMQ، AWS IoT، إلخ. سوف تفشل - فقط الطرق المجدولة إلى شبكة الذيل\n• سيتم إعادة تشغيل Demon Tailscale لتطبيق التغيير\n• حركة مرور التطبيقات الأخرى وبقية الجهاز غير متأثرة\n\nيمكنك إيقاف تشغيل هذا في أي وقت.</string>
+    <string name="dialog_zrok_reset_title">إعادة تعيين بيئة Zrok</string>
+    <string name="dialog_zrok_reset_message">سيؤدي هذا إلى:\n• أوقف نفق الزروك إذا تم تشغيله\n• إزالة بيئة الزروك من هذا الجهاز\n• حذف الرمز المميز المحفوظ\n\nستحتاج إلى إعادة إدخال الرمز المميز الخاص بك وإعادة تمكينه. هذا يستخدم واحدة من خانات جهازك الخمسة على zrok.io.\n\nهل أنت متأكد؟</string>
+    <string name="toast_resetting_zrok">جارٍ إعادة تعيين بيئة Zrok…</string>
+    <string name="toast_zrok_reset_success">تمت إعادة تعيين بيئة Zrok. أدخل رمزًا جديدًا للإعداد مرة أخرى.</string>
+    <string name="toast_zrok_reset_partial">إعادة تعيين البيئة (قد يحتاج ملف الرمز المميز إلى تنظيف يدوي)</string>
+    <string name="toast_zrok_reset_warnings">إعادة تعيين البيئة (مع التحذيرات: %1$s)</string>
+    <string name="zrok_no_token_configured">لم يتم تكوين الرمز المميز. انقر للإعداد.</string>
+    <string name="dialog_tailscale_reset_title">إعادة تعيين بيئة Tailscale</string>
+    <string name="dialog_tailscale_reset_message">سيؤدي هذا إلى:\n• إيقاف نفق Tailscale إذا كان قيد التشغيل\n• إزالة بيئة Tailscale من هذا الجهاز\n• ستظل بحاجة إلى إزالة الجهاز من وحدة تحكم Tailscale\n\nستحتاج إلى تسجيل الدخول مرة أخرى.\n\nهل أنت متأكد؟</string>
+    <string name="toast_resetting_tailscale">جارٍ إعادة تعيين بيئة Tailscale…</string>
+    <string name="toast_tailscale_reset_success">تمت إعادة تعيين بيئة Tailscale. سجّل الدخول للإعداد مرة أخرى.</string>
+    <string name="toast_tailscale_reset_warnings">تمت إعادة تعيين بيئة Tailscale (مع تحذيرات: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">تم تمكين وكيل Tailscale</string>
+    <string name="toast_tailscale_proxy_disabled">تم تعطيل وكيل Tailscale</string>
+    <string name="toast_tailscale_proxy_save_failed">فشل في حفظ إعدادات الوكيل</string>
+    <string name="toast_zrok_token_saved">تم حفظ الرمز</string>
+    <string name="toast_zrok_token_save_failed">فشل حفظ الرمز المميز</string>
+    <string name="toast_zrok_token_deleted">تم حذف الرمز</string>
+    <string name="toast_zrok_token_delete_failed">فشل حذف الرمز المميز</string>
+    <string name="toast_fetching_log">جلب سجل %1$s…</string>
+    <string name="toast_log_empty_or_missing">ملف السجل فارغ أو غير موجود</string>
+    <string name="toast_log_empty">ملف السجل فارغ</string>
+    <string name="toast_daemon_manager_unavailable">مدير دايمون غير جاهز، حاول مرة أخرى في لحظة</string>
+    <string name="toast_log_save_failed">فشل حفظ السجل: %1$s</string>
+    <string name="toast_log_not_found">ملف السجل غير موجود أو غير قابل للقراءة</string>
+    <string name="log_share_title">سجل %1$s - %2$s</string>
+    <string name="log_share_chooser">مشاركة سجل %1$s</string>
+    <string name="log_header_title">== سجل %1$s == =</string>
+    <string name="log_header_source">المصدر: %1$s</string>
+    <string name="log_header_exported">تم التصدير: %1$s</string>
+    <string name="log_header_truncated">ملاحظة: السجل مقتطف إلى آخر 10000 سطر (المجموع: %1$d سطر)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">إرسال سجل %1$s</string>
+    <string name="logs_send_title_plain">إرسال سجل دايمون</string>
+    <string name="logs_send_subtitle">%1$s · اختر كيفية إرساله إلينا</string>
+    <string name="logs_send_upload">تحميل &amp; احصل على رمز</string>
+    <string name="logs_send_upload_desc">يرسل السجل إلينا ويعطيك رمز قصير. أسهل للحصول على الدعم.</string>
+    <string name="logs_send_share">مشاركة الملف…</string>
+    <string name="logs_send_share_desc">حفظ أو إرسال السجل بنفسك عبر ورقة المشاركة.</string>
+    <string name="logs_uploading_title">تحميل السجل…</string>
+    <string name="logs_uploading_subtitle">إعادة كتابة الأسرار وإرسالها بشكل آمن</string>
+    <string name="logs_uploaded_title">تم رفع السجل</string>
+    <string name="logs_uploaded_instructions">شارك هذه التعليمات البرمجية معنا، مع ملاحظة حول ما كنت تفعله عند كسرها. انشره على ديسكورد، GitHub مشكلات أو WhatsApp - الروابط على الشاشة.</string>
+    <string name="logs_uploaded_privacy">تم تعديل الأسرار · تنتهي صلاحية السجل تلقائياً</string>
+    <string name="logs_copy_code">نسخ الرمز</string>
+    <string name="logs_done">تم</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">خطأ في الشبكة</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">لا يمكن تشغيل الفيديو: %1$s</string>
+    <string name="dialog_delete_recording_title">حذف التسجيل</string>
+    <string name="dialog_delete_recording_message">حذف %1$s?\nلا يمكن التراجع عن ذلك.</string>
+    <string name="toast_recording_deleted">تم حذف التسجيل</string>
+    <string name="toast_recording_delete_failed">فشل في حذف التسجيل</string>
+    <string name="toast_batch_delete_partial">%1$d تم حذفه، %2$d فشل</string>
+    <string name="play_with_chooser">اللعب مع</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">تم التحديث إلى %1$s — إعادة تأكيد التشغيل التلقائي، يمحو BYD على كل تثبيت. </string>
+    <string name="setup_overlay_already_granted">مُنحت بالفعل</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">نصائح &amp; استكشاف الأخطاء</string>
+    <string name="setup_traffic_title">تعطيل مراقب بيانات BYD</string>
+    <string name="setup_traffic_body">يمنع مراقب حركة المرور BYD تطبيقات الطرف الثالث من الوصول إلى الإنترنت. تعطيل هذا يسمح لـ OverDrive وأي تطبيقات أخرى تثبيتها في الواقع تستخدم الشبكة. مطلوب إعادة تشغيل صلبة بعد ذلك.</string>
+    <string name="setup_traffic_button">فتح مراقبة حركة البيانات</string>
+    <string name="setup_camera_fix_title">تغذية الكاميرا سوداء أو غير صحيحة؟</string>
+    <string name="setup_camera_fix_body">افتح التشخيصات &gt; مسبار الكاميرا، عيّن معرف الكاميرا على 0، انقر على الحفظ، ثم أعد تشغيل مسبار الكاميرا. إذا كانت الخلاصات لا تزال خاطئة، قم بتكرارها مع معرف الكاميرا 1. اترك قسم رسم الخرائط دون أن يمس.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">حاليا: الكاميرا %1$d (ثانوي)</string>
+    <string name="camera_current_auto_label">الحالي: تلقائي</string>
+    <string name="soh_estimation_active">التقدير نشط</string>
+    <string name="soh_no_estimate_yet">لا يوجد تقدير بعد - في انتظار البيانات</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">تم تحديد %1$d</string>
+    <string name="video_player_playback_error">خطأ في التشغيل</string>
+    <string name="video_player_no_events">لا توجد أحداث</string>
+    <string name="daemon_configuration_required">التكوين مطلوب</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">مشغل الفيديو</string>
+    <string name="nav_page_telegram">تيليجرام</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">MQT</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">تجاوز حالة القرص</string>
+    <string name="status_overlay_notif_text">Status overlay active</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">مفعل فوق السباق</string>
+    <string name="daemon_keepalive_notif_text">نظم مراقبة المركبات</string>
+    <string name="overdrive_status_summary_title">فوق القرص</string>
+    <string name="overdrive_status_summary_text">خدمات الخلفية قيد التشغيل</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">لوحة التحكم</string>
+    <string name="rail_live">مباشر</string>
+    <string name="rail_recordings">التسجيلات</string>
+    <string name="rail_vehicle">السيارة</string>
+    <string name="rail_trips">رحلات</string>
+    <string name="rail_integrations">التكاملات</string>
+    <string name="rail_diagnostics">التشخيص</string>
+    <string name="rail_settings">الإعدادات</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">المظهر</string>
+    <string name="settings_section_recording">التسجيل</string>
+    <string name="settings_section_surveillance">المراقبة</string>
+    <string name="settings_section_daemons">Daemons</string>
+    <string name="settings_section_privacy">الخصوصية &amp; البيانات</string>
+    <string name="settings_section_overlay">Status overlay</string>
+    <string name="settings_section_security">أمان</string>
+    <string name="settings_overlay_subtitle">اختر أي أجزاء من حبوب الحالة العائمة تبقى مرئية.</string>
+    <string name="settings_overlay_camera_title">مؤشر الكاميرا</string>
+    <string name="settings_overlay_camera_subtitle">إظهار شارة REC / PROX أثناء تفعيل التسجيل.</string>
+    <string name="settings_overlay_trip_title">مؤشر الرحلة</string>
+    <string name="settings_overlay_trip_subtitle">إظهار شارة TRIP أثناء تشغيل الكشف عن الرحلة.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">حول</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">الإعدادات</string>
+    <string name="cd_settings_subrail">إعدادات السكك الحديدية الفرعية</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">الخصوصية &amp; البيانات</string>
+    <string name="settings_privacy_body">إعادة تعيين فهرس التسجيلات، بيانات الاعتماد المخزنة مؤقتا، حالة الرديمون والتفضيلات على الجهاز. لا يمكن التراجع عن هذا الإجراء.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">حول OverDrive</string>
+    <string name="settings_about_version_label">الإصدار</string>
+    <string name="settings_about_package_label">بناء</string>
+    <string name="settings_about_check_update_value">تحقق من أحدث إصدار لـ GitHub وتثبيته إذا كان أحدث.</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">مدعوم من أشخاص مثلك</string>
+    <string name="settings_about_support_share_title">أخبر مالك زميل</string>
+    <string name="settings_about_support_share_value">كل رابط مشترك يساعد مالك BYD آخر على اكتشاف الزحف المفرط.</string>
+    <string name="settings_about_support_share_message">تحقق من فائقة القيادة - مراقبة مفتوحة المصدر &amp; Dashcam لـ BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">شارك فوق القرص</string>
+    <string name="settings_about_open_link_failed">تعذر فتح الرابط.</string>
+    <string name="settings_about_open_link_copied">لم يتم العثور على المتصفح. تم نسخ الرابط: %1$s</string>
+    <string name="settings_about_support_kofi_title">وقود الإصدار التالي</string>
+    <string name="settings_about_support_kofi_value">القهوة على \"كو - في\" تبقى في وقت متأخر من الليل.</string>
+    <string name="settings_about_license_title">الترخيص</string>
+    <string name="settings_about_license_value">MIT - المصدر المفتوح. انقر لعرض النص الكامل.</string>
+    <string name="settings_about_source_title">الكود المصدري</string>
+    <string name="settings_about_source_value">github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">Star us on GitHub</string>
+    <string name="settings_about_star_value">يأخذ ثانية. يعني الكثير.</string>
+    <string name="settings_about_thanks_title">شكراً</string>
+    <string name="settings_about_thanks_subtitle">بنيت بمساعدة من المساهمين والمؤيدين.</string>
+    <string name="settings_about_contributors_title">المساهمون</string>
+    <string name="settings_about_supporters_title">الداعمون</string>
+    <string name="settings_about_thanks_empty">القائمة تسحب الناس وهم يتدخلون فيها.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">السمة</string>
+    <string name="settings_theme_auto">تلقائي (تابع النظام)</string>
+    <string name="settings_theme_light">فاتح</string>
+    <string name="settings_theme_dark">داكن</string>
+    <string name="settings_language_label">اللغة</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">التسجيلات</string>
+    <string name="recordings_segment_dashcam">دشكام</string>
+    <string name="recordings_segment_surveillance">المراقبة</string>
+    <string name="recordings_action_settings">الإعدادات</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d اليوم · %2$d المجموع · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">داشكام · %d</string>
+    <string name="recordings_segment_surveillance_count">Surveillance · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">حدد تسجيل</string>
+    <string name="recordings_preview_placeholder_body">اضغط على أي عنصر على اليسار لتشغيله.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">وحدة تحكم ADB</string>
+    <string name="diagnostics_section_traffic">مراقبة حركة المرور</string>
+    <string name="diagnostics_section_camera_probe">مسبار الكاميرا</string>
+    <string name="diagnostics_section_battery">صحة البطارية</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">تشخيص النظام</string>
+    <string name="diagnostics_hero_subtitle">الصحة المباشرة، السجلات، والمسرحيات للجهاز.</string>
+    <string name="diagnostics_health_clear">الكل واضح</string>
+    <string name="diagnostics_health_section">الصحة</string>
+    <string name="diagnostics_health_network">الشبكة</string>
+    <string name="diagnostics_health_storage">التخزين</string>
+    <string name="diagnostics_health_camera">الكاميرا</string>
+    <string name="diagnostics_health_battery">البطارية</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">متصل</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">النفق · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">متصل</string>
+    <string name="diagnostics_tunnel_state_offline">غير متصل</string>
+    <string name="diagnostics_tunnel_state_connecting">الإتصال</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">الجوال</string>
+    <string name="diagnostics_network_ethernet">إيثرنت</string>
+    <string name="diagnostics_network_offline">غير متصل</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">%1$d مقطع · %2$s مستخدم</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s مجاني</string>
+    <string name="diagnostics_logs_card_title">سجل الأحداث الحية</string>
+    <string name="diagnostics_logs_card_subtitle">بث المخرجات من تشغيل الخدمات.</string>
+    <string name="diagnostics_tools_section">أدوات</string>
+    <string name="diagnostics_traffic_subtitle">شاهد عبر الشبكة المباشرة.</string>
+    <string name="diagnostics_camera_probe_subtitle">افحص مجاري الكاميرا المتصلة.</string>
+    <string name="diagnostics_adb_subtitle">افتح المحطة الطرفية على الجهاز.</string>
+    <string name="diagnostics_battery_subtitle">فحص إحصائيات خلية SOH والحزمة.</string>
+    <string name="diagnostics_settings_subtitle">تفضيلات التطبيق، السمة واللغة.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">التكاملات</string>
+    <string name="integrations_hero_subtitle">قم بتوصيل فائض القرص بخدماتك.</string>
+    <string name="integrations_status_unknown">انقر للتكوين</string>
+    <string name="integrations_status_configured">التكوين</string>
+    <string name="integrations_status_not_set_up">لم يتم الإعداد</string>
+    <string name="integrations_telegram_desc">إرسال ملخصات محرك الأقراص، وتنبيهات الحركة، وإشعارات الاستغاثة إلى بوت تيليجرام الخاص بك.</string>
+    <string name="integrations_abrp_desc">دفع البطارية الحية وبيانات المسار إلى جهاز تخطيط طرق أفضل لشحن التنبؤات.</string>
+    <string name="integrations_mqtt_desc">نشر القياس عن بعد للمركبات إلى مساعد منزلي أو أي وسيط MQTT.</string>
+    <string name="integrations_byd_cloud_desc">قم بتوصيل حساب تطبيق BYD الخاص بك لتمكين الأوامر البعيدة مثل قفل الأبواب، مصابيح الفلاش والقرن.</string>
+    <string name="integrations_configure_button">تكوين</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">التحقق من وجود تحديثات</string>
+    <string name="settings_action_reset_data">إعادة تعيين البيانات…</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">تجاوز القرص</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">في الساعة</string>
+    <string name="dashboard_subtitle_all_systems">جميع النظم على الإنترنت</string>
+    <string name="dashboard_subtitle_some_offline">%1$d من الخدمات %2$d عبر الإنترنت</string>
+    <string name="dashboard_subtitle_no_tunnel">الوصول عن بعد دون اتصال</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">تسجيلات اليوم</string>
+    <string name="dashboard_metric_storage">التخزين المستخدم</string>
+    <string name="dashboard_metric_tunnel">الوصول عن بعد</string>
+    <string name="dashboard_metric_services">خدمات المعلومات الأساسية</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">السيارة</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">التسجيل</string>
+    <string name="dashboard_chip_recording_idle">الخمول</string>
+    <string name="dashboard_vehicle_tap_to_set">انقر للتعيين</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWساعة · %2$s</string>
+    <string name="vehicle_dialog_title">تعيين سعة البطارية</string>
+    <string name="vehicle_dialog_capacity_label">السعة</string>
+    <string name="vehicle_dialog_capacity_suffix">كيلووات</string>
+    <string name="vehicle_dialog_capacity_helper">15 إلى 120 كيلوواط. اتركه لاستخدام النموذج الافتراضي.</string>
+    <string name="vehicle_dialog_model_label">الموديل</string>
+    <string name="vehicle_dialog_save">حفظ</string>
+    <string name="vehicle_dialog_reset">إعادة تعيين للكشف التلقائي</string>
+    <string name="vehicle_dialog_invalid_capacity">يجب أن تكون السعة 15-120 كيلو وات ساعة</string>
+    <string name="vehicle_dialog_summary_capacity">القدرة: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">فعالة: %1$.1f kWساعة</string>
+    <string name="vehicle_dialog_summary_model">النموذج: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">آخر معايرة: %1$.1f%% على %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">unavailable</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s استخدم · %2$s مجانا</string>
+    <string name="dashboard_metric_storage_chip_pending">التخزين -</string>
+    <string name="dashboard_tunnel_offline">غير متصل</string>
+    <string name="dashboard_tunnel_online">متصل</string>
+    <string name="dashboard_tunnel_connecting">جارٍ توصيل…</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">مباشر</string>
+    <string name="dashboard_action_live_subtitle">فتح عرض الكاميرا</string>
+    <string name="dashboard_action_recordings">التسجيلات</string>
+    <string name="dashboard_action_settings">الإعدادات</string>
+    <string name="dashboard_action_settings_subtitle">التفضيلات وحول</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">الإعدادات</string>
+    <string name="settings_hero_overline">ممتد</string>
+    <string name="settings_hero_subtitle">مظهر الظهور، التسجيل، المراقبة، وبيانات على الجهاز.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">الامتيازات</string>
+    <string name="settings_overline_about_data">بيانات</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">السمة</string>
+    <string name="settings_quick_language_label">اللغة</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">المخازن المؤقتة/المنشور، الترميز، حدود التخزين.</string>
+    <string name="settings_section_surveillance_subtitle">اكتشاف المناطق، الجدول، حساسية الحركة.</string>
+    <string name="settings_section_daemons_subtitle">خدمات Cloudflared و Zrok و Telegram و MQTT.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">حول OverDrive</string>
+    <string name="settings_about_row_subtitle">الإصدار، الترخيص، دعم التطوير.</string>
+    <string name="settings_reset_row_subtitle">مسح التسجيلات أو الأحداث أو جميع المخبآت.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">تجاوز القرص %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">الموضوع واللغة والتفضيلات البصرية.</string>
+    <string name="settings_theme_active_auto_caption">تتبع تلقائياً سمة النظام الخاص بك.</string>
+    <string name="settings_theme_active_light_caption">موضوع الضوء دائما مفعل.</string>
+    <string name="settings_theme_active_dark_caption">السمة المظلمة دائما مفعلة.</string>
+    <string name="settings_language_count_format">%1$d من %2$d اللغات المتاحة</string>
+    <string name="settings_language_card_title">عرض اللغة</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">تشغيل الجهاز بشكل افتراضي</string>
+    <string name="settings_privacy_stance_body">تعمل الزائد على القرص بالكامل على الوحدة الرئيسية. لا يترك القياس عن بعد سيارتك إلا عن طريق الأنفاق وعمليات التكامل التي قمت بتكوينها صراحة.</string>
+    <string name="settings_privacy_overline_storage">صنف محلي</string>
+    <string name="settings_privacy_overline_reset">إعادة البيانات</string>
+    <string name="settings_privacy_storage_clips_label">قسائم على القرص</string>
+    <string name="settings_privacy_storage_size_label">الحجم الإجمالي</string>
+    <string name="settings_privacy_storage_unavailable">Unavailable</string>
+    <string name="settings_privacy_storage_count_format">%1$d clip</string>
+    <string name="settings_privacy_storage_count_format_plural">%1$d مقطع</string>
+    <string name="settings_privacy_reset_subtitle">اختر فئات: تسجيلات، أحداث، تكوينات دايمون، القياس عن بعد الذاكرة المؤقتة…</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">أمان</string>
+    <string name="settings_security_subtitle">قفل تطبيق OverDrive حتى لا يتمكن المسافرون والقيم من فتحه بدون رقم التعريف الشخصي الخاص بك.</string>
+    <string name="settings_security_stance_title">تأمين واجهة المستخدم فقط</string>
+    <string name="settings_security_stance_body">يستمر تشغيل خدمات المراقبة والتسجيل والردع والتنبيهات والخلفية أثناء قفل التطبيق. بوابة PIN الخاصة بواجهة تجاوز القرص، لا شيء آخر.</string>
+    <string name="settings_security_overline_lock">قفل التطبيق</string>
+    <string name="settings_security_overline_recovery">إذا نسيت رقم التعريف الشخصي</string>
+    <string name="settings_security_toggle_title">يتطلب رمز PIN</string>
+    <string name="settings_security_toggle_subtitle_off">مغفلة - يمكن لأي شخص أن يفتح فوق القرص.</string>
+    <string name="settings_security_toggle_subtitle_on">تشغيل - رمز PIN مطلوب لفتح محرك زائد.</string>
+    <string name="settings_security_change_title">تغيير رمز PIN</string>
+    <string name="settings_security_change_subtitle">تأكيد رقم التعريف الشخصي الحالي، ثم تعيين رقم جديد</string>
+    <string name="settings_security_autolock_title">قفل تلقائي</string>
+    <string name="settings_security_autolock_immediate">قفل على الفور</string>
+    <string name="settings_security_autolock_1min">بعد 1 دقيقة</string>
+    <string name="settings_security_autolock_5min">بعد 5 دقائق</string>
+    <string name="settings_security_autolock_15min">بعد 15 دقيقة</string>
+    <string name="settings_security_autolock_never">عدم القفل التلقائي ابدا</string>
+    <string name="settings_security_recovery_title">استرداد ADB</string>
+    <string name="settings_security_recovery_body">يمكن مسح رمز PIN المنسيّ من آلة مضيفة عبر تصحيح أخطاء USB دون إعادة تعيين المصنع. قم بتشغيل هذا الأمر، ثم قم بإعادة فتح التطبيق.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">تعيين رمز PIN</string>
+    <string name="settings_security_dialog_set_body">اختر رمز PIN 4 - 8 أرقام. ستحتاج إلى هذا في كل مرة تفتح فيها التطبيق.</string>
+    <string name="settings_security_dialog_disable_title">إيقاف قفل رمز PIN؟</string>
+    <string name="settings_security_dialog_disable_body">تأكيد رقم التعريف الشخصي الحالي لإيقاف قفل التطبيق.</string>
+    <string name="settings_security_dialog_change_step1_title">تأكيد رمز PIN الحالي</string>
+    <string name="settings_security_dialog_change_step1_body">أدخل رمز PIN الحالي الخاص بك، ثم ستقوم بتعيين واحد جديد.</string>
+    <string name="settings_security_action_set">تعيين رمز PIN</string>
+    <string name="settings_security_action_disable">إيقاف القفل</string>
+    <string name="settings_security_action_continue">متابعة</string>
+    <string name="settings_security_pin_hint">رمز</string>
+    <string name="settings_security_pin_confirm_hint">تأكيد رمز PIN</string>
+    <string name="settings_security_error_length">يجب أن يحتوي رمز PIN على 4 إلى 8 أرقام</string>
+    <string name="settings_security_error_numeric">أرقام فقط</string>
+    <string name="settings_security_error_mismatch">أرقام التعريف الشخصي غير متطابقة</string>
+    <string name="settings_security_error_wrong">رمز PIN خاطئ</string>
+    <string name="settings_security_error_locked_out">محاولات كثيرة جداً. حاول مرة أخرى في لحظة.</string>
+    <string name="settings_security_error_persist">تعذر حفظ رمز PIN. حاول مرة أخرى.</string>
+    <string name="settings_security_toast_set_ok">تم تعيين رمز PIN. قفل التطبيق قيد التشغيل.</string>
+    <string name="settings_security_toast_disable_ok">تم إيقاف قفل التطبيق.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">أدخل رمز PIN</string>
+    <string name="pin_lock_title_unlocked">فتح</string>
+    <string name="pin_lock_subtitle_default">فتح الزائد على القرص للمتابعة.</string>
+    <string name="pin_lock_subtitle_wrong">رمز PIN خاطئ. حاول مرة أخرى.</string>
+    <string name="pin_lock_subtitle_locked_out">محاولات كثيرة جداً. حاول مرة أخرى قريباً.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">تم القفل. حاول مرة أخرى في %1$s.</string>
+    <string name="pin_lock_lockout_seconds">%1$dثانية</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">نسيت رقم التعريف الشخصي؟ تشغيل من جهاز كمبيوتر متصل:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">المساحة الخلفية</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="zero">تم إدخال أرقام %1$d</item>
+        <item quantity="one">تم إدخال رقم %1$d</item>
+        <item quantity="two">تم إدخال أرقام %1$d</item>
+        <item quantity="few">تم إدخال أرقام %1$d</item>
+        <item quantity="many">تم إدخال أرقام %1$d</item>
+        <item quantity="other">تم إدخال أرقام %1$d</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">لا يوجد موقع</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">الكاميرا %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">الكاميرا %1$d (يدوي)</string>
+    <string name="diagnostics_camera_value_probing">جاري التحميل…</string>
+    <string name="diagnostics_camera_value_offline">غير متصل</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">البيانات المعلقة</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">مرحبا بك - تجاوز السباق الآن هو زوج عينيك الثاني.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">التقط %1$s (&lt;unk&gt;%2$s) أثناء وقوفها</string>
+    <string name="dashboard_insight_parked_charged">التقط %1$s أثناء وقوفه</string>
+    <string name="dashboard_insight_parked_drained_kwh">استخدم %1$s (&lt;unk&gt;%2$s) منذ وقوفك</string>
+    <string name="dashboard_insight_parked_drained">استخدم %1$s منذ وقوفك</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">تنبيه آخر مراقبة: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">آخر شحن: +%1$s في %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">%1$d مقطع · %2$s مسجل</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f كيلووات ساعة</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d ساعة %2$d دقيقة</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="zero">%1$d مقاطع مسجلة اليوم</item>
+        <item quantity="one">تم تسجيل مقطع %1$d اليوم</item>
+        <item quantity="two">%1$d مقاطع مسجلة اليوم</item>
+        <item quantity="few">%1$d مقاطع مسجلة اليوم</item>
+        <item quantity="many">%1$d مقاطع مسجلة اليوم</item>
+        <item quantity="other">%1$d مقاطع مسجلة اليوم</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="zero">تجاوز على الإنترنت لمدة %1$d أيام، %2$d ساعة</item>
+        <item quantity="one">تجاوز على الإنترنت لـ %1$d يوم، %2$d ساعة</item>
+        <item quantity="two">تجاوز على الإنترنت لمدة %1$d أيام، %2$d ساعة</item>
+        <item quantity="few">تجاوز على الإنترنت لمدة %1$d أيام، %2$d ساعة</item>
+        <item quantity="many">تجاوز على الإنترنت لمدة %1$d أيام، %2$d ساعة</item>
+        <item quantity="other">تجاوز على الإنترنت لمدة %1$d أيام، %2$d ساعة</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="zero">فوق على الإنترنت لساعات %1$d</item>
+        <item quantity="one">فوق على الإنترنت لـ %1$d ساعة</item>
+        <item quantity="two">فوق على الإنترنت لساعات %1$d</item>
+        <item quantity="few">فوق على الإنترنت لساعات %1$d</item>
+        <item quantity="many">فوق على الإنترنت لساعات %1$d</item>
+        <item quantity="other">فوق على الإنترنت لساعات %1$d</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="zero">%1$d min</item>
+        <item quantity="one">%1$d min</item>
+        <item quantity="two">%1$d min</item>
+        <item quantity="few">%1$d min</item>
+        <item quantity="many">%1$d min</item>
+        <item quantity="other">%1$d min</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="zero">%1$d ساعة</item>
+        <item quantity="one">%1$d ساعة</item>
+        <item quantity="two">%1$d ساعة</item>
+        <item quantity="few">%1$d ساعة</item>
+        <item quantity="many">%1$d ساعة</item>
+        <item quantity="other">%1$d ساعة</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">حساس الطرق</string>
+    <string name="rail_hazard_map">الخريطة</string>
+    <string name="roadsense_title">حساس الطرق</string>
+    <string name="roadsense_pill_scanning">المسح</string>
+    <string name="roadsense_pill_idle">حساس الطرق</string>
+    <string name="roadsense_status_idle">الخمول</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">تعلم سيارتك</string>
+    <string name="roadsense_cal_ready">معايرة المركبة</string>
+    <string name="roadsense_cal_partial">تحسين المعايرة</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">مسح في المستقبل</string>
+    <string name="roadsense_road_mapped">الطريق المعين · واضح</string>
+    <string name="roadsense_road_new">طريق جديد · التعلم</string>
+    <string name="roadsense_unit_meters">د</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">تحذير</string>
+    <string name="roadsense_toggle_audio">الصوت</string>
+    <string name="roadsense_toggle_visual">مرئي</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">ثانوي</string>
+    <string name="roadsense_sev_moderate">الاعتدال</string>
+    <string name="roadsense_sev_severe">حاد</string>
+    <string name="roadsense_type_breaker">كسر السرعة</string>
+    <string name="roadsense_type_pothole">البوثول</string>
+    <string name="roadsense_type_hazard">الخطر</string>
+    <string name="roadsense_type_rough">قسم جامع</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">%1$d bumps ahead</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">القسم المجمع · %1$d م</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">هل كان هذا خطر؟</string>
+    <string name="roadsense_confirm_reject">ليس خطراً</string>
+    <string name="roadsense_confirm_accept">تأكيد</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">مستوى معايرة المسار</string>
+    <string name="roadsense_cd_direction">الاتجاه إلى الخطر التالي</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">اليسار</string>
+    <string name="blindspot_overlay_right">حقوق</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">الخريطة</string>
+    <string name="roadsense_map_route_clear">مسح</string>
+    <string name="roadsense_map_route_unmapped">لم يتم تعيينها بعد</string>
+    <string name="roadsense_map_back">الرجوع</string>
+    <string name="roadsense_map_recenter">تسجيل الدخول على موقعي</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">الخطورة</string>
+    <string name="roadsense_map_type_label">نوع</string>
+    <string name="roadsense_map_type_unknown">غير معروف</string>
+    <string name="roadsense_map_confirm">تأكيد</string>
+    <string name="roadsense_map_delete">حذف</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">المرشح</string>
+    <string name="roadsense_map_status_local">على الجهاز</string>
+    <string name="roadsense_map_status_cloud">مشترك</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% الثقة · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="zero">تقارير %1$d</item>
+        <item quantity="one">تقرير %1$d</item>
+        <item quantity="two">تقارير %1$d</item>
+        <item quantity="few">تقارير %1$d</item>
+        <item quantity="many">تقارير %1$d</item>
+        <item quantity="other">تقارير %1$d</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">تم تأكيد الخطر</string>
+    <string name="roadsense_map_deleted_toast">تم إزالة الخطر</string>
+    <string name="roadsense_map_action_failed">تعذر الوصول إلى حس الطرق. حاول مرة أخرى.</string>
+    <string name="roadsense_map_no_location">في انتظار إصلاح GPS…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">وجهة البحث</string>
+    <string name="roadsense_map_search_action">البحث</string>
+    <string name="roadsense_map_searching">البحث…</string>
+    <string name="roadsense_map_no_results">لم يتم العثور على أماكن</string>
+    <string name="roadsense_map_pick_destination">اختر الوجهة</string>
+    <string name="roadsense_map_routing">العثور على المسار…</string>
+    <string name="roadsense_map_route_failed">تعذر العثور على مسار. حاول مرة أخرى.</string>
+    <string name="roadsense_map_need_key">إضافة مفتاح توجيه في إعدادات RoadSense للتنقل.</string>
+    <string name="roadsense_map_rerouting">إيقاف المسار - إعادة حساب…</string>
+    <string name="roadsense_map_arrived">لقد وصلت.</string>
+    <string name="roadsense_map_nav_started">الانتقال إلى %1$s</string>
+    <string name="roadsense_map_nav_ended">انتهت الملاحة</string>
+    <string name="roadsense_map_end_nav">إنهاء التنقل</string>
+    <string name="roadsense_map_zoom_in">تكبير في</string>
+    <string name="roadsense_map_zoom_out">تكبير خارجي</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">رؤية الخطر</string>
+    <string name="roadsense_map_hazards_all">إظهار جميع المخاطر</string>
+    <string name="roadsense_map_hazards_moderate">معتدلة وخطيرة</string>
+    <string name="roadsense_map_hazards_severe">شديد فقط</string>
+    <string name="roadsense_map_hazards_hidden">إخفاء المخاطر</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">الشحن والوقود</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">2D / المباني 3D</string>
+    <string name="roadsense_map_3d_on">مبان ثلاثية الأبعاد تعمل</string>
+    <string name="roadsense_map_3d_off">مبان ثلاثية الأبعاد معطلة</string>
+    <string name="roadsense_map_poi_loading">العثور على الشحن وتوقف الوقود…</string>
+    <string name="roadsense_map_poi_none">لم يتم العثور على محطات قريبة</string>
+    <string name="roadsense_map_poi_need_route">اختر الوجهة أولاً</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">إيقاف الإضافة</string>
+    <string name="roadsense_map_remove_stop_action">إيقاف الإزالة</string>
+    <string name="roadsense_map_poi_navigate">التنقل هنا</string>
+    <string name="roadsense_map_poi_kind_charging">محطة الشحن</string>
+    <string name="roadsense_map_poi_kind_fuel">محطة الوقود</string>
+    <string name="roadsense_map_poi_charging_generic">محطة الشحن</string>
+    <string name="roadsense_map_poi_fuel_generic">محطة الوقود</string>
+    <string name="roadsense_map_route_switched">مسار التبديل</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">ثم</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">الخروج %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">%1$d حادة</string>
+    <string name="roadsense_map_pill_moderate">%1$d moderate</string>
+    <string name="roadsense_map_pill_minor">%1$d قاصر</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">بيانات الخريطة غير متوفرة دون اتصال</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">مسح البحث</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">اختر مسار</string>
+    <string name="roadsense_map_routes_to">الطرق إلى %1$s</string>
+    <string name="roadsense_map_routes_cancel">إلغاء</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">الطريق %1$d</string>
+    <string name="roadsense_map_fastest">الأسرع</string>
+    <string name="roadsense_map_start">ابدأ</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">موقعك</string>
+    <string name="roadsense_map_add_stop">إضافة إيقاف</string>
+    <string name="roadsense_map_add_stop_hint">البحث عن توقف لإضافته</string>
+    <string name="roadsense_map_stop_removed">إيقاف الإزالة</string>
+    <string name="roadsense_map_remove_stop">إيقاف الإزالة</string>
+    <string name="roadsense_map_move_stop_up">إيقاف الحركة للأعلى</string>
+    <string name="roadsense_map_move_stop_down">إيقاف الحركة للأسفل</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">يسمح حتى %1$d محطات</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">سمة الخريطة</string>
+    <string name="roadsense_map_theme_auto">سمة الخريطة: تلقائي</string>
+    <string name="roadsense_map_theme_light">سمة الخريطة: ضوء</string>
+    <string name="roadsense_map_theme_dark">سمة الخريطة: الظلام</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">المنزل</string>
+    <string name="roadsense_map_saved_work">العمل</string>
+    <string name="roadsense_map_saved_set_home">تعيين الصفحة الرئيسية</string>
+    <string name="roadsense_map_saved_set_work">تعيين العمل</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">المفضلة</string>
+    <string name="roadsense_map_save_place">حفظ المكان</string>
+    <string name="roadsense_map_save_as_home">حفظ كمنزل</string>
+    <string name="roadsense_map_save_as_work">حفظ كعمل</string>
+    <string name="roadsense_map_save_as_custom">حفظ كالمفضلة…</string>
+    <string name="roadsense_map_saved_added">محفوظ</string>
+    <string name="roadsense_map_saved_removed">إزالة من المحفوظة</string>
+    <string name="roadsense_map_saved_remove">إزالة</string>
+    <string name="roadsense_map_recent_remove">إزالة من التطبيقات الحديثة</string>
+    <string name="roadsense_map_recent_removed">تمت الإزالة من التطبيقات الحديثة</string>
+    <string name="roadsense_map_custom_label_hint">تسمية (على سبيل المثال Gym, Mum\'s)</string>
+    <string name="roadsense_map_custom_label_title">اسم هذا المكان</string>
+    <string name="roadsense_map_save">حفظ</string>
+    <string name="roadsense_map_cancel">إلغاء</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">دبوس مسقط</string>
+    <string name="roadsense_map_navigate_here">التنقل هنا</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">البحث عن مكان لتعيينه كـ %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">تم استعادة الرحلة</string>
+    <!-- dialog_cloudflared_settings -->
+    <string name="cloudflared_token_storage_note">يتم تخزين الرمز بشكل آمن ومشاركته بين عمليات التطبيق والبرامج المساعدة.</string>
+    <string name="cloudflared_token_hint">أدخل رمز cloudflared</string>
+    <string name="cloudflare_paid_version">إصدار كلاود فلير المدفوع</string>
+    <string name="dialog_cloudflared_settings_title">🌐 إعدادات Cloudflared</string>
+    <string name="dialog_cloudflared_settings_message">حدد ما إذا كنت تستخدم Cloudflare المدفوع أو trycloudflare. إذا كنت تستخدم Cloudflare المدفوع، فأدخل رمز النفق الخاص بك.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">إذا تم الضبط على الإصدار المدفوع، فلا يمكن أن يكون الرمز فارغًا</string>
+    <string name="toast_cloudflared_saved_settings">تم حفظ إعدادات Cloudflared</string>
+    <!-- Added machine-generated placeholder translations for previously missing Arabic strings -->
+    <string name="cd_replay_status">حالة إعادة العرض الفورية</string>
+    <string name="community_discord_url">https://discord.gg/PZutk9fg4h</string>
+    <string name="community_github_issues_url">https://github.com/yash-srivastava/Overdrive-release/issues</string>
+    <string name="community_whatsapp_url">https://chat.whatsapp.com/HChmriCWgr9KwAtE6OEkiM</string>
+    <string name="onboarding_authorize_body">يقوم Overdrive بتشغيل الكاميرات عبر أداة مساعدة صغيرة على الجهاز. سيطلب Android مرة واحدة السماح بتصحيح USB — اضغط </string>
+    <string name="onboarding_authorize_button">السماح بالوصول</string>
+    <string name="onboarding_authorize_retry_body">الأداة المساعدة لم تعمل بعد. قد يكون إذن Android قد تم رفضه. حاول مرة أخرى وتأكد من التحقق من </string>
+    <string name="onboarding_authorize_retry_button">حاول مرة أخرى</string>
+    <string name="onboarding_authorize_retry_title">لا يزال غير متصل</string>
+    <string name="onboarding_authorize_title">إيقاظ Overdrive</string>
+    <string name="onboarding_authorize_waiting_body">اقبل منبثق Android. إذا لم تره، فقد تم منحه بالفعل — سيستمر هذا تلقائيًا.</string>
+    <string name="onboarding_authorize_waiting_title">في انتظار الإذن…</string>
+    <string name="onboarding_back">العودة</string>
+    <string name="onboarding_camera_applying_body">سيصبح البث مظلمًا ويومض لمدة حوالي 10 ثوانٍ. هذا أمر طبيعي — انتظر قليلًا.</string>
+    <string name="onboarding_camera_applying_title">جارٍ التطبيق — إعادة تشغيل الكاميرات</string>
+    <string name="onboarding_camera_dashcam_body">تقدم عبر الكاميرات باستخدام الأسهم وتوقف عند تلك التي تظهر الزجاج الأمامي / المنظر الأمامي. لاحظ رقمها — ستختاره بعد ذلك.</string>
+    <string name="onboarding_camera_dashcam_title">ابحث الآن عن كاميرا الطريق الأمامي</string>
+    <string name="onboarding_camera_intro_body">دعنا نخبر Overdrive أي كاميرا هي عرض 360 وأيها داشكام. يستغرق ذلك حوالي دقيقة، ويمكنك تغييره لاحقًا.</string>
+    <string name="onboarding_camera_intro_primary">ابدأ</string>
+    <string name="onboarding_camera_intro_title">قم بإعداد الكاميرات</string>
+    <string name="onboarding_camera_opening_body">تحميل معاينة حية من كاميراتك. قد يستغرق ذلك بضع ثوانٍ.</string>
+    <string name="onboarding_camera_opening_title">فتح إعداد الكاميرا…</string>
+    <string name="onboarding_camera_pano_body">استخدم الأسهم للعثور على الصورة المجمعة 4-up. اقرأها من الأسفل: أسفل-يسار = الخلف، أسفل-يمين = الجانب الأيسر.</string>
+    <string name="onboarding_camera_pano_title">هذا هو عرض 360 الخاص بك</string>
+    <string name="onboarding_camera_pick_body">في البطاقة العلوية، اختر رقم الكاميرا للعرض 360 / الكاميرا العادية. لست متأكدًا؟ اتركها على AUTO وسيتعرف Overdrive عليها.</string>
+    <string name="onboarding_camera_pick_dash_body">في هذه البطاقة، اختر رقم الداشكام الذي وجدته سابقًا — أو اتركها على AUTO.</string>
+    <string name="onboarding_camera_pick_dash_title">اختر كاميرا داشكامك</string>
+    <string name="onboarding_camera_pick_primary">التالي</string>
+    <string name="onboarding_camera_pick_title">اختر كاميرا 360 الخاصة بك</string>
+    <string name="onboarding_camera_save_primary">حفظ وإعادة التشغيل</string>
+    <string name="onboarding_camera_step_label">الكاميرا · خطوة %1$d من %2$d</string>
+    <string name="onboarding_camera_verify_body">هل يعرض عرض 360 الصورة المجمعة وهل تعرض الداشكام الطريق أمامك؟ إذا بدت التغذية خاطئة، اضغط إعادة الاختيار — لا شيء معطل.</string>
+    <string name="onboarding_camera_verify_ok">المظهر صحيح</string>
+    <string name="onboarding_camera_verify_repick">إعادة الاختيار</string>
+    <string name="onboarding_camera_verify_title">فحص سريع</string>
+    <string name="onboarding_camera_windshield_body">لتخطيط داشكام OEM — اختر Windshield في قائمة الدور، اختر الكاميرا الأمامية، ثم احفظ. يمكن لمعظم المالكين تخطي ذلك.</string>
+    <string name="onboarding_camera_windshield_primary">أرني</string>
+    <string name="onboarding_camera_windshield_skip">لا شكرًا</string>
+    <string name="onboarding_camera_windshield_title">شريط أمامي على التسجيلات؟ (اختياري)</string>
+    <string name="onboarding_dash_chips_body">الشرائح أعلاه تعرض التسجيل والخدمات ورابطك البعيد. تتحدث تلقائيًا — ليست أزرارًا.</string>
+    <string name="onboarding_dash_chips_body_land">حالة البث الحي — التسجيل والخدمات والرابط تظهر هنا. يتم التحديث تلقائيًا.</string>
+    <string name="onboarding_dash_chips_title">تعرض الحالة فقط</string>
+    <string name="onboarding_dash_tiles_body">هذه البطاقات هي أزرار — المس لفتح الكاميرات الحية أو التسجيلات أو الخدمات أو سيارتك.</string>
+    <string name="onboarding_dash_tiles_title">مقصورة القيادة بنظرة سريعة</string>
+    <string name="onboarding_dismiss">رفض</string>
+    <string name="onboarding_done_body">تم تعيين الكاميرات والبطارية. اضغط Live لمشاهدة البث — أو استعرض الإعدادات لاحقًا.</string>
+    <string name="onboarding_done_primary">تم</string>
+    <string name="onboarding_done_secondary">استكشف الإعداد</string>
+    <string name="onboarding_done_short">فهمت</string>
+    <string name="onboarding_done_title">المقصورة جاهزة</string>
+    <string name="onboarding_exit">إنهاء الجولة</string>
+    <string name="onboarding_expert_blindspot_body">قم بتمكين Blind Spot من علامة التبويب هنا وعند تشغيل إشارة الانعطاف سيظهر عرض كاميرا جانبية تلقائيًا — اليسار لإشارة يسار واليمين لإشارة يمين — ثم يختفي لاحقًا. يعمل هذا فقط أثناء تشغيل إشارة الانعطاف.</string>
+    <string name="onboarding_expert_blindspot_title">النقطة العمياء</string>
+    <string name="onboarding_expert_bydcloud_body">ربط حساب BYD هنا يمكّن القفل عن بعد، التشغيل والصفارة من هاتفك. عامل الحساب والرمز كبيانات حساسة.</string>
+    <string name="onboarding_expert_bydcloud_title">BYD Cloud يتيح التحكم عن بُعد</string>
+    <string name="onboarding_expert_camprobe_body">يعيد هذا إعادة تعيين خريطة أي موجّه كاميرات لكل دور ويعيد تشغيل الكاميرات. غيّرها فقط إذا بدت التغذية خاطئة — لقد قمت بتكوين هذا سابقًا في الدليل.</string>
+    <string name="onboarding_expert_camprobe_title">فحص الكاميرا — بحذر</string>
+    <string name="onboarding_expert_chapter_label">الفصل %1$d من %2$d</string>
+    <string name="onboarding_expert_daemons_body">تتحكم هذه المفاتيح في تشغيل وإيقاف الخدمات الخلفية. إيقاف Camera أو Surveillance أو ACC Sentry يوقف التسجيل ويتركها متوقفة حتى تقوم بإعادة تشغيلها — حتى بعد إعادة التشغيل.</string>
+    <string name="onboarding_expert_daemons_title">الخدمات — تعامل معها بحذر</string>
+    <string name="onboarding_expert_done_body">لقد اطلعت على الإعدادات المتقدمة. افتح هذا الدليل في أي وقت من زر المساعدة.</string>
+    <string name="onboarding_expert_done_title">هذا هو الدليل</string>
+    <string name="onboarding_expert_finish">إنهاء</string>
+    <string name="onboarding_expert_integrations_body">اتصل بتنبيهات Telegram، A Better Routeplanner، MQTT أو BYD Cloud. تفتح كل بطاقة إعدادها داخل التطبيق. يتحول التابع العلوي إلى اللون الأخضر عندما تكون كل الروابط متصلة.</string>
+    <string name="onboarding_expert_integrations_title">التكاملات</string>
+    <string name="onboarding_expert_live_body">افتح Live من هنا لمشاهدة كل الكاميرات في الوقت الفعلي. مفيد للتحقق من العرض قبل القيادة أو أثناء الانتظار بالقرب من السيارة.</string>
+    <string name="onboarding_expert_live_title">الكاميرات الحية</string>
+    <string name="onboarding_expert_maps_body">افتح الخريطة للملاحة التفصيلية — ابحث عن وجهة، احصل على مسار وتوجيهات، وابحث عن نقاط الاهتمام والأخطار على الطريق التي سجلها RoadSense. يمكنك أيضًا عرضها تلقائيًا على لوحة العدادات عند بدء القيادة — يوجد هذا التبديل في تبويب RoadSense.</string>
+    <string name="onboarding_expert_maps_title">الملاحة</string>
+    <string name="onboarding_expert_menu_body">جولة سريعة عبر الإعدادات المتقدمة — ملف مركبتك، التكاملات، المراقبة، التشخيصات، الخدمات والأمان. يمكنك الإيقاف في أي وقت.</string>
+    <string name="onboarding_expert_menu_start">بدء الجولة</string>
+    <string name="onboarding_expert_menu_title">جولة موجهة</string>
+    <string name="onboarding_expert_recordings_body">التبديل بين Dashcam (مقاطع مستمرة + مقاطع القرب) وSurveillance (أحداث الحراسة أثناء الوقوف) باستخدام هذا المفتاح — لكل منهما مكتبته الخاصة. المس المقطع لتشغيله.</string>
+    <string name="onboarding_expert_recordings_title">تسجيلاتك</string>
+    <string name="onboarding_expert_reset_body">يمحو هذا التسجيلات والأحداث والإعدادات ولا يمكن التراجع عنه. موجود هنا إذا بعت السيارة — ليس جزءًا من الاستخدام العادي.</string>
+    <string name="onboarding_expert_reset_title">مسح البيانات — دائم</string>
+    <string name="onboarding_expert_roadsense_body">يستخدم RoadSense حساسات الحركة وGPS لاكتشاف مخاطر الطريق — نتوءات، حفر، مطبات — ويحذرك قبل الأماكن المعروفة. تغطي الألسنة اكتشافًا وخريطة تحذير ونغمات الإنذار وBlind Spot. شغل المفتاح الرئيسي لاستخدام أي منها.</string>
+    <string name="onboarding_expert_roadsense_title">RoadSense</string>
+    <string name="onboarding_expert_security_body">عيّن رمز PIN لحماية التطبيق في المركبات المشتركة. تظل المراقبة والتسجيل يعملان أثناء قفل التطبيق. لا يمكن مسح PIN من داخل التطبيق — فقط من كمبيوتر عبر USB.</string>
+    <string name="onboarding_expert_security_title">قفل برمز PIN</string>
+    <string name="onboarding_expert_surveillance_body">اضبط الاكتشاف والجودة والتخزين هنا. تفتح هذه الصفحات كإعدادات داخل التطبيق — الشاشة الفارغة تعني فقط أن الأداة المساعدة لا تزال تبدأ.</string>
+    <string name="onboarding_expert_surveillance_title">المراقبة والتسجيل</string>
+    <string name="onboarding_expert_traffic_body">يقيد مراقب حركة BYD تطبيقات أخرى من استخدام SIM المدمجة. إذا أردت الوصول إلى سيارتك عن بُعد عبر SIM BYD، يجب تعطيله هنا. سيعيد جهاز الرأس التشغيل لتطبيق التغيير.</string>
+    <string name="onboarding_expert_traffic_title">مراقبة الحركة — مطلوب للوصول عن بُعد</string>
+    <string name="onboarding_expert_trips_body">تسجل Trips كل رحلة — المسار، المسافة، المدة واستهلاك الطاقة — حتى تتمكن من مراجعة أين كانت السيارة.</string>
+    <string name="onboarding_expert_trips_title">سجل الرحلات</string>
+    <string name="onboarding_expert_vehicle_body">اضغط بطاقة Vehicle لتعيين حجم البطارية والطراز — هذا يوفر تقديرات مدى وصحة دقيقة. يمكنك تخطيها وتعيينها لاحقًا.</string>
+    <string name="onboarding_expert_vehicle_title">ملف المركبة</string>
+    <string name="onboarding_help_cd">جولة موجهة</string>
+    <string name="onboarding_later">افعل هذا لاحقًا</string>
+    <string name="onboarding_next">التالي</string>
+    <string name="onboarding_reset_toast">إعادة تشغيل الدليل — إعادة تشغيل الجولة</string>
+    <string name="onboarding_skip">تخطي</string>
+    <string name="onboarding_vehicle_body">اختر طرازك ونملأ قيمة kWh، أو اكتبها بنفسك (15–120). هذا يجعل تقديرات المدى والشحن دقيقة. يمكنك تخطي ذلك وتعيينه لاحقًا.</string>
+    <string name="onboarding_vehicle_primary">تعيين البطارية</string>
+    <string name="onboarding_vehicle_title">أخبر Overdrive بحجم بطاريتك</string>
+    <string name="overlay_mode_continuous_label">CONT</string>
+    <string name="overlay_mode_drive_label">DRIVE</string>
+    <string name="overlay_mode_off_label">OFF</string>
+    <string name="overlay_mode_proximity_label">PROX</string>
+    <string name="overlay_replay_label">CLIP</string>
+    <string name="rail_automations">التشغيلات التلقائية</string>
+    <string name="rail_charging">الشحن</string>
+    <string name="rail_key_mapping">تعيين الأزرار</string>
+    <string name="recording_lib_filter_section_storage">التخزين</string>
+    <string name="recording_lib_storage_filter_internal">الداخلي</string>
+    <string name="recording_lib_storage_filter_sd">بطاقة SD</string>
+    <string name="recording_lib_storage_filter_usb">USB</string>
+    <string name="recording_lib_storage_internal">INT</string>
+    <string name="recording_lib_storage_sd">SD</string>
+    <string name="recording_lib_storage_usb">USB</string>
+    <string name="recording_lib_type_replay">اللعب</string>
+    <string name="recordings_segment_replays">معايدة</string>
+    <string name="recordings_segment_replays_count">المراجعات · %d</string>
+    <string name="roadsense_map_route_http">خطأ في خدمة التوجيه (%1$d). حاول مرة أخرى لاحقًا.</string>
+    <string name="roadsense_map_route_key_rejected">تم رفض مفتاح التوجيه. تحقق من مفتاحك في إعدادات RoadSense.</string>
+    <string name="roadsense_map_route_network">الشبكة بطيئة جدًا للعثور على مسار. تحقق من اتصالك وحاول مرة أخرى.</string>
+    <string name="roadsense_map_search_network">تعذر الوصول إلى خدمة البحث. تحقق من اتصالك أو الوكيل وحاول مرة أخرى.</string>
+    <string name="settings_about_license_url">https://github.com/yash-srivastava/Overdrive-release/blob/main/LICENSE</string>
+    <string name="settings_about_source_url">https://github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_url">https://github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_support_kofi_url">https://ko-fi.com/E1E71XALHX</string>
+    <string name="settings_backup_daemon_down">يجب أن تكون خدمة الكاميرا قيد التشغيل لعمل النسخ الاحتياطي أو الاستعادة. قم بتشغيلها من Daemons ثم حاول مرة أخرى.</string>
+    <string name="settings_backup_default_filename">overdrive-backup.json</string>
+    <string name="settings_backup_export_failed">فشل تصدير النسخة الاحتياطية</string>
+    <string name="settings_backup_export_title">تصدير الإعدادات</string>
+    <string name="settings_backup_export_value">احفظ ملف نسخ احتياطية من إعداداتك الحالية. احتفظ به خاصًا — يحتوي على بيانات اعتمادك.</string>
+    <string name="settings_backup_exporting">جاري بناء النسخة الاحتياطية…</string>
+    <string name="settings_backup_import_title">استعادة الإعدادات</string>
+    <string name="settings_backup_import_value">تحميل ملف نسخ احتياطي تم إنشاؤه على وحدة الرأس نفسها.</string>
+    <string name="settings_backup_invalid_file">هذا الملف ليس نسخة احتياطية صالحة لـ Overdrive</string>
+    <string name="settings_backup_no_files">لم يتم العثور على ملفات نسخ احتياطية. صدّر واحدة أولاً أو انسخ ملف .json إلى %1$s ثم حاول مرة أخرى.</string>
+    <string name="settings_backup_pick_file">اختر نسخة احتياطية للاستعادة</string>
+    <string name="settings_backup_read_failed">تعذر قراءة الملف</string>
+    <string name="settings_backup_restart_hint">تمت استعادة الإعدادات. أعد تشغيل daemon الكاميرا (Daemons → Camera → Restart) للتأكد من تطبيق كل الإعدادات المستعادة.</string>
+    <string name="settings_backup_restore_confirm_btn">استعادة</string>
+    <string name="settings_backup_restore_confirm_msg">هذا سيستبدل إعدادات Overdrive الحالية بالنسخة الاحتياطية ويعيد تحميل الخدمات. يعمل فقط على نفس وحدة الرأس التي تم إنشاء النسخة عليها.</string>
+    <string name="settings_backup_restore_confirm_title">استعادة الإعدادات؟</string>
+    <string name="settings_backup_restore_failed">فشل الاستعادة</string>
+    <string name="settings_backup_restored">تمت استعادة الإعدادات</string>
+    <string name="settings_backup_restoring">جارٍ الاستعادة…</string>
+    <string name="settings_backup_save_failed">تعذر حفظ ملف النسخة الاحتياطية</string>
+    <string name="settings_backup_saved">تم حفظ النسخة الاحتياطية</string>
+    <string name="settings_backup_saved_to">تم حفظ النسخة الاحتياطية إلى %1$s</string>
+    <string name="settings_backup_settings_only">الإعدادات فقط</string>
+    <string name="settings_backup_trips_prompt">هل تضمّن سجل الرحلات (المسافة، الطاقة، التكلفة، الدرجة، نقاط البداية/النهاية)؟ لا تتضمن الملف النسخ التفصيلية لكل رحلة. سيحتوي الملف على سجل المواقع — احتفظ به خاصًا.</string>
+    <string name="settings_backup_with_trips">تضمين الرحلات</string>
+    <string name="settings_overlay_replay_subtitle">إظهار شارة CLIP: أخضر أثناء إعادة عرض السجلات، الأزرق لمدة 5 ثوان بمجرد حفظها، الأحمر عند فشلها. يظهر فقط عند وجود ربط إعادة العرض أو التشغيل الآلي.</string>
+    <string name="settings_overlay_replay_title">مؤشر إعادة العرض الفوري</string>
+    <string name="settings_security_recovery_command">adb shell touch /data/local/tmp/.overdrive_pin_reset</string>
+    <string name="toast_cloudflared_token_invalid">رمز غير صالح: استخدم فقط أحرف وأرقام و . _ - =</string>
+    <string name="vehicle_model_seagull">BYD Seagull</string>
+        <string name="onboarding_mode_title">متى ينبغي تجاوز السحر؟</string>
+    <string name="onboarding_mode_body">اختر كيف يتصرف الزجاج بعد إيقاف تشغيل السيارة.\n\n<b>على &amp; Off</b> يبقي مشاهدة أثناء وقوفها - تظل المراقبة ورصد الخلفية نشطة، لذا فإن السيارة ترسم طاقة صغيرة بين عشية وضحاها.\n\n<b>على</b> فقط يغلق تماما عند مغادرتك. مازالت رحلات Dashcam، والشحن تعمل أثناء قيادتك، وكل شيء يبدأ تلقائياً عند تشغيل السيارة. يمكنك تغيير هذا في أي وقت من الإعدادات.</string>
+    <string name="onboarding_mode_on_off_button">على &amp; إيقاف</string>
+    <string name="onboarding_mode_on_only_button">على فقط</string>
+    <string name="rail_projection">الإسقاط</string>
+    <string name="projection_hero_title">الإسقاط</string>
+    <string name="projection_hero_subtitle">قم بسحب تطبيق إلى مجموعة المشغل ونسخه هنا.</string>
+    <string name="projection_pick_app">اختر تطبيقاً للمشروع</string>
+    <string name="projection_cast">عرض إلى المجموعة</string>
+    <string name="projection_stop">توقف</string>
+    <string name="projection_cast_failed">تعذر إرسال هذا التطبيق إلى المجموعة.</string>
+    <string name="projection_status_idle">لا تتوقع.</string>
+    <string name="projection_status_live">مرآة حية - انقر و اسحب للتحكم.</string>
+    <string name="projection_status_preview">وضع المعاينة (معدل الإطار المخفض على هذه السيارة).</string>
+    <string name="projection_status_none">لا يوجد شيء مسقط حتى الآن - اختر تطبيقا و صندوقا.</string>
+    <string name="projection_status_unsupported">مرآة حية غير مدعومة على هذه السيارة. لا يزال التطبيق يعرض على المجموعة.</string>
+    <string name="projection_status_service_down">خدمة المرآة غير جاهزة - أعد تشغيل التطبيق (أو كاميرا دايمون) وحاول مرة أخرى.</string>
+    <string name="projection_note_single_app">يمكن عرض تطبيق واحد في المجموعة في وقت واحد.</string>
+    <string name="projection_done_adjusting">تم</string>
+    <string name="projection_window_title">نافذة المجموعة</string>
+    <string name="projection_window_desc">ضع التطبيق المسلم على مجموعة المشغل. التقط الإعداد المسبق للتخطيط الشائع؛ يتيح لك تغيير حجم النافذة سحبه بحرية.</string>
+    <string name="projection_preset_full">كامل</string>
+    <string name="projection_preset_left">يسار نصف</string>
+    <string name="projection_preset_right">النصف الأيمن</string>
+    <string name="projection_preset_center">الوسط</string>
+    <string name="projection_lock_aspect">الحفاظ على الجانب العنقودي</string>
+    <string name="projection_scale_title">القياس</string>
+    <string name="projection_scale_desc">كيف تملأ المجموعة منطقة المرآة.</string>
+    <string name="projection_scale_fit">مناسب</string>
+    <string name="projection_scale_fill">تمدد</string>
+    <string name="projection_scale_zoom">تكبير</string>
+    <string name="projection_autostart_title">التشغيل التلقائي عند تشغيل الطاقة</string>
+    <string name="projection_autostart_desc">قم بسحب التطبيق المستخدم الأخير إلى المجموعة تلقائياً في كل مرة تعمل فيها قوة السيارة. (المرآة تفتح عند زيارة هذه الشاشة.)</string>
+    <string name="projection_autostart_need_app">قم بإسقاط تطبيق أولا، ثم قم بتشغيل هذا.</string>
+    <string name="projection_autostart_conflict_confirm">استخدم هذا التطبيق</string>
+    <string name="projection_app_uninstalled">لم يعد هذا التطبيق مثبّتا.</string>
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- External files directory for recordings -->
+    <external-files-path
+        name="recordings"
+        path="." />
+    
+    <!-- External storage for legacy recordings -->
+    <external-path
+        name="external"
+        path="." />
+    
+    <!-- Cache directory for sharing log files -->
+    <cache-path
+        name="logs"
+        path="logs/" />
+
+    <!--
+      Removable storage volumes (SD card / USB). Recordings on a configured
+      SD card live at /storage/<uuid>/Overdrive/recordings/... (e.g.
+      /storage/65XX-XXXX/...), which is a SIBLING of /storage/emulated/0 — so
+      neither external-path nor external-files-path above is a prefix of it,
+      and FileProvider.getUriForFile threw "Failed to find configured root
+      that contains ..." when sharing an SD-card clip.
+
+      root-path maps to the device root File("/"); path="storage/" narrows the
+      exposed root to /storage, which IS a prefix of every recording location
+      (SD /storage/<uuid>/..., USB, and internal /storage/emulated/0/Overdrive)
+      while excluding /data and /system. The provider is exported=false and
+      grants are per-URI (FLAG_GRANT_READ_URI_PERMISSION), so this only lets a
+      chooser target read the specific clip URI the app vends — it cannot
+      enumerate /storage. Covers all share/play call sites at once (single
+      authority).
+    -->
+    <root-path
+        name="external_volumes"
+        path="storage/" />
+</paths>

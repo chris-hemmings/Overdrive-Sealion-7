@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Braveheart "Log uploaded" result. The retrieval CODE is the payload, so it
+     gets a prominent monospace card (tap-to-copy) instead of being buried in a
+     prose paragraph. Matches the app dialog idiom (dialog_reset_data.xml). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/colorSurfaceContainerHigh"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_check_circle"
+            app:tint="?attr/colorPrimary" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_weight="1"
+            android:text="@string/logs_uploaded_title"
+            android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+            android:textColor="?attr/colorOnSurface" />
+    </LinearLayout>
+
+    <!-- The code: big, monospace, tap-to-copy -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/codeCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="14dp"
+        android:clickable="true"
+        android:focusable="true"
+        app:cardBackgroundColor="?attr/colorPrimaryContainer"
+        app:cardCornerRadius="@dimen/card_radius_accent"
+        app:cardElevation="0dp"
+        app:strokeWidth="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingTop="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/uploadedCode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:letterSpacing="0.08"
+                android:text="@string/placeholder_dash"
+                android:textColor="?attr/colorOnPrimaryContainer"
+                android:textIsSelectable="true"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="12dp"
+                android:contentDescription="@string/logs_copy_code"
+                android:src="@drawable/ic_copy"
+                app:tint="?attr/colorOnPrimaryContainer" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Instruction -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logs_uploaded_instructions"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textColor="?attr/colorOnSurfaceVariant" />
+
+    <!-- Privacy note -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:text="@string/logs_uploaded_privacy"
+        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:drawableStartCompat="@drawable/ic_check"
+        app:drawableTint="?attr/colorPrimary" />
+</LinearLayout>

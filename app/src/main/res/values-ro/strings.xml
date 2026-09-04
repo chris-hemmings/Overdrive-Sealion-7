@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Suprapunere</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">Mențineți monitorizarea vehiculelor suprasolicitate activă în fundal. Acest serviciu nu citește sau nu interacționează cu conținutul ecranului.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">Anulează</string>
+    <string name="action_clear_plain">Curăță</string>
+    <string name="action_select_all">Selectează tot</string>
+    <string name="action_select_all_short">Toate</string>
+    <string name="action_delete">Ștergere</string>
+    <string name="action_share">Distribuie</string>
+    <string name="action_done">Terminat</string>
+    <string name="action_remind_me_later">REPARTIZARE MAI TIMP</string>
+    <string name="action_retry">Reîncercați</string>
+    <string name="action_run">Rulează</string>
+    <string name="action_clear_output">Curăță ieșirea</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">Cameră</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">QR Code</string>
+    <string name="cd_show_hide_token">Arată/Ascunde Token</string>
+    <string name="cd_copy_token">Copiază simbolul</string>
+    <string name="cd_copy_url">Copiază URL-ul</string>
+    <string name="cd_clear_logs">Șterge jurnalele</string>
+    <string name="cd_expand_collapse">Extindere/Restrânge</string>
+    <string name="cd_recording_status">Starea înregistrării</string>
+    <string name="cd_trip_tracking_status">Stare urmărire cursă</string>
+    <string name="cd_mic_status">Statusul capturării microfonului</string>
+    <string name="cd_video_thumbnail">Miniatură video</string>
+    <string name="cd_play">Redare</string>
+    <string name="cd_back">Înapoi</string>
+    <string name="cd_play_pause">Redare/pauză</string>
+    <string name="cd_player_prev">Înregistrarea anterioară</string>
+    <string name="cd_player_next">Următoarea înregistrare</string>
+    <string name="cd_player_maximize">Maximizează jucător</string>
+    <string name="cd_player_minimize">Ieșiți din ecran complet</string>
+    <string name="cd_player_mute">Comutare audio</string>
+    <string name="cd_player_quadrant_all">Arată toate camerele</string>
+    <string name="cd_player_quadrant_front">Arată camera frontală</string>
+    <string name="cd_player_quadrant_right">Arată camera video corectă</string>
+    <string name="cd_player_quadrant_rear">Arată camera foto posterioară</string>
+    <string name="cd_player_quadrant_left">Arată camera din stânga</string>
+    <string name="cd_delete">Ștergere</string>
+    <string name="cd_share">Distribuie</string>
+    <string name="cd_expand">Extinde</string>
+    <string name="cd_configure">Configurare</string>
+    <string name="cd_download_log">Descarcă jurnal</string>
+    <string name="cd_reset">Reset</string>
+    <string name="cd_battery">Baterie</string>
+    <string name="cd_step_completed">Pas complet</string>
+    <string name="cd_permission_granted">Permisiune acordată</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">REC</string>
+    <string name="overlay_trip_inactive_label">CURSA</string>
+    <string name="overlay_mic_inactive_label">CMI</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">Oprește înregistrarea</string>
+    <string name="overlay_mode_continuous_cd">Înregistrare continuă</string>
+    <string name="overlay_mode_drive_cd">Înregistrare mod drive-mode</string>
+    <string name="overlay_mode_proximity_cd">Înregistrare protecție-pază</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">12:34:56</string>
+    <string name="log_entry_default_tag">[TAG]</string>
+    <string name="log_entry_default_message">Înregistrează mesajul aici</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">Nume Daemon</string>
+    <string name="daemon_card_default_status">Mesaj de stare</string>
+    <string name="daemon_card_subprocesses">SUBPROCESSES</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">Jurnale</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">Se conectează…</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">Nici un browser găsit. Link copiat: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">Generare URL autentificare</string>
+    <string name="tailscale_scan_to_login">Scanare la autentificare</string>
+    <string name="tailscale_qr_waiting">Se așteaptă autentificarea adresei URL…</string>
+    <string name="tailscale_enable_proxy">Activează Proxy Tailscale</string>
+    <string name="tailscale_proxy_explainer">Rutează MQTT prin Tailscale astfel încât să poți ajunge la un broker privat pe tailnet fără port înainte.</string>
+    <string name="tailscale_proxy_warning">În timp ce este activat, MQTT pentru brokerii publici (HiveMQ, AWS IoT, etc.) va eșua - Scara poștală se va îndrepta doar către coada. Salvarea va reporni daemonul.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">Modul Ingestion</string>
+    <string name="camera_mode_subtitle">Alege calea care se potrivește unității capului. Implicit se potrivesc celor mai multe modele BYD; DiLink 4 este necesar pentru trisete mai noi (Han / Tang 2024+) unde AVM HAL emite un mozaic 2x2 precupat.</string>
+    <string name="camera_mode_option_default">Implicit – funcționează pe sigilii de etanșare, Atto, Dolfină (majoritatea autoturismelor)</string>
+    <string name="camera_mode_option_dilink4">DiLink 4 — variante noi ale Han / Tang</string>
+    <string name="camera_mode_current_default">Actual: Implicit</string>
+    <string name="camera_mode_current_dilink4">Curent: DiLink 4</string>
+    <string name="camera_mode_save">Aplică &amp; repornire</string>
+    <string name="camera_mode_hint">Schimbarea modului restartează daemonul camerei. Dacă videoclipul arată greșit (apăsat, cadran, suprapunere roșie), încercați celălalt mod.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">DiLink 4 Tweaks Quadrant</string>
+    <string name="camera_dilink4_tweaks_subtitle">Ajustări per-vehicul pentru calea DiLink 4. Eficiente numai când modul DiLink 4 este selectat mai sus.</string>
+    <string name="camera_dilink4_save">Aplică</string>
+    <string name="camera_dilink4_hint">Activați-le numai în cazul în care HAL vopsează un crom roșu \"calibrare eșuată\" în timpul furajului. Daemon reîncepe să aplice schimbarea.</string>
+    <string name="camera_dilink4_red_mask_label">Suprima suprapunerea calibrării roșii (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">Adaugă un pasaj fragment-shader care detectează o calibrare luminoasă HAL a eșuat\" pixeli și le înlocuiește cu un vecin (sau luminanță gri atunci când banner-ul este prea mare pentru a fi colorat). Numai cosmetice – nu afectează starea de calibrare subiacentă.</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">Selectarea camerei foto</string>
+    <string name="camera_selection_subtitle">Selectaţi sursa camerei panoramice</string>
+    <string name="camera_current_auto">Curent: Auto</string>
+    <string name="camera_option_auto">Auto (detectează la pornire)</string>
+    <string name="camera_option_0">Camera 0 - Cupă Atașament</string>
+    <string name="camera_option_1">Camera 1 — Sigiliu (implicit)</string>
+    <string name="camera_option_2">Camera 2</string>
+    <string name="camera_option_3">Camera 3</string>
+    <string name="camera_option_4">Camera 4</string>
+    <string name="camera_option_5">Camera 5</string>
+    <string name="camera_selection_hint">Auto alege camera potrivită pentru fiecare pornire. Camera 1 = Sigiliu BYD, Camera 0 = Atto trims. Reporneşte daemonul după schimbarea ID-ului camerei pentru ca setarea să aibă efect.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">ID cameră Dashcam OEM</string>
+    <string name="camera_oem_dashcam_hint">Alege id-ul AVMCamera care indică senzorul de cameră înainte. Han pano = 1 → dashcam = 0; Atto / Tang pano = 0 → dashcam = 1. Lăsați pe Auto pentru a permite alegerea OverDrive.</string>
+    <string name="camera_oem_dashcam_auto_resolved">Auto — folosind id %1$d (panoul este id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">Auto - ID-ul panoului este %1$d, nu poate infa camera</string>
+    <string name="camera_oem_dashcam_save">Salvează</string>
+    <string name="camera_concurrent_probe_label">Testează suportul pentru camera duală la următoarea pornire</string>
+    <string name="camera_concurrent_probe_subtitle">Verificare unică care deschide simultan ambele camere pentru a confirma că acest vehicul poate rula simultan pano + dashcam. Rulează odată la următoarea repornire în timpul parcării. Lasă oprit, cu excepția cazului în care înregistrările par greșite — nu este obligatoriu și poate întrerupe pe scurt o înregistrare dacă una este activă atunci când rulează.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">Camera 0 — Seal / Han (implicit)</string>
+    <string name="camera_oem_option_1">Camera 1 — Atto / Tang</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">Mapare camera</string>
+    <string name="camera_role_label">Mapare roluri</string>
+    <string name="camera_candidate_previous">Anterior</string>
+    <string name="camera_candidate_next">Următoarea</string>
+    <string name="camera_preview_unavailable">Previzualizare indisponibilă încă. Încearcă un alt candidat sau reîmprospătează prin redeschiderea dialogului după repornirea dunului.</string>
+    <string name="camera_mapping_save">Salvează</string>
+    <string name="camera_mapping_clear">Curăță rolul</string>
+    <string name="camera_mapping_saved">Maparea camerei foto salvată.</string>
+    <string name="camera_mapping_cleared">Maparea rolurilor camerei, ștearsă.</string>
+    <string name="camera_mapping_summary_format">Flux panoramic: Camera %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">Flux panoramic: detectare automată moștenită / testare</string>
+    <string name="camera_mapping_current_format">Maparea curentă: %1$s</string>
+    <string name="camera_mapping_current_none">Mapare curentă: Auto / Implicit</string>
+    <string name="camera_mapping_hint">OverDrive păstrează implicit comportamentul moștenit de pornire, dar acum vă permite să calibrați corect banda panoramică fuzionată. Previzualizează fiecare secţiune brută îmbinată, hartă rolurile logice 360 la secţiunea care arată în faţă/dreapta/spate/stânga pe vehiculul tău; și daemonul va reutiliza schema pentru înregistrare, streaming, și AI după repornire.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">Scanare pentru conectare</string>
+    <string name="dashboard_qr_waiting">Se așteaptă tunelul…</string>
+    <string name="dashboard_daemons_running_default">0/5 rulează</string>
+    <string name="dashboard_device_id_loading">…</string>
+    <string name="dashboard_access_code">Cod de acces</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">Regenerează jetonul</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">Noțiuni de bază</string>
+    <string name="setup_guide_subtitle">Trei pași rapizi pentru a obține cea mai bună experiență:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2</string>
+    <string name="setup_step_three_label">3</string>
+    <string name="setup_language_title">Alege limba</string>
+    <string name="setup_language_body">Implicit este limba pentru unitatea capului. Atingeți pentru a alege una diferită pentru aplicația OverDrive și tunelul web.</string>
+    <string name="setup_language_button">Alege limba</string>
+    <string name="setup_autostart_title">Dezactivează restricția Auto-Start</string>
+    <string name="setup_autostart_body">Atinge mai jos pentru a deschide Auto-Start. Găseşte OverDrive în listă şi debifează caseta. BYD şterge asta pe fiecare instalare - o vei face din nou după actualizări.</string>
+    <string name="setup_autostart_button">Deschide Auto-Start BYD</string>
+    <string name="setup_overlay_title">Permite afişarea peste alte aplicaţii</string>
+    <string name="setup_overlay_body">Activați această opțiune pentru a afișa un indicator de stare plutitor pentru înregistrarea și urmărirea cursei în partea superioară a altor aplicații.</string>
+    <string name="setup_overlay_button">Deschide Setări Overlay</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">Inchide</string>
+    <string name="language_picker_title">Limba</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">%1$d limbi disponibile</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">Alegeți o limbă</string>
+    <string name="language_auto_title">Automat</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">Urmăriți sistemul · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · Auto</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">$</string>
+    <string name="adb_command_hint">Introdu comanda…</string>
+    <string name="adb_preset_commands_header">Comenzi presetate</string>
+    <string name="adb_output_header">Ieșire</string>
+    <string name="adb_output_ready">$ Gata pentru comenzile…</string>
+    <string name="adb_console_hero_title">Consolă ADB</string>
+    <string name="adb_console_hero_subtitle">Rulează comenzile de shell pe dispozitiv</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">Se încarcă…</string>
+    <string name="webview_camera_daemon_not_running">Camera Daemon nu rulează</string>
+    <string name="webview_start_camera_daemon">Porniți Camera Daemon de pe ecranul Daemons pentru a accesa această pagină.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">Activează Token-ul</string>
+    <string name="zrok_token_storage_note">Tokenul este stocat în siguranță și partajat între procesele aplicației și vitezei.</string>
+    <string name="zrok_reset_environment">Resetează mediul Zrok</string>
+    <string name="zrok_reset_environment_desc">Elimină mediul și tokenul. Va trebui să reactivați cu token-ul dvs. (utilizează slotul unui dispozitiv).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">Resetare date</string>
+    <string name="reset_subtitle">Ştergeţi datele acumulate pe categorii</string>
+    <string name="reset_warning">Această acțiune nu poate fi anulată. Înregistrările, cursele și istoricul bateriei vor fi șterse definitiv.</string>
+    <string name="reset_cat_trips">Curse</string>
+    <string name="reset_cat_trips_desc">Istoric curse, rute, rulouri săptămânale/lunare</string>
+    <string name="reset_cat_soc_history">Istoricul SoC &amp; 12V</string>
+    <string name="reset_cat_soc_history_desc">Mostre soC, sesiuni de încărcare, jurnale de tensiune</string>
+    <string name="reset_cat_soh">Calibrare SoH</string>
+    <string name="reset_cat_soh_desc">Redetectează capacitatea nominală, estimarea reseminţelor cu BMS</string>
+    <string name="reset_cat_abrp_token">jeton ABRP</string>
+    <string name="reset_cat_abrp_token_desc">Dezactivează telemetria ABRP până la reîmperechere.</string>
+    <string name="reset_cat_byd_cloud">Acreditări BYD Cloud</string>
+    <string name="reset_cat_byd_cloud_desc">Utilizator, cheie de autentificare, VIN – este necesară reconectarea</string>
+    <string name="reset_cat_recordings">Înregistrări (videoclipuri)</string>
+    <string name="reset_cat_recordings_desc">Toate MP4s din dosarul de înregistrări</string>
+    <string name="reset_cat_sentry_events">Evenimente de supraveghere</string>
+    <string name="reset_cat_sentry_events_desc">Clipurile evenimentului de supraveghere şi sidecarele JSON</string>
+    <string name="reset_cat_proximity">Înregistrări de proximitate</string>
+    <string name="reset_cat_proximity_desc">Eveniment Radar declanșat MP4s</string>
+    <string name="reset_cat_trip_files">Curse fișiere telemetrice</string>
+    <string name="reset_cat_trip_files_desc">Telemetrie JSON la cursă pe disc</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">Oricare</string>
+    <string name="recording_lib_chip_person">Persoană</string>
+    <string name="recording_lib_chip_vehicle">Vehicul</string>
+    <string name="recording_lib_chip_bike">Bicicletă</string>
+    <string name="recording_lib_chip_animal">Animale</string>
+    <string name="recording_lib_chip_alert">Alertă</string>
+    <string name="recording_lib_chip_critical">Critice</string>
+    <string name="recording_lib_selected_count_zero">0 selectate</string>
+    <string name="recording_lib_no_recordings">Fără înregistrări</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">Filtrare</string>
+    <string name="recording_lib_filter_button_active">Filtru · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">Filtrare înregistrări</string>
+    <string name="recording_lib_filter_apply">Aplică</string>
+    <string name="recording_lib_filter_reset">Reset</string>
+    <string name="recording_lib_filter_section_what">Ce</string>
+    <string name="recording_lib_filter_section_severity">Severitate</string>
+    <string name="recording_lib_filter_section_type">Tip</string>
+    <string name="recording_lib_filter_section_place">Locul</string>
+    <string name="recording_lib_place_search_hint">Căutare locuri…</string>
+    <string name="recording_lib_chip_type_normal">Normală</string>
+    <string name="recording_lib_chip_type_proximity">Proximitate</string>
+    <string name="recording_lib_date_today">Astăzi</string>
+    <string name="recording_lib_date_yesterday">Ieri</string>
+    <string name="recording_lib_clip_count">%1$d clipuri</string>
+    <string name="recording_lib_clip_count_one">%1$d clip</string>
+    <string name="recording_lib_pick_date">Alege o dată</string>
+    <string name="recording_lib_date_all_days">Toate zilele</string>
+    <string name="cd_clear_date_filter">Arată toate zilele</string>
+    <string name="recording_lib_section_morning">Dimineața</string>
+    <string name="recording_lib_section_afternoon">După-amiaza</string>
+    <string name="recording_lib_section_evening">Seara</string>
+    <string name="recording_lib_section_night">Noapte</string>
+    <string name="cd_previous_day">Ziua precedentă</string>
+    <string name="cd_next_day">Ziua următoare</string>
+    <string name="cd_open_filters">Deschide filtrele</string>
+    <string name="cd_clear_filter">Curăță filtrul</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">Nicio înregistrare nu corespunde</string>
+    <string name="recording_lib_empty_body">Încercați să ajustați gama de date sau filtrele cip.</string>
+    <string name="recording_lib_empty_clear_filters">Ștergeți filtrele</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">Nimic înregistrat încă</string>
+    <string name="recording_lib_empty_disk_body">Capturile vor apărea aici imediat ce camera de control sau conducta de supraveghere scrie un clip.</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">Construirea indexului bibliotecii</string>
+    <string name="recording_lib_building_index_body">Un moment în timp ce daemonul scanează înregistrările.</string>
+    <string name="recording_lib_building_index_progress">Indexat %1$d din %2$d clipuri…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">CAM</string>
+    <string name="recording_lib_type_event">EVENIMENTUL</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">OEM</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">Partajare înregistrări %1$d</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">Înregistrare</string>
+    <string name="player_time_zero">0:00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">Servicii de fundal</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">Se încarcă serviciile…</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d din %2$d rulează</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">Pregătire actualizare…</string>
+    <string name="update_percent_zero">0%</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">Sănătate baterie</string>
+    <string name="battery_health_subtitle">Starea sănătății</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">Se așteaptă date…</string>
+    <string name="battery_health_source">Sursa</string>
+    <string name="battery_health_method">Metodă</string>
+    <string name="battery_health_capacity">Capacitate</string>
+    <string name="battery_health_samples">Mostre</string>
+    <string name="battery_health_last_updated">Ultima actualizare</string>
+    <string name="battery_health_reset">Resetează estimarea SOH</string>
+    <string name="battery_health_reset_desc">Şterge toate datele şi re-estimările de la zero. Utilizaţi dacă bateria a fost înlocuită sau citirea pare incorectă.</string>
+    <string name="soh_dialog_model_label">Model</string>
+    <string name="soh_dialog_pack_capacity_label">Capacitate de ambalaj</string>
+    <string name="soh_dialog_estimated_capacity_label">Capacitate efectivă</string>
+    <string name="soh_dialog_calibration_anchor_label">Ultima calibrare</string>
+    <string name="soh_dialog_source_user">Set de utilizatori</string>
+    <string name="soh_dialog_source_auto">auto-detectat</string>
+    <string name="soh_dialog_model_not_selected">Nu este selectat</string>
+    <string name="soh_dialog_capacity_not_detected">Nu este detectat</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% pe %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">Observat ca încărcătură completă</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh observat complet (%2$d/%3$d eșantioane)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh observat la plin (colectând probe %2$d/%3$d)</string>
+    <string name="soh_dialog_frame_mismatch_title">Nepotrivirea cadrului de capacitate</string>
+    <string name="soh_dialog_frame_mismatch_format">Vehicul raportează %1$.1f kWh la încărcare completă, dar capacitatea pachetului este setată la %2$.1f kWh. Numărul de mai sus poate reflecta o neconcordanţă de unităţi (plăcuţă faţă de utilizabilă), nu degradare reală. Luați în considerare intrarea în %1$.1f kWh pentru a se potrivi cu ceea ce raportează vehiculul.</string>
+    <string name="soh_dialog_use_observed_value">Utilizare valoare observată</string>
+    <string name="soh_dialog_use_observed_value_pending">Se salvează…</string>
+    <string name="toast_soh_observed_value_saved">Capacitate pachet actualizată la %1$.1f kWh.</string>
+    <string name="toast_soh_observed_value_failed">Nu s-a putut actualiza capacitatea pachetului (%1$s).</string>
+    <string name="diagnostics_battery_needs_review">Necesită revizuire</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">Ok</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="one">Înregistrare %d ștearsă</item>
+        <item quantity="few">%d înregistrări șterse</item>
+        <item quantity="other">%d înregistrări șterse</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="one">Șterge înregistrarea %d</item>
+        <item quantity="few">Șterge înregistrările %d</item>
+        <item quantity="other">Șterge înregistrările %d</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="one">Aceasta va şterge definitiv înregistrarea %d . Aceasta nu poate fi anulată.</item>
+        <item quantity="few">Aceasta va şterge definitiv %d înregistrări. Această acţiune nu poate fi anulată.</item>
+        <item quantity="other">Aceasta va şterge definitiv %d înregistrări. Această acţiune nu poate fi anulată.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">Actualizat la %1$s</string>
+    <string name="toast_update_install_failed">Instalarea actualizării a eșuat: %1$s</string>
+    <string name="toast_checking_for_updates">Se caută actualizări…</string>
+    <string name="toast_app_up_to_date">App is up to date (%1$s)</string>
+    <string name="toast_update_check_failed">Verificarea actualizării a eșuat: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">Actualizare disponibilă</string>
+    <string name="update_dialog_subtitle">O versiune mai nouă este gata de instalare</string>
+    <string name="update_dialog_current">Curent: v%1$s</string>
+    <string name="update_dialog_new">Nou: v%1$s</string>
+    <string name="update_dialog_current_label">Instalat</string>
+    <string name="update_dialog_new_label">Versiune nouă</string>
+    <string name="update_dialog_whats_new">Ce este nou</string>
+    <string name="update_dialog_install_now">Instalează acum</string>
+    <string name="update_dialog_later">Mai târziu</string>
+    <string name="update_picker_title">Alege o versiune</string>
+    <string name="update_picker_subtitle">Instalează orice versiune publicată — mai nouă sau mai veche</string>
+    <string name="update_picker_empty">Nici o versiune publicată încă.</string>
+    <string name="update_picker_current_suffix">%1$s (instalat)</string>
+    <string name="update_picker_older_suffix">%1$s (mai vechi)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">Actualizare Overdrive</string>
+    <string name="update_step_downloading">Descărcare actualizare…</string>
+    <string name="update_step_verifying">Se verifică descărcarea…</string>
+    <string name="update_step_stopping">Oprirea daemonilor…</string>
+    <string name="update_step_installing">Instalare actualizare…</string>
+    <string name="update_step_installed">Actualizare instalată</string>
+    <string name="update_step_restarting">Repornire aplicație…</string>
+    <string name="update_step_queued">Se pornește actualizarea…</string>
+    <string name="update_error_title">Actualizarea a eșuat</string>
+    <string name="update_error_daemon_down">Tavanul camerei nu rulează. Porniți-l din ecranul Daemon, apoi încercați din nou să actualizați.</string>
+    <string name="update_error_start_failed">Nu s-a putut porni actualizarea: %1$s</string>
+    <string name="update_error_lost_headunit">Ați pierdut contactul cu unitatea capului înainte de a termina instalarea. Pe un tunel? Verificați Telegrama pentru noul URL sau folosiți adresa IP locală.</string>
+    <string name="update_hide">Ascunde</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">Canal de actualizare</string>
+    <string name="settings_update_channel_alpha">Alfa</string>
+    <string name="settings_update_channel_braveheart">Braveinimă</string>
+    <string name="settings_update_channel_alpha_desc">Versiunea stabilă. Fiecare versiune publicată este păstrată - alege orice pentru a instala (sunt permise downgrades). Recomandat pentru uzul zilnic.</string>
+    <string name="settings_update_channel_braveheart_desc">Clădiri cu margini de sângerare, livrate imediat ce sunt publicate. Primești mai întâi caracteristici noi, dar ele pot fi instabile sau erori. Dacă ceva se rupe, deschideți ecranul Daemon, apăsați un jurnal de daemon, alege \"Upload &amp; obține un cod\" și partajează codul cu noi pe canalele comunității.</string>
+    <string name="settings_update_channel_save_failed">Canalul de actualizare nu a putut fi salvat</string>
+    <string name="settings_update_channel_braveheart_toast">Schimbat la Braveheart. Construirea poate fi instabilă - dacă ceva se strică, trimite jurnalul de viteze și raportează pe Discord/GitHub/WhatsApp.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">Este necesară permisiunea de stocare pentru înregistrări</string>
+    <string name="toast_url_copied_short">URL copiat!</string>
+    <string name="toast_camera_set_to_auto">Camera foto setată automat</string>
+    <string name="toast_failed_to_save_short">Salvarea nu a reușit</string>
+    <string name="toast_failed_with_message">Eșuat: %1$s</string>
+    <string name="toast_camera_id_set">Camera %1$d setată - următorul ciclu ACC</string>
+    <string name="toast_clearing_camera_config">Se șterge configurația…</string>
+    <string name="toast_restarting_camera_daemon">Repornire daemon…</string>
+    <string name="toast_camera_daemon_restarting">Depozitul de camere repornit cu sondă completă</string>
+    <string name="toast_camera_restart_failed">Configurarea a fost ștearsă dar repornirea daemonului a eșuat. Vă rugăm să reporniți manual.</string>
+    <string name="toast_camera_settings_saved_restarting">Setări cameră salvate - se repornește memoria…</string>
+    <string name="toast_camera_settings_restart_failed">Setarile camerei au fost salvate, dar repornirea daemonului a esuat. Va rugam repornit-o manual.</string>
+    <string name="toast_failed_with_message_x">Eșuat: %1$s</string>
+    <string name="toast_soh_reset_success">Estimare SOH resetată - va recalcula din următoarele date</string>
+    <string name="toast_soh_reset_failed_no_daemon">Resetare eșuată — daemon nu răspunde și fișierul nu poate fi scris</string>
+    <string name="toast_soh_reset_failed_with_message">Resetare eșuată: %1$s</string>
+    <string name="toast_select_at_least_one_category">Selectaţi cel puţin o categorie</string>
+    <string name="toast_reset_failed_with_error">Resetare eșuată: %1$s</string>
+    <string name="toast_traffic_monitor_changing">Monitorizare trafic %1$s…</string>
+    <string name="dialog_close">Inchide</string>
+    <string name="dialog_reset">Reset</string>
+    <string name="dialog_delete">Ștergere</string>
+    <string name="dialog_save">Salvează</string>
+    <string name="dialog_enable">Activare</string>
+    <string name="dialog_disable">Dezactivează</string>
+    <string name="dialog_keep_enabled">Păstrează activat</string>
+    <string name="dialog_keep_disabled">Păstrează dezactivat</string>
+    <string name="dialog_regenerate">Regenerează</string>
+    <string name="dialog_reset_selected">Resetare selectate</string>
+    <string name="dialog_reset_soh_title">Resetați estimarea SOH?</string>
+    <string name="dialog_reset_soh_message">Acest lucru va şterge toate datele SOH şi va forţa re-estimarea de la zero.\n\nUtilizați acest lucru dacă:\n• Bateria a fost înlocuită\n• citirea SOH pare incorectă\n• Doriți să recalibrați\n\nSistemul va resemăna de la următoarea sursă de date disponibilă (OEM, etalonare la sarcină sau citire instantanee).</string>
+    <string name="dialog_reset_following_title">Resetați următoarele?</string>
+    <string name="dialog_reset_following_message">Acest lucru nu poate fi anulat.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Reset complete</string>
+    <string name="dialog_traffic_cannot_check_title">Nu se poate verifica starea</string>
+    <string name="dialog_traffic_cannot_check_message">Conexiunea ADB nu este încă finalizată.\n\nAplicația are nevoie de acces ADB pentru a gestiona pachetele de sistem. Asigurați:\n\n• USB Debugging este activat în Opțiunile de Dezvoltare\n• Solicitarea de autorizare ADB a fost acceptată\n\nStarea se va actualiza automat odată conectată.</string>
+    <string name="dialog_traffic_disable_title">Dezactivați BYD Traffic Monitor?</string>
+    <string name="dialog_traffic_disable_message">Monitorul traficului BYD (com.byd.trafficmonitor) este o aplicație de sistem încorporată care monitorizează continuu condițiile de trafic rutier pe fundal.\n\nDe ce să îl dezactivezi?\n\n• Consumă date mobile (chiar și atunci când sunt parcate)\n• Utilizează procesorul și bateria în fundalul\n• Nu este necesar dacă utilizați o aplicație separată de navigație\n• Poate interfera cu utilizarea rețelei de navigație\n\nAcest lucru este în siguranță pentru a dezactiva — afectează doar suprapunerea încorporată a traficului pe hartă. Navigarea dvs., Bluetooth și toate celelalte funcții ale autoturismelor nu sunt afectate.\n\nDupă dezactivare este necesară o repornire dură (țineți apăsat butonul consolă centrală 5 secunde).</string>
+    <string name="dialog_traffic_enable_title">Reactivați monitorizarea traficului BYD?</string>
+    <string name="dialog_traffic_enable_message">Monitorul de trafic BYD este momentan dezactivat.\n\nRe-activare va restaura suprapunerea de trafic încorporată pe harta de navigare. Țineți cont că va rula în fundal și va consuma date mobile.\n\nDupă activare este necesară o repornire hard (țineți apăsat butonul consolă centrală 5 secunde).</string>
+    <string name="dialog_traffic_status_title">Monitorizare trafic %1$s</string>
+    <string name="dialog_traffic_reboot_message">Schimbarea a fost aplicată.\n\nVă rugăm să efectuaţi o repornire hard acum:\nApăsaţi şi ţineţi apăsat butonul central al consolei pentru 5 secunde.</string>
+    <string name="traffic_monitor_loading">Monitorul traficului: Se verifică…</string>
+    <string name="traffic_monitor_tap_to_check">Monitorizare trafic (apasă pentru a verifica)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">Curse</string>
+    <string name="reset_label_soc_history">Istoricul SoC + 12V</string>
+    <string name="reset_label_soh">Calibrare SoH</string>
+    <string name="reset_label_abrp_token">jeton ABRP</string>
+    <string name="reset_label_byd_cloud">Acreditări BYD Cloud</string>
+    <string name="reset_label_recordings">Înregistrări</string>
+    <string name="reset_label_sentry_events">Evenimente de supraveghere</string>
+    <string name="reset_label_proximity">Înregistrări de proximitate</string>
+    <string name="reset_label_trip_files">Curse fișiere telemetrice</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">Cod de acces copiat</string>
+    <string name="dialog_regenerate_token_title">Regenerează jetonul</string>
+    <string name="dialog_regenerate_token_message">Acest lucru va invalida token-ul curent. Toate sesiunile active vor fi deconectate. Continuați?</string>
+    <string name="toast_token_regenerated_logged_out">Token nou generat. Toate sesiunile s-au deconectat.</string>
+    <string name="toast_token_regenerated_restart">Token regenerat. Este posibil ca Daemon să aibă nevoie de repornire.</string>
+    <string name="toast_token_regenerated_no_notify">Token regenerat. Nu s-a putut notifica daemonul.</string>
+    <string name="toast_token_regenerated">Token regenerat</string>
+    <string name="dashboard_no_tunnel">Niciun tunel nu rulează</string>
+    <string name="dashboard_starting_zrok">Pornire tunel Zrok…</string>
+    <string name="dashboard_starting_cloudflared">Pornire tunel Cloudflared…</string>
+    <string name="dashboard_starting_tailscale">Pornire tunel Tailscale…</string>
+    <string name="dashboard_waiting_url">Se așteaptă tunelul URL…</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d Rulează</string>
+    <string name="tunnel_label_cloudflared">Cloudflate</string>
+    <string name="tunnel_label_zrok">Zrok</string>
+    <string name="tunnel_label_tailscale">Corespondență</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">Daemon Cameră</string>
+    <string name="daemon_name_surveillance">Surveillance Daemon</string>
+    <string name="daemon_name_acc_surveillance">Supravegherea ACC</string>
+    <string name="daemon_name_singbox">Proxy Singurbox</string>
+    <string name="daemon_name_cloudflared">Tunel Cloudflared</string>
+    <string name="daemon_name_zrok">Tunelul Zrok</string>
+    <string name="daemon_name_tailscale">Tunel Tailscale</string>
+    <string name="daemon_name_telegram">Bot-ul Telegram</string>
+    <string name="clip_label_access_code">Cod de acces</string>
+    <string name="clip_label_url">URL</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">Nu este necesară nicio configurare pentru %1$s</string>
+    <string name="dialog_zrok_token_title">Tunelul Zrok Token</string>
+    <string name="dialog_zrok_token_message">Introduceți tokenul de activare Zrok.\nObțineți unul la: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">Token-ul nu poate fi gol</string>
+    <string name="dialog_tailscale_settings_title">Setări tunel Tailscale</string>
+    <string name="dialog_tailscale_settings_message">Configure tailscale</string>
+    <string name="tailscale_failed_login_url">Generarea url-ului de conectare a eșuat</string>
+    <string name="tailscale_logged_in_relogin">Conectat. Faceţi clic pentru a vă autentifica într-un alt cont</string>
+    <string name="dialog_tailscale_proxy_enable_title">Activați Prox-ul la scară mică?</string>
+    <string name="dialog_tailscale_proxy_enable_message">Acest traseu MQTT prin Tailscale astfel încât să poți ajunge la un broker privat pe tailnet fără a întinde portul.\n\nÎn timp ce este activat:\n• MQTT la un broker de tailnet funcționează (de ex. Țânțar pe un dispozitiv pe coada dvs.)\n• MQTT pentru brokerii publici (HiveMQ, AWS IoT, etc. va eșua — Scala electronică doar către tailnet\n• Zdaemonul Tailscale va reporni pentru a aplica modificarea\n• Traficul altor aplicații și restul dispozitivului nu sunt afectate\n\nPoți dezactiva acest lucru oricând.</string>
+    <string name="dialog_zrok_reset_title">Resetează mediul Zrok</string>
+    <string name="dialog_zrok_reset_message">Acest lucru:\n• Opriți tunelul zrok dacă rulați\n• Eliminați mediul zrok din acest dispozitiv\n• Ștergeți tokenul salvat\n\nVa trebui să reintroduceți tokenul și să reactivați. Acesta folosește unul dintre sloturile de pe zrok.io.\n\nSunteți sigur?</string>
+    <string name="toast_resetting_zrok">Se resetează mediul zrok…</string>
+    <string name="toast_zrok_reset_success">Restabilire mediu Zrok. Introduceți un nou jeton pentru a fi configurat din nou.</string>
+    <string name="toast_zrok_reset_partial">Resetare mediu (fișier token ar putea necesita curățare manuală)</string>
+    <string name="toast_zrok_reset_warnings">Resetare de mediu (cu avertismente: %1$s)</string>
+    <string name="zrok_no_token_configured">Niciun token configurat. Atingeți pentru a configura.</string>
+    <string name="dialog_tailscale_reset_title">Resetare Mediu la scară largă</string>
+    <string name="dialog_tailscale_reset_message">Aceasta va:\n• Opriți tunelul de tailscară dacă rulați\n• Eliminați mediul de tailscară de pe acest dispozitiv\n• Va trebui să eliminați dispozitivul din consola de tailscală\n\nVa trebui să vă conectați din nou.\n\nEști sigur?</string>
+    <string name="toast_resetting_tailscale">Se resetează mediul de tailscară…</string>
+    <string name="toast_tailscale_reset_success">Restabilire mediu personalizat. Autentifică-te pentru a fi configurat din nou.</string>
+    <string name="toast_tailscale_reset_warnings">Resetare climă la scară poștală (cu avertismente: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">Proxy Tailscale activat</string>
+    <string name="toast_tailscale_proxy_disabled">Proxy Tailscale dezactivat</string>
+    <string name="toast_tailscale_proxy_save_failed">Salvarea setărilor proxy a eșuat</string>
+    <string name="toast_zrok_token_saved">Token salvat</string>
+    <string name="toast_zrok_token_save_failed">Salvarea token-ului a eșuat</string>
+    <string name="toast_zrok_token_deleted">Monedă ștearsă</string>
+    <string name="toast_zrok_token_delete_failed">Ștergerea token-ului a eșuat</string>
+    <string name="toast_fetching_log">Preluare %1$s log…</string>
+    <string name="toast_log_empty_or_missing">Fișierul jurnal este gol sau nu a fost găsit</string>
+    <string name="toast_log_empty">Fișierul jurnal este gol</string>
+    <string name="toast_daemon_manager_unavailable">Managerul Daemon nu este gata, încercaţi din nou imediat</string>
+    <string name="toast_log_save_failed">Salvarea jurnalului a eșuat: %1$s</string>
+    <string name="toast_log_not_found">Fișierul jurnal nu a fost găsit sau nu poate fi citit</string>
+    <string name="log_share_title">Jurnal %1$s - %2$s</string>
+    <string name="log_share_chooser">Distribuie jurnalul %1$s</string>
+    <string name="log_header_title">=== %1$s Log ===</string>
+    <string name="log_header_source">Sursa: %1$s</string>
+    <string name="log_header_exported">Exportat: %1$s</string>
+    <string name="log_header_truncated">NOTĂ: Jurnal trunchiat la ultimele 10000 de linii (total: %1$d linii)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">Trimite %1$s jurnal</string>
+    <string name="logs_send_title_plain">Trimite jurnalul de daemon</string>
+    <string name="logs_send_subtitle">%1$s · alege cum să ne trimiți</string>
+    <string name="logs_send_upload">Încarcă &amp; obține un cod</string>
+    <string name="logs_send_upload_desc">Trimite jurnalul către noi și îți oferă un cod scurt. Cel mai ușor pentru sprijin.</string>
+    <string name="logs_send_share">Distribuie fișierul…</string>
+    <string name="logs_send_share_desc">Salvează sau trimite jurnalul singur prin intermediul paginii de partajare.</string>
+    <string name="logs_uploading_title">Se încarcă jurnalul…</string>
+    <string name="logs_uploading_subtitle">Redactează secretele și trimite în siguranță</string>
+    <string name="logs_uploaded_title">Jurnal încărcat</string>
+    <string name="logs_uploaded_instructions">Împărtășiți acest cod cu noi, împreună cu o notă despre ceea ce făceați atunci când se strica. Posteaz-o pe Discord, Probleme GitHub sau WhatsApp - link-urile sunt pe ecranul Despre .</string>
+    <string name="logs_uploaded_privacy">Secrete redactate · jurnalul automat expiră</string>
+    <string name="logs_copy_code">Copiază codul</string>
+    <string name="logs_done">Terminat</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">Eroare de rețea</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">Nu se poate reda videoul: %1$s</string>
+    <string name="dialog_delete_recording_title">Ştergeţi înregistrarea</string>
+    <string name="dialog_delete_recording_message">Ștergeți %1$s?\nAcest lucru nu poate fi anulat.</string>
+    <string name="toast_recording_deleted">Înregistrare ștearsă</string>
+    <string name="toast_recording_delete_failed">Ștergerea înregistrării a eșuat</string>
+    <string name="toast_batch_delete_partial">%1$d șters, %2$d a eșuat</string>
+    <string name="play_with_chooser">Jucați cu</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">Updated to %1$s — re-confirm autostart, BYD wipes it on every install</string>
+    <string name="setup_overlay_already_granted">Deja acordat</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">Sfaturi &amp; depanare</string>
+    <string name="setup_traffic_title">Dezactivează monitorizarea traficului BYD</string>
+    <string name="setup_traffic_body">Monitorul Traficului BYD blochează aplicațiile terțe să ajungă pe internet. Dezactivarea permite OverDrive și orice alte aplicații pe care le instalați de fapt utilizează rețeaua. Ulterior este necesară o repornire dură.</string>
+    <string name="setup_traffic_button">Deschide Monitorul Traficului</string>
+    <string name="setup_camera_fix_title">Camera foto alimentează negru sau incorect?</string>
+    <string name="setup_camera_fix_body">Deschideți diagnosticarea → sonda Camera video, setați Camera ID la 0, apăsați Salvare, apoi reporniți daemonul camerei. Dacă feed-urile sunt încă greșite, repetă cu Camera ID 1. Lasă secțiunea de cartografiere neatinsă.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">Curent: Camera %1$d (Manual)</string>
+    <string name="camera_current_auto_label">Curent: Auto</string>
+    <string name="soh_estimation_active">Estimare activă</string>
+    <string name="soh_no_estimate_yet">Nicio estimare încă — în așteptarea datelor</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">%1$d selectat</string>
+    <string name="video_player_playback_error">Eroare de redare</string>
+    <string name="video_player_no_events">Niciun eveniment</string>
+    <string name="daemon_configuration_required">Configurare necesară</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">Player video</string>
+    <string name="nav_page_telegram">Telegramă</string>
+    <string name="nav_page_abrp">PIC</string>
+    <string name="nav_page_mqtt">MQTT</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">Stare OverDrive</string>
+    <string name="status_overlay_notif_text">Status overlay active</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Suprapunere activă</string>
+    <string name="daemon_keepalive_notif_text">Monitorizarea sistemelor vehiculelor</string>
+    <string name="overdrive_status_summary_title">Suprapunere</string>
+    <string name="overdrive_status_summary_text">Servicii de fundal rulate</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">Panou</string>
+    <string name="rail_live">Live</string>
+    <string name="rail_recordings">Înregistrări</string>
+    <string name="rail_vehicle">Vehicul</string>
+    <string name="rail_trips">Curse</string>
+    <string name="rail_integrations">Integrări</string>
+    <string name="rail_diagnostics">Diagnosticare</string>
+    <string name="rail_settings">Setări</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">Aspectul</string>
+    <string name="settings_section_recording">Înregistrare</string>
+    <string name="settings_section_surveillance">Supravegherea</string>
+    <string name="settings_section_daemons">Daemons</string>
+    <string name="settings_section_privacy">Confidențialitate &amp; date</string>
+    <string name="settings_section_overlay">Status overlay</string>
+    <string name="settings_section_security">Securitate</string>
+    <string name="settings_overlay_subtitle">Alegeți segmentele din pilula plutitoare de stare care rămân vizibile.</string>
+    <string name="settings_overlay_camera_title">Indicator cameră foto</string>
+    <string name="settings_overlay_camera_subtitle">Arată insigna REC / PROX în timp ce înregistrarea este activă.</string>
+    <string name="settings_overlay_trip_title">Indicator de cursă</string>
+    <string name="settings_overlay_trip_subtitle">Arată insigna TRIP în timp ce detectarea cursei rulează.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">Despre</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">SETĂRI</string>
+    <string name="cd_settings_subrail">Setări sub-șine</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">Confidențialitate &amp; date</string>
+    <string name="settings_privacy_body">Resetează ștergerea indexului înregistrărilor, a datelor geocutiei, a stării daemon și a preferințelor pe dispozitiv. Acțiunea nu poate fi anulată.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">Despre OverDrive</string>
+    <string name="settings_about_version_label">Versiune</string>
+    <string name="settings_about_package_label">Construire</string>
+    <string name="settings_about_check_update_value">Verificați ultima versiune GitHub și instalați dacă este mai nouă.</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">Oferit de oameni ca tine</string>
+    <string name="settings_about_support_share_title">Spune-i unui alt proprietar</string>
+    <string name="settings_about_support_share_value">Fiecare link comun ajută un alt proprietar BYD să descopere Overdrive.</string>
+    <string name="settings_about_support_share_message">Vezi Overdrive — Supravegherea open-source &amp; dashcam pentru BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">Împărtășește Overdrive</string>
+    <string name="settings_about_open_link_failed">Nu s-a putut deschide link-ul.</string>
+    <string name="settings_about_open_link_copied">Nici un browser găsit. URL copiat: %1$s</string>
+    <string name="settings_about_support_kofi_title">Combustibil la următoarea versiune</string>
+    <string name="settings_about_support_kofi_value">O cafea pe Ko-fi ţine în mână angajamentele de noapte care vin.</string>
+    <string name="settings_about_license_title">Licenta</string>
+    <string name="settings_about_license_value">MIT – open source. Atingeți pentru a vizualiza textul complet.</string>
+    <string name="settings_about_source_title">Cod sursă</string>
+    <string name="settings_about_source_value">github.com/yash-srivastava/Overdrive-release</string>
+    <string name="settings_about_star_title">Star us on GitHub</string>
+    <string name="settings_about_star_value">Ia o secundă. Înseamnă mult.</string>
+    <string name="settings_about_thanks_title">Mulțumim</string>
+    <string name="settings_about_thanks_subtitle">Construit cu ajutorul susținătorilor și contribuitorilor.</string>
+    <string name="settings_about_contributors_title">Colaboratori</string>
+    <string name="settings_about_supporters_title">Suporteri</string>
+    <string name="settings_about_thanks_empty">Listează populațiile pe măsură ce oamenii se învârt.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">Tema</string>
+    <string name="settings_theme_auto">Auto (sistem de urmărire)</string>
+    <string name="settings_theme_light">Lumină</string>
+    <string name="settings_theme_dark">Întunecat</string>
+    <string name="settings_language_label">Limba</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">Înregistrări</string>
+    <string name="recordings_segment_dashcam">Cameră</string>
+    <string name="recordings_segment_surveillance">Supravegherea</string>
+    <string name="recordings_action_settings">Setări</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d astăzi · %2$d total · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">Dashcam · %d</string>
+    <string name="recordings_segment_surveillance_count">Surveillance · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">Selectaţi o înregistrare</string>
+    <string name="recordings_preview_placeholder_body">Atingeți orice element din stânga pentru a-l reda.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">Consolă ADB</string>
+    <string name="diagnostics_section_traffic">Monitorizare trafic</string>
+    <string name="diagnostics_section_camera_probe">Sondă cameră foto</string>
+    <string name="diagnostics_section_battery">Sănătate baterie</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">Diagnosticarea sistemului</string>
+    <string name="diagnostics_hero_subtitle">Stare de sănătate vie, bușteni și sonde pentru dispozitiv.</string>
+    <string name="diagnostics_health_clear">Toate șterse</string>
+    <string name="diagnostics_health_section">Sănătate</string>
+    <string name="diagnostics_health_network">Rețea</string>
+    <string name="diagnostics_health_storage">Depozitare</string>
+    <string name="diagnostics_health_camera">Cameră</string>
+    <string name="diagnostics_health_battery">Baterie</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">Online</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">Tunel · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">Online</string>
+    <string name="diagnostics_tunnel_state_offline">Offline</string>
+    <string name="diagnostics_tunnel_state_connecting">Conectare</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">Mobil</string>
+    <string name="diagnostics_network_ethernet">Ethernet</string>
+    <string name="diagnostics_network_offline">Offline</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">%1$d clipuri · %2$s folosite</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s liber</string>
+    <string name="diagnostics_logs_card_title">Jurnal evenimente live</string>
+    <string name="diagnostics_logs_card_subtitle">Streaming de la serviciile curente.</string>
+    <string name="diagnostics_tools_section">Unelte</string>
+    <string name="diagnostics_traffic_subtitle">Vizionează fluxul de rețea live.</string>
+    <string name="diagnostics_camera_probe_subtitle">Inspectează transmisiunile conectate ale camerei.</string>
+    <string name="diagnostics_adb_subtitle">Deschideți terminalul on-device.</string>
+    <string name="diagnostics_battery_subtitle">Inspectaţi concentraţia de SOH a celulei şi ambalaţi statistici.</string>
+    <string name="diagnostics_settings_subtitle">Preferințe aplicații, temă și limbă.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">Integrări</string>
+    <string name="integrations_hero_subtitle">Conectează Overdrive la serviciile tale.</string>
+    <string name="integrations_status_unknown">Atingeți pentru a configura</string>
+    <string name="integrations_status_configured">Configurat</string>
+    <string name="integrations_status_not_set_up">Nu este configurat</string>
+    <string name="integrations_telegram_desc">Trimite rezumate de drivere, alerte de mişcare şi notificări SOS către bot-ul privat Telegram.</string>
+    <string name="integrations_abrp_desc">Împingeți date baterie și trasee live către un planificator mai bun pentru prognoze de încărcare.</string>
+    <string name="integrations_mqtt_desc">Publică telemetria vehiculului în Asistentul Acasă sau orice broker MQTT.</string>
+    <string name="integrations_byd_cloud_desc">Conectați contul aplicației BYD pentru a activa comenzile de la distanță, cum ar fi încuietoarea, lumina flash și corn.</string>
+    <string name="integrations_configure_button">Configurare</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">Verifică pentru actualizări</string>
+    <string name="settings_action_reset_data">Resetare date…</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">Suprapunere</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">Pe ceas</string>
+    <string name="dashboard_subtitle_all_systems">Toate sistemele online</string>
+    <string name="dashboard_subtitle_some_offline">%1$d din serviciile %2$d online</string>
+    <string name="dashboard_subtitle_no_tunnel">Acces offline la distanță</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">Înregistrările de astăzi</string>
+    <string name="dashboard_metric_storage">Stocare utilizată</string>
+    <string name="dashboard_metric_tunnel">Acces la distanță</string>
+    <string name="dashboard_metric_services">Servicii de fundal</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">Vehicul</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">Înregistrare</string>
+    <string name="dashboard_chip_recording_idle">Inactiv</string>
+    <string name="dashboard_vehicle_tap_to_set">Atingeți pentru a seta</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWh · %2$s</string>
+    <string name="vehicle_dialog_title">Setaţi capacitatea bateriei</string>
+    <string name="vehicle_dialog_capacity_label">Capacitate</string>
+    <string name="vehicle_dialog_capacity_suffix">KWh</string>
+    <string name="vehicle_dialog_capacity_helper">15 până la 120 kWh. Lăsați să utilizați modelul implicit.</string>
+    <string name="vehicle_dialog_model_label">Model</string>
+    <string name="vehicle_dialog_save">Salvează</string>
+    <string name="vehicle_dialog_reset">Resetare la autodetectare</string>
+    <string name="vehicle_dialog_invalid_capacity">Capacitatea trebuie să fie 15-120 kWh</string>
+    <string name="vehicle_dialog_summary_capacity">Capacitate: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">Eficacitate: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">Model: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">Ultima calibrare: %1$.1f%% pe %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">unavailable</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s folosit · %2$s gratuit</string>
+    <string name="dashboard_metric_storage_chip_pending">Stocare —</string>
+    <string name="dashboard_tunnel_offline">Offline</string>
+    <string name="dashboard_tunnel_online">Online</string>
+    <string name="dashboard_tunnel_connecting">Se conectează…</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">Live</string>
+    <string name="dashboard_action_live_subtitle">Deschide vizualizarea camerei</string>
+    <string name="dashboard_action_recordings">Înregistrări</string>
+    <string name="dashboard_action_settings">Setări</string>
+    <string name="dashboard_action_settings_subtitle">Preferințe și despre</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">Setări</string>
+    <string name="settings_hero_overline">OVERDRIVE</string>
+    <string name="settings_hero_subtitle">Desenați aspectul, înregistrarea, supravegherea și datele de pe dispozitiv.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">PREFERINŢE</string>
+    <string name="settings_overline_about_data">DATE</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">Tema</string>
+    <string name="settings_quick_language_label">Limba</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">Tampon pre/postare, codec, limite de stocare.</string>
+    <string name="settings_section_surveillance_subtitle">Zone de detectare, programare, sensibilitate la mişcare.</string>
+    <string name="settings_section_daemons_subtitle">Cloudflared, Zrok, Telegram, alergători MQTT.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">Despre OverDrive</string>
+    <string name="settings_about_row_subtitle">Versiune, licenţă, suport pentru dezvoltare.</string>
+    <string name="settings_reset_row_subtitle">Ştergeţi înregistrările, evenimentele sau toate geocutiile.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">Suprapunere %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">Tema, limba și preferințele vizuale.</string>
+    <string name="settings_theme_active_auto_caption">Urmăriți automat tema sistemului.</string>
+    <string name="settings_theme_active_light_caption">Tema luminoasă este întotdeauna pornită.</string>
+    <string name="settings_theme_active_dark_caption">Tema întunecată este întotdeauna pornită.</string>
+    <string name="settings_language_count_format">%1$d din %2$d limbi disponibile</string>
+    <string name="settings_language_card_title">Afişare limbă</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">Dispozitiv conectat în mod implicit</string>
+    <string name="settings_privacy_stance_body">OverDrive rulează în întregime pe unitatea capului. Telemetria nu părăsește mașina ta decât prin tuneluri și integrări pe care le configurezi în mod explicit.</string>
+    <string name="settings_privacy_overline_storage">DEPOZITAREA LOCALĂ</string>
+    <string name="settings_privacy_overline_reset">RESETAREA DATELOR</string>
+    <string name="settings_privacy_storage_clips_label">Clipuri pe disc</string>
+    <string name="settings_privacy_storage_size_label">Dimensiune totală</string>
+    <string name="settings_privacy_storage_unavailable">Unavailable</string>
+    <string name="settings_privacy_storage_count_format">%1$d clip</string>
+    <string name="settings_privacy_storage_count_format_plural">%1$d clipuri</string>
+    <string name="settings_privacy_reset_subtitle">Alegeți categoriile: înregistrări, evenimente, configurări de daemon, telemetrie cache…</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">Securitate</string>
+    <string name="settings_security_subtitle">Blocați aplicația OverDrive astfel încât pasagerii și valetele să nu o poată deschide fără codul PIN.</string>
+    <string name="settings_security_stance_title">Doar blocare UI</string>
+    <string name="settings_security_stance_body">Supravegherea, înregistrarea, descurajarea, alertele și serviciile de fundal continuă să ruleze în timp ce aplicația este blocată. Codul PIN pornește interfața OverDrive, nimic altceva.</string>
+    <string name="settings_security_overline_lock">Blocare aplicație</string>
+    <string name="settings_security_overline_recovery">Dacă uitaţi codul PIN</string>
+    <string name="settings_security_toggle_title">Necesită PIN</string>
+    <string name="settings_security_toggle_subtitle_off">Oprită — oricine poate deschide OverDrive.</string>
+    <string name="settings_security_toggle_subtitle_on">Pornit — PIN necesar pentru a deschide OverDrive.</string>
+    <string name="settings_security_change_title">Schimbă codul PIN</string>
+    <string name="settings_security_change_subtitle">Confirmați codul PIN actual, apoi setați unul nou.</string>
+    <string name="settings_security_autolock_title">Auto-blocare</string>
+    <string name="settings_security_autolock_immediate">Blocare imediată</string>
+    <string name="settings_security_autolock_1min">după 1 minut</string>
+    <string name="settings_security_autolock_5min">După 5 minute</string>
+    <string name="settings_security_autolock_15min">După 15 minute</string>
+    <string name="settings_security_autolock_never">Nu auto-blocare în funcție de timp</string>
+    <string name="settings_security_recovery_title">Recuperare ADB</string>
+    <string name="settings_security_recovery_body">PIN-ul uitat poate fi curățat de la o mașină gazdă prin depanarea USB fără resetare la fabrică. Rulați această comandă, apoi redeschideți aplicația.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">Setare PIN</string>
+    <string name="settings_security_dialog_set_body">Alege un PIN de 4-8 cifre. Vei avea nevoie de acesta de fiecare dată când deschizi aplicația.</string>
+    <string name="settings_security_dialog_disable_title">Opriți blocarea cu PIN?</string>
+    <string name="settings_security_dialog_disable_body">Confirmați codul PIN actual pentru a opri blocarea aplicației.</string>
+    <string name="settings_security_dialog_change_step1_title">Confirmați codul PIN actual</string>
+    <string name="settings_security_dialog_change_step1_body">Introduceți codul PIN actual, apoi setați unul nou.</string>
+    <string name="settings_security_action_set">Setare PIN</string>
+    <string name="settings_security_action_disable">Dezactivați blocarea</string>
+    <string name="settings_security_action_continue">Continuă</string>
+    <string name="settings_security_pin_hint">PIN</string>
+    <string name="settings_security_pin_confirm_hint">Confirmă PIN</string>
+    <string name="settings_security_error_length">Codul PIN trebuie să aibă 4 până la 8 cifre</string>
+    <string name="settings_security_error_numeric">Doar cifre</string>
+    <string name="settings_security_error_mismatch">Codurile PIN nu se potrivesc</string>
+    <string name="settings_security_error_wrong">PIN greșit</string>
+    <string name="settings_security_error_locked_out">Prea multe încercări. Încearcă din nou imediat.</string>
+    <string name="settings_security_error_persist">Nu s-a putut salva codul PIN. Încercați din nou.</string>
+    <string name="settings_security_toast_set_ok">PIN stabilit. Blocarea aplicației este activată.</string>
+    <string name="settings_security_toast_disable_ok">Blocarea aplicației este dezactivată.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">Introduceți codul PIN</string>
+    <string name="pin_lock_title_unlocked">Deblocat</string>
+    <string name="pin_lock_subtitle_default">Deblochează OverDrive pentru a continua.</string>
+    <string name="pin_lock_subtitle_wrong">PIN greșit. Încercați din nou.</string>
+    <string name="pin_lock_subtitle_locked_out">Prea multe încercări. Încercați din nou în scurt timp.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">Blocat. Încercați din nou în %1$s.</string>
+    <string name="pin_lock_lockout_seconds">%1$dsec</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">Ați uitat codul PIN? Executați de pe un calculator conectat:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Suprafață</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="one">%1$d cifre introduse</item>
+        <item quantity="few">%1$d cifre introduse</item>
+        <item quantity="other">%1$d cifre introduse</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">Nici o locație</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">Camera %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">Camera %1$d (manual)</string>
+    <string name="diagnostics_camera_value_probing">Se sting…</string>
+    <string name="diagnostics_camera_value_offline">Offline</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">Date în așteptare</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">Bine ai venit - Overdrive este acum a doua pereche de ochi.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">A ridicat %1$s (£%2$s) în timp ce parcați</string>
+    <string name="dashboard_insight_parked_charged">A ridicat %1$s în timp ce este parcat</string>
+    <string name="dashboard_insight_parked_drained_kwh">A folosit %1$s (~%2$s) de când ați parcat</string>
+    <string name="dashboard_insight_parked_drained">A folosit %1$s de când ați parcat</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">Ultima alertă de supraveghere: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">Ultima taxă: +%1$s în %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">%1$d clipuri · %2$s înregistrate</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f kWh</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d oră %2$d min</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="one">%1$d clip înregistrat astăzi</item>
+        <item quantity="few">%1$d clipuri înregistrate astăzi</item>
+        <item quantity="other">%1$d clipuri înregistrate astăzi</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="one">Overdrive online pentru %1$d day, %2$d hr</item>
+        <item quantity="few">Overdrive online pentru %1$d zile, %2$d hr</item>
+        <item quantity="other">Overdrive online pentru %1$d zile, %2$d hr</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="one">Depășire online pentru %1$d oră</item>
+        <item quantity="few">Depăşire online pentru %1$d ore</item>
+        <item quantity="other">Depăşire online pentru %1$d ore</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="one">%1$d min.</item>
+        <item quantity="few">%1$d min.</item>
+        <item quantity="other">%1$d min.</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="one">%1$d oră</item>
+        <item quantity="few">%1$d oră</item>
+        <item quantity="other">%1$d oră</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">RoadSense</string>
+    <string name="rail_hazard_map">Hartă</string>
+    <string name="roadsense_title">RoadSense</string>
+    <string name="roadsense_pill_scanning">Scanare</string>
+    <string name="roadsense_pill_idle">RoadSense</string>
+    <string name="roadsense_status_idle">Inactiv</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">Învățarea vehiculului tău</string>
+    <string name="roadsense_cal_ready">Vehicul calibrat</string>
+    <string name="roadsense_cal_partial">Îmbunătățire calibrare</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">Curăță înainte</string>
+    <string name="roadsense_road_mapped">Foaie de parcurs mapată · clar</string>
+    <string name="roadsense_road_new">Cale nouă · învățare</string>
+    <string name="roadsense_unit_meters">m</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">Avertizare</string>
+    <string name="roadsense_toggle_audio">Audio</string>
+    <string name="roadsense_toggle_visual">Vedere</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">Minore</string>
+    <string name="roadsense_sev_moderate">Moderează</string>
+    <string name="roadsense_sev_severe">Severă</string>
+    <string name="roadsense_type_breaker">Oscar de viteză</string>
+    <string name="roadsense_type_pothole">Potool</string>
+    <string name="roadsense_type_hazard">Risc</string>
+    <string name="roadsense_type_rough">Secţiune dură</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">%1$d umflături înainte</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">Secțiune brută · %1$d m</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">A fost asta un pericol?</string>
+    <string name="roadsense_confirm_reject">Nu este un pericol</string>
+    <string name="roadsense_confirm_accept">Confirmare</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">Nivelul calibrării traseului</string>
+    <string name="roadsense_cd_direction">Direcție către următorul pericol</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">LEFT</string>
+    <string name="blindspot_overlay_right">DREPTUL</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">Hartă</string>
+    <string name="roadsense_map_route_clear">Curăță</string>
+    <string name="roadsense_map_route_unmapped">Nu sunt mapate încă</string>
+    <string name="roadsense_map_back">Înapoi</string>
+    <string name="roadsense_map_recenter">Înregistrează locația mea</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">Severitate</string>
+    <string name="roadsense_map_type_label">Tip</string>
+    <string name="roadsense_map_type_unknown">Necunoscut</string>
+    <string name="roadsense_map_confirm">Confirmare</string>
+    <string name="roadsense_map_delete">Ștergere</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">Candidat</string>
+    <string name="roadsense_map_status_local">Pe dispozitiv</string>
+    <string name="roadsense_map_status_cloud">Partajat</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% încredere · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="one">Raport %1$d</item>
+        <item quantity="few">Rapoarte %1$d</item>
+        <item quantity="other">Rapoarte %1$d</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">Risc confirmat</string>
+    <string name="roadsense_map_deleted_toast">Risc eliminat</string>
+    <string name="roadsense_map_action_failed">Nu s-a putut ajunge la RoadSense. Încercați din nou.</string>
+    <string name="roadsense_map_no_location">Se așteaptă remedierea GPS…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">Căutare destinație</string>
+    <string name="roadsense_map_search_action">Caută</string>
+    <string name="roadsense_map_searching">Se caută…</string>
+    <string name="roadsense_map_no_results">Nici un loc găsit</string>
+    <string name="roadsense_map_pick_destination">Alegeți destinația</string>
+    <string name="roadsense_map_routing">Se caută ruta…</string>
+    <string name="roadsense_map_route_failed">Nu s-a putut găsi ruta. Încearcă din nou.</string>
+    <string name="roadsense_map_need_key">Adăugați o cheie de rutare în setările RoadSense pentru a naviga.</string>
+    <string name="roadsense_map_rerouting">Oprire rută — recalculare…</string>
+    <string name="roadsense_map_arrived">Ai ajuns.</string>
+    <string name="roadsense_map_nav_started">Navigare la %1$s</string>
+    <string name="roadsense_map_nav_ended">Navigare terminată</string>
+    <string name="roadsense_map_end_nav">Termină navigarea</string>
+    <string name="roadsense_map_zoom_in">Zoom in</string>
+    <string name="roadsense_map_zoom_out">Zoom out</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">Vizibilitate pericol</string>
+    <string name="roadsense_map_hazards_all">Arată toate pericolele</string>
+    <string name="roadsense_map_hazards_moderate">Moderată şi severă</string>
+    <string name="roadsense_map_hazards_severe">Numai severe</string>
+    <string name="roadsense_map_hazards_hidden">Ascunde pericolele</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">Taxare și combustibil</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">Clădiri 2D / 3D</string>
+    <string name="roadsense_map_3d_on">Clădiri 3D pe</string>
+    <string name="roadsense_map_3d_off">Clădiri 3D oprite</string>
+    <string name="roadsense_map_poi_loading">Se caută încărcarea și stațiile de combustibil…</string>
+    <string name="roadsense_map_poi_none">Nici o staţie găsită în apropiere</string>
+    <string name="roadsense_map_poi_need_route">Alegeți o destinație mai întâi</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">Oprește adăugarea</string>
+    <string name="roadsense_map_remove_stop_action">Elimină oprire</string>
+    <string name="roadsense_map_poi_navigate">Navigați aici</string>
+    <string name="roadsense_map_poi_kind_charging">Stație de încărcare</string>
+    <string name="roadsense_map_poi_kind_fuel">Stație de combustibil</string>
+    <string name="roadsense_map_poi_charging_generic">Stație de încărcare</string>
+    <string name="roadsense_map_poi_fuel_generic">Stație de combustibil</string>
+    <string name="roadsense_map_route_switched">Ruta comutată</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">apoi</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">Ieșire %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">%1$d sever</string>
+    <string name="roadsense_map_pill_moderate">%1$d moderat</string>
+    <string name="roadsense_map_pill_minor">Minore %1$d</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">Datele hărții nu sunt disponibile offline</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">Ștergeți căutarea</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">Alege un traseu</string>
+    <string name="roadsense_map_routes_to">Rute la %1$s</string>
+    <string name="roadsense_map_routes_cancel">Anulează</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">Ruta %1$d</string>
+    <string name="roadsense_map_fastest">Rapidă</string>
+    <string name="roadsense_map_start">Pornire</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">Locația ta</string>
+    <string name="roadsense_map_add_stop">Adaugă oprire</string>
+    <string name="roadsense_map_add_stop_hint">Caută o oprire pentru a adăuga</string>
+    <string name="roadsense_map_stop_removed">Oprire eliminată</string>
+    <string name="roadsense_map_remove_stop">Elimină oprire</string>
+    <string name="roadsense_map_move_stop_up">Mută oprire sus</string>
+    <string name="roadsense_map_move_stop_down">Mută oprire jos</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">Permis până la %1$d opriri</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">Temă hartă</string>
+    <string name="roadsense_map_theme_auto">Tema hărții: Auto</string>
+    <string name="roadsense_map_theme_light">Tema hărții: Ușor</string>
+    <string name="roadsense_map_theme_dark">Tema hărții: Întunecat</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">Acasă</string>
+    <string name="roadsense_map_saved_work">Muncă</string>
+    <string name="roadsense_map_saved_set_home">Setează Acasă</string>
+    <string name="roadsense_map_saved_set_work">Setare serviciu</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">Favorit</string>
+    <string name="roadsense_map_save_place">Salvează locul</string>
+    <string name="roadsense_map_save_as_home">Salvează ca Acasă</string>
+    <string name="roadsense_map_save_as_work">Salvează ca Lucru</string>
+    <string name="roadsense_map_save_as_custom">Salvează ca favorit…</string>
+    <string name="roadsense_map_saved_added">Salvat</string>
+    <string name="roadsense_map_saved_removed">Eliminat din salvate</string>
+    <string name="roadsense_map_saved_remove">Elimină</string>
+    <string name="roadsense_map_recent_remove">Elimină din recente</string>
+    <string name="roadsense_map_recent_removed">Eliminat din recente</string>
+    <string name="roadsense_map_custom_label_hint">Etichetă (de ex. Gym, mai)</string>
+    <string name="roadsense_map_custom_label_title">Numește această locație</string>
+    <string name="roadsense_map_save">Salvează</string>
+    <string name="roadsense_map_cancel">Anulează</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">Pin scăpat</string>
+    <string name="roadsense_map_navigate_here">Navigați aici</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">Căutați un loc pentru a seta ca %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">Cursă restaurată</string>
+    <!-- dialog_cloudflared_settings -->
+    <string name="cloudflared_token_storage_note">Jetonul este stocat în siguranță și partajat între procesele aplicației și ale demonului.</string>
+    <string name="cloudflared_token_hint">Introduceți jetonul cloudflared</string>
+    <string name="cloudflare_paid_version">Versiunea plătită Cloudflare</string>
+    <string name="dialog_cloudflared_settings_title">🌐 Setări Cloudflared</string>
+    <string name="dialog_cloudflared_settings_message">Definiți dacă utilizați Cloudflare plătit sau trycloudflare. Dacă utilizați Cloudflare plătit, introduceți jetonul tunelului.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">Dacă este setat pe versiunea plătită, jetonul nu poate fi gol</string>
+    <string name="toast_cloudflared_saved_settings">Setările Cloudflared au fost salvate</string>
+</resources>

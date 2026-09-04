@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded: account_tree (24px, weight 400, fill 0) — nested nodes, matches
+     the interlocking-squares automation glyph used on the web nav sidebar. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M560-160q-33 0-56.5-23.5T480-240v-80H360q-33 0-56.5-23.5T280-400v-160h-40q-33 0-56.5-23.5T160-640v-160q0-33 23.5-56.5T240-880h160q33 0 56.5 23.5T480-800v160q0 33-23.5 56.5T400-560h-40v160h120v-80q0-33 23.5-56.5T560-560h160q33 0 56.5 23.5T800-480v80q0 33-23.5 56.5T720-320H600v80h120q33 0 56.5 23.5T800-160v0q0 33-23.5 56.5T720-80H560q-33 0-56.5-23.5T480-160v0q0-33 23.5-56.5T560-240ZM240-640h160v-160H240v160Z"/>
+    </group>
+</vector>

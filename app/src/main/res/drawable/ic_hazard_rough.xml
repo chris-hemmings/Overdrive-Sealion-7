@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense hazard marker — ROUGH SECTION (24dp, single-color, tint-driven).
+
+  Concept: a stack of WASHBOARD waves = "sustained rough / corrugated
+  surface" (distinct from the single hump of a speed breaker). Three
+  nested wavy bands ripple across the marker. Authored in the Material
+  Symbols 960-unit grid (x:0..960, y:-960..0, baseline y=0), scaled by the
+  same 0.025 <group> transform as the rest of the icon set.
+
+  fillColor=white so a tint (or addImage tinted bitmap) drives the color.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <group
+        android:scaleX="0.025"
+        android:scaleY="0.025"
+        android:translateY="24">
+
+        <!-- Top wave band. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M120,-620 Q210,-700 300,-620 Q390,-540 480,-620 Q570,-700 660,-620 Q750,-540 840,-620 L840,-560 Q750,-480 660,-560 Q570,-640 480,-560 Q390,-480 300,-560 Q210,-640 120,-560 Z" />
+
+        <!-- Middle wave band. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M120,-450 Q210,-530 300,-450 Q390,-370 480,-450 Q570,-530 660,-450 Q750,-370 840,-450 L840,-390 Q750,-310 660,-390 Q570,-470 480,-390 Q390,-310 300,-390 Q210,-470 120,-390 Z" />
+
+        <!-- Bottom wave band. -->
+        <path
+            android:fillColor="@android:color/white"
+            android:pathData="M120,-280 Q210,-360 300,-280 Q390,-200 480,-280 Q570,-360 660,-280 Q750,-200 840,-280 L840,-220 Q750,-140 660,-220 Q570,-300 480,-220 Q390,-140 300,-220 Q210,-300 120,-220 Z" />
+    </group>
+</vector>

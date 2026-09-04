@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Material 3 token palette generated from seed #00D4AA (brand teal).
+  Light theme — premium warm-neutral surfaces (not pure white).
+  Surfaces tinted ~2% toward the brand for cohesion.
+  Names follow the M3 system tokens: md_sys_color_<role>.
+-->
+<resources>
+
+    <!-- Primary -->
+    <color name="md_sys_color_primary_light">#007A62</color>
+    <color name="md_sys_color_on_primary_light">#FFFFFF</color>
+    <color name="md_sys_color_primary_container_light">#78F3CC</color>
+    <color name="md_sys_color_on_primary_container_light">#002115</color>
+
+    <!-- Secondary -->
+    <color name="md_sys_color_secondary_light">#4B635A</color>
+    <color name="md_sys_color_on_secondary_light">#FFFFFF</color>
+    <color name="md_sys_color_secondary_container_light">#CDE8DC</color>
+    <color name="md_sys_color_on_secondary_container_light">#072019</color>
+
+    <!-- Tertiary (sky-blue accent for vehicle / data viz) -->
+    <color name="md_sys_color_tertiary_light">#00658F</color>
+    <color name="md_sys_color_on_tertiary_light">#FFFFFF</color>
+    <color name="md_sys_color_tertiary_container_light">#C5E7FF</color>
+    <color name="md_sys_color_on_tertiary_container_light">#001E2E</color>
+
+    <!-- Error -->
+    <color name="md_sys_color_error_light">#BA1A1A</color>
+    <color name="md_sys_color_on_error_light">#FFFFFF</color>
+    <color name="md_sys_color_error_container_light">#FFDAD6</color>
+    <color name="md_sys_color_on_error_container_light">#410002</color>
+
+    <!-- Background / surfaces (warm neutral, slight teal tint) -->
+    <color name="md_sys_color_background_light">#F7FAF7</color>
+    <color name="md_sys_color_on_background_light">#181C1A</color>
+    <color name="md_sys_color_surface_light">#F7FAF7</color>
+    <color name="md_sys_color_on_surface_light">#181C1A</color>
+    <color name="md_sys_color_surface_variant_light">#DBE5DD</color>
+    <color name="md_sys_color_on_surface_variant_light">#3F4944</color>
+    <color name="md_sys_color_surface_dim_light">#D8DBD7</color>
+    <color name="md_sys_color_surface_bright_light">#F7FAF7</color>
+    <color name="md_sys_color_surface_container_lowest_light">#FFFFFF</color>
+    <color name="md_sys_color_surface_container_low_light">#F1F4F0</color>
+    <color name="md_sys_color_surface_container_light">#ECEFEC</color>
+    <color name="md_sys_color_surface_container_high_light">#E6E9E6</color>
+    <color name="md_sys_color_surface_container_highest_light">#E0E4E1</color>
+
+    <!-- Outline / dividers -->
+    <color name="md_sys_color_outline_light">#6F7975</color>
+    <color name="md_sys_color_outline_variant_light">#BFC9C3</color>
+
+    <!-- Inverse / scrim -->
+    <color name="md_sys_color_inverse_surface_light">#2D3130</color>
+    <color name="md_sys_color_inverse_on_surface_light">#EEF1ED</color>
+    <color name="md_sys_color_inverse_primary_light">#5DDBB6</color>
+    <color name="md_sys_color_scrim_light">#000000</color>
+
+    <!-- Brand-aware status colors (paired with surface tones) -->
+    <color name="overdrive_status_success_light">#1F7A3F</color>
+    <color name="overdrive_status_warning_light">#A6601C</color>
+    <color name="overdrive_status_danger_light">#BA1A1A</color>
+    <color name="overdrive_status_info_light">#00658F</color>
+
+    <!--
+      Theme-neutral semantic aliases. These are the public color contract for
+      layouts and styles; values-night overrides the same names for dark mode.
+      The suffixed palette above remains as the generated source palette.
+    -->
+    <color name="md_sys_color_primary">@color/md_sys_color_primary_light</color>
+    <color name="md_sys_color_on_primary">@color/md_sys_color_on_primary_light</color>
+    <color name="md_sys_color_primary_container">@color/md_sys_color_primary_container_light</color>
+    <color name="md_sys_color_on_primary_container">@color/md_sys_color_on_primary_container_light</color>
+    <color name="md_sys_color_secondary">@color/md_sys_color_secondary_light</color>
+    <color name="md_sys_color_on_secondary">@color/md_sys_color_on_secondary_light</color>
+    <color name="md_sys_color_secondary_container">@color/md_sys_color_secondary_container_light</color>
+    <color name="md_sys_color_on_secondary_container">@color/md_sys_color_on_secondary_container_light</color>
+    <color name="md_sys_color_tertiary">@color/md_sys_color_tertiary_light</color>
+    <color name="md_sys_color_on_tertiary">@color/md_sys_color_on_tertiary_light</color>
+    <color name="md_sys_color_tertiary_container">@color/md_sys_color_tertiary_container_light</color>
+    <color name="md_sys_color_on_tertiary_container">@color/md_sys_color_on_tertiary_container_light</color>
+    <color name="md_sys_color_error">@color/md_sys_color_error_light</color>
+    <color name="md_sys_color_on_error">@color/md_sys_color_on_error_light</color>
+    <color name="md_sys_color_error_container">@color/md_sys_color_error_container_light</color>
+    <color name="md_sys_color_on_error_container">@color/md_sys_color_on_error_container_light</color>
+    <color name="md_sys_color_background">@color/md_sys_color_background_light</color>
+    <color name="md_sys_color_on_background">@color/md_sys_color_on_background_light</color>
+    <color name="md_sys_color_surface">@color/md_sys_color_surface_light</color>
+    <color name="md_sys_color_on_surface">@color/md_sys_color_on_surface_light</color>
+    <color name="md_sys_color_surface_variant">@color/md_sys_color_surface_variant_light</color>
+    <color name="md_sys_color_on_surface_variant">@color/md_sys_color_on_surface_variant_light</color>
+    <color name="md_sys_color_surface_dim">@color/md_sys_color_surface_dim_light</color>
+    <color name="md_sys_color_surface_bright">@color/md_sys_color_surface_bright_light</color>
+    <color name="md_sys_color_surface_container_lowest">@color/md_sys_color_surface_container_lowest_light</color>
+    <color name="md_sys_color_surface_container_low">@color/md_sys_color_surface_container_low_light</color>
+    <color name="md_sys_color_surface_container">@color/md_sys_color_surface_container_light</color>
+    <color name="md_sys_color_surface_container_high">@color/md_sys_color_surface_container_high_light</color>
+    <color name="md_sys_color_surface_container_highest">@color/md_sys_color_surface_container_highest_light</color>
+    <color name="md_sys_color_outline">@color/md_sys_color_outline_light</color>
+    <color name="md_sys_color_outline_variant">@color/md_sys_color_outline_variant_light</color>
+    <color name="md_sys_color_inverse_surface">@color/md_sys_color_inverse_surface_light</color>
+    <color name="md_sys_color_inverse_on_surface">@color/md_sys_color_inverse_on_surface_light</color>
+    <color name="md_sys_color_inverse_primary">@color/md_sys_color_inverse_primary_light</color>
+    <color name="md_sys_color_scrim">@color/md_sys_color_scrim_light</color>
+    <color name="overdrive_status_success">@color/overdrive_status_success_light</color>
+    <color name="overdrive_status_warning">@color/overdrive_status_warning_light</color>
+    <color name="overdrive_status_danger">@color/overdrive_status_danger_light</color>
+    <color name="overdrive_status_info">@color/overdrive_status_info_light</color>
+
+</resources>

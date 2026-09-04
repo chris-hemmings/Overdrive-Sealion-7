@@ -1,0 +1,1323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Overstasjon</string>
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_description">Holder overdrive kjøretøyovervåking aktiv i bakgrunnen. Denne tjenesten leser ikke eller samhandler med skjerminnholdet.</string>
+    <!-- Recording Mode Labels -->
+    <!-- Proximity Guard Settings Labels -->
+    <!-- Quality Settings Labels -->
+    <!-- Storage Labels -->
+    <!-- Recording Status Labels -->
+    <!-- Event Types -->
+    <!-- Filter Labels -->
+    <!-- Storage Breakdown -->
+    <!-- Recording Controls -->
+    <!-- Slider Range Labels -->
+    <!-- ============================================================
+         i18n string extraction (Step 1: Layouts)
+         ============================================================ -->
+    <!-- Drawer menu -->
+    <!-- Common buttons / labels -->
+    <string name="action_cancel">Avbryt</string>
+    <string name="action_clear_plain">Tøm</string>
+    <string name="action_select_all">Velg alle</string>
+    <string name="action_select_all_short">Alle</string>
+    <string name="action_delete">Slett</string>
+    <string name="action_share">Del</string>
+    <string name="action_done">FERDIG</string>
+    <string name="action_remind_me_later">NEDBESTEMMEDEN DETTE</string>
+    <string name="action_retry">Prøv igjen</string>
+    <string name="action_run">Kjør</string>
+    <string name="action_clear_output">Tøm utdataen</string>
+    <!-- Nav header -->
+    <!-- Common content descriptions -->
+    <string name="cd_camera">Kamera</string>
+    <string name="cd_qr">QR</string>
+    <string name="cd_qr_code">QR Code</string>
+    <string name="cd_show_hide_token">Vis/Skjul Token</string>
+    <string name="cd_copy_token">Kopier tokenet</string>
+    <string name="cd_copy_url">Kopier URL</string>
+    <string name="cd_clear_logs">Fjern logger</string>
+    <string name="cd_expand_collapse">Vis/Skjul</string>
+    <string name="cd_recording_status">Opptak status</string>
+    <string name="cd_trip_tracking_status">Reise sporingsstatus</string>
+    <string name="cd_mic_status">Mikrofon fangststatus</string>
+    <string name="cd_video_thumbnail">Miniatyrbilde for video</string>
+    <string name="cd_play">Spill</string>
+    <string name="cd_back">Tilbake</string>
+    <string name="cd_play_pause">Spill/Pause</string>
+    <string name="cd_player_prev">Forrige opptak</string>
+    <string name="cd_player_next">Neste opptak</string>
+    <string name="cd_player_maximize">Maksimer spiller</string>
+    <string name="cd_player_minimize">Avslutt fullskjerm</string>
+    <string name="cd_player_mute">Lyd av/på</string>
+    <string name="cd_player_quadrant_all">Vis alle kameraer</string>
+    <string name="cd_player_quadrant_front">Vis frontkamera</string>
+    <string name="cd_player_quadrant_right">Vis høyre kamera</string>
+    <string name="cd_player_quadrant_rear">Vis bakre kamera</string>
+    <string name="cd_player_quadrant_left">Vis venstre kamera</string>
+    <string name="cd_delete">Slett</string>
+    <string name="cd_share">Del</string>
+    <string name="cd_expand">Utvid</string>
+    <string name="cd_configure">Konfigurer</string>
+    <string name="cd_download_log">Last ned logg</string>
+    <string name="cd_reset">Reset</string>
+    <string name="cd_battery">Batteri</string>
+    <string name="cd_step_completed">Trinn fullført</string>
+    <string name="cd_permission_granted">Tillatelse gitt</string>
+    <!-- overlay_status -->
+    <string name="overlay_rec_inactive_label">OPPTAK</string>
+    <string name="overlay_trip_inactive_label">TRIP</string>
+    <string name="overlay_mic_inactive_label">MIC</string>
+    <!-- Quick-action chips revealed by tapping the REC pill: switch
+         recording mode without opening the app. Short labels read fine
+         cross-locale (matches existing REC/MIC/TRIP precedent), so
+         translatable=false to avoid bloating the i18n catalog. The
+         _cd content-descriptions are real prose and ARE translatable —
+         they go through the NLLB pipeline like every other a11y string. -->
+    <string name="overlay_mode_off_cd">Stopp opptak</string>
+    <string name="overlay_mode_continuous_cd">Kontinuerlig opptak</string>
+    <string name="overlay_mode_drive_cd">Måling av oppkjøringsmodus</string>
+    <string name="overlay_mode_proximity_cd">Proximity-vakt opptak</string>
+    <!-- item_log_entry placeholders (timestamp/tag/message are runtime, but these are
+         placeholder/preview text used at design time and visible in some empty states) -->
+    <string name="log_entry_default_timestamp">12:34:56</string>
+    <string name="log_entry_default_tag">[TAG]</string>
+    <string name="log_entry_default_message">Logg melding her</string>
+    <!-- item_safe_location -->
+    <!-- item_daemon_card -->
+    <string name="daemon_card_default_name">Datamelding navn</string>
+    <string name="daemon_card_default_status">Status melding</string>
+    <string name="daemon_card_subprocesses">SUBPROCESSES</string>
+    <!-- item_time_window -->
+    <!-- fragment_logs_panel -->
+    <string name="logs_panel_title">Logger</string>
+    <!-- activity_main_new / activity_main-land -->
+    <string name="url_connecting">Connecting…</string>
+    <!-- Shown when an external link can't open (no browser on the head unit):
+         the URL is copied to the clipboard instead. %1$s = the URL. -->
+    <string name="url_copied_no_browser">Ingen nettleser funnet. Lenke kopiert: %1$s</string>
+    <!-- dialog_tailscale_settings -->
+    <string name="tailscale_generate_login_url">Generere påloggings-URL</string>
+    <string name="tailscale_scan_to_login">Skann til innlogging</string>
+    <string name="tailscale_qr_waiting">Venter på innloggings-URL…</string>
+    <string name="tailscale_enable_proxy">Aktiver ailscale Proxy</string>
+    <string name="tailscale_proxy_explainer">Rutene MQTT gjennom sjøskala, slik at du kan nå en privat megler på ditt fastnett uten havnevideresending.</string>
+    <string name="tailscale_proxy_warning">Mens dette er aktivert, vil MQTT til offentlige meglere (HiveMQ, AWS IoT, etc.) feile — kun ruter til din skrednett. Å starte på nytt med daemon.</string>
+    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <string name="camera_mode_title">Inntak av modus</string>
+    <string name="camera_mode_subtitle">Velg stien som passer ditt hode enhet. Standard passer de fleste BYD-modeller; DiLink 4 er nødvendig på nyere trimer (han/tang 2024+) der AVM HAL avgir en mosaikk av 2x2 forbiff.</string>
+    <string name="camera_mode_option_default">Standard – arbeider på sjø, Atto, Dolphin (de fleste biler)</string>
+    <string name="camera_mode_option_dilink4">DiLink 4 – nyere Han / tun-varianter</string>
+    <string name="camera_mode_current_default">Nåværende: Standard</string>
+    <string name="camera_mode_current_dilink4">Nåværende: DiLink 4</string>
+    <string name="camera_mode_save">Bruk &amp; omstart</string>
+    <string name="camera_mode_hint">Endring av modusen starter kameraet daemon. Hvis video ser feil ut (kvadsert, manglende kvadranter, rødt overlegg), prøv den andre modus.</string>
+    <!-- DiLink 4 quadrant tweaks (only effective when cameraMode = DiLink 4) -->
+    <string name="camera_dilink4_tweaks_title">DiLink 4 kvadrant Tweaks</string>
+    <string name="camera_dilink4_tweaks_subtitle">Per-vehicle justeringer for DiLink 4-banen. Bare effektiv når DiLink 4-modus er valgt ovenfor.</string>
+    <string name="camera_dilink4_save">Bruk</string>
+    <string name="camera_dilink4_hint">Slå kun av disse hvis HAL maling en rød \"kalibrering feilet\" krom over matingen. Daemon restart gjelder endring.</string>
+    <string name="camera_dilink4_red_mask_label">Undertrykk rød kalibreringsoverlegg (GL)</string>
+    <string name="camera_dilink4_red_mask_subtitle">Legger til en fragment-shader pass som oppdager lysrøde «kalibrering feilet» piksler og erstatter dem med en naboprøve (eller luminanskorn når banneret er for stort til å smalge). Kun Kosmetikk – påvirker ikke den underliggende kalibreringstilstanden.</string>
+    <!-- dialog_camera_selection -->
+    <string name="camera_selection_title">Kamera valg</string>
+    <string name="camera_selection_subtitle">Velg panoramatisk kamerakilde</string>
+    <string name="camera_current_auto">Nåværende: automatisk</string>
+    <string name="camera_option_auto">Automatisk (finn ut ved oppstart)</string>
+    <string name="camera_option_0">Kamera 0 – Veksle</string>
+    <string name="camera_option_1">Kamera 1 – Seal (standard)</string>
+    <string name="camera_option_2">Kamera 2</string>
+    <string name="camera_option_3">Kamera 3</string>
+    <string name="camera_option_4">Kamera 4</string>
+    <string name="camera_option_5">Kamera 5</string>
+    <string name="camera_selection_hint">Auto plukker riktig kamera for trim ved hver oppstart. Kamera 1 = BYD Seal, Kamera 0 = Atto tester. Start kameraet på nytt for at innstillingene skal tre i kraft.</string>
+    <!-- OEM Dashcam camera ID picker (Phase 5: separate forward-sensor pipeline) -->
+    <string name="camera_oem_dashcam_title">OEM Dashcam kamera-ID</string>
+    <string name="camera_oem_dashcam_hint">Velg AVMamera-IDen som peker på den foroverliggende dashbordsensoren. Dashcam er OPPOSITE for pano: Kjør/han-pano = 1 → dashcam = 0; Atto / Tang pano = 0 → dashcam = 1. La stå på Auto for å la OverDrive-plukke.</string>
+    <string name="camera_oem_dashcam_auto_resolved">Auto — bruk av id %1$d (pano er id %2$d)</string>
+    <string name="camera_oem_dashcam_auto_unavailable">Auto — pano id is %1$d, can\'t infer dashcam</string>
+    <string name="camera_oem_dashcam_save">Lagre</string>
+    <string name="camera_concurrent_probe_label">Støtte for test-dual-kamera ved neste oppstart</string>
+    <string name="camera_concurrent_probe_subtitle">Engangskontroller som åpner begge kameraene samtidig for å bekrefte at dette kjøretøyet kan kjøre pano + dashcam samtidig. Kjører en gang etter neste omstart under parkering. La være AV med mindre opptakene ser feil ut - det er ikke nødvendig og kan kort forstyrre et opptak hvis man er aktiv når det kjører.</string>
+    <!-- Dashcam-side camera labels — REVERSE of the pano labels above. The
+         OEM dashcam id is the opposite of the pano id, so the helpful
+         "this is what your trim should pick" hint flips between the two
+         dialogs. Without these strings the dashcam picker re-used the pano
+         labels and told Seal owners to pick "Camera 1 — Seal" for their
+         dashcam, which is the pano camera, not the dashcam. -->
+    <string name="camera_oem_option_0">Kamera 0 – Sesong / Han (standard)</string>
+    <string name="camera_oem_option_1">Kamera 1 – Til / Klang</string>
+    <!-- Camera mapping dialog (multi-vehicle role-to-slice routing) -->
+    <string name="camera_mapping_title">Kamera tilordning</string>
+    <string name="camera_role_label">Rolle tilordning</string>
+    <string name="camera_candidate_previous">Forrige</string>
+    <string name="camera_candidate_next">Neste</string>
+    <string name="camera_preview_unavailable">Forhåndsvisning utilgjengelig enda. Prøv en annen kandidat eller oppdater ved å åpne dialogen etter daemon gjenstarter.</string>
+    <string name="camera_mapping_save">Lagre</string>
+    <string name="camera_mapping_clear">Slett rolle</string>
+    <string name="camera_mapping_saved">Kamera tilordning lagret.</string>
+    <string name="camera_mapping_cleared">Tilordning av kamerarolle er tømt.</string>
+    <string name="camera_mapping_summary_format">Panoramic stream: Camera %1$d · %2$dx%3$d</string>
+    <string name="camera_mapping_summary_probing">Panoramisk stream: Bakoverkompatibel auto-detektering / probing</string>
+    <string name="camera_mapping_current_format">Nåværende tilordning: %1$s</string>
+    <string name="camera_mapping_current_none">Gjeldende tilordning: Auto / standard</string>
+    <string name="camera_mapping_hint">OverDrive beholder oppstarten av den eldre oppførselen som standard, men lar deg nå kalibrere den sammenslåtte panoramusstripen riktig. Forhåndsvis hvert rå sammenslåtte utsnitt, tilordne de logiske 360 rollene til utsnittet som faktisk viser front/høyre/bak/venstre på kjøretøyet og daemonen vil gjenbruke dette oppsettet til opptak, strømming, og AI etter omstart.</string>
+    <!-- fragment_dashboard -->
+    <string name="dashboard_scan_to_connect">Skann for tilkobling</string>
+    <string name="dashboard_qr_waiting">Venter på tunnel…</string>
+    <string name="dashboard_daemons_running_default">0/5 Løping</string>
+    <string name="dashboard_device_id_loading">…</string>
+    <string name="dashboard_access_code">Adgang kode</string>
+    <string name="dashboard_token_masked">••••••••</string>
+    <string name="dashboard_regenerate_token">Regenerer Token</string>
+    <!-- fragment_recording_controls -->
+    <!-- dialog_setup_guide -->
+    <string name="setup_guide_title">Komme i gang</string>
+    <string name="setup_guide_subtitle">Tre raske trinn for å få den beste opplevelsen:</string>
+    <string name="setup_step_one_label">1</string>
+    <string name="setup_step_two_label">2</string>
+    <string name="setup_step_three_label">3</string>
+    <string name="setup_language_title">Velg ditt språk</string>
+    <string name="setup_language_body">Standarder for din headenhets språk. Trykk for å velge en annen for OverDrive-appen og web-tunnel.</string>
+    <string name="setup_language_button">Velg språk</string>
+    <string name="setup_autostart_title">Deaktiver auto start-begrensning</string>
+    <string name="setup_autostart_body">Trykk nedenfor for å åpne BYD Auto-Start. Finn OverDrive i listen og fjern avmerkingen i boksen. BYD sletter dette på hver installasjon - du vil gjenta etter oppdateringer.</string>
+    <string name="setup_autostart_button">Åpne BYD automatisk start</string>
+    <string name="setup_overlay_title">Tillat visning av andre apper</string>
+    <string name="setup_overlay_body">Aktiver denne for å vise en flytende statusindikator for opptak og reisesporing over andre programmer.</string>
+    <string name="setup_overlay_button">Åpne overlegg innstillinger</string>
+    <!-- Onboarding guide (novice track). Parked-only, glanceable. Overdrive is a
+         protected brand name — keep it verbatim. -->
+    <!-- Shared button labels -->
+    <string name="onboarding_next">Neste</string>
+    <string name="onboarding_back">Tilbake</string>
+    <string name="onboarding_skip">Hopp</string>
+    <string name="onboarding_later">Gjør dette senere</string>
+    <string name="onboarding_dismiss">Avvis</string>
+    <string name="onboarding_exit">Avslutt tur</string>
+    <string name="onboarding_done_short">Har det</string>
+    <!-- Step 0: authorize the daemon (system ADB popup) -->
+    <string name="onboarding_authorize_title">Vekk overjakt</string>
+    <string name="onboarding_authorize_body">Overkjøre kjører kameraet via en liten hjelpemiddel på enheten. Android vil spørre om en gang for å tillate USB-feilsøking - trykk <b>Allow</b> og sjekk <b>Alltid tillate fra denne enheten</b> så den forblir ved hver omstart.</string>
+    <string name="onboarding_authorize_button">Tillat tilgang</string>
+    <string name="onboarding_authorize_waiting_title">Venter på tillatelse…</string>
+    <string name="onboarding_authorize_waiting_body">Godta Android-popup-vinduet. Hvis du ikke ser det, kan den allerede få - dette vil fortsette alene.</string>
+    <string name="onboarding_authorize_retry_title">Fremdeles ikke tilkoblet</string>
+    <string name="onboarding_authorize_retry_body">Hjelperen kjører ikke ennå. Android tillatelsen kan ha blitt avvist. Prøv igjen og husk å sjekke <b>Alltid tillat</b>.</string>
+    <string name="onboarding_authorize_retry_button">Prøv igjen</string>
+    <!-- Camera mapping chapter -->
+    <string name="onboarding_camera_step_label">Kamera · Steg %1$d av %2$d</string>
+    <string name="onboarding_camera_intro_title">Still opp kameraene dine</string>
+    <string name="onboarding_camera_intro_body">La oss la oss fortelle overdrive hvilket kamera som er 30-displayet ditt, og hvilket som er dashbordet. Det tar omtrent et minutt, og du kan endre det senere.</string>
+    <string name="onboarding_camera_intro_primary">Begynn</string>
+    <string name="onboarding_camera_opening_title">Åpner kamera oppsett…</string>
+    <string name="onboarding_camera_opening_body">Laster inn en direkte forhåndsvisning fra kameraene dine. Dette kan ta noen sekunder.</string>
+    <string name="onboarding_camera_pano_title">Dette er 36-visningen din</string>
+    <string name="onboarding_camera_pano_body">Bruk pilene til å finne det 4 gjennomsyrede bildet. Les det fra FLASSO: nederst venstre er REAR, nederst høyre er LEFT-siden.</string>
+    <string name="onboarding_camera_dashcam_title">Finn nå kameraet fremover</string>
+    <string name="onboarding_camera_dashcam_body">Gå gjennom kameraene med pilene og stopp på den som viser frontruten / foroversikt. Legg merke til tallet — du vil velge den neste.</string>
+    <string name="onboarding_camera_pick_title">Velg 360 kamera</string>
+    <string name="onboarding_camera_pick_body">I det øverste kortet, velg nummeret for 360 / normalkameraet. Ikke overla det stå på AUTO og Overdrive det ut.</string>
+    <string name="onboarding_camera_pick_primary">Neste</string>
+    <string name="onboarding_camera_pick_dash_title">Velg ditt dashcam kamera</string>
+    <string name="onboarding_camera_pick_dash_body">I dette kortet, velg dashbordnummeret du fant tidligere – eller la det stå på AUTO.</string>
+    <string name="onboarding_camera_save_primary">Lagre &amp; start på nytt</string>
+    <string name="onboarding_camera_applying_title">Bruke - starte kamera på nytt</string>
+    <string name="onboarding_camera_applying_body">Fôret vil gå mørk og blinke i omtrent 10 sekunder. Dette er normalt - henge stramt.</string>
+    <string name="onboarding_camera_verify_title">Rask sjekk</string>
+    <string name="onboarding_camera_verify_body">Vises bildet som er sydd og dashbordet, vise veien foran? Hvis matingen ser feil ut, trykk på Re-pick — ingenting er ødelagt.</string>
+    <string name="onboarding_camera_verify_ok">Ser ut til høyre</string>
+    <string name="onboarding_camera_verify_repick">Gjenplukk</string>
+    <string name="onboarding_camera_windshield_title">Bånd på vegforutgående opptak? (valgfritt)</string>
+    <string name="onboarding_camera_windshield_body">For OEM-oppsettet – frontrute kameraet som stripe oppå opptak – velg Windshield i rollemenyen, for å bruke dashbordet. velg kameraet fremover og lagre. De fleste eiere kan hoppe over dette.</string>
+    <string name="onboarding_camera_windshield_primary">Vis meg</string>
+    <string name="onboarding_camera_windshield_skip">Nei takk</string>
+    <!-- Vehicle profile chapter -->
+    <string name="onboarding_vehicle_title">Sørg for å overkjøre batteriet</string>
+    <string name="onboarding_vehicle_body">Velg din modell og vi fyller ut kWh, eller skriv den selv (15–120). Dette gjør rekkevidde og ladingsestimater nøyaktig. Du kan hoppe over og sette den senere.</string>
+    <string name="onboarding_vehicle_primary">Angi batteri</string>
+    <!-- Dashboard orientation chapter -->
+    <string name="onboarding_dash_tiles_title">Din cockpit med et titt</string>
+    <string name="onboarding_dash_tiles_body">Disse kortene er knappene – Trykk for å åpne Live kamera, Opptaksninger, Tjenester eller Kjøretøyet.</string>
+    <string name="onboarding_dash_chips_title">Disse viser bare status</string>
+    <string name="onboarding_dash_chips_body">Filmene opp toppen viser opptak, tjenester og fjernlenke. De oppdaterer seg alene — de er ikke knapper.</string>
+    <string name="onboarding_dash_chips_body_land">Din live status - opptak, tjenester og fjernkobling - vises her. Den oppdaterer seg selv.</string>
+    <!-- Completion -->
+    <string name="onboarding_done_title">Cockpit klar</string>
+    <string name="onboarding_done_body">Kameraer kartlagt og har batteri. Trykk Live for å se dine feeds — eller utforsk de dypere innstillingene når som helst.</string>
+    <string name="onboarding_done_primary">Ferdig</string>
+    <string name="onboarding_done_secondary">Utforsk oppsett</string>
+    <!-- Expert track (chaptered walkthrough of deeper config; footguns warned, never fired) -->
+    <string name="onboarding_help_cd">Fikk omvisning</string>
+    <string name="onboarding_reset_toast">Onboarding reset - spille guiden på nytt</string>
+    <string name="onboarding_expert_chapter_label">Kapittel %1$d av %2$d</string>
+    <string name="onboarding_expert_finish">Fullfør</string>
+    <string name="onboarding_expert_menu_title">Fikk omvisning</string>
+    <string name="onboarding_expert_menu_body">En rask gå gjennom det dypere oppsettet – kjøretøyprofilen din, integreringen, overvåkingen, diagnostikk, tjenester og sikkerhet. Du kan stoppe når som helst.</string>
+    <string name="onboarding_expert_menu_start">Start tur</string>
+    <string name="onboarding_expert_vehicle_title">Kjøretøyets profil</string>
+    <string name="onboarding_expert_vehicle_body">Trykk på Kjøretøyet for å angi batterimengde og -modell - den gir nøyaktig rekkevidde og helseestimater.</string>
+    <string name="onboarding_expert_recordings_title">Dine opptak</string>
+    <string name="onboarding_expert_recordings_body">Veksle mellom Dashcam (kontinuerlig + nærhet klipp) og Overvåking (parkerte enkehendelser) med denne bryteren - hvert holder sitt eget bibliotek. Trykk på et klipp for å spille den.</string>
+    <string name="onboarding_expert_live_title">Live kameraer</string>
+    <string name="onboarding_expert_live_body">Åpne Live herfra for å se alle kameraene i sanntid. Håndter for å sjekke visningen før en stasjon eller mens kameraet er parkert i nærheten.</string>
+    <string name="onboarding_expert_trips_title">Tur historie</string>
+    <string name="onboarding_expert_trips_body">Reiselogger hver stasjon — rute, avstand, varighet og energibruk — slik at du kan gjennomgå hvor bilen har vært.</string>
+    <string name="onboarding_expert_roadsense_title">Vei</string>
+    <string name="onboarding_expert_roadsense_body">RoadSense bruker bilens bevegelsessensorer og GPS til å oppdage vegfarer – humper, bolter, fartsbrytere – og advarer deg før kjente feil. Nettsidene detekterer, farekart, advarselsbilder, og Blind Spot. Slå på hovedbryteren for å bruke noe av det.</string>
+    <string name="onboarding_expert_blindspot_title">Blind Spot</string>
+    <string name="onboarding_expert_blindspot_body">Aktiver Blind Spot i fanen her, og når du signerer en sving, en sidekameravisning vises automatisk på skjermen – venstre for et venstre signal, høyre for en høyre - deretter skjuler det kort tid etter. Den kjører bare mens et sving-signal er på.</string>
+    <string name="onboarding_expert_maps_title">Navigation</string>
+    <string name="onboarding_expert_maps_body">Åpne kartet for full turn-for-sving-navigasjon - søk etter destinasjon, få rute- og live-veiledning, I tillegg til nærliggende betraktningspunkter og eventuelle vegfarer RoadSense har det vært logget underveis. Du kan også auto-prosjektere det inn på instrumentklyngen når du begynner å kjøre – noe som slår liv på i RoadSenses kartfane.</string>
+    <string name="onboarding_expert_integrations_title">Integrasjoner</string>
+    <string name="onboarding_expert_integrations_body">Koble til Telegram-varsler, en bedre ruteplanlegger, MQTT eller BYD Cloud. Hvert kort åpner oppsettet inne i appen. Fyllen med toppen snur grønt når alt er knyttet sammen.</string>
+    <string name="onboarding_expert_bydcloud_title">BYD Sky låser opp ekstern kontroll</string>
+    <string name="onboarding_expert_bydcloud_body">Kobling av din BYD konto her muliggjør fjernlås, flash- og horn fra telefonen. Behandle den koblede kontoen og tilgangskoden som sensitiv.</string>
+    <string name="onboarding_expert_surveillance_title">Overvåking &amp; opptak</string>
+    <string name="onboarding_expert_surveillance_body">Finjuster deteksjon, kvalitet og lagring her. Disse åpne som konfigurasjonssidene på appen har sittet fra bilen din – en tom skjerm betyr at hjelperen fortsatt starter.</string>
+    <string name="onboarding_expert_camprobe_title">Kamera sonde – forsiktig</string>
+    <string name="onboarding_expert_camprobe_body">Dette kartlegger som fysisk kamera strømmer inn hver rolle, og starter kameraene på nytt. Endre dette kun hvis en feed ser feil ut - du setter dette opp tidligere i guiden.</string>
+    <string name="onboarding_expert_traffic_title">Trafikkmonitor - kreves for fjerntilgang</string>
+    <string name="onboarding_expert_traffic_body">BYDs innebygde TrafikkMonitor blokkerer andre apper fra å bruke bilens innebygde SIM. Hvis du vil nå bilen eksternt over BYD SIM, må du deaktivere den her. Hodeenheten starter opp igjen for å bruke endringen.</string>
+    <string name="onboarding_expert_daemons_title">Tjenester — håndtak med forsiktighet</string>
+    <string name="onboarding_expert_daemons_body">Disse bryterne starter og stopper bakenfortjenestene. Skrur av kamera, overvåking eller ACC stansing av opptaket og holder dem borte til du slår dem på - selv etter en omstart.</string>
+    <string name="onboarding_expert_security_title">Lås med en PIN</string>
+    <string name="onboarding_expert_security_body">Angi en PIN til å gate appen for delte kjøretøyer. Overvåking og opptak kjører mens appen er låst. En glemt PIN-kode kan bare fjernes fra en datamaskin over USB.</string>
+    <string name="onboarding_expert_reset_title">Tilbakestille data — permanent</string>
+    <string name="onboarding_expert_reset_body">Dette sletter opptak, hendelser og innstillinger og kan ikke angres. Det er her hvis du noen gang selger bilen — ikke en del av vanlig bruk.</string>
+    <string name="onboarding_expert_done_title">Det er rundturen</string>
+    <string name="onboarding_expert_done_body">Du har sett de dypere innstillingene. Åpne denne guiden igjen når som helst på hjelp-knappen.</string>
+    <!-- Language picker (drawer footer + bottom sheet) -->
+    <string name="cd_close">Lukk</string>
+    <string name="language_picker_title">Språk</string>
+    <!-- Subtitle on the language-picker bottom sheet. %1$d is the supported
+         language count (Auto adds an extra row but isn't counted). -->
+    <string name="language_picker_subtitle_fmt">%1$d språk tilgjengelig</string>
+    <!-- Subtitle placeholder while the count is being computed. -->
+    <string name="language_picker_subtitle_pending">Velg et språk</string>
+    <string name="language_auto_title">Automatisk</string>
+    <!-- %1$s is the native-script name of the locale that "Auto" currently
+         resolves to, e.g. "Auto · English". -->
+    <string name="language_auto_subtitle">Følg system · %1$s</string>
+    <!-- Drawer footer subtitle when on Auto, e.g. "English · Auto". -->
+    <string name="language_label_auto_fmt">%1$s · Automatisk</string>
+    <!-- fragment_adb_console -->
+    <string name="adb_prompt">$</string>
+    <string name="adb_command_hint">Angi kommando…</string>
+    <string name="adb_preset_commands_header">Forhåndsinnstilte kommandoer</string>
+    <string name="adb_output_header">Utgang</string>
+    <string name="adb_output_ready">$ klar for kommandoer…</string>
+    <string name="adb_console_hero_title">ADB konsoll</string>
+    <string name="adb_console_hero_subtitle">Kjøre skallkommandoer på enheten</string>
+    <!-- fragment_webview -->
+    <string name="webview_loading">Loading…</string>
+    <string name="webview_camera_daemon_not_running">Kamera-Daemon kjører ikke</string>
+    <string name="webview_start_camera_daemon">Start kameraobservatørene fra Daemons skjerm for å få tilgang til denne siden.</string>
+    <!-- dialog_roi_drawing -->
+    <!-- dialog_zrok_token -->
+    <string name="zrok_enable_token_hint">Aktiver kode</string>
+    <string name="zrok_token_storage_note">Token lagres sikkert og delt mellom app og daemon-prosesser.</string>
+    <string name="zrok_reset_environment">Tilbakestill Zrok miljø</string>
+    <string name="zrok_reset_environment_desc">Fjerner miljø og token. Du må aktivere på nytt med tokenet (bruker en enhets spor).</string>
+    <!-- dialog_reset_data -->
+    <string name="reset_title">Tilbakestill data</string>
+    <string name="reset_subtitle">Oppsamlet data etter kategori</string>
+    <string name="reset_warning">Dette kan ikke angres. Opptak, turer og batteristorikk vil bli slettet permanent.</string>
+    <string name="reset_cat_trips">Reiser</string>
+    <string name="reset_cat_trips_desc">Trip historikk, ruter, uker/månedlig rullering</string>
+    <string name="reset_cat_soc_history">SoC &amp; 12V historie</string>
+    <string name="reset_cat_soc_history_desc">SoC-prøver, ladeøkter, spenningslogger</string>
+    <string name="reset_cat_soh">SoH kalibrering</string>
+    <string name="reset_cat_soh_desc">Gjenoppdager nominell kapasitet, overslag av frø fra BMS</string>
+    <string name="reset_cat_abrp_token">ABRP token</string>
+    <string name="reset_cat_abrp_token_desc">Deaktiverer ABRP telemetri inntil ny sammenkoblet</string>
+    <string name="reset_cat_byd_cloud">BYD Sky-opplysninger</string>
+    <string name="reset_cat_byd_cloud_desc">Brukernavn, påloggingsnøkkel, VIN - re-innlogging kreves</string>
+    <string name="reset_cat_recordings">Opptak (videoer)</string>
+    <string name="reset_cat_recordings_desc">Alle MP4s i opptaksmappen</string>
+    <string name="reset_cat_sentry_events">Overvåking av hendelser</string>
+    <string name="reset_cat_sentry_events_desc">Overvåkingsevent klipp og JSON sidekarer</string>
+    <string name="reset_cat_proximity">Proximity recordings</string>
+    <string name="reset_cat_proximity_desc">Radarutløst hendelse MP4s</string>
+    <string name="reset_cat_trip_files">Tur telemetrifiler</string>
+    <string name="reset_cat_trip_files_desc">Per-trip JSON telemetri på disk</string>
+    <!-- fragment_abrp_settings -->
+    <!-- fragment_recording_library -->
+    <string name="recording_lib_chip_any">Alle</string>
+    <string name="recording_lib_chip_person">Person</string>
+    <string name="recording_lib_chip_vehicle">Kjøretøy</string>
+    <string name="recording_lib_chip_bike">Sykkel</string>
+    <string name="recording_lib_chip_animal">Dyr</string>
+    <string name="recording_lib_chip_alert">Varsel</string>
+    <string name="recording_lib_chip_critical">Kritisk</string>
+    <string name="recording_lib_selected_count_zero">0 valgt</string>
+    <string name="recording_lib_no_recordings">Ingen opptak</string>
+    <!-- v4 redesign: collapsible filter bar + single-row date jump -->
+    <string name="recording_lib_filter_button">Filtrer</string>
+    <string name="recording_lib_filter_button_active">Filtrer · %1$d</string>
+    <string name="recording_lib_filter_sheet_title">Filtrer opptak</string>
+    <string name="recording_lib_filter_apply">Bruk</string>
+    <string name="recording_lib_filter_reset">Reset</string>
+    <string name="recording_lib_filter_section_what">Hva</string>
+    <string name="recording_lib_filter_section_severity">Alvorlighetsgrad</string>
+    <string name="recording_lib_filter_section_type">Type:</string>
+    <string name="recording_lib_filter_section_place">Sted</string>
+    <string name="recording_lib_filter_section_storage">Lagring</string>
+    <!-- Storage filter chip labels (full words; the tile badge uses the short
+         SD/USB/INT forms above). -->
+    <string name="recording_lib_storage_filter_internal">Intern</string>
+    <string name="recording_lib_storage_filter_sd">SD kort</string>
+    <string name="recording_lib_storage_filter_usb">USB</string>
+    <string name="recording_lib_place_search_hint">Søke steder…</string>
+    <string name="recording_lib_chip_type_normal">Vanlig</string>
+    <string name="recording_lib_chip_type_proximity">Nærhet</string>
+    <string name="recording_lib_date_today">Idag</string>
+    <string name="recording_lib_date_yesterday">Igår</string>
+    <string name="recording_lib_clip_count">%1$d klipp</string>
+    <string name="recording_lib_clip_count_one">%1$d clip</string>
+    <string name="recording_lib_pick_date">Velg en dato</string>
+    <string name="recording_lib_date_all_days">Alle dager</string>
+    <string name="cd_clear_date_filter">Vis alle dager</string>
+    <string name="recording_lib_section_morning">Morgen</string>
+    <string name="recording_lib_section_afternoon">Ettermiddag</string>
+    <string name="recording_lib_section_evening">Kveld</string>
+    <string name="recording_lib_section_night">Natt</string>
+    <string name="cd_previous_day">Forrige dag</string>
+    <string name="cd_next_day">Neste dag</string>
+    <string name="cd_open_filters">Åpne filtre</string>
+    <string name="cd_clear_filter">Fjern filter</string>
+    <!-- v5 redesign: SOTA empty state with CTA + tile type badges -->
+    <string name="recording_lib_empty_title">Ingen treff for opptak</string>
+    <string name="recording_lib_empty_body">Prøv å endre ditt datointervall eller chipfiltre.</string>
+    <string name="recording_lib_empty_clear_filters">Nullstill filtre</string>
+    <!-- Shown on the empty-state body when there are zero clips on disk
+         (no filter is active). Sets a friendlier tone than "No recordings match". -->
+    <string name="recording_lib_empty_disk_title">Ingenting er registrert ennå</string>
+    <string name="recording_lib_empty_disk_body">Her vil bildene dukke opp så snart dashcam eller overvåkingsrør skriver et klipp.</string>
+    <!-- Shown while the daemon is warming the H2 recording index on cold
+         start. Includes a progress counter when the daemon reports done/total,
+         otherwise a static body. The library re-polls every 1.5s and
+         transitions out automatically once results land. -->
+    <string name="recording_lib_building_index_title">Bygger biblioteksindeksen</string>
+    <string name="recording_lib_building_index_body">Et øyeblikk mens daemonen skanner opptakene dine.</string>
+    <string name="recording_lib_building_index_progress">Indeksert %1$d av %2$d clips…</string>
+    <!-- Tile type badge labels — short, glanceable, mirrors the on-disk
+         filename prefix (cam_/event_/dvr_/proximity_) so power users can
+         map a tile back to its file group at a glance. -->
+    <string name="recording_lib_type_normal">CAM</string>
+    <string name="recording_lib_type_event">EVENT</string>
+    <string name="recording_lib_type_proximity">PROX</string>
+    <string name="recording_lib_type_oem">OE</string>
+    <!-- Per-clip storage tag — where the clip actually landed. Surfaces the
+         silent SD→internal fallback (SD bridged behind the USB power rail). -->
+    <string name="recording_lib_storage_sd">SD</string>
+    <string name="recording_lib_storage_usb">USB</string>
+    <string name="recording_lib_storage_internal">Inn</string>
+    <!-- Toast shown when a multi-select share is dispatched. -->
+    <string name="toast_share_recordings">Deler %1$d opptak</string>
+    <!-- fragment_sentry_config -->
+    <!-- fragment_video_player -->
+    <string name="player_title_recording">Opptak</string>
+    <string name="player_time_zero">0:00</string>
+    <string name="player_time_separator"> / </string>
+    <!-- fragment_daemons -->
+    <string name="daemons_hero_title">Bakgrunns tjenester</string>
+    <!-- Subtitle on the Daemons hero header before the first state arrives. -->
+    <string name="daemons_count_pending">Laster tjenester…</string>
+    <!-- Subtitle on the Daemons hero header. %1$d running, %2$d total. -->
+    <string name="daemons_count_fmt">%1$d av %2$d kjører</string>
+    <!-- dialog_time_window -->
+    <!-- dialog_update_progress -->
+    <string name="update_preparing">Forbereder oppdatering…</string>
+    <string name="update_percent_zero">0%</string>
+    <!-- dialog_battery_health -->
+    <string name="battery_health_title">Batteri Helse</string>
+    <string name="battery_health_subtitle">State of Health</string>
+    <string name="battery_health_dashes">--</string>
+    <string name="battery_health_waiting">Venter på data…</string>
+    <string name="battery_health_source">Kilde</string>
+    <string name="battery_health_method">Metode</string>
+    <string name="battery_health_capacity">Kapasitet</string>
+    <string name="battery_health_samples">Utvalg</string>
+    <string name="battery_health_last_updated">Sist oppdatert</string>
+    <string name="battery_health_reset">Tilbakestill SOH-beregning</string>
+    <string name="battery_health_reset_desc">Fjerner alle data og regner på nytt fra bunnen av. Bruk hvis batteriet er byttet ut eller lesingen er feil ut.</string>
+    <string name="soh_dialog_model_label">Modell</string>
+    <string name="soh_dialog_pack_capacity_label">Pakke kapasitet</string>
+    <string name="soh_dialog_estimated_capacity_label">Effektiv kapasitet</string>
+    <string name="soh_dialog_calibration_anchor_label">Sist kalibrert</string>
+    <string name="soh_dialog_source_user">bruker-sett</string>
+    <string name="soh_dialog_source_auto">automatisk oppdaget</string>
+    <string name="soh_dialog_model_not_selected">Ikke valgt</string>
+    <string name="soh_dialog_capacity_not_detected">Ikke oppdaget</string>
+    <string name="soh_dialog_calibration_format">%1$.1f%% på %2$s</string>
+    <string name="soh_dialog_frame_anchor_label">Observert full ladning</string>
+    <string name="soh_dialog_frame_anchor_format">%1$.2f kWh observert på full (%2$d/%3$d samples)</string>
+    <string name="soh_dialog_frame_anchor_pending_format">%1$.2f kWh observert i full (samler %2$d/%3$d prøver)</string>
+    <string name="soh_dialog_frame_mismatch_title">Usamsvarende pakkeekapasitetsramme</string>
+    <string name="soh_dialog_frame_mismatch_format">Kjøretøy rapporterer %1$.1f kWh ved full ladning, men pakkekapasitet er satt til %2$.1f kWh. Tallet over kan gjenspeile feil enhet (navneskilt vs. brukbar), ikke reell degradering. Vurder å legge til %1$.1f kWh for å matche hva kjøretøyet rapporterer.</string>
+    <string name="soh_dialog_use_observed_value">Bruk observert verdi</string>
+    <string name="soh_dialog_use_observed_value_pending">Lagrer…</string>
+    <string name="toast_soh_observed_value_saved">Pakkekapasitet oppdatert til %1$.1f kWh.</string>
+    <string name="toast_soh_observed_value_failed">Kunne ikke oppdatere pakkekapasitet (%1$s).</string>
+    <string name="diagnostics_battery_needs_review">Trenger gjennomgang</string>
+    <!-- ============================================================
+         Step 2: Kotlin / Java UI literal extraction
+         ============================================================ -->
+    <!-- Notifications -->
+    <!-- Toasts / dialogs -->
+    <string name="dialog_ok">Ok</string>
+    <!-- Dynamic format strings -->
+    <!-- Plurals -->
+    <plurals name="recordings_deleted_count">
+        <item quantity="one">%d opptak slettet</item>
+        <item quantity="other">%d opptak slettet</item>
+    </plurals>
+    <plurals name="delete_recordings_title">
+        <item quantity="one">Delete %d Recording</item>
+        <item quantity="other">Delete %d Recordings</item>
+    </plurals>
+    <plurals name="delete_recordings_message">
+        <item quantity="one">Dette vil permanent slette %d opptak. Dette kan ikke angres.</item>
+        <item quantity="other">Dette vil slette %d opptak. Dette kan ikke angres.</item>
+    </plurals>
+    <!-- ============================================================
+         Step 2 (continued): MainActivity, fragments, dialogs
+         ============================================================ -->
+    <!-- MainActivity -->
+    <string name="toast_updated_to">Oppdatert til %1$s</string>
+    <string name="toast_update_install_failed">Oppdatering feilet: %1$s</string>
+    <string name="toast_checking_for_updates">Sjekker etter oppdateringer…</string>
+    <string name="toast_app_up_to_date">App is up to date (%1$s)</string>
+    <string name="toast_update_check_failed">Oppdateringskontroll mislyktes: %1$s</string>
+    <!-- Update dialog + version picker -->
+    <string name="update_dialog_available_title">Oppdatering tilgjengelig</string>
+    <string name="update_dialog_subtitle">En nyere versjon er klar til å installere</string>
+    <string name="update_dialog_current">Nåværende: v%1$s</string>
+    <string name="update_dialog_new">Ny: v%1$s</string>
+    <string name="update_dialog_current_label">Installert</string>
+    <string name="update_dialog_new_label">Ny versjon</string>
+    <string name="update_dialog_whats_new">Hva er nytt</string>
+    <string name="update_dialog_install_now">Installer nå</string>
+    <string name="update_dialog_later">Senere</string>
+    <string name="update_picker_title">Velg en versjon</string>
+    <string name="update_picker_subtitle">Installer alle publiserte versjoner - nyere eller eldre</string>
+    <string name="update_picker_empty">Ingen versjoner publisert ennå.</string>
+    <string name="update_picker_current_suffix">%1$s (installert)</string>
+    <string name="update_picker_older_suffix">%1$s (eldre)</string>
+    <!-- Update progress (title + per-step status; no emoji — state icon carries the cue) -->
+    <string name="update_progress_title">Oppdaterer overstasjon</string>
+    <string name="update_step_downloading">Laster ned oppdatering…</string>
+    <string name="update_step_verifying">Verifiserer nedlasting…</string>
+    <string name="update_step_stopping">Stopper daemoner…</string>
+    <string name="update_step_installing">Installerer oppdatering…</string>
+    <string name="update_step_installed">Oppdatering installert</string>
+    <string name="update_step_restarting">Starter appen på nytt…</string>
+    <string name="update_step_queued">Starter oppdatering…</string>
+    <string name="update_error_title">Oppdatering feilet</string>
+    <string name="update_error_daemon_down">Kamera daemon kjører ikke. Start den fra Daemons skjermen, og prøv å oppdatere igjen.</string>
+    <string name="update_error_start_failed">Kunne ikke starte oppdateringen: %1$s</string>
+    <string name="update_error_lost_headunit">Mistet kontakten med hodeenheten før installeringen er ferdig. På en tunnel? Sjekk Telegram for den nye URLen, eller bruk den lokale IP.</string>
+    <string name="update_hide">Skjul</string>
+    <!-- Update channel selector (Settings → About) -->
+    <string name="settings_update_channel_title">Oppdater kanal</string>
+    <string name="settings_update_channel_alpha">Alfa</string>
+    <string name="settings_update_channel_braveheart">Hjertesykdommer</string>
+    <string name="settings_update_channel_alpha_desc">Den stabile versjonen. Hver publiserte versjon beholdes - velg hvilken som helst for å installere (nedgraderinger tillatt). Anbefalt for daglig bruk.</string>
+    <string name="settings_update_channel_braveheart_desc">Blødningsbygg, levert det øyeblikket de er publisert. Du får nye funksjoner først, men de kan være ustabile eller feilaktige. Hvis noe knuser, åpne Daemons skjermen, trykk på et dansepos logg, velg \"Last opp &amp; få en kode\", og del koden med oss på fellesskapskanalene.</string>
+    <string name="settings_update_channel_save_failed">Kunne ikke lagre oppdateringskanalen</string>
+    <string name="settings_update_channel_braveheart_toast">Byttet til Bravehjerte. Bygninger kan være ustabile — hvis noe knuser, send daemon-loggen og rapporter den på Discord/GitHub/WhatsApp.</string>
+    <!-- Community / report-a-bug links -->
+    <string name="toast_storage_permission_required">Lagringstillatelse kreves for opptak</string>
+    <string name="toast_url_copied_short">URL kopiert!</string>
+    <string name="toast_camera_set_to_auto">Kamera satt til automatisk</string>
+    <string name="toast_failed_to_save_short">Kunne ikke lagre</string>
+    <string name="toast_failed_with_message">Mislyktes: %1$s</string>
+    <string name="toast_camera_id_set">Camera %1$d set — next ACC cycle</string>
+    <string name="toast_clearing_camera_config">Tømmer kamera konfigurasjon…</string>
+    <string name="toast_restarting_camera_daemon">Restarter kamera daemon…</string>
+    <string name="toast_camera_daemon_restarting">Kamera daemon starter på nytt med full probe</string>
+    <string name="toast_camera_restart_failed">Config er tømt, men omstart feilet. Start på nytt manuelt.</string>
+    <string name="toast_camera_settings_saved_restarting">Kamera-innstillinger lagret - omstart av kamera daemon…</string>
+    <string name="toast_camera_settings_restart_failed">Kamera-innstillingene ble lagret, men omstart feilet. Start på nytt manuelt.</string>
+    <string name="toast_failed_with_message_x">Mislyktes: %1$s</string>
+    <string name="toast_soh_reset_success">SOH-estimat tilbakestilt - vil beregne neste data på nytt</string>
+    <string name="toast_soh_reset_failed_no_daemon">Reset feilet - daemon svarer ikke og filen kan ikke skrives til</string>
+    <string name="toast_soh_reset_failed_with_message">Tilbakestilling feilet: %1$s</string>
+    <string name="toast_select_at_least_one_category">Velg minst én kategori</string>
+    <string name="toast_reset_failed_with_error">Tilbakestilling feilet: %1$s</string>
+    <string name="toast_traffic_monitor_changing">%1$s trafikk monitor…</string>
+    <string name="dialog_close">Lukk</string>
+    <string name="dialog_reset">Reset</string>
+    <string name="dialog_delete">Slett</string>
+    <string name="dialog_save">Lagre</string>
+    <string name="dialog_enable">Aktiver</string>
+    <string name="dialog_disable">Deaktiver</string>
+    <string name="dialog_keep_enabled">Hold deg på</string>
+    <string name="dialog_keep_disabled">Behold deaktivert</string>
+    <string name="dialog_regenerate">Regenerer</string>
+    <string name="dialog_reset_selected">Tilbakestill valgte</string>
+    <string name="dialog_reset_soh_title">Tilbakestille SOH-beregning?</string>
+    <string name="dialog_reset_soh_message">Dette fjerner alle SOH-data og tv-reestimering fra bunnen.\n\nBruk dette hvis:\n• Batteri ble erstattet\n• SN-avlesningen virker feil\n• Du vil rekalibrere\n\nSystemet vil frø på nytt fra neste tilgjengelige datakilde (OEM, kalibrering av fyllingsmengde eller umiddelbart avlesning).</string>
+    <string name="dialog_reset_following_title">Tilbakestill følgende?</string>
+    <string name="dialog_reset_following_message">Dette kan ikke angres.\n\n%1$s</string>
+    <string name="dialog_reset_complete_title">Reset complete</string>
+    <string name="dialog_traffic_cannot_check_title">Kan ikke sjekke status</string>
+    <string name="dialog_traffic_cannot_check_message">ADB connection is not ready yet.\n\nThe app needs ADB access to manage system packages. Please ensure:\n\n• USB Debugging is enabled in Developer Options\n• The ADB authorization prompt has been accepted\n\nThe status will update automatically once connected.</string>
+    <string name="dialog_traffic_disable_title">Deaktiver BYD Traffic Monitor?</string>
+    <string name="dialog_traffic_disable_message">BYD-trafikkovervåking (com.byd.trafficmonitor) er en innebygd systemapp som kontinuerlig overvåker trafikkforholdene i bakgrunnen.\n\nHvorfor deaktivere den?\n\n• Bruker mobildata (selv når de er parket)\n• Bruker CPU og batteri i bakgrunnen\n• Ikke nødvendig hvis du bruker en egen navigasjonsapp\n• Kan forstyrre dashcams nettverksbruk\n\nDette er trygt å deaktivere — det påvirker bare det innebygde trafikkoverlegget på kartet. Navigasjonsfunksjonen din, Bluetooth, og alle andre bilfunksjoner er upåvirket.\n\nEn hardomstart kreves etter deaktivering (hold i senterkonsollen 5 sekunder).</string>
+    <string name="dialog_traffic_enable_title">Reaktiver BYD Traffic Monitor?</string>
+    <string name="dialog_traffic_enable_message">BYD-trafikken er nå deaktivert.\n\npå nytt vil den gjenopprette det innebygde trafikkloverlegget på navigasjonskartet. Merk at den vil kjøre i bakgrunnen og bruke mobildata.\n\nEn hard reboot er nødvendig etter at du har aktivert (hold i senterkonsollen 5 sekunder).</string>
+    <string name="dialog_traffic_status_title">Trafikkmonitor %1$s</string>
+    <string name="dialog_traffic_reboot_message">Endringen er anvendt.\n\nOmstart nå:\nTrykk og hold inne sentralkonsollknappen i 5 sekunder.</string>
+    <string name="traffic_monitor_loading">Trafikk monitor: kontrollerer…</string>
+    <string name="traffic_monitor_tap_to_check">Trafikk Monitor (trykk for å sjekke)</string>
+    <!-- Reset categories -->
+    <string name="reset_label_trips">Reiser</string>
+    <string name="reset_label_soc_history">SoC + 12V historie</string>
+    <string name="reset_label_soh">SoH kalibrering</string>
+    <string name="reset_label_abrp_token">ABRP token</string>
+    <string name="reset_label_byd_cloud">BYD Sky-opplysninger</string>
+    <string name="reset_label_recordings">Opptak</string>
+    <string name="reset_label_sentry_events">Overvåking av hendelser</string>
+    <string name="reset_label_proximity">Proximity recordings</string>
+    <string name="reset_label_trip_files">Tur telemetrifiler</string>
+    <!-- ROI dialog -->
+    <!-- Sentry config -->
+    <!-- Format helpers -->
+    <!-- Dashboard -->
+    <string name="toast_access_code_copied">Adgangskode kopiert</string>
+    <string name="dialog_regenerate_token_title">Regenerer Token</string>
+    <string name="dialog_regenerate_token_message">Dette vil ugyldiggjøre gjeldende token. Alle aktive økter vil bli logget ut. Fortsett?</string>
+    <string name="toast_token_regenerated_logged_out">Ny token generert. Alle økter logget ut.</string>
+    <string name="toast_token_regenerated_restart">Token regenerert. Datemon kan trenge å starte på nytt for å gjelde.</string>
+    <string name="toast_token_regenerated_no_notify">Token regenerert. Kunne ikke varsle meddeler.</string>
+    <string name="toast_token_regenerated">Token regenerert</string>
+    <string name="dashboard_no_tunnel">Ingen tunnel kjører</string>
+    <string name="dashboard_starting_zrok">Starter Zrok tunnel…</string>
+    <string name="dashboard_starting_cloudflared">Starter Cloudflared tunnel…</string>
+    <string name="dashboard_starting_tailscale">Starter sjøskala tunnel…</string>
+    <string name="dashboard_waiting_url">Venter på tunnel URL…</string>
+    <string name="dashboard_daemons_running">%1$d/%2$d Kjører</string>
+    <string name="tunnel_label_cloudflared">Sammenflettet</string>
+    <string name="tunnel_label_zrok">Srok</string>
+    <string name="tunnel_label_tailscale">Skala</string>
+    <!-- Daemon names — shown on the Daemons list and dashboard. -->
+    <string name="daemon_name_camera">Kamera Daemon</string>
+    <string name="daemon_name_surveillance">Surveillance Daemon</string>
+    <string name="daemon_name_acc_surveillance">ACC Overvåking</string>
+    <string name="daemon_name_singbox">Enkeltboks proxy</string>
+    <string name="daemon_name_cloudflared">Skyfletert tunnel</string>
+    <string name="daemon_name_zrok">Svik tunnel</string>
+    <string name="daemon_name_tailscale">Skala Tunnnel</string>
+    <string name="daemon_name_telegram">Telegram Bot</string>
+    <string name="clip_label_access_code">Adgang kode</string>
+    <string name="clip_label_url">Nettadresse</string>
+    <!-- ABRP -->
+    <!-- Daemons fragment -->
+    <string name="toast_no_config_needed">Ingen konfigurasjon nødvendig for %1$s</string>
+    <string name="dialog_zrok_token_title">Zrok Tunnel Token</string>
+    <string name="dialog_zrok_token_message">Skriv inn din Zrok aktiver koden.\nFå en på: zrok.io</string>
+    <string name="toast_token_cannot_be_empty">Koden kan ikke være tom</string>
+    <string name="dialog_tailscale_settings_title">Innstillinger for seilskalering</string>
+    <string name="dialog_tailscale_settings_message">Configure tailscale</string>
+    <string name="tailscale_failed_login_url">Kunne ikke generere påloggings-URL</string>
+    <string name="tailscale_logged_in_relogin">Logget inn. Klikk for å logge inn på en annen konto</string>
+    <string name="dialog_tailscale_proxy_enable_title">Aktivere \'Tailscale Proxy?</string>
+    <string name="dialog_tailscale_proxy_enable_message">Denne rutene MQTT gjennom sjøskala, slik at du kan nå en privat megler på ditt halenett uten port videresending.\n\nMens aktivert:\n• MQTT til en skrednet-megler fungerer (f.eks. Mosquitto på en enhet på tailnet)\n• MQTT til offentlige meglere (HiveMQ, AWS IoT, osv. vil feile — Skinnende ruter til din tailnet\n• Tailscale daemon starter på nytt for å aktivere endringen\n• Annen apptrafikk og resten av enheten blir ikke påvirket av\n\nDu kan slå dette av når som helst.</string>
+    <string name="dialog_zrok_reset_title">Tilbakestill Zrok miljø</string>
+    <string name="dialog_zrok_reset_message">Dette vil:\n• Stopp zrok-tunnelen hvis du kjører\n• Fjern zrok-miljøet fra denne enheten\n• Slett det lagrede tokenet\n\nDu må skrive inn tokenet på nytt og aktivere igjen. Dette bruker en av dine 5 enhets plasser på zrok.io.\n\nEr du sikker?</string>
+    <string name="toast_resetting_zrok">Tilbakestiller zrok miljøet…</string>
+    <string name="toast_zrok_reset_success">Zrok environment tilbakestilles. Angi et nytt token for å sette opp igjen.</string>
+    <string name="toast_zrok_reset_partial">Miljø tilbakestilt token filen kan trenge manuell opprydding)</string>
+    <string name="toast_zrok_reset_warnings">Miljø tilbakestilling (med advarsler: %1$s)</string>
+    <string name="zrok_no_token_configured">Ingen token konfigurert. Trykk for å sette opp.</string>
+    <string name="dialog_tailscale_reset_title">Tilbakestill Skilte Miljø</string>
+    <string name="dialog_tailscale_reset_message">Dette vil:\n• Stopp halskalatunnelen hvis den kjører\n• Fjern skreddersy miljøet fra denne enheten\n• Du trenger fortsatt å fjerne enheten fra halskala-konsollen\n\nDu må logge inn på nytt.\n\ner du sikker?</string>
+    <string name="toast_resetting_tailscale">Tilbakestiller skred-miljø…</string>
+    <string name="toast_tailscale_reset_success">Skala miljø tilbakestilt. Logg inn for å sette opp igjen.</string>
+    <string name="toast_tailscale_reset_warnings">Skinnemiljø tilbakestilt (med advarsler: %1$s)</string>
+    <string name="toast_tailscale_proxy_enabled">Mellomtjener for navigasjon aktivert</string>
+    <string name="toast_tailscale_proxy_disabled">Mellomtjener for skalering deaktivert</string>
+    <string name="toast_tailscale_proxy_save_failed">Kunne ikke lagre mellomtjenerinnstillingene</string>
+    <string name="toast_zrok_token_saved">Token lagret</string>
+    <string name="toast_zrok_token_save_failed">Kunne ikke lagre token</string>
+    <string name="toast_zrok_token_deleted">Token slettet</string>
+    <string name="toast_zrok_token_delete_failed">Kunne ikke slette token</string>
+    <string name="toast_fetching_log">Henter %1$s logg…</string>
+    <string name="toast_log_empty_or_missing">Loggfilen er tom eller ikke funnet</string>
+    <string name="toast_log_empty">Loggfilen er tom</string>
+    <string name="toast_daemon_manager_unavailable">Daemon manager er ikke klar, prøv igjen i et øyeblikk</string>
+    <string name="toast_log_save_failed">Kunne ikke lagre logg: %1$s</string>
+    <string name="toast_log_not_found">Loggfil ikke funnet eller uleselig</string>
+    <string name="log_share_title">%1$s logg – %2$s</string>
+    <string name="log_share_chooser">Del %1$s loggen</string>
+    <string name="log_header_title">=== %1$s Logg ===</string>
+    <string name="log_header_source">Kilde: %1$s</string>
+    <string name="log_header_exported">Eksportert: %1$s</string>
+    <string name="log_header_truncated">MERK: Logg ble avkortet til siste 10000 linjer (total: %1$d linjer)</string>
+    <!-- Braveheart log send (upload to Cloudflare or share-sheet) -->
+    <string name="logs_send_title">Send %1$s logg</string>
+    <string name="logs_send_title_plain">Send daemon-logg</string>
+    <string name="logs_send_subtitle">%1$s · Velg hvordan du skal sende det til oss</string>
+    <string name="logs_send_upload">Last opp &amp; få en kode</string>
+    <string name="logs_send_upload_desc">Sender loggen til oss og gir deg en kort kode. Enkelt for støtte.</string>
+    <string name="logs_send_share">Del filen…</string>
+    <string name="logs_send_share_desc">Lagre eller send loggen selv via delingsskjemaet.</string>
+    <string name="logs_uploading_title">Laster opp logg…</string>
+    <string name="logs_uploading_subtitle">Tilbakekall hemmeligheter og sikker sending</string>
+    <string name="logs_uploaded_title">Logg lastet opp</string>
+    <string name="logs_uploaded_instructions">Del denne koden med oss, sammen med en note på hva du gjorde da den knuste. Post det på Discord, GitHub Issues eller WhatsApp — koblinger finnes på Om skjermen.</string>
+    <string name="logs_uploaded_privacy">Hemmeligheter redacted · log auto-utløper</string>
+    <string name="logs_copy_code">Kopier koden</string>
+    <string name="logs_done">Ferdig</string>
+    <string name="placeholder_dash">—</string>
+    <string name="errors_network">Feil i nettverk</string>
+    <!-- Recording controls -->
+    <!-- Recording library -->
+    <string name="toast_cannot_play_video">Kan ikke spille av video: %1$s</string>
+    <string name="dialog_delete_recording_title">Slett opptak</string>
+    <string name="dialog_delete_recording_message">Slette %1$s?\nDette kan ikke angres.</string>
+    <string name="toast_recording_deleted">Opptak slettet</string>
+    <string name="toast_recording_delete_failed">Kunne ikke slette opptak</string>
+    <string name="toast_batch_delete_partial">%1$d slettet, %2$d mislyktes</string>
+    <string name="play_with_chooser">Spill med</string>
+    <!-- Setup guide -->
+    <string name="setup_version_banner">Updated to %1$s — re-confirm autostart, BYD wipes it on every install</string>
+    <string name="setup_overlay_already_granted">Allerede innvilget</string>
+    <!-- Setup guide — post-setup tips section -->
+    <string name="setup_tips_header">Tips &amp; feilsøking</string>
+    <string name="setup_traffic_title">Deaktiver BYD Traffic Monitor</string>
+    <string name="setup_traffic_body">BYD-trafikken blokkerer tredjepartsapper fra å nå Internett. Deaktivering av den lar OverDrive og andre apper som du installerer faktisk bruker nettverket. En hard-omstart er nødvendig etterpå.</string>
+    <string name="setup_traffic_button">Åpne trafikkmonitor</string>
+    <string name="setup_camera_fix_title">Kamera feeds svart eller feil?</string>
+    <string name="setup_camera_fix_body">Åpne Diagnostikk → Kamerasonen, sett Kamera-ID til 0, trykk på Lagre, og start deretter kameraet på nytt med meddelelse Hvis tilbakemeldingene fortsatt er feil, gjenta med kamera-ID 1. La kartleggingsdelen være uberørt.</string>
+    <!-- Recording storage path -->
+    <!-- MainActivity status -->
+    <string name="camera_current_manual">Current: Camera %1$d (Manual)</string>
+    <string name="camera_current_auto_label">Nåværende: automatisk</string>
+    <string name="soh_estimation_active">Beregning aktiv</string>
+    <string name="soh_no_estimate_yet">Ingen estimat ennå - venter på data</string>
+    <!-- Recording tabs -->
+    <!-- Misc -->
+    <string name="recording_lib_selected_count">%1$d valgt</string>
+    <string name="video_player_playback_error">Feil ved avspilling</string>
+    <string name="video_player_no_events">Ingen hendelser</string>
+    <string name="daemon_configuration_required">Konfigurasjon kreves</string>
+    <string name="daemon_configuration_message">%1$s</string>
+    <!-- Navigation graph fragment labels (shown as toolbar/ActionBar titles) -->
+    <string name="nav_page_video_player">Video Spiller</string>
+    <string name="nav_page_telegram">Telegram</string>
+    <string name="nav_page_abrp">ABRP</string>
+    <string name="nav_page_mqtt">MTALL</string>
+    <string name="nav_page_byd_cloud">BYD Cloud</string>
+    <!-- StatusOverlayService persistent notification (foreground service) -->
+    <string name="status_overlay_notif_title">Overstasjon status</string>
+    <string name="status_overlay_notif_text">Status overlay active</string>
+    <!-- DaemonKeepaliveService persistent notification (foreground service)
+         and the group-summary row that collapses Overdrive's three FGS
+         notifications into one shade entry. The summary text is intentionally
+         generic so it stays accurate whether all three services are running
+         or only the keepalive survived an OOM respawn. -->
+    <string name="daemon_keepalive_notif_title">Overdrive aktiv</string>
+    <string name="daemon_keepalive_notif_text">Overvåking av kjøretøysystemer</string>
+    <string name="overdrive_status_summary_title">Overkjøring</string>
+    <string name="overdrive_status_summary_text">Bakgrunnstjenester kjører</string>
+    <!-- ============================================================== -->
+    <!-- M3 Revamp: navigation rail + settings sub-rail + theme picker  -->
+    <!-- ============================================================== -->
+    <!-- Top-level destinations (navigation rail labels) -->
+    <string name="rail_dashboard">Kontrollpanel</string>
+    <string name="rail_live">Direkte</string>
+    <string name="rail_recordings">Opptak</string>
+    <string name="rail_vehicle">Kjøretøy</string>
+    <string name="rail_trips">Reiser</string>
+    <string name="rail_charging">Lader</string>
+    <string name="rail_automations">Automatisering</string>
+    <string name="rail_key_mapping">Nøkkel tilordning</string>
+    <string name="rail_integrations">Integrasjoner</string>
+    <string name="rail_diagnostics">Diagnostikk</string>
+    <string name="rail_settings">Innstillinger</string>
+    <!-- Settings sub-rail -->
+    <string name="settings_section_appearance">Utseende</string>
+    <string name="settings_section_recording">Opptak</string>
+    <string name="settings_section_surveillance">Overvåking</string>
+    <string name="settings_section_daemons">Daemons</string>
+    <string name="settings_section_privacy">Personvern &amp; data</string>
+    <string name="settings_section_overlay">Status overlay</string>
+    <string name="settings_section_security">Sikkerhet</string>
+    <string name="settings_overlay_subtitle">Velg hvilke segmenter av flytende statupolen som blir synlig.</string>
+    <string name="settings_overlay_camera_title">Kamera indikator</string>
+    <string name="settings_overlay_camera_subtitle">Vis REC / PROX distinksjon under innspilling er aktiv.</string>
+    <string name="settings_overlay_trip_title">Tur indikator</string>
+    <string name="settings_overlay_trip_subtitle">Vis TRIP-merket mens reisedeteksjonen kjører.</string>
+    <!-- Was "About & updates" — Check for Updates row was removed from
+         the About page, so the menu / rail label is now just "About". -->
+    <string name="settings_section_about">Om</string>
+    <!-- Settings sub-rail (landscape) — overline + a11y -->
+    <string name="settings_subrail_overline">INNSTILLINGER</string>
+    <string name="cd_settings_subrail">Innstillinger underbane</string>
+    <!-- Settings → Vehicle data placeholder pane -->
+    <!-- Settings → Privacy pane copy -->
+    <string name="settings_privacy_title">Personvern &amp; data</string>
+    <string name="settings_privacy_body">Tilbakestill tømmingsindeks, hurtigbufrede legitimasjoner, tidssone og innstillinger på enheten. Handlingen kan ikke angres.</string>
+    <!-- Settings → About pane copy -->
+    <string name="settings_about_title">Om OverDrive</string>
+    <string name="settings_about_version_label">Versjon</string>
+    <string name="settings_about_package_label">Versjon</string>
+    <string name="settings_about_check_update_value">Sjekk den nyeste GitHub versjonen og installer hvis nyere.</string>
+    <!-- Backup & Restore (same-device). The backup file contains credentials +
+         the device key, so the copy warns the user to keep it private. -->
+    <string name="settings_backup_export_title">Eksporter innstillingene</string>
+    <string name="settings_backup_export_value">Lagre en sikkerhetskopifil av dine gjeldende innstillinger. Behold den privat – den har din legitimasjon.</string>
+    <string name="settings_backup_import_title">Gjenopprett innstillinger</string>
+    <string name="settings_backup_import_value">Last inn en sikkerhetskopifil som er gjort på dette hodet enhet.</string>
+    <string name="settings_backup_default_filename">overdrive-backup.json</string>
+    <string name="settings_backup_exporting">Lager sikkerhetskopi…</string>
+    <string name="settings_backup_export_failed">Eksport av sikkerhetskopiering mislyktes</string>
+    <string name="settings_backup_saved">Sikkerhetskopi lagret</string>
+    <string name="settings_backup_saved_to">Sikkerhetskopi lagret til %1$s</string>
+    <string name="settings_backup_save_failed">Kunne ikke lagre sikkerhetskopifilen</string>
+    <string name="settings_backup_pick_file">Velg en backup å gjenopprette</string>
+    <string name="settings_backup_no_files">Ingen sikkerhetskopifiler funnet. Eksporter først eller kopier en sikkerhetskopi .json til %1$s, og prøv på nytt.</string>
+    <string name="settings_backup_read_failed">Kan ikke lese filen</string>
+    <string name="settings_backup_invalid_file">Den filen er ikke en gyldig overdriv-sikkerhetskopi</string>
+    <string name="settings_backup_restoring">Gjenoppretter…</string>
+    <string name="settings_backup_restored">Innstillinger gjenopprettet</string>
+    <string name="settings_backup_restore_failed">Gjenoppretting mislyktes</string>
+    <string name="settings_backup_daemon_down">Kameratjenesten må kjøres for å sikkerhetskopiere eller gjenopprette. Start den fra Daemons, og prøv på nytt.</string>
+    <string name="settings_backup_restore_confirm_title">Gjenopprett innstillinger?</string>
+    <string name="settings_backup_restore_confirm_msg">Dette erstatter de gjeldende Overdriv-innstillingene med backup og reload tjenesten. Det fungerer bare på samme hode enhet som sikkerhetskopien ble tatt på.</string>
+    <string name="settings_backup_restore_confirm_btn">Gjenopprett</string>
+    <string name="settings_backup_restart_hint">Innstillinger gjenopprettet. Start kameraets daemon på nytt (Daemons → Kamera → Restart) for å sikre at alle gjenopprettede innstillinger brukes.</string>
+    <string name="settings_backup_trips_prompt">Inkluder reiseloggen (distanse, energi, kostnad, poengsum, start/slutt-plassering)? Detaljerte telemetri per tur er ikke inkludert. Filen vil inneholde din posisjonshistorikk - behold den privat.</string>
+    <string name="settings_backup_settings_only">Kun innstillinger</string>
+    <string name="settings_backup_with_trips">Inkluder reiser</string>
+    <!-- Support-development section: tiered options, low-cost first.
+         star → spread → coffee, in that visual order. Copy aims for
+         personality without being corny — short, warm, specific. -->
+    <string name="settings_about_support_section">Drevet av mennesker som deg</string>
+    <string name="settings_about_support_share_title">Fortell en medeier</string>
+    <string name="settings_about_support_share_value">Hver delte lenke hjelper en annen BYD-eier å oppdage overdrive.</string>
+    <string name="settings_about_support_share_message">Sjekk ut overdriv— åpen kildekode overvåkning &amp; dashcam for BYD: https://overdrive-5lc.pages.dev/</string>
+    <string name="settings_about_support_share_chooser">Del overdrive</string>
+    <string name="settings_about_open_link_failed">Kunne ikke åpne lenken.</string>
+    <string name="settings_about_open_link_copied">Ingen nettleser funnet. URL kopiert: %1$s</string>
+    <string name="settings_about_support_kofi_title">Drivstoff den neste utgaven</string>
+    <string name="settings_about_support_kofi_value">En kaffe på Ko-fi holder sen natt til å komme.</string>
+    <string name="settings_about_license_title">Lisens</string>
+    <string name="settings_about_license_value">MIT – åpen kildekode. Trykk for å se full tekst.</string>
+    <string name="settings_about_source_title">Kildekode</string>
+    <string name="settings_about_source_value">github.com/yash-srivastava/Overdriv-frigjøring</string>
+    <string name="settings_about_star_title">Star us on GitHub</string>
+    <string name="settings_about_star_value">Tar et sekund til. Betyr mye.</string>
+    <string name="settings_about_thanks_title">Takk</string>
+    <string name="settings_about_thanks_subtitle">Laget ved hjelp av bidragsytere og tilhengere.</string>
+    <string name="settings_about_contributors_title">Bidragsytere</string>
+    <string name="settings_about_supporters_title">Tilhengere</string>
+    <string name="settings_about_thanks_empty">Vis populasjoner som folk pitch inn.</string>
+    <!-- Settings → General -->
+    <string name="settings_theme_label">Tema</string>
+    <string name="settings_theme_auto">Auto (følg system)</string>
+    <string name="settings_theme_light">Lys</string>
+    <string name="settings_theme_dark">Mørk</string>
+    <string name="settings_language_label">Språk</string>
+    <!-- Recordings page (header + segmented control + page actions) -->
+    <string name="recordings_title">Opptak</string>
+    <string name="recordings_segment_dashcam">Dashkam</string>
+    <string name="recordings_segment_surveillance">Overvåking</string>
+    <string name="recordings_action_settings">Innstillinger</string>
+    <!-- Hero subtitle: "%1$d today · %2$d total · %3$s" where %3$s is a pre-formatted size like "42 GB". -->
+    <string name="recordings_summary_format">%1$d i dag · %2$d totalt · %3$s</string>
+    <!-- Per-segment label with running count, e.g. "Dashcam · 118". -->
+    <string name="recordings_segment_dashcam_count">Dashcam · %d</string>
+    <string name="recordings_segment_surveillance_count">Surveillance · %d</string>
+    <!-- Layout-time placeholder for the counts subtitle before the scan completes. -->
+    <string name="recordings_summary_pending">—</string>
+    <!-- Landscape recordings preview placeholder (right pane). -->
+    <string name="recordings_preview_placeholder_title">Velg et opptak</string>
+    <string name="recordings_preview_placeholder_body">Trykk på en hvilken som helst gjenstand til venstre for å spille den.</string>
+    <!-- Diagnostics page -->
+    <string name="diagnostics_section_adb_console">ADB konsoll</string>
+    <string name="diagnostics_section_traffic">Trafikk monitor</string>
+    <string name="diagnostics_section_camera_probe">Kamera sonde</string>
+    <string name="diagnostics_section_battery">Batteri helse</string>
+    <!-- Sub-label used on diagnostics utility cards in landscape (hint to tap). -->
+    <!-- SOTA Diagnostics dashboard -->
+    <string name="diagnostics_hero_title">System diagnostikk</string>
+    <string name="diagnostics_hero_subtitle">Levende helse, logger og sensorer for enheten.</string>
+    <string name="diagnostics_health_clear">Alt klart</string>
+    <string name="diagnostics_health_section">Helse</string>
+    <string name="diagnostics_health_network">Nettverk</string>
+    <string name="diagnostics_health_storage">Lagring</string>
+    <string name="diagnostics_health_camera">Kamera</string>
+    <string name="diagnostics_health_battery">Batteri</string>
+    <string name="diagnostics_metric_pending">—</string>
+    <string name="diagnostics_metric_online">Pålogget</string>
+    <!-- Network tile: bottom line tunnel state (e.g. "Tunnel · Online"). %1$s is one of
+         tunnel_state_online / tunnel_state_offline / tunnel_state_connecting. -->
+    <string name="diagnostics_network_tunnel_label">Tunnel · %1$s</string>
+    <string name="diagnostics_tunnel_state_online">Pålogget</string>
+    <string name="diagnostics_tunnel_state_offline">Frakoblet</string>
+    <string name="diagnostics_tunnel_state_connecting">Tilkobler</string>
+    <!-- Network top-line fallbacks when no Wi-Fi SSID is available. -->
+    <string name="diagnostics_network_mobile">Mobil</string>
+    <string name="diagnostics_network_ethernet">Ethernet</string>
+    <string name="diagnostics_network_offline">Frakoblet</string>
+    <!-- Storage tile lines. %1$d clip count, %2$s human-readable used size. -->
+    <string name="diagnostics_storage_used_line">%1$d clips · %2$s brukt</string>
+    <!-- Storage tile bottom line. %1$s human-readable free size. -->
+    <string name="diagnostics_storage_free_line">%1$s ledig</string>
+    <string name="diagnostics_logs_card_title">Live hendelseslogg</string>
+    <string name="diagnostics_logs_card_subtitle">Streaming utgang fra drift av tjenester.</string>
+    <string name="diagnostics_tools_section">Verktøy</string>
+    <string name="diagnostics_traffic_subtitle">Se live network throughput.</string>
+    <string name="diagnostics_camera_probe_subtitle">Undersøk tilkoblede kamerastrømmer.</string>
+    <string name="diagnostics_adb_subtitle">Åpne terminalen på enheten.</string>
+    <string name="diagnostics_battery_subtitle">Inspiser SOH og pakningstatistikk.</string>
+    <string name="diagnostics_settings_subtitle">App-innstillinger, tema og språk.</string>
+    <!-- SOTA Integrations page -->
+    <string name="integrations_hero_title">Integrasjoner</string>
+    <string name="integrations_hero_subtitle">Koble overdriver til tjenestene dine.</string>
+    <string name="integrations_status_unknown">Trykk for å konfigurere</string>
+    <string name="integrations_status_configured">Konfigurert</string>
+    <string name="integrations_status_not_set_up">Ikke konfigurert</string>
+    <string name="integrations_telegram_desc">Send drive sammendrag, bevegelsesvarsler og SOS varsler til din private Telegram-bot.</string>
+    <string name="integrations_abrp_desc">Trykk live-batteri og rutedata til en bedre Routeplanner for å lader prognoser.</string>
+    <string name="integrations_mqtt_desc">Publiser kjøretøyetelemetri til Home Assistant or any MQTT broker.</string>
+    <string name="integrations_byd_cloud_desc">Koble din BYD app konto for å aktivere eksterne kommandoer som dørlås, lommelykt og horn.</string>
+    <string name="integrations_configure_button">Konfigurer</string>
+    <!-- Settings → About / Privacy actions (rows) -->
+    <string name="settings_action_check_update">Se etter oppdateringer</string>
+    <string name="settings_action_reset_data">Tilbakestill data…</string>
+    <!-- Content descriptions for rail / segmented controls -->
+    <string name="cd_brand_logo">Overstasjon</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard SOTA revamp                                            -->
+    <!-- ============================================================== -->
+    <!-- Hero card -->
+    <!-- SOTA hero headline. Static identity statement (not a time-of-day
+         greeting) — pairs with the OVERDRIVE overline above and the live
+         status row of chips below. Locale catalogs auto-translate. -->
+    <string name="dashboard_hero_headline">På klokken</string>
+    <string name="dashboard_subtitle_all_systems">Alle systemer pålogget</string>
+    <string name="dashboard_subtitle_some_offline">%1$d av %2$d tjenester online</string>
+    <string name="dashboard_subtitle_no_tunnel">Ekstern tilgang frakoblet</string>
+    <!-- Metric tiles -->
+    <string name="dashboard_metric_recordings">Dagens opptak</string>
+    <string name="dashboard_metric_storage">Brukt lagringsplass</string>
+    <string name="dashboard_metric_tunnel">Ekstern tilgang</string>
+    <string name="dashboard_metric_services">Bakgrunns tjenester</string>
+    <string name="dashboard_metric_value_pending">—</string>
+    <string name="dashboard_metric_vehicle">Kjøretøy</string>
+    <!-- Hero chips: at-a-glance pills under the greeting that summarize the
+         three most important live signals (tunnel, services, recording). -->
+    <string name="dashboard_chip_recording_active">Opptak</string>
+    <string name="dashboard_chip_recording_idle">Inaktiv</string>
+    <string name="dashboard_vehicle_tap_to_set">Trykk for å angi</string>
+    <string name="dashboard_vehicle_summary">%1$.1f kWh · %2$s</string>
+    <string name="vehicle_dialog_title">Angi batterikapasitet</string>
+    <string name="vehicle_dialog_capacity_label">Kapasitet</string>
+    <string name="vehicle_dialog_capacity_suffix">kWh</string>
+    <string name="vehicle_dialog_capacity_helper">15 til 120 kWh. La oss bruke modellstandard.</string>
+    <string name="vehicle_dialog_model_label">Modell</string>
+    <string name="vehicle_dialog_save">Lagre</string>
+    <string name="vehicle_dialog_reset">Tilbakestill for automatisk oppdaging</string>
+    <string name="vehicle_dialog_invalid_capacity">Kapasiteten må være 15 - 120 kWh</string>
+    <string name="vehicle_dialog_summary_capacity">Kapasitet: %1$s</string>
+    <string name="vehicle_dialog_summary_soh">SOH: %1$s</string>
+    <string name="vehicle_dialog_summary_effective">Effektiv: %1$.1f kWh</string>
+    <string name="vehicle_dialog_summary_model">Modell: %1$s</string>
+    <string name="vehicle_dialog_summary_calibration">Siste kalibrert: %1$.1f%% på %2$s</string>
+    <string name="vehicle_dialog_soh_unavailable">unavailable</string>
+    <!-- Combined Recordings+Storage chip: e.g. "8.4 GB used · 12 GB free" -->
+    <string name="dashboard_metric_storage_chip">%1$s brukt · %2$s gratis</string>
+    <string name="dashboard_metric_storage_chip_pending">Lagring –</string>
+    <string name="dashboard_tunnel_offline">Frakoblet</string>
+    <string name="dashboard_tunnel_online">Pålogget</string>
+    <string name="dashboard_tunnel_connecting">Connecting…</string>
+    <!-- Quick actions (now rendered as same-size tiles, not chips) -->
+    <string name="dashboard_action_live">Direkte</string>
+    <string name="dashboard_action_live_subtitle">Åpne kameravisning</string>
+    <string name="dashboard_action_recordings">Opptak</string>
+    <string name="dashboard_action_settings">Innstillinger</string>
+    <string name="dashboard_action_settings_subtitle">Innstillinger og for</string>
+    <!-- ============================================================ -->
+    <!-- Settings — SOTA portrait hub + section pages                  -->
+    <!-- ============================================================ -->
+    <!-- Hero -->
+    <string name="settings_hero_title">Innstillinger</string>
+    <string name="settings_hero_overline">FORSKJUL</string>
+    <string name="settings_hero_subtitle">Juster utseende, registreringer, overvåking og data på enheten.</string>
+    <!-- Section overlines -->
+    <string name="settings_overline_preferences">PREFERANSER</string>
+    <string name="settings_overline_about_data">DATA</string>
+    <!-- Quick toggles -->
+    <string name="settings_quick_theme_label">Tema</string>
+    <string name="settings_quick_language_label">Språk</string>
+    <!-- Section row subtitles (portrait) -->
+    <string name="settings_section_recording_subtitle">Pre/post buffere, kodek, lagringsgrenser.</string>
+    <string name="settings_section_surveillance_subtitle">Deteksjonssoner, tidsplan, bevegelsesfølsomhet.</string>
+    <string name="settings_section_daemons_subtitle">Cloudflared, Zrok, Telegram, MQTT runnere.</string>
+    <!-- About / data row subtitles -->
+    <string name="settings_about_row_title">Om OverDrive</string>
+    <string name="settings_about_row_subtitle">Versjon, lisens, støtte utvikling.</string>
+    <string name="settings_reset_row_subtitle">Fjern opptak, hendelser eller alle cacher.</string>
+    <!-- Footer -->
+    <string name="settings_footer_format">Overstasjon %1$s · %2$s</string>
+    <!-- ============================================================ -->
+    <!-- Appearance pane — SOTA visual theme picker                    -->
+    <!-- ============================================================ -->
+    <string name="settings_appearance_subtitle">Tema, språk og visuelle innstillinger.</string>
+    <string name="settings_theme_active_auto_caption">Følg systemtemaet automatisk.</string>
+    <string name="settings_theme_active_light_caption">Lyst tema er alltid på.</string>
+    <string name="settings_theme_active_dark_caption">Mørkt tema er alltid på.</string>
+    <string name="settings_language_count_format">%1$d av %2$d språk tilgjengelig</string>
+    <string name="settings_language_card_title">Vis språk</string>
+    <!-- ============================================================ -->
+    <!-- Vehicle data pane — manifest permissions + integrations       -->
+    <!-- ============================================================ -->
+    <!-- ============================================================ -->
+    <!-- Privacy pane — stance + storage summary + reset               -->
+    <!-- ============================================================ -->
+    <string name="settings_privacy_stance_title">Pålogget enhet som standard</string>
+    <string name="settings_privacy_stance_body">Overstasjon kjører helt på hovedenheten. Ingen telemetri forlater bilen din bortsett fra via tunneler og integrasjoner du eksplisitt konfigurerer.</string>
+    <string name="settings_privacy_overline_storage">LOKAL OPPBEVARING</string>
+    <string name="settings_privacy_overline_reset">DATA TILBAKESTILT</string>
+    <string name="settings_privacy_storage_clips_label">Klipp på disk</string>
+    <string name="settings_privacy_storage_size_label">Total størrelse</string>
+    <string name="settings_privacy_storage_unavailable">Unavailable</string>
+    <string name="settings_privacy_storage_count_format">%1$d clip</string>
+    <string name="settings_privacy_storage_count_format_plural">%1$d klipp</string>
+    <string name="settings_privacy_reset_subtitle">Velg kategorier: registreringer, hendelser, daemonkonfigurasjoner, bufret telemetri…</string>
+    <!-- Settings → Security pane copy + PIN unlock screen.
+         The lock guards the OverDrive UI only. Cam daemon, AccSentry,
+         surveillance, recording, Telegram alerts, status overlay, and the
+         deterrent screen all run independently regardless of this state. -->
+    <string name="settings_security_title">Sikkerhet</string>
+    <string name="settings_security_subtitle">Lås overDrive-appen slik at passasjerer og ventiler ikke kan åpne den uten PIN-koden.</string>
+    <string name="settings_security_stance_title">Kun UI lås</string>
+    <string name="settings_security_stance_body">Overvåkningskontroll, opptak, avskrekkende, varsler og bakgrunnstjenester fortsetter å kjøre mens appen er låst. PIN-koden gater OverDrive-grensesnittet, noe annet.</string>
+    <string name="settings_security_overline_lock">App lås</string>
+    <string name="settings_security_overline_recovery">Dersom du har glemt PIN-koden</string>
+    <string name="settings_security_toggle_title">Krev PIN-kode</string>
+    <string name="settings_security_toggle_subtitle_off">Av – alle kan åpne overDrive.</string>
+    <string name="settings_security_toggle_subtitle_on">– PIN-kode kreves for å åpne overDrive.</string>
+    <string name="settings_security_change_title">Endre PIN-kode</string>
+    <string name="settings_security_change_subtitle">Bekreft gjeldende PIN-kode, og sett deretter en ny.</string>
+    <string name="settings_security_autolock_title">Autolås</string>
+    <string name="settings_security_autolock_immediate">Lås umiddelbart</string>
+    <string name="settings_security_autolock_1min">Etter 1 minutt</string>
+    <string name="settings_security_autolock_5min">Etter 5 minutter</string>
+    <string name="settings_security_autolock_15min">Etter 15 minutter</string>
+    <string name="settings_security_autolock_never">Aldri automatisk lås av tid</string>
+    <string name="settings_security_recovery_title">ADB gjenvinning</string>
+    <string name="settings_security_recovery_body">Den glemte PIN-koden kan fjernes fra en vertsmaskin over USB debugging uten at en tilbakestilling til fabrikkinnstillinger. Kjør denne kommandoen, og åpne deretter appen på nytt.</string>
+    <!-- Verbatim ADB command. translatable=false so the i18n pipeline
+         doesn't localize the literal path/command — translators following
+         Crowdin would otherwise risk breaking the only recovery path. -->
+    <string name="settings_security_dialog_set_title">Velg PIN</string>
+    <string name="settings_security_dialog_set_body">Velg en 4-8-sifret PIN-kode. Du trenger dette hver gang du åpner appen.</string>
+    <string name="settings_security_dialog_disable_title">Vil du skru av PIN-låse?</string>
+    <string name="settings_security_dialog_disable_body">Bekreft din nåværende PIN-kode for å slå av applåsen.</string>
+    <string name="settings_security_dialog_change_step1_title">Bekreft gjeldende PIN-kode</string>
+    <string name="settings_security_dialog_change_step1_body">Skriv inn PIN-koden din, så setter du en ny.</string>
+    <string name="settings_security_action_set">Velg PIN</string>
+    <string name="settings_security_action_disable">Slå av lås</string>
+    <string name="settings_security_action_continue">Fortsett</string>
+    <string name="settings_security_pin_hint">PIN-kode</string>
+    <string name="settings_security_pin_confirm_hint">Bekreft PIN-koden</string>
+    <string name="settings_security_error_length">PIN-koden må være 4 til 8 sifre</string>
+    <string name="settings_security_error_numeric">Kun sifre</string>
+    <string name="settings_security_error_mismatch">PIN-kodene samsvarer ikke</string>
+    <string name="settings_security_error_wrong">Feil PIN-kode</string>
+    <string name="settings_security_error_locked_out">For mange forsøk. Prøv igjen om et øyeblikk.</string>
+    <string name="settings_security_error_persist">Kunne ikke lagre PIN-koden. Prøv på nytt.</string>
+    <string name="settings_security_toast_set_ok">PIN-innlegg. App-lås er på.</string>
+    <string name="settings_security_toast_disable_ok">App lås deaktivert.</string>
+    <!-- PIN unlock screen (PinLockActivity). Shown over MainActivity when
+         the app lock is enabled and the session isn\'t fresh. -->
+    <string name="pin_lock_title">Angi PIN-koden</string>
+    <string name="pin_lock_title_unlocked">Opplåst</string>
+    <string name="pin_lock_subtitle_default">Lås opp overstasjon for å fortsette.</string>
+    <string name="pin_lock_subtitle_wrong">Feil PIN. Prøv igjen.</string>
+    <string name="pin_lock_subtitle_locked_out">For mange forsøk. Prøv igjen om litt.</string>
+    <!-- %1$s is a formatted countdown like "30s" or "2:45". -->
+    <string name="pin_lock_subtitle_locked_out_countdown">Låst. Prøv igjen om %1$s.</string>
+    <string name="pin_lock_lockout_seconds">%1$ds</string>
+    <string name="pin_lock_lockout_minutes">%1$d:%2$02d</string>
+    <!-- Lock-screen recovery hint. Two-part: a translatable prose prefix
+         and a translatable=false literal command (reuses the same
+         settings_security_recovery_command resource so a future edit to
+         the command stays in sync across both surfaces). The lock screen
+         concatenates them at runtime via String.format. -->
+    <string name="pin_lock_recovery_hint_prefix">Glemt din PIN? Kjør fra en tilkoblet datamaskin:\n%1$s</string>
+    <string name="pin_lock_backspace_cd">Bakovertast</string>
+    <plurals name="pin_lock_dot_a11y">
+        <item quantity="one">%1$d tall angitt</item>
+        <item quantity="other">%1$d tall angitt</item>
+    </plurals>
+    <!-- Place tagging (reverse geocoding) — recording row chip fallback. -->
+    <string name="recording_unknown_location">Ingen posisjon</string>
+    <!-- ============================================================== -->
+    <!-- Diagnostics health-tile values (Camera + Battery)                -->
+    <!-- ============================================================== -->
+    <!-- Camera tile primary value: %1$d is the probed camera id (0..N). -->
+    <string name="diagnostics_camera_value_camera_n">Camera %1$d</string>
+    <!-- Camera tile primary value when manual override is active. -->
+    <string name="diagnostics_camera_value_camera_n_manual">Kamera %1$d (manuell)</string>
+    <string name="diagnostics_camera_value_probing">Leverer…</string>
+    <string name="diagnostics_camera_value_offline">Frakoblet</string>
+    <!-- Battery tile primary value: %1$.0f is the SOH percent (0..100). -->
+    <string name="diagnostics_battery_value_soh">%1$.0f%%</string>
+    <string name="diagnostics_battery_value_pending">Ventende data</string>
+    <!-- Dashboard recordings tile: live-record indicator prefix.
+         %1$d is today's clip count. The leading bullet is the red dot. -->
+    <string name="dashboard_recordings_value_live">● %1$d</string>
+    <!-- ============================================================== -->
+    <!-- Dashboard hero subtitle — auto-rotating insights carousel        -->
+    <!-- ============================================================== -->
+    <!-- Each line replaces the static subtitle for ~5s, then cross-fades
+         to the next available insight. Numbers are bolded + tinted in the
+         provider, so translators should keep numeric placeholders intact
+         (do not spell out the digits). -->
+    <!-- First-launch welcome — only shown on the very first dashboard visit. -->
+    <string name="dashboard_insight_welcome">Velkommen — Overkjøring er nå ditt andre par øyne.</string>
+    <!-- Parking delta. %1$s = absolute SOC delta string ("8%"); %2$s = absolute kWh string ("4 kWh"). -->
+    <string name="dashboard_insight_parked_charged_kwh">Plukket opp %1$s (∙%2$s) mens den parkeres</string>
+    <string name="dashboard_insight_parked_charged">Picked up %1$s while parked</string>
+    <string name="dashboard_insight_parked_drained_kwh">Brukt %1$s (∙%2$s) siden du parkerte</string>
+    <string name="dashboard_insight_parked_drained">Brukt %1$s siden du parkerte</string>
+    <!-- Most recent surveillance clip. %1$s = relative time, e.g. "2 hr. ago" / "yesterday". -->
+    <string name="dashboard_insight_last_alert">Siste overvåkingsvarsel: %1$s</string>
+    <!-- Most recent completed charging session in the last 24h.
+         %1$s = energy added (e.g. "12.4 kWh"); %2$s = duration (e.g. "1 hr 45 min"). -->
+    <string name="dashboard_insight_last_charge">Siste belastning: +%1$s i %2$s</string>
+    <!-- Storage milestone. %1$d = clip count; %2$s = total size (e.g. "42 GB"). -->
+    <string name="dashboard_insight_storage_milestone">%1$d clips · %2$s tatt opp</string>
+    <!-- Number formatters used inside other insights. Translators may localize
+         the unit suffix (e.g. "키와트" / "квт·ч") but should leave the float
+         placeholder shape so the bold-ifier still finds the digits. -->
+    <string name="dashboard_insight_kwh_format">%1$.1f kWh</string>
+    <string name="dashboard_insight_percent_format">%1$.1f%%</string>
+    <string name="dashboard_insight_hours_minutes">%1$d t %2$d min</string>
+    <!-- Today's clips. -->
+    <plurals name="dashboard_insight_today_clips">
+        <item quantity="one">%1$d klippet opp i dag</item>
+        <item quantity="other">%1$d clips inntatt i dag</item>
+    </plurals>
+    <!-- Process uptime. Days form takes (days, hours); hours form takes hours only. -->
+    <plurals name="dashboard_insight_uptime_days_hours">
+        <item quantity="one">Overstasjon online for %1$d dag, %2$d time</item>
+        <item quantity="other">Overkjøre online for %1$d dager, %2$d time</item>
+    </plurals>
+    <plurals name="dashboard_insight_uptime_hours">
+        <item quantity="one">Overstyrt på nettet for %1$d time</item>
+        <item quantity="other">Overkjøre online for %1$d timer</item>
+    </plurals>
+    <!-- Duration helpers used inside insights (last_charge etc.). -->
+    <plurals name="dashboard_insight_minutes">
+        <item quantity="one">%1$d min</item>
+        <item quantity="other">%1$d min</item>
+    </plurals>
+    <plurals name="dashboard_insight_hours">
+        <item quantity="one">%1$d hr</item>
+        <item quantity="other">%1$d hr</item>
+    </plurals>
+    <!-- ============================================================
+         RoadSense — road-hazard detection feature
+         ============================================================ -->
+    <string name="rail_roadsense">Vei</string>
+    <string name="rail_hazard_map">Kart</string>
+    <string name="roadsense_title">Vei</string>
+    <string name="roadsense_pill_scanning">Skanner</string>
+    <string name="roadsense_pill_idle">Vei</string>
+    <string name="roadsense_status_idle">Inaktiv</string>
+    <!-- VEHICLE calibration (suspension-learning) — the green/orange/red dot. Worded
+         about the car, not the route, since that's what maturity actually measures. -->
+    <string name="roadsense_cal_learning">Lærer kjøretøyet ditt</string>
+    <string name="roadsense_cal_ready">Kjøretøy kalibrert</string>
+    <string name="roadsense_cal_partial">Bedring av kalibrering</string>
+    <!-- Idle caption — ROUTE coverage (distinct from vehicle calibration). "Clear
+         ahead" only when we've actually mapped this stretch; "New road" when we
+         haven't, so an unsurveyed road isn't mistaken for confirmed-safe. -->
+    <string name="roadsense_clear_ahead">Rydd fremover</string>
+    <string name="roadsense_road_mapped">Vei kartlagt · clear</string>
+    <string name="roadsense_road_new">Ny vei · læring</string>
+    <string name="roadsense_unit_meters">min</string>
+    <string name="roadsense_dash_distance">—</string>
+    <string name="roadsense_warn_label">Advar</string>
+    <string name="roadsense_toggle_audio">Lyd</string>
+    <string name="roadsense_toggle_visual">Visuell</string>
+    <!-- severity / type readouts (formatted at runtime) -->
+    <string name="roadsense_sev_minor">Mindre</string>
+    <string name="roadsense_sev_moderate">Moderat</string>
+    <string name="roadsense_sev_severe">Kraftig</string>
+    <string name="roadsense_type_breaker">Hastighet ødelegger</string>
+    <string name="roadsense_type_pothole">Postol</string>
+    <string name="roadsense_type_hazard">Fare</string>
+    <string name="roadsense_type_rough">Hoste del</string>
+    <!-- "Moderate · Pothole" style line -->
+    <string name="roadsense_hazard_format">%1$s · %2$s</string>
+    <!-- Zone readouts (D-032): cluster of hazards announced as one. -->
+    <!-- "3 bumps ahead" — %1$d = count -->
+    <string name="roadsense_zone_count">%1$d bumps foran</string>
+    <!-- "Rough section · 40 m" — %1$d = length in metres -->
+    <string name="roadsense_zone_rough">Røff seksjon · %1$d m</string>
+    <!-- Calibration-Mode confirm card (R-OVL-6) -->
+    <string name="roadsense_confirm_prompt">Var dette en fare?</string>
+    <string name="roadsense_confirm_reject">Ikke en fare</string>
+    <string name="roadsense_confirm_accept">Bekreft</string>
+    <!-- content descriptions -->
+    <string name="roadsense_cd_cal_level">Rute kalibreringsnivå</string>
+    <string name="roadsense_cd_direction">Retning til neste fare</string>
+    <!-- Blind Spot overlay labels (native overlay window). -->
+    <string name="blindspot_overlay_left">VENSTRE</string>
+    <string name="blindspot_overlay_right">HØYRE</string>
+    <!-- ============================================================== -->
+    <!-- RoadSense Map (native MapLibre map view + tap-to-verify sheet). -->
+    <!-- ============================================================== -->
+    <string name="roadsense_map_title">Kart</string>
+    <string name="roadsense_map_route_clear">Tøm</string>
+    <string name="roadsense_map_route_unmapped">Ikke tilordnet ennå</string>
+    <string name="roadsense_map_back">Tilbake</string>
+    <string name="roadsense_map_recenter">Gjenopprett på min posisjon</string>
+    <!-- Tap-to-verify bottom sheet -->
+    <string name="roadsense_map_severity_label">Alvorlighetsgrad</string>
+    <string name="roadsense_map_type_label">Type:</string>
+    <string name="roadsense_map_type_unknown">Ukjent</string>
+    <string name="roadsense_map_confirm">Bekreft</string>
+    <string name="roadsense_map_delete">Slett</string>
+    <!-- Status chip labels: candidate / on-device / shared with fleet -->
+    <string name="roadsense_map_status_candidate">Forslag</string>
+    <string name="roadsense_map_status_local">På enhet</string>
+    <string name="roadsense_map_status_cloud">Delt</string>
+    <!-- Meta line: "Moderate · 82% confidence · 3 reports" -->
+    <string name="roadsense_map_meta_format">%1$s · %2$d%% tillit · %3$s</string>
+    <!-- "3 reports" / "1 report" -->
+    <plurals name="roadsense_map_reports">
+        <item quantity="one">%1$d rapport</item>
+        <item quantity="other">%1$d rapporter</item>
+    </plurals>
+    <!-- Snackbar / toast confirmations -->
+    <string name="roadsense_map_confirmed_toast">Fare bekreftet</string>
+    <string name="roadsense_map_deleted_toast">Fare fjernet</string>
+    <string name="roadsense_map_action_failed">Kunne ikke nå RoadSense. Prøv igjen.</string>
+    <string name="roadsense_map_no_location">Venter på GPS fiks…</string>
+    <!-- Navigation: search + routing + turn-by-turn -->
+    <string name="roadsense_map_search_hint">Søk destinasjon</string>
+    <string name="roadsense_map_search_action">Søk</string>
+    <string name="roadsense_map_searching">Searching…</string>
+    <string name="roadsense_map_no_results">Ingen steder funnet</string>
+    <string name="roadsense_map_search_network">Kunne ikke nå søketjenesten. Sjekk tilkoblingen eller proxyen din og prøv igjen.</string>
+    <string name="roadsense_map_pick_destination">Velg mål</string>
+    <string name="roadsense_map_routing">Finner rute…</string>
+    <string name="roadsense_map_route_failed">Kunne ikke finne en rute. Prøv igjen.</string>
+    <string name="roadsense_map_need_key">Legg til en rutingsnøkkel i RoadSense innstillinger for å navigere.</string>
+    <string name="roadsense_map_route_key_rejected">Rutenøkkel avvist. Sjekk nøkkelen i RoadSense innstillinger.</string>
+    <string name="roadsense_map_route_network">Nettverk er for treg til å finne en rute. Sjekk tilkoblingen din og prøv igjen.</string>
+    <string name="roadsense_map_route_http">Routing service feil (%1$d). Prøv igjen snart.</string>
+    <string name="roadsense_map_rerouting">Av rute — omberegne…</string>
+    <string name="roadsense_map_arrived">Du har ankommet.</string>
+    <string name="roadsense_map_nav_started">Naviger til %1$s</string>
+    <string name="roadsense_map_nav_ended">Navigasjon avsluttet</string>
+    <string name="roadsense_map_end_nav">Avslutt navigasjon</string>
+    <string name="roadsense_map_zoom_in">Zoom inn</string>
+    <string name="roadsense_map_zoom_out">Zoom ut</string>
+    <!-- Hazard visibility filter -->
+    <string name="roadsense_map_hazards_filter">Faresynlighet (pare)</string>
+    <string name="roadsense_map_hazards_all">Vis alle farer</string>
+    <string name="roadsense_map_hazards_moderate">Moderat og alvorlig</string>
+    <string name="roadsense_map_hazards_severe">Kun alvorlige</string>
+    <string name="roadsense_map_hazards_hidden">Skjul farer</string>
+    <!-- POI along route (EV charging / fuel) -->
+    <string name="roadsense_map_poi_toggle">Lading og drivstoff</string>
+    <!-- 2D / 3D buildings toggle -->
+    <string name="roadsense_map_dimension_toggle">bygninger med 2D / 3D</string>
+    <string name="roadsense_map_3d_on">3D bygninger på</string>
+    <string name="roadsense_map_3d_off">3D bygninger av</string>
+    <string name="roadsense_map_poi_loading">Finner ladning og drivstoff stoppes…</string>
+    <string name="roadsense_map_poi_none">Ingen stasjoner i nærheten</string>
+    <string name="roadsense_map_poi_need_route">Velg en destinasjon først</string>
+    <!-- POI tap action sheet -->
+    <string name="roadsense_map_stop_added">Stopp lagt til</string>
+    <string name="roadsense_map_remove_stop_action">Fjern stopp</string>
+    <string name="roadsense_map_poi_navigate">Naviger her</string>
+    <string name="roadsense_map_poi_kind_charging">Lader stasjon</string>
+    <string name="roadsense_map_poi_kind_fuel">Drivstoff</string>
+    <string name="roadsense_map_poi_charging_generic">Lader stasjon</string>
+    <string name="roadsense_map_poi_fuel_generic">Drivstoff</string>
+    <string name="roadsense_map_route_switched">Bytte rute</string>
+    <!-- "then <next maneuver>" preview shown in the maneuver banner -->
+    <string name="roadsense_map_then">deretter</string>
+    <!-- Roundabout exit ordinal in the maneuver banner (%1$d = exit number) -->
+    <string name="roadsense_map_exit_n">exit %1$d</string>
+    <!-- Hazards-along-route pills (%1$d = count) -->
+    <string name="roadsense_map_pill_severe">%1$d alvorlig</string>
+    <string name="roadsense_map_pill_moderate">%1$d moderat</string>
+    <string name="roadsense_map_pill_minor">%1$d mindre</string>
+    <!-- Shown briefly if the basemap can\'t be reached. -->
+    <string name="roadsense_map_offline">Kartdata er ikke tilgjengelig offline</string>
+    <!-- Navigation: autocomplete + route options -->
+    <string name="roadsense_map_clear_search">Tøm søk</string>
+    <!-- Route-options sheet -->
+    <string name="roadsense_map_routes_title">Velg en rute</string>
+    <string name="roadsense_map_routes_to">Ruter til %1$s</string>
+    <string name="roadsense_map_routes_cancel">Avbryt</string>
+    <!-- Per-route row label, %1$d is the 1-based route number. -->
+    <string name="roadsense_map_route_option">Route %1$d</string>
+    <string name="roadsense_map_fastest">Raskest</string>
+    <string name="roadsense_map_start">Begynn</string>
+    <!-- Stops / waypoints in the route-options sheet -->
+    <string name="roadsense_map_your_location">Din posisjon</string>
+    <string name="roadsense_map_add_stop">Legg til stopp</string>
+    <string name="roadsense_map_add_stop_hint">Søk et stopp for å legge til</string>
+    <string name="roadsense_map_stop_removed">Stopp fjernet</string>
+    <string name="roadsense_map_remove_stop">Fjern stopp</string>
+    <string name="roadsense_map_move_stop_up">Flytt stoppet opp</string>
+    <string name="roadsense_map_move_stop_down">Flytt stopp ned</string>
+    <!-- %1$d is the maximum number of stops allowed. -->
+    <string name="roadsense_map_max_stops">Opp til %1$d stoppende tillatt</string>
+    <!-- Map day/night override (Auto → Light → Dark) -->
+    <string name="roadsense_map_theme_toggle">Kart-tema</string>
+    <string name="roadsense_map_theme_auto">Karttema: Auto</string>
+    <string name="roadsense_map_theme_light">Kart-tema: Lys</string>
+    <string name="roadsense_map_theme_dark">Karttema: Mørkt</string>
+    <!-- Saved places (Home / Work / custom favourites) -->
+    <string name="roadsense_map_saved_home">Hjem</string>
+    <string name="roadsense_map_saved_work">Arbeid</string>
+    <string name="roadsense_map_saved_set_home">Angi startside</string>
+    <string name="roadsense_map_saved_set_work">Angi arbeid</string>
+    <!-- Short action label for the "save as a custom favourite" button. -->
+    <string name="roadsense_map_saved_favourite">Favoritt</string>
+    <string name="roadsense_map_save_place">Lagre sted</string>
+    <string name="roadsense_map_save_as_home">Lagre som hjem</string>
+    <string name="roadsense_map_save_as_work">Lagre som arbeid</string>
+    <string name="roadsense_map_save_as_custom">Lagre som favoritt…</string>
+    <string name="roadsense_map_saved_added">Lagret</string>
+    <string name="roadsense_map_saved_removed">Fjernet fra lagret</string>
+    <string name="roadsense_map_saved_remove">Fjern</string>
+    <string name="roadsense_map_recent_remove">Fjern fra nylige</string>
+    <string name="roadsense_map_recent_removed">Fjernet fra nylige</string>
+    <string name="roadsense_map_custom_label_hint">Etikett (f.eks. ym, Mum\'s)</string>
+    <string name="roadsense_map_custom_label_title">Gi stedet navnet</string>
+    <string name="roadsense_map_save">Lagre</string>
+    <string name="roadsense_map_cancel">Avbryt</string>
+    <!-- Place-action sheet (long-press the map or a search result to save/navigate) -->
+    <string name="roadsense_map_dropped_pin">Fest pinne</string>
+    <string name="roadsense_map_navigate_here">Naviger her</string>
+    <!-- Shown after tapping an unset Home/Work chip: search picks the place to save. -->
+    <string name="roadsense_map_search_to_save">Søk et sted for å angi som %1$s</string>
+    <!-- Shown when re-entering the map with a previously-set trip restored. -->
+    <string name="roadsense_map_trip_restored">Reise gjenopprettet</string>
+    <!-- Cloudflared paid-tunnel settings -->
+    <string name="cloudflared_token_storage_note">Token lagres sikkert og delt mellom app og daemon-prosesser.</string>
+    <string name="cloudflared_token_hint">Angi skyvnet token</string>
+    <string name="cloudflare_paid_version">Cloudflare betalt versjon</string>
+    <string name="dialog_cloudflared_settings_title">🌐 Innstillinger for Cloudflared</string>
+    <string name="dialog_cloudflared_settings_message">Definer om du bruker betalt Cloudflare eller trycloudflare. Hvis du bruker betalt Cloudflare, skriv inn tunnel token.</string>
+    <string name="toast_cloudflared_token_cannot_be_empty">Hvis du har satt til betalt versjon, kan tokenet ikke være tomt</string>
+    <string name="toast_cloudflared_token_invalid">Ugyldig token: bruk bare bokstaver, tall og . _ - = tegn</string>
+    <string name="toast_cloudflared_saved_settings">Innstillinger lagret i skyflensen</string>
+</resources>

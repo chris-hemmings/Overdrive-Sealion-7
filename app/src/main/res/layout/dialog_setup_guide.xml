@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- First-launch setup guide dialog (M3).
+     Wrapped in ScrollView so the content + buttons are always reachable
+     on landscape BYD head units (720p, ~604dp usable height). -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurfaceContainerHigh"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- Version banner (shown only after an update, hidden on first install) -->
+        <TextView
+            android:id="@+id/tvVersionBanner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/dialog_setup_step_pill"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="8dp"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="?attr/colorOnPrimaryContainer"
+            android:visibility="gone"
+            tools:text="Updated — re-confirm autostart"
+            tools:visibility="visible" />
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/setup_guide_title"
+            android:textAppearance="@style/TextAppearance.Overdrive.HeadlineSmall"
+            android:textColor="?attr/colorOnSurface" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/setup_guide_subtitle"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <!-- Step 1: Language -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/dialog_setup_step_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/dialog_setup_step_pill"
+                    android:gravity="center"
+                    android:text="@string/setup_step_one_label"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setup_language_title"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/setup_language_body"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivLanguageCheck"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/cd_step_completed"
+                    android:src="@drawable/ic_check"
+                    android:visibility="visible"
+                    app:tint="?attr/colorPrimary" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOpenLanguage"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/setup_language_button"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
+        </LinearLayout>
+
+        <!-- Step 2: Auto-start -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/dialog_setup_step_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/dialog_setup_step_pill"
+                    android:gravity="center"
+                    android:text="@string/setup_step_two_label"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setup_autostart_title"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/setup_autostart_body"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivAutoStartCheck"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/cd_step_completed"
+                    android:src="@drawable/ic_check"
+                    android:visibility="invisible"
+                    app:tint="?attr/colorPrimary" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOpenAutoStart"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/setup_autostart_button"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
+        </LinearLayout>
+
+        <!-- Step 3: Overlay Permission -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/dialog_setup_step_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/dialog_setup_step_pill"
+                    android:gravity="center"
+                    android:text="@string/setup_step_three_label"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                    android:textColor="?attr/colorOnPrimaryContainer"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setup_overlay_title"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/setup_overlay_body"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/ivOverlayCheck"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="@string/cd_permission_granted"
+                    android:src="@drawable/ic_check"
+                    android:visibility="invisible"
+                    app:tint="?attr/colorPrimary" />
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOpenOverlay"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/setup_overlay_button"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
+        </LinearLayout>
+
+        <!-- Tips & troubleshooting — non-checklist follow-ups. Same M3
+             surfaceContainer card as the steps above, but the leading pill
+             holds an icon (not a number) and there's no "completed" check
+             so the row never reads as a setup gate. -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/setup_tips_header"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="?attr/colorPrimary"
+            android:textAllCaps="true"
+            android:letterSpacing="0.08" />
+
+        <!-- Tip: disable BYD Traffic Monitor -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog_setup_step_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/dialog_setup_step_pill"
+                    android:contentDescription="@null"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_traffic_monitor"
+                    app:tint="?attr/colorOnPrimaryContainer" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/setup_traffic_title"
+                        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                        android:textColor="?attr/colorOnSurface" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/setup_traffic_body"
+                        android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnOpenTrafficMonitor"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/setup_traffic_button"
+                android:textAppearance="@style/TextAppearance.Material3.LabelLarge" />
+
+        </LinearLayout>
+
+        <!-- Tip: black / incorrect camera feeds — instructional only. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/dialog_setup_step_card"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/dialog_setup_step_pill"
+                android:contentDescription="@null"
+                android:padding="6dp"
+                android:src="@drawable/ic_camera_probe"
+                app:tint="?attr/colorOnPrimaryContainer" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/setup_camera_fix_title"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/setup_camera_fix_body"
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Action buttons — M3 dialog button bar:
+             text button on the left (neutral), filled button on the right (positive). -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="end|center_vertical"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSkip"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="@string/action_remind_me_later" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:minWidth="96dp"
+                android:singleLine="true"
+                android:text="@string/action_done" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

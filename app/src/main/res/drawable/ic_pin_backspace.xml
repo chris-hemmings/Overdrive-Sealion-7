@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Material Symbols Rounded: backspace (24px). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="?attr/colorOnSurfaceVariant">
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M9,19L21,19Q21.825,19 22.413,18.413Q23,17.825 23,17L23,7Q23,6.175 22.413,5.587Q21.825,5 21,5L9,5Q8.55,5 8.137,5.187Q7.725,5.375 7.4,5.7L1.7,11.4Q1.4,11.7 1.4,12Q1.4,12.3 1.7,12.6L7.4,18.3Q7.725,18.625 8.137,18.812Q8.55,19 9,19ZM21,17L9,17L4,12L9,7L21,7L21,17ZM12.7,15L15.6,12.1L18.5,15L19.9,13.6L17,10.7L19.9,7.8L18.5,6.4L15.6,9.3L12.7,6.4L11.3,7.8L14.2,10.7L11.3,13.6L12.7,15Z"/>
+</vector>

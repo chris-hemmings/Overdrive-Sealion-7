@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Soft radial glow that sits BEHIND the bearing arrow inside the radar dial.
+  Base is white; the overlay tints it to the severity colour at runtime
+  (green/orange/red) so the whole dial blooms with urgency as a hazard nears.
+  A radial gradient fading to transparent gives the beacon/halo feel.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:type="radial"
+        android:gradientRadius="34dp"
+        android:startColor="#80FFFFFF"
+        android:centerColor="#33FFFFFF"
+        android:endColor="#00FFFFFF" />
+</shape>

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.overdrive.app.ui.fragment.DashboardFragment"
+        android:label="@string/rail_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/genAiFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/rail_assistant"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/assistant" />
+    </fragment>
+
+    <!-- Live view: canonical multi-cam page (WebView). Falls back from
+         WebCodecs to JMuxer on Chrome 58 / Android 7.1 head unit.
+         page_path is /live-view (the camera UI moved out of index.html
+         when the new Dashboard landing page took over /). -->
+    <fragment
+        android:id="@+id/liveViewFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/rail_live"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/live-view" />
+    </fragment>
+
+    <!-- Recordings: native two-pane (library + player) with M3 segmented Dashcam/Surveillance -->
+    <fragment
+        android:id="@+id/recordingsFragment"
+        android:name="com.overdrive.app.ui.fragment.RecordingsFragment"
+        android:label="@string/rail_recordings"
+        tools:layout="@layout/fragment_recordings" />
+
+    <!-- Surveillance settings (web) — kept reachable from Recordings → Settings ↗ button -->
+    <fragment
+        android:id="@+id/surveillanceSettingsWebFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/settings_section_surveillance"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/surveillance" />
+    </fragment>
+
+    <!-- Recording settings (web) — same path -->
+    <fragment
+        android:id="@+id/recordingSettingsWebFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/settings_section_recording"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/recording" />
+    </fragment>
+
+    <!-- Vehicle (web canonical) -->
+    <fragment
+        android:id="@+id/vehicleControlFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/rail_vehicle"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/vehicle-control" />
+    </fragment>
+
+    <!-- Projection (native only — cast + live mirror of the driver cluster) -->
+    <fragment
+        android:id="@+id/projectionFragment"
+        android:name="com.overdrive.app.ui.fragment.ProjectionFragment"
+        android:label="@string/rail_projection"
+        tools:layout="@layout/fragment_projection" />
+
+    <!-- Trips (web canonical) -->
+    <fragment
+        android:id="@+id/tripsFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/rail_trips"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/trips" />
+    </fragment>
+
+    <!-- Charging (web canonical) -->
+    <fragment
+        android:id="@+id/chargingFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/rail_charging"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/charging" />
+    </fragment>
+
+    <!-- Automations (web canonical) -->
+    <fragment
+        android:id="@+id/automationsFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/rail_automations"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/automations" />
+    </fragment>
+
+    <!-- Seat Positions (web canonical) -->
+    <fragment
+        android:id="@+id/seatPositionsFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/rail_seat_positions"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/seat-positions" />
+    </fragment>
+
+    <!-- Key Mapping (web canonical) -->
+    <fragment
+        android:id="@+id/keyMappingFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/rail_key_mapping"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/key-mapping" />
+    </fragment>
+
+    <!-- Integrations: roll-up of Telegram + ABRP + MQTT -->
+    <fragment
+        android:id="@+id/integrationsFragment"
+        android:name="com.overdrive.app.ui.fragment.IntegrationsFragment"
+        android:label="@string/rail_integrations"
+        tools:layout="@layout/fragment_integrations" />
+
+    <!-- Sub-destinations under Integrations (entered via cards, not the rail).
+         All three render via WebViewFragment pointing at the corresponding
+         page in /web/local — keeps the integrations stack on a single
+         renderer and lets us iterate on UX in HTML/CSS/JS instead of
+         touching native layouts every time. -->
+    <fragment
+        android:id="@+id/telegramSettingsFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/nav_page_telegram"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/telegram" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/abrpSettingsFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/nav_page_abrp"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/abrp" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mqttFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/nav_page_mqtt"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/mqtt" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bydCloudFragment"
+        android:name="com.overdrive.app.ui.fragment.WebViewFragment"
+        android:label="@string/nav_page_byd_cloud"
+        tools:layout="@layout/fragment_webview">
+        <argument
+            android:name="page_path"
+            app:argType="string"
+            android:defaultValue="/byd-cloud" />
+    </fragment>
+
+    <!-- RoadSense: hazard / road-surface sensing surface (web). Hosts the
+         /road-sense page via WebViewFragment, mirroring the other web
+         destinations on a single renderer. -->
+    <fragment
+        android:id="@+id/roadSenseFragment"
+        android:name="com.overdrive.app.ui.fragment.RoadSenseFragment"
+        android:label="@string/rail_roadsense" />
+
+    <!-- Network & Hotspot: SIM-data sharing, clients, data limit, proxy.
+         Its own top-level destination (not a Daemons entry) because it owns
+         the radio and has a live client/stats surface. -->
+    <fragment
+        android:id="@+id/networkFragment"
+        android:name="com.overdrive.app.ui.fragment.NetworkFragment"
+        android:label="@string/network_title"
+        tools:layout="@layout/fragment_network" />
+
+    <!-- Diagnostics: logs + ADB console + utilities -->
+    <fragment
+        android:id="@+id/diagnosticsFragment"
+        android:name="com.overdrive.app.ui.fragment.DiagnosticsFragment"
+        android:label="@string/rail_diagnostics"
+        tools:layout="@layout/fragment_diagnostics" />
+
+    <fragment
+        android:id="@+id/adbConsoleFragment"
+        android:name="com.overdrive.app.ui.fragment.AdbConsoleFragment"
+        android:label="@string/diagnostics_section_adb_console"
+        tools:layout="@layout/fragment_adb_console" />
+
+    <!-- Settings: native, with sub-rail of sections -->
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.overdrive.app.ui.fragment.SettingsFragment"
+        android:label="@string/rail_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <!-- Daemons (used to be its own rail item, now lives under Settings) -->
+    <fragment
+        android:id="@+id/daemonsFragment"
+        android:name="com.overdrive.app.ui.fragment.DaemonsFragment"
+        android:label="@string/settings_section_daemons"
+        tools:layout="@layout/fragment_daemons" />
+
+    <!-- About — reachable from the portrait Settings hub's About row.
+         Hosts the SettingsAboutFragment that shows version, license,
+         source link, support links, and the Check for Updates action. -->
+    <fragment
+        android:id="@+id/settingsAboutFragment"
+        android:name="com.overdrive.app.ui.fragment.settings.SettingsAboutFragment"
+        android:label="@string/settings_section_about"
+        tools:layout="@layout/fragment_settings_about" />
+
+    <!-- Security — PIN lock controls. Reachable from the portrait Settings
+         hub's Security card and from the landscape sub-rail Security row. -->
+    <fragment
+        android:id="@+id/settingsSecurityFragment"
+        android:name="com.overdrive.app.ui.fragment.settings.SettingsSecurityFragment"
+        android:label="@string/settings_section_security"
+        tools:layout="@layout/fragment_settings_security" />
+
+    <!-- Native video player (entered from Recordings) -->
+    <fragment
+        android:id="@+id/videoPlayerFragment"
+        android:name="com.overdrive.app.ui.fragment.VideoPlayerFragment"
+        android:label="@string/nav_page_video_player"
+        tools:layout="@layout/fragment_video_player">
+        <argument
+            android:name="video_path"
+            app:argType="string" />
+        <argument
+            android:name="video_title"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_videoPlayer"
+        app:destination="@id/videoPlayerFragment" />
+</navigation>

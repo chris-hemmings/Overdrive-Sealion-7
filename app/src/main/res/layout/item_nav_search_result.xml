@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  RoadSense map — one autocomplete search-result row, rendered by
+  NavSearchResultAdapter inside the floating dropdown card under the search
+  bar. Google-Maps-style list item: a soft tonal leading-icon disc holding a
+  location pin, a TitleSmall primary line, and a muted BodySmall secondary
+  line (shown only when the label splits on a comma). Ripple on tap via
+  ?attr/selectableItemBackground. All colours are theme attrs so the row is
+  correct in both day and night.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical"
+    android:minHeight="60dp"
+    android:orientation="horizontal"
+    android:paddingHorizontal="14dp"
+    android:paddingVertical="9dp">
+
+    <ImageView
+        android:id="@+id/ivResultIcon"
+        style="@style/Widget.Overdrive.NavRow.LeadingIcon"
+        android:layout_marginEnd="14dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_location_pin"
+        app:tint="?attr/colorOnSurfaceVariant" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvResultTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.Overdrive.NavRow.Title"
+            tools:text="Changi Airport" />
+
+        <TextView
+            android:id="@+id/tvResultSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textAppearance="@style/TextAppearance.Overdrive.NavRow.Subtitle"
+            android:visibility="gone"
+            tools:text="Airport Boulevard, Singapore"
+            tools:visibility="visible" />
+    </LinearLayout>
+
+    <!-- Trailing remove (✕) — shown ONLY for recent-search rows so a single recent
+         destination can be deleted in place (Gmaps-style). GONE for live autocomplete
+         results. Borderless ripple + 44dp touch target, sits clear of the row tap. -->
+    <ImageButton
+        android:id="@+id/btnResultRemove"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/roadsense_map_recent_remove"
+        android:padding="11dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_clear"
+        android:visibility="gone"
+        app:tint="?attr/colorOnSurfaceVariant"
+        tools:visibility="visible" />
+
+</LinearLayout>
