@@ -59,6 +59,9 @@ public class TripDetector {
     private final ScheduledExecutorService scheduler;
     private volatile ScheduledFuture<?> parkDebounceTask;
     private volatile ScheduledFuture<?> motionWatchTask;
+    // Periodic durable checkpoint while ACTIVE — see startTrip() and TripListener.onTripCheckpoint.
+    private static final long CHECKPOINT_INTERVAL_MS = 60_000; // 1 minute
+    private volatile ScheduledFuture<?> checkpointTask;
     private int motionStartStreak;
     private int motionStopStreak;
     // PHEV-only: integrates seconds where engineSpeedRpm > 600 across the
@@ -88,6 +91,14 @@ public class TripDetector {
         void onTripDiscarded(TripRecord trip, String reason);
         /** Called before finalization to get the GPS distance from the recorder. */
         default double getRecordedDistanceKm() { return 0; }
+        /**
+         * Periodic durable checkpoint while a trip is ACTIVE (see startTrip's
+         * checkpoint timer) — SoC/energy readings only, so a mid-drive daemon
+         * crash leaves behind real (if slightly stale) energy data instead of
+         * nothing but the GPS telemetry file. No-op default so existing
+         * listeners that don't own a TripDatabase aren't forced to implement it.
+         */
+        default void onTripCheckpoint(TripRecord trip) {}
     }
 
     /**
@@ -476,6 +487,52 @@ public class TripDetector {
                 logger.error("Listener.onTripStarted failed: " + e.getMessage());
             }
         }
+
+        checkpointNow(); // immediate first checkpoint, then periodic
+        checkpointTask = scheduler.scheduleAtFixedRate(
+                this::checkpointNow, CHECKPOINT_INTERVAL_MS, CHECKPOINT_INTERVAL_MS,
+                TimeUnit.MILLISECONDS);
+    }
+
+    /**
+     * Refresh the live trip's current SoC/kWh/elec-counter readings and hand
+     * them to the listener for durable persistence. Reuses socEnd/kwhEnd/
+     * elecConEnd as the "current reading" slot — harmless, since trip-end
+     * overwrites them again with the real final values regardless.
+     */
+    private void checkpointNow() {
+        TripRecord trip = activeTrip;
+        if (trip == null || state != State.ACTIVE) return;
+        try {
+            BatterySocData socData = VehicleDataMonitor.getInstance().getBatterySoc();
+            if (socData != null) trip.socEnd = socData.socPercent;
+            if (com.overdrive.app.byd.DiLink5Platform.isActive()) {
+                double carSvcSoc = com.overdrive.app.byd.CarSvcTelemetry.INSTANCE.socPercentValue();
+                if (!Double.isNaN(carSvcSoc) && carSvcSoc >= 0 && carSvcSoc <= 100) trip.socEnd = carSvcSoc;
+            }
+            double kwhRemaining = VehicleDataMonitor.getInstance().getBatteryRemainPowerKwh();
+            if (kwhRemaining > 0) trip.kwhEnd = kwhRemaining;
+            double elecConNow = VehicleDataMonitor.getInstance().getTotalElecCon();
+            if (!Double.isNaN(elecConNow) && elecConNow > 0) trip.elecConEnd = elecConNow;
+        } catch (Exception e) {
+            logger.debug("checkpointNow: read failed: " + e.getMessage());
+        }
+        if (listener != null) {
+            try {
+                listener.onTripCheckpoint(trip);
+            } catch (Exception e) {
+                logger.debug("Listener.onTripCheckpoint failed: " + e.getMessage());
+            }
+        }
+    }
+
+    /** Stop the periodic checkpoint timer. Called whenever a trip stops being ACTIVE. */
+    private void stopCheckpointTimer() {
+        ScheduledFuture<?> t = checkpointTask;
+        if (t != null) {
+            t.cancel(false);
+            checkpointTask = null;
+        }
     }
 
     /**
@@ -724,6 +781,7 @@ public class TripDetector {
         }
 
         // Trip is valid — notify listener
+        stopCheckpointTimer();
         TripRecord completedTrip = activeTrip;
         activeTrip = null;
         startOdometerKm = -1;
@@ -745,6 +803,7 @@ public class TripDetector {
      * Discard a trip that doesn't meet minimum thresholds.
      */
     private void discardTrip(String reason) {
+        stopCheckpointTimer();
         TripRecord discardedTrip = activeTrip;
         activeTrip = null;
         startOdometerKm = -1;

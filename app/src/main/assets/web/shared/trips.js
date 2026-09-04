@@ -1955,11 +1955,21 @@ const TRIPS = {
         // to 0 for costing) so the capsule agrees with the SoC capsule beside it.
         const signedEnergyVal = this.signedEnergy(trip);
         const capsuleEnergy = signedEnergyVal < 0 ? signedEnergyVal : energyUsed;
-        const energyCapsule = recovered
+        // A recovered trip usually has no energy/SoC data (never written to the
+        // GPS-only telemetry file) — but one enriched from a surviving live
+        // checkpoint (TripDatabase.enrichRecoveredTripFromCheckpoint) DOES have
+        // real readings despite still being "recovered" (no driving scores).
+        // Check the actual values, not just the recovered flag, so real
+        // checkpoint data still shows instead of being blanket-hidden.
+        const hasRealEnergy = capsuleEnergy !== 0 || eff !== '0.00';
+        const hasRealSoc = (trip.socStart || trip.soc_start || 0) > 0
+                || (trip.socEnd || trip.soc_end || 0) > 0;
+        const energyCapsule = (recovered && !hasRealEnergy)
             ? ''
             : '<span class="trip-capsule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg> ' + (capsuleEnergy !== 0 ? capsuleEnergy.toFixed(2) + ' kWh' : eff + BYD.units.socPerDistLabel()) + '</span>';
-        // SoC capsule: omit on recovered (would read 0.00→0.00%).
-        const socCapsule = recovered
+        // SoC capsule: omit on recovered UNLESS checkpoint-enriched (would
+        // otherwise read 0.00→0.00%).
+        const socCapsule = (recovered && !hasRealSoc)
             ? ''
             : '<span class="trip-capsule"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="7" width="12" height="10" rx="1"/><path d="M18 10h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2"/></svg> ' + socStart + '→' + socEnd + '%</span>';
         // Odometer capsule: absolute start→end readings (unit-aware). Gated on
@@ -4923,14 +4933,19 @@ const TRIPS = {
      * at 0. We detect that signature so the card/detail can hide the otherwise
      * misleading 0.00 readings.
      *
-     * Heuristic (all must hold):
-     *  - every one of the 5 driving sub-scores is 0
-     *  - no SoC reading (start and end both 0)
-     *  - no energy reading (kWh used and SoC-per-km efficiency both 0)
-     * A genuine live trip always carries at least a SoC pair or a non-zero
-     * score, so this won't false-positive a real short trip. The IMPORTED_PATH
-     * sentinel ("imported://...") is a backup restore, which DOES carry real
-     * data, and is excluded.
+     * Heuristic: every one of the 5 driving sub-scores is 0.
+     *
+     * Score is now the ONLY signal (previously also required no SoC/energy
+     * reading) — a checkpoint-enriched recovered trip (TripDatabase.
+     * enrichRecoveredTripFromCheckpoint) can legitimately carry real SoC/
+     * energy data from the last live checkpoint before a mid-drive crash,
+     * while still having zero driving-DNA scores (those require a live-
+     * tracked trip and can never be reconstructed after the fact). Scores are
+     * the only field that's genuinely impossible for a recovered trip to have
+     * — a live trip's score engine always produces at least a non-zero value
+     * across 5 independent metrics; a recovered trip literally cannot. The
+     * IMPORTED_PATH sentinel ("imported://...") is a backup restore, which
+     * DOES carry real data, and is excluded.
      */
     isRecoveredTrip(trip) {
         if (!trip) return false;
@@ -4941,14 +4956,7 @@ const TRIPS = {
         const sd = trip.speedDisciplineScore || trip.speed_discipline_score || 0;
         const e = trip.efficiencyScore || trip.efficiency_score || 0;
         const c = trip.consistencyScore || trip.consistency_score || 0;
-        if (a || s || sd || e || c) return false;              // any real score → live trip
-        const socStart = trip.socStart || trip.soc_start || 0;
-        const socEnd = trip.socEnd || trip.soc_end || 0;
-        if (socStart || socEnd) return false;                  // any SoC → live trip
-        const energy = trip.energyUsedKwh || trip.energy_used_kwh || 0;
-        const effSoc = trip.efficiencySocPerKm || trip.efficiency_soc_per_km || 0;
-        if (energy || effSoc) return false;                    // any energy → live trip
-        return true;
+        return !(a || s || sd || e || c);
     },
 
     formatDuration(seconds) {

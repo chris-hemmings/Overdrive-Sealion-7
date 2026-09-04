@@ -5259,14 +5259,28 @@ public class BydDataCollector {
         return raw;
     }
 
-    /** True for the documented BYD failure/unavailable codes that share the numeric channel. */
+    /**
+     * True for the documented BYD failure/unavailable codes that share the numeric channel.
+     *
+     * <p>Includes the {@code ~359.x} idle-junk band documented in
+     * CHARGING-POWER-INVARIANTS.md (I4) — observed on ambiguous instrument fields when
+     * not genuinely charging. Confirmed live, 2026-09-05: a slow overnight AC session
+     * (avg ~2.15 kW, ~9.4 kWh added — both plausible) recorded a peakPower of exactly
+     * 359.4, which downstream {@code isPoisonedPower} correctly flagged and hid — but
+     * that only suppresses the DISPLAY after the junk has already poisoned the whole
+     * session's energy/avg-power data. Rejecting it here, at the same collection-time
+     * gate as every other sentinel, keeps a real slow session's real numbers intact
+     * instead of relying on the session-level gate to clean up after the fact. A range,
+     * not an exact match, because the junk isn't perfectly stable — hence "~359.x".
+     */
     private static boolean isChargePowerSentinel(double v) {
         return v == 104857.5
                 || v == 65535.0
                 || v == -10011.0
                 || v == BydFeatureIds.INVALID_VALUE
                 || v == BydFeatureIds.INVALID_VALUE_2
-                || v == Integer.MIN_VALUE;
+                || v == Integer.MIN_VALUE
+                || (v >= 359.0 && v < 360.0);
     }
 
     /**
