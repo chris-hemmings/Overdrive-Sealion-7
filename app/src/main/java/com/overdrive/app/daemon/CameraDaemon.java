@@ -546,6 +546,41 @@ public class CameraDaemon {
     public static void main(String[] args) {
         initFileLogging();
 
+        // SAFETY NET: an uncaught exception on ANY thread this process ever
+        // spawns (surveillance pipeline workers, storage retry threads, probe
+        // threads — dozens of "new Thread(...)" sites across this codebase,
+        // and more get added over time) otherwise just kills that ONE thread
+        // silently. The process itself keeps running, so the existing crash-
+        // restart safety net (requestProcessRestartPreservingTrip, which
+        // already correctly recovers from a GL/EGL fault that takes the whole
+        // process down) never triggers — the process sits there alive but
+        // partially broken until someone notices and manually restarts it.
+        // Confirmed live, 2026-09-05: GpuSurveillancePipeline's worker thread
+        // died (a GL/EGL fault, same root cause as the process-level crashes
+        // this daemon already recovers from cleanly), surveillance stayed
+        // stuck uninitialized for over an hour, and nothing detected it.
+        // A default handler here converts EVERY silent thread death into the
+        // same well-tested full-process restart, regardless of which thread
+        // it is or what specifically killed it — no per-thread handler to
+        // remember to add, no chasing which specific site needs it next time.
+        Thread.setDefaultUncaughtExceptionHandler((thread, throwable) -> {
+            try {
+                log("FATAL: uncaught exception on thread '" + thread.getName()
+                        + "' — forcing a full process restart so the daemon "
+                        + "doesn't keep running half-broken: " + throwable);
+            } catch (Throwable ignored) {}
+            try {
+                requestProcessRestartPreservingTrip(
+                        "uncaught exception on thread " + thread.getName());
+            } catch (Throwable ignored) {
+                // Last resort: the restart path itself is broken too. A hard
+                // exit at least gets the wrapper script's own restart loop to
+                // pick this process back up, which is safer than leaving a
+                // process alive with an unknown thread permanently dead.
+                Runtime.getRuntime().halt(1);
+            }
+        });
+
         // CRITICAL: Acquire singleton lock FIRST - exit if another instance is running
         if (!acquireSingletonLock()) {
             log("ERROR: Another CameraDaemon instance is already running. Exiting.");
