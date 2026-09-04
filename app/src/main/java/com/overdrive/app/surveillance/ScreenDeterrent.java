@@ -316,10 +316,47 @@ public final class ScreenDeterrent {
     }
 
     private static boolean isAccUnsafe() {
+        // Live DiLink5 power-mode read FIRST, ahead of AccMonitor's cache.
+        // AccMonitor.isAccOn()/isAccStateAuthoritative() are just fields in
+        // THIS process, written only when AccSentryDaemon's IPC happens to
+        // land — on a fresh/just-restarted byd_cam_daemon process (which has
+        // been crash-looping), that cache can sit at its default
+        // "not authoritative yet" for a real, observed stretch after
+        // restart, making every check in that window fail closed as
+        // "unsafe" regardless of the car's actual state.
+        //
+        // CarSvcTelemetry.dumpsysText() reads `dumpsys car_service` directly
+        // and caches it for only DUMP_TTL_MS (2s) — a time-based cache that
+        // can never get "stuck" the way an event/IPC-based one can, since it
+        // just re-shells-out once that 2s elapses. Same source
+        // AccMonitor.probeAccState() and the dashboard's own ACC status
+        // already treat as ground truth for DiLink5.
+        //
+        // A confident live TRUE (ACC/ready) returns unsafe immediately. A
+        // confident live FALSE (parked) is trusted directly and skips the
+        // cache below entirely — the whole point is to not let a stale
+        // cached "on"/"unknown" override a fresh "off". Only a null/
+        // unparseable read (dumpsys mid-transition, or non-DiLink5) falls
+        // through to the cache as a fallback.
+        if (com.overdrive.app.byd.DiLink5Platform.isActive()) {
+            try {
+                String dump = com.overdrive.app.byd.CarSvcTelemetry.INSTANCE.dumpsysText();
+                Boolean inUse = com.overdrive.app.monitor.DiLink5PowerMode.classifyCurrentLine(dump);
+                if (Boolean.TRUE.equals(inUse)) return true;
+                if (Boolean.FALSE.equals(inUse)) return isMovingUnsafe();
+            } catch (Throwable ignored) {
+                // dumpsys unreadable this instant — fall through to the cache.
+            }
+        }
         if (!com.overdrive.app.monitor.AccMonitor.isAccStateAuthoritative()
                 || com.overdrive.app.monitor.AccMonitor.isAccOn()) {
             return true;
         }
+        return isMovingUnsafe();
+    }
+
+    /** Speed/gear fail-safe: even a confident "parked" ACC reading must not override the vehicle actually rolling or in gear. */
+    private static boolean isMovingUnsafe() {
         try {
             com.overdrive.app.byd.BydDataCollector collector = com.overdrive.app.byd.BydDataCollector.getInstance();
             if (collector != null) {
@@ -333,32 +370,6 @@ public final class ScreenDeterrent {
         return false;
     }
 
-    /**
-     * True unless the vehicle is confirmed OFF (via {@link #isAccUnsafe}) AND
-     * confirmed LOCKED. Both required, fail-closed on either being unknown.
-     *
-     * <p>Not "either, if the other is unknown": door-lock car_service properties
-     * on this vehicle are confirmed to go quiet (no lastEvent) for extended
-     * periods -- see {@code CarSvcTelemetry.doorsArray()}'s own doc comment. An
-     * "off is enough when lock state is unknown" rule would silently re-admit
-     * the exact bug this exists to fix on a schedule dictated by how often that
-     * property happens to be flaky: the deterrent firing while the driver is
-     * still sitting in the car, ACC off, before locking up to leave.
-     *
-     * <p>{@code doorsArray()[6]} ("overall") is 2 only when every door that has
-     * reported agrees LOCKED, 1 if any door is confirmed unlocked, -1 if
-     * nothing has reported yet -- so requiring exactly 2 here is already the
-     * fail-closed reading of that field.
-     */
-    private static boolean isUnattendedUnsafe() {
-        if (isAccUnsafe()) return true;
-        try {
-            int[] doors = com.overdrive.app.byd.CarSvcTelemetry.INSTANCE.doorsArray();
-            return doors == null || doors.length < 7 || doors[6] != 2;
-        } catch (Throwable ignored) {
-            return true;
-        }
-    }
 
     /**
      * GL frame thread enters here on every confirmed motion. Must be cheap:
@@ -423,22 +434,65 @@ public final class ScreenDeterrent {
         SentryScreenWalkLog.actual("OFF", "deterrent ended");
         clearSessionGate();
 
-        // Restore stealth backlight unless somebody else owns the wake (ACC-on).
-        //
-        // The authoritative ACC read mirrors shouldStop()'s guard because
-        // isForceStop() is only an edge signal that AccSentryDaemon later clears.
-        // Without the direct state check, "owner walks up → deterrent fires →
-        // owner starts the car" can darken the panel after the last wake and
-        // leave the driver with a black screen.
-        // Note: turnBacklightOff → StealthPanel.turnOff also refuses while a fresh
-        // ACC-ON edge is in its trust window, so this is belt-and-braces; keeping it
-        // here avoids even starting the teardown chain (locked config writes +
-        // binder calls) on the ACC-ON edge.
-        boolean restorePanel = restorePanelAfterSession;
+        // Cross-checked restore: only darken the panel back down when every
+        // signal we have access to AGREES the car is genuinely unattended —
+        // ACC confirmed off by BOTH the live dumpsys read and the AccMonitor
+        // cache (when both are available), AND doors confirmed locked.
+        // Confirmed live, 2026-09-04: a get-in-while-showing test with the
+        // OLD unconditional version darkened the screen while the driver was
+        // sitting in the car with ACC on and doors unlocked — both signals
+        // agreed on that at the time (liveDumpsysAccInUse=true,
+        // accMonitorAccOn=true, doorsRaw overall=1/unlocked), so requiring
+        // agreement on the OFF/locked direction is the direct fix: any
+        // disagreement, or a confirmed on/unlocked reading, skips the
+        // restore instead of forcing it.
         restorePanelAfterSession = false;
         Context ctx = resolveContext();
-        if (restorePanel && ctx != null && !isForceStop() && !isAccUnsafe()) {
+
+        boolean safeNow = ctx != null && isSafeToRestoreNow("immediate");
+        if (safeNow) {
             turnBacklightOff(ctx);
+            // Mirror-image safety net: the immediate check can darken the
+            // panel on a stale "still locked/ACC off" read that hasn't
+            // caught up yet with a driver who's actually mid-unlock/mid-
+            // entry. Re-check 5s later; if ACC has come on OR doors are now
+            // unlocked, the driver didn't make it in before this restore
+            // fired — wake the panel back up (plain wakePanel, NOT the
+            // deterrent image; they're getting in their own car, not an
+            // intruder) so they're not left staring at a black screen.
+            final Context wakeCtx = ctx;
+            Thread postCheck = new Thread(() -> {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ignored) {
+                    return;
+                }
+                if (!isSafeToRestoreNow("post-restore-5s")) {
+                    wakePanel(wakeCtx);
+                }
+            }, "DeterrentPostRestoreCheck");
+            postCheck.setDaemon(true);
+            postCheck.start();
+        } else if (ctx != null) {
+            // Safety net: the immediate check can miss a genuinely-safe
+            // moment on a transient bad read (a momentary dumpsys hiccup, an
+            // ACC/lock signal that hasn't resynced yet). Re-check a few
+            // seconds later on a throwaway thread, and restore then if
+            // everything confirms safe by that point. Does not retry
+            // indefinitely — one follow-up check, same as the immediate one.
+            final Context retryCtx = ctx;
+            Thread retry = new Thread(() -> {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException ignored) {
+                    return;
+                }
+                if (isSafeToRestoreNow("retry-5s")) {
+                    turnBacklightOff(retryCtx);
+                }
+            }, "DeterrentRestoreRetry");
+            retry.setDaemon(true);
+            retry.start();
         }
 
         // Race fix (audit #8): a GL-thread motion bump can land between any
@@ -474,6 +528,79 @@ public final class ScreenDeterrent {
             // Do not clobber a fresh session that started after inFlight=false.
             extendDeadlineElapsedMs.compareAndSet(pendingDeadline, 0);
         }
+    }
+
+    /**
+     * True only when every ACC signal available AGREES the vehicle is off
+     * (live dumpsys read and the AccMonitor cache, when both are available —
+     * either saying "on" blocks it) AND doors are confirmed locked. Neither
+     * signal being available fails closed (no agreement, no restore).
+     *
+     * <p>Also appends a line to {@code /data/local/tmp/deterrent_debug.txt}
+     * tagged with {@code label} ("immediate" vs "retry-5s") so both the
+     * initial decision and any safety-net retry are visible in one place —
+     * world-readable via adb shell, unlike the app's own external-files
+     * probe file (permission-denied all night under the new UID from
+     * tonight's reinstalls).
+     */
+    private boolean isSafeToRestoreNow(String label) {
+        Boolean liveAccInUse = null;
+        boolean liveAccError = false;
+        boolean dilink5 = false;
+        try {
+            dilink5 = com.overdrive.app.byd.DiLink5Platform.isActive();
+            if (dilink5) {
+                String dump = com.overdrive.app.byd.CarSvcTelemetry.INSTANCE.dumpsysText();
+                liveAccInUse = com.overdrive.app.monitor.DiLink5PowerMode.classifyCurrentLine(dump);
+            }
+        } catch (Throwable ignored) {
+            liveAccError = true;
+        }
+
+        boolean accMonitorAuthoritative = false;
+        boolean accMonitorAccOn = true; // fail-closed default if the read itself throws
+        try {
+            accMonitorAuthoritative = com.overdrive.app.monitor.AccMonitor.isAccStateAuthoritative();
+            accMonitorAccOn = com.overdrive.app.monitor.AccMonitor.isAccOn();
+        } catch (Throwable ignored) {}
+
+        int[] doors = null;
+        try {
+            doors = com.overdrive.app.byd.CarSvcTelemetry.INSTANCE.doorsArray();
+        } catch (Throwable ignored) {}
+        boolean doorsLocked = doors != null && doors.length >= 7 && doors[6] == 2;
+
+        boolean haveAnySignal = (liveAccInUse != null) || accMonitorAuthoritative;
+        boolean accConfirmedOff = haveAnySignal
+                && (liveAccInUse == null || Boolean.FALSE.equals(liveAccInUse))
+                && (!accMonitorAuthoritative || !accMonitorAccOn);
+
+        boolean safeToRestore = accConfirmedOff && doorsLocked;
+
+        try (java.io.FileWriter fw = new java.io.FileWriter(
+                "/data/local/tmp/deterrent_debug.txt", true)) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("--- ").append(label).append(" t=").append(System.currentTimeMillis()).append(" ---\n");
+            sb.append("diLink5Active=").append(dilink5).append('\n');
+            sb.append("liveDumpsysAccInUse=").append(liveAccInUse)
+                    .append(liveAccError ? " (error reading)" : "").append('\n');
+            sb.append("accMonitorAuthoritative=").append(accMonitorAuthoritative).append('\n');
+            sb.append("accMonitorAccOn=").append(accMonitorAccOn).append('\n');
+            if (doors != null && doors.length >= 7) {
+                sb.append("doorsRaw=[").append(doors[0]).append(',').append(doors[1])
+                        .append(',').append(doors[2]).append(',').append(doors[3])
+                        .append("] overall=").append(doors[6])
+                        .append(" (2=locked,1=unlocked,-1=unknown)\n");
+            } else {
+                sb.append("doorsRaw=unavailable\n");
+            }
+            sb.append("accConfirmedOff=").append(accConfirmedOff).append('\n');
+            sb.append("doorsLocked=").append(doorsLocked).append('\n');
+            sb.append("safeToRestore=").append(safeToRestore).append('\n');
+            fw.write(sb.toString());
+        } catch (Throwable ignored) {}
+
+        return safeToRestore;
     }
 
     private void clearSessionGate() {
@@ -623,9 +750,9 @@ public final class ScreenDeterrent {
         if (cancelled.get()
                 || terminalStopRequested.get()
                 || extendDeadlineElapsedMs.get() <= SystemClock.elapsedRealtime()
-                || isUnattendedUnsafe()) {
+                || isAccUnsafe()) {
             logger.warn("Screen deterrent fire() aborted — session is no longer safe/live "
-                    + "(ACC on/unknown, or vehicle not confirmed locked)");
+                    + "(ACC on/unknown)");
             terminateCurrentSession();
             return;
         }

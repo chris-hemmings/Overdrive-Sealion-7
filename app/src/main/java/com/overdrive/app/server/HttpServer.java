@@ -1116,59 +1116,6 @@ public class HttpServer {
             return true;
         }
 
-        // Debug: every signal ScreenDeterrent.isUnattendedUnsafe() (the sentry-arm
-        // gate) actually reads, in one call, so this can be checked live without
-        // reconstructing it from separate adb dumpsys pulls. Read-only, no side
-        // effects, safe to poll.
-        if (path.startsWith("/api/debug/deterrent")) {
-            org.json.JSONObject report = new org.json.JSONObject();
-            try {
-                boolean accAuthoritative = com.overdrive.app.monitor.AccMonitor.isAccStateAuthoritative();
-                boolean accOn = com.overdrive.app.monitor.AccMonitor.isAccOn();
-                report.put("accStateAuthoritative", accAuthoritative);
-                report.put("accOn", accOn);
-                report.put("powerConfirmedOff", accAuthoritative && !accOn);
-
-                int[] doors = com.overdrive.app.byd.CarSvcTelemetry.INSTANCE.doorsArray();
-                org.json.JSONObject doorsJson = new org.json.JSONObject();
-                if (doors != null && doors.length >= 7) {
-                    doorsJson.put("rf", doors[0]);
-                    doorsJson.put("lf", doors[1]);
-                    doorsJson.put("rr", doors[2]);
-                    doorsJson.put("lr", doors[3]);
-                    doorsJson.put("overallRaw", doors[6]);
-                    report.put("allDoorsConfirmedLocked", doors[6] == 2);
-                } else {
-                    report.put("allDoorsConfirmedLocked", false);
-                }
-                report.put("doors", doorsJson);
-                report.put("doorsEncoding", "raw car_service: 2=locked, 1=unlocked, -1=unknown");
-
-                boolean armSafe = accAuthoritative && !accOn
-                        && doors != null && doors.length >= 7 && doors[6] == 2;
-                report.put("wouldArmDeterrent", armSafe);
-
-                try {
-                    android.content.Context ctx = com.overdrive.app.daemon.CameraDaemon.getAppContext();
-                    if (ctx != null) {
-                        report.put("screenAlreadyDark",
-                                com.overdrive.app.power.StealthPanel.isAlreadyDark(ctx));
-                    } else {
-                        report.put("screenAlreadyDark", org.json.JSONObject.NULL);
-                    }
-                } catch (Throwable t) {
-                    report.put("screenAlreadyDark", org.json.JSONObject.NULL);
-                    report.put("screenStateError", t.getMessage());
-                }
-                report.put("success", true);
-            } catch (Throwable t) {
-                report.put("success", false);
-                report.put("error", t.getMessage());
-            }
-            HttpResponse.sendJson(out, report.toString());
-            return true;
-        }
-
         // Performance API
         if (path.startsWith("/api/performance")) {
             return PerformanceApiHandler.handle(method, path, body, out);

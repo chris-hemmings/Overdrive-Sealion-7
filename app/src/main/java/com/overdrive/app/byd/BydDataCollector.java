@@ -7924,7 +7924,26 @@ public class BydDataCollector {
             int[] signalStates = new int[4];
             for (int i = 0; i < 4; i++) {
                 Object p = BydDeviceHelper.callGetter(tyreDevice, "getTyrePressureValue", i + 1);
-                pressures[i] = (p instanceof Number) ? ((Number) p).intValue() : -1;
+                int rawPressure = (p instanceof Number) ? ((Number) p).intValue() : -1;
+                // Some firmware (confirmed on a European-market unit, France)
+                // returns this raw value pre-scaled by roughly the SAME
+                // kPa->psi factor this class already applies for its own psi
+                // display (0.1450377) — i.e. raw already sits almost exactly
+                // on the real BAR reading (raw * 0.1450377 ~= true bar),
+                // rather than being real kPa directly like the firmware this
+                // formula was reverse-engineered against. Confirmed against
+                // the OFFICIAL BYD app on that vehicle: raw=19/20 showed as
+                // "2.8"/"2.9" PSI here, and the official app showed the same
+                // "2.8"/"2.9" as BAR for the same tires — so true kPa is
+                // raw * 14.50377 (= raw * 0.1450377 * 100), not raw directly.
+                // Data-driven disambiguation, not a locale/model guess: a
+                // real inflated tire is never below ~150 kPa (this app's own
+                // criticalLow default is 152) and this rescale only ever
+                // fires on a raw value that couldn't be real kPa already.
+                if (rawPressure > 0 && rawPressure < 100) {
+                    rawPressure = Math.round(rawPressure * 14.50377f);
+                }
+                pressures[i] = rawPressure;
                 Object s = BydDeviceHelper.callGetter(tyreDevice, "getTyrePressureState", i + 1);
                 pressureStates[i] = (s instanceof Number) ? ((Number) s).intValue() : -1;
                 Object leak = BydDeviceHelper.callGetter(tyreDevice, "getTyreAirLeakState", i + 1);
