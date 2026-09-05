@@ -111,12 +111,7 @@ public class PanoramicCameraGpu {
     private final boolean USE_PASSIVE_APA_MODE = CAMERA_LAYOUT_MODE == 1;
 
     private static int resolveCameraLayoutModeFromConfig() {
-        // DiLink5Platform.isActive() (native probe OR an explicit
-        // cameraMode="dilink5" config override) rather than the native probe
-        // alone -- a unit whose native /vendor/lib64/libais_client.so probe
-        // fails needs the manual "DiLink 5" mode in the ingestion-mode dialog
-        // to actually take effect here, not just in DiLink5Platform itself.
-        if (com.overdrive.app.byd.DiLink5Platform.isActive()) {
+        if (com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isSupported()) {
             return 1; // DiLink 5: direct 1:1 single camera passthrough (no 4-way mosaic)
         }
         try {
@@ -136,7 +131,7 @@ public class PanoramicCameraGpu {
      *  1 = full-frame passthrough (DiLink 4 passive APA / DiLink 5);
      *  3 = DiLink 4 four-corner remap. */
     public int getCameraLayoutMode() {
-        if (com.overdrive.app.byd.DiLink5Platform.isActive()) {
+        if (com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isSupported()) {
             return 1; // DiLink 5: direct 1:1 single camera passthrough (no 4-way mosaic)
         }
         return CAMERA_LAYOUT_MODE;

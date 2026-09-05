@@ -1087,11 +1087,7 @@ object UnifiedConfigManager {
         // to camera/SOH logic as a selected physical model on fresh installs.
         // Existing configs predate provenance, so preserve their prior model
         // behavior with the legacy source.
-        // isNativelySupported(), not isSupported(): this runs inside loadConfig()'s
-        // own migration path, and isSupported() reads config through this same
-        // UnifiedConfigManager to honor the manual override — calling it here
-        // would recurse into loadConfig() from inside loadConfig() itself.
-        val defaultModel = if (com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isNativelySupported()) "sealion7" else "seal"
+        val defaultModel = if (com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isSupported()) "sealion7" else "seal"
         if (!vehicle.has("modelId")) vehicle.put("modelId", defaultModel)
         if (!vehicle.has("modelSource")) {
             vehicle.put(

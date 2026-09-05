@@ -835,18 +835,6 @@ public class SurveillanceApiHandler {
                         camCfg.optBoolean("dilink4RedMask", false));
                     passiveApaMode = camCfg.optBoolean("dilink4PassiveApaMode", false);
                     config.put("dilink4PassiveApaMode", passiveApaMode);
-                    // Native DiLink5 hardware probe, evaluated HERE (inside the
-                    // daemon process) rather than in the app UI process that
-                    // reads this response. The two run under different UIDs
-                    // (daemon: shell; app: its own sandboxed UID), and the
-                    // vendor-lib existence check this wraps
-                    // (/vendor/lib64/libais_client.so) can be permitted for one
-                    // and denied for the other. The daemon's result is the one
-                    // that actually matters — it's the process the camera
-                    // pipeline itself runs in — so the dialog must read it from
-                    // here rather than re-probing itself.
-                    config.put("nativeDilink5Detected",
-                        com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isNativelySupported());
                 }
                 // DiLink 4 mosaic-viewpoint handshake result. This is the write
                 // that flips the byd_apa HAL out of single-camera dashcam mode;
@@ -2023,20 +2011,17 @@ public class SurveillanceApiHandler {
             }
 
             // Camera ingestion mode: "default" (legacy ImageReader + 4-strip
-            // → 2x2 rearrangement), "dilink4" (oem SurfaceTexture +
-            // passthrough), or "dilink5" (manual override forcing the native
-            // QCarCam/AIS backend on for a unit whose auto-detect probe
-            // fails — see DiLink5QCarCamBackend.isSupported()). Persisted
-            // under camera.cameraMode and read by PanoramicCameraGpu /
-            // GpuSurveillancePipeline at init. Save triggers the same
-            // prepare-restart flow as a manual cam-id change so the new
-            // mode takes effect.
+            // → 2x2 rearrangement) vs "dilink4" (oem SurfaceTexture +
+            // passthrough). Persisted under camera.cameraMode and read by
+            // PanoramicCameraGpu / GpuSurveillancePipeline at init. Save
+            // triggers the same prepare-restart flow as a manual cam-id
+            // change so the new mode takes effect.
             if (configJson.has("cameraMode")) {
                 String mode = configJson.optString("cameraMode", "default")
                     .toLowerCase(java.util.Locale.US);
-                if (!"default".equals(mode) && !"dilink4".equals(mode) && !"dilink5".equals(mode)) {
+                if (!"default".equals(mode) && !"dilink4".equals(mode)) {
                     HttpResponse.sendJsonError(out,
-                        "cameraMode must be 'default', 'dilink4', or 'dilink5', got '" + mode + "'");
+                        "cameraMode must be 'default' or 'dilink4', got '" + mode + "'");
                     return;
                 }
                 org.json.JSONObject camCfg = new org.json.JSONObject();
