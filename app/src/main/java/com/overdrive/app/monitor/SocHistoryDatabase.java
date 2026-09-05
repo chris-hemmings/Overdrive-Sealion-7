@@ -11202,11 +11202,24 @@ public class SocHistoryDatabase {
      * peak-guarded, so a real DC session whose coarse ticks all missed the threshold was recorded as
      * AC and priced at the AC rate. Taking the max of both makes every close path agree with the
      * curve the UI draws above it.
+     *
+     * <p>The coarse value is a plain running {@code Math.max} with no outlier rejection at all (see
+     * its update site) — a single glitch sample (the documented 359.4 idle-junk signature,
+     * CHARGING-POWER-INVARIANTS.md I4) locks in for the rest of the session and used to win this
+     * max unconditionally, re-poisoning a session whose FINE series had already median-filtered the
+     * same glitch out. Confirmed live, 2026-09-05: a slow AC session recorded a clean ~1.4 kW fine
+     * peak but still closed with peakPower=359.4, because this method took it from the coarse side
+     * of the max instead. Gating the coarse value against the fine series' own outlier ceiling stops
+     * that without losing the reason coarse exists — a genuine fast-DC ramp pulls the fine median up
+     * right alongside it, so the ceiling rises too and a real DC peak still passes.
      */
     private double resolvePeakKw(long sessionStartTime, double coarsePeak) {
-        double fine = peakSampleKw(sessionStartTime);
+        double[] fineStats = robustPeakAndAvgKw(sessionStartTime);
+        double fine = fineStats[0];
+        double ceiling = fineStats[2];
+        boolean coarseValid = isValidMeasuredChargingPower(coarsePeak) && coarsePeak <= ceiling;
         return Math.max(
-                isValidMeasuredChargingPower(coarsePeak) ? coarsePeak : 0,
+                coarseValid ? coarsePeak : 0,
                 isValidMeasuredChargingPower(fine) ? fine : 0);
     }
 
@@ -11280,7 +11293,10 @@ public class SocHistoryDatabase {
             }
         }
         int n = sorted.size();
-        if (n == 0) return new double[]{0, -1};
+        // Double.MAX_VALUE ceiling with no fine samples means "nothing to gate
+        // against" — resolvePeakKw() reads this as "trust the coarse value",
+        // matching its old behavior for sessions too short to have samples yet.
+        if (n == 0) return new double[]{0, -1, Double.MAX_VALUE};
         double median = (n % 2 == 1)
                 ? sorted.get(n / 2)
                 : (sorted.get(n / 2 - 1) + sorted.get(n / 2)) / 2.0;
@@ -11294,7 +11310,7 @@ public class SocHistoryDatabase {
             count++;
             if (v > peak) peak = v;
         }
-        return new double[]{peak, count > 0 ? sum / count : -1};
+        return new double[]{peak, count > 0 ? sum / count : -1, ceiling};
     }
 
     /** Arithmetic mean of measured positive samples (outliers excluded), or -1 when none are available. */

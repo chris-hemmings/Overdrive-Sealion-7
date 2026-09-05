@@ -806,6 +806,19 @@ object CarSvcTelemetry {
      * `{"available":false}`. Returns null (no override) if none of the 4
      * corners have a reading, so the caller falls through to stock.
      */
+    // Plausible tyre-pressure bounds used to sanity-check the raw reading
+    // before trusting it. This property's raw unit is confirmed 0.1psi on
+    // the vehicle this was field-verified against, but BYD doesn't document
+    // the unit anywhere and other models/regions could report something
+    // else entirely -- the same risk that produced the bar-vs-kPa mismatch
+    // handled in BydDataCollector.collectTyre(). A genuine tyre is never
+    // outside this window even half-flat; anything outside it is far more
+    // likely a misread raw scale on an untested vehicle than a real
+    // reading, so it's logged and withheld rather than shown as a wrong
+    // number.
+    private const val MIN_PLAUSIBLE_TYRE_PSI = 10.0
+    private const val MAX_PLAUSIBLE_TYRE_PSI = 60.0
+
     fun tyrePressuresJson(): JSONObject? {
         val raw = tyrePressuresRaw()
         val keys = arrayOf("fl", "fr", "rl", "rr")
@@ -816,10 +829,19 @@ object CarSvcTelemetry {
             val r = raw[i]
             if (r > 0) {
                 val psi = r / 10.0
-                corner.put("psi", psi)
-                corner.put("kPa", Math.round(psi * 6.89476).toInt())
-                corner.put("available", true)
-                any = true
+                if (psi in MIN_PLAUSIBLE_TYRE_PSI..MAX_PLAUSIBLE_TYRE_PSI) {
+                    corner.put("psi", psi)
+                    corner.put("kPa", Math.round(psi * 6.89476).toInt())
+                    corner.put("available", true)
+                    any = true
+                } else {
+                    logger.warn("Tyre pressure raw=$r at ${keys[i]} produced implausible " +
+                            "$psi psi under the confirmed 0.1psi scale — withholding rather " +
+                            "than showing a likely wrong-unit reading. If this vehicle " +
+                            "genuinely reports a different raw scale, this value is the one " +
+                            "to investigate.")
+                    corner.put("available", false)
+                }
             } else {
                 corner.put("available", false)
             }

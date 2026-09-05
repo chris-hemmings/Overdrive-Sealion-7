@@ -7957,6 +7957,21 @@ public class BydDataCollector {
                 if (rawPressure > 0 && rawPressure < 100) {
                     rawPressure = Math.round(rawPressure * 14.50377f);
                 }
+                // Sanity check AFTER whichever branch ran above: a real inflated
+                // tyre is never outside roughly 100-450 kPa (~14.5-65 psi) even
+                // half-flat. If neither the direct-kPa assumption nor the
+                // bar-rescale above lands in that range, this vehicle/firmware
+                // is reporting a raw scale we haven't seen before. Log it loudly
+                // with the untouched raw value so it can be identified and a
+                // real fix added, rather than silently showing a number that's
+                // very likely wrong.
+                if (rawPressure > 0 && (rawPressure < 100 || rawPressure > 450)) {
+                    logger.warn("Tyre pressure corner " + (i + 1) + " raw=" + rawPressure
+                            + " is outside any plausible tyre-pressure range after scale "
+                            + "correction — this vehicle may report a raw unit we don't "
+                            + "recognize. Withholding rather than showing a likely-wrong value.");
+                    rawPressure = -1;
+                }
                 pressures[i] = rawPressure;
                 Object s = BydDeviceHelper.callGetter(tyreDevice, "getTyrePressureState", i + 1);
                 pressureStates[i] = (s instanceof Number) ? ((Number) s).intValue() : -1;

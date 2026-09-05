@@ -188,6 +188,16 @@ public final class ScreenDeterrent {
     private long lastGateWriteElapsedMs = 0;
     private long lastWakeReassertElapsedMs = 0;
     private boolean restorePanelAfterSession = false;
+    /**
+     * Set by shouldStop() the instant it tears down the render loop because
+     * ACC just read ON — the driver got in mid-session, not an intruder.
+     * cleanup() reads this to skip its own restore-to-off evaluation
+     * entirely rather than re-deciding "is it safe to darken" from scratch:
+     * we already know definitively why this session ended, so there's
+     * nothing to re-check, and no way a fresh independent read could
+     * disagree with the reason that just fired.
+     */
+    private volatile boolean stoppedBecauseAccOn = false;
     /** Once the Activity has authenticated, a later drop means teardown. */
     private volatile boolean inputCaptureEverReady = false;
 
@@ -996,6 +1006,7 @@ public final class ScreenDeterrent {
         // its deadline (up to 30s) over the live driving screen. Requiring an
         // authoritative ACC-OFF state bounds that to one render tick (≤200ms).
         if (isAccUnsafe()) {
+            stoppedBecauseAccOn = true;
             return terminateCurrentSession();
         }
         long now = SystemClock.elapsedRealtime();

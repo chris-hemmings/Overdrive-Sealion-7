@@ -509,11 +509,15 @@ public class TripAnalyticsManager {
     private void handleTripEnded(TripRecord trip) {
         logger.info("Trip ended — duration=" + trip.durationSeconds + "s, distance="
                 + trip.distanceKm + "km");
-        // Reaching here means the trip is about to get a real `trips` row — the
-        // checkpoint's only job (crash-recovery insurance) is done.
-        try {
-            if (database != null) database.clearTripCheckpoint(trip.startTime);
-        } catch (Throwable ignored) {}
+        // NOTE: the checkpoint is deliberately NOT cleared here. Scoring, the
+        // last-charge-rate lookup, and cost math all happen below, well before
+        // insertTrip() actually runs — a crash anywhere in that stretch used to
+        // leave the trip with NEITHER a real row NOR a checkpoint to recover
+        // from (confirmed live, 2026-09-05: a 12-minute trip crashed during
+        // this window and came back with distance/duration only, zero SoC/
+        // energy, because the checkpoint had already been wiped up here before
+        // the row existed). It's cleared only once insertTrip() actually
+        // succeeds, below.
 
         // Release telemetry polling ref (acquired in handleTripStarted)
         if (telemetryDataCollector != null) {
@@ -839,7 +843,18 @@ public class TripAnalyticsManager {
                         + " SD=" + trip.speedDisciplineScore
                         + " E=" + trip.efficiencyScore
                         + " C=" + trip.consistencyScore + "]");
+
+                // The row is durably in place now — the checkpoint's only job
+                // (crash-recovery insurance) is done. Left alone until now so a
+                // crash during scoring/insert above still has it available.
+                try {
+                    if (database != null) database.clearTripCheckpoint(trip.startTime);
+                } catch (Throwable ignored) {}
             } else {
+                // insertTrip failed — deliberately leave the checkpoint in place.
+                // Next-boot disk recovery will rebuild a row from the .jsonl.gz
+                // (distance/speed/elevation only); enrichRecoveredTripsFromCheckpoints()
+                // needs this checkpoint to still exist to fill in SoC/energy for it.
                 // Previously there was no else branch, so a failed insert
                 // produced NO log line at all here — the trip simply vanished
                 // and the only trace was a lower-level "Failed to insert trip".
