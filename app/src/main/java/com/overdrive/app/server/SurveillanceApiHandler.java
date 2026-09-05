@@ -2011,17 +2011,20 @@ public class SurveillanceApiHandler {
             }
 
             // Camera ingestion mode: "default" (legacy ImageReader + 4-strip
-            // → 2x2 rearrangement) vs "dilink4" (oem SurfaceTexture +
-            // passthrough). Persisted under camera.cameraMode and read by
-            // PanoramicCameraGpu / GpuSurveillancePipeline at init. Save
-            // triggers the same prepare-restart flow as a manual cam-id
-            // change so the new mode takes effect.
+            // → 2x2 rearrangement), "dilink4" (oem SurfaceTexture +
+            // passthrough), or "dilink5" (manual override forcing the native
+            // QCarCam/AIS backend on for a unit whose auto-detect probe
+            // fails — see DiLink5QCarCamBackend.isSupported()). Persisted
+            // under camera.cameraMode and read by PanoramicCameraGpu /
+            // GpuSurveillancePipeline at init. Save triggers the same
+            // prepare-restart flow as a manual cam-id change so the new
+            // mode takes effect.
             if (configJson.has("cameraMode")) {
                 String mode = configJson.optString("cameraMode", "default")
                     .toLowerCase(java.util.Locale.US);
-                if (!"default".equals(mode) && !"dilink4".equals(mode)) {
+                if (!"default".equals(mode) && !"dilink4".equals(mode) && !"dilink5".equals(mode)) {
                     HttpResponse.sendJsonError(out,
-                        "cameraMode must be 'default' or 'dilink4', got '" + mode + "'");
+                        "cameraMode must be 'default', 'dilink4', or 'dilink5', got '" + mode + "'");
                     return;
                 }
                 org.json.JSONObject camCfg = new org.json.JSONObject();

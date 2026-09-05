@@ -151,6 +151,7 @@
     <string name="camera_mode_current_default">Current: Default</string>
     <string name="camera_mode_current_dilink4">Current: DiLink 4</string>
     <string name="camera_mode_current_dilink5">Current: DiLink 5</string>
+    <string name="camera_mode_current_dilink5_auto">Current: DiLink 5 (auto-detected)</string>
     <string name="camera_mode_save">Apply &amp; restart</string>
     <string name="camera_mode_hint">Changing the mode restarts the camera daemon. If video looks wrong (squished, missing quadrants, red overlay), try a different mode. DiLink 5 hardware is normally detected automatically — only force it here if your cameras aren\'t working and the other modes don\'t help.</string>
 

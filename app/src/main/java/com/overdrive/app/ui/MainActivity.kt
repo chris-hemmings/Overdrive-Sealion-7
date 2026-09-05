@@ -2267,7 +2267,7 @@ open class MainActivity : AppCompatActivity() {
 
             val cameraMode = config.optString("cameraMode", "default")
                 .lowercase(java.util.Locale.US)
-                .let { if (it == "dilink4") "dilink4" else "default" }
+                .let { if (it == "dilink4" || it == "dilink5") it else "default" }
 
             // OEM Dashcam state lives in the same camera.* UCM section but is
             // not (yet) merged into /api/surveillance/config. Read it directly
@@ -2728,15 +2728,27 @@ open class MainActivity : AppCompatActivity() {
         // 2026-09-03 with nothing to replace its "force it" capability — this
         // restores that capability inside the existing dialog instead of a
         // separate app.
-        val initialModeRadioId = when (state.cameraMode) {
+        // If config doesn't explicitly say dilink4/dilink5, defer to whether the
+        // native probe actually detected DiLink5 hardware — so a unit where
+        // auto-detect already works shows "DiLink 5 (auto-detected)" instead of
+        // a misleading "Default", and the user isn't left guessing whether they
+        // need to touch this at all. Only used to decide what's PRE-SELECTED;
+        // nothing is written to config unless the user changes the selection
+        // and hits Save (see the no-op check below, which compares against this
+        // same effective mode, not the raw stored value).
+        val autoDetectedDilink5 = state.cameraMode == "default" &&
+                com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isNativelySupported()
+        val effectiveMode = if (autoDetectedDilink5) "dilink5" else state.cameraMode
+        val initialModeRadioId = when (effectiveMode) {
             "dilink4" -> R.id.rbCameraModeDilink4
             "dilink5" -> R.id.rbCameraModeDilink5
             else -> R.id.rbCameraModeDefault
         }
         cameraModeGroup.check(initialModeRadioId)
-        currentCameraModeView.text = when (state.cameraMode) {
-            "dilink4" -> getString(R.string.camera_mode_current_dilink4)
-            "dilink5" -> getString(R.string.camera_mode_current_dilink5)
+        currentCameraModeView.text = when {
+            effectiveMode == "dilink4" -> getString(R.string.camera_mode_current_dilink4)
+            autoDetectedDilink5 -> getString(R.string.camera_mode_current_dilink5_auto)
+            effectiveMode == "dilink5" -> getString(R.string.camera_mode_current_dilink5)
             else -> getString(R.string.camera_mode_current_default)
         }
 
@@ -2746,9 +2758,13 @@ open class MainActivity : AppCompatActivity() {
                 R.id.rbCameraModeDilink5 -> "dilink5"
                 else -> "default"
             }
-            // No-op when the user re-applies the already-saved mode — saves a
-            // daemon restart and a "settings unchanged" toast.
-            if (selectedMode == state.cameraMode) {
+            // No-op when the selection matches what's already effectively active
+            // (either an explicit saved mode, or an untouched auto-detected
+            // preselection) — saves a daemon restart and a "settings unchanged"
+            // toast, and avoids silently writing an explicit "dilink5" into
+            // config just because the user opened and re-saved the dialog
+            // without touching anything.
+            if (selectedMode == effectiveMode) {
                 Toast.makeText(
                     this,
                     getString(R.string.camera_mode_save),
