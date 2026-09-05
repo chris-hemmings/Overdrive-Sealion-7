@@ -2709,25 +2709,41 @@ open class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Camera ingestion mode (Default vs DiLink 4). Pre-select from
-        // saved config; if no value present the data class default is
+        // Camera ingestion mode (Default vs DiLink 4 vs DiLink 5). Pre-select
+        // from saved config; if no value present the data class default is
         // "default" so the radio group defaults match the daemon's
         // resolveCameraModeFromConfig fallback.
-        val initialModeRadioId = if (state.cameraMode == "dilink4") {
-            R.id.rbCameraModeDilink4
-        } else {
-            R.id.rbCameraModeDefault
+        //
+        // DiLink 5 is normally never written here — DiLink5Platform.isActive()
+        // auto-detects it via the native /vendor/lib64/libais_client.so probe,
+        // with no manual toggle needed. This radio button exists purely as a
+        // manual override for a unit whose auto-detect fails (different
+        // firmware build, a missing/renamed vendor lib): DiLink5Platform's own
+        // check already treats a "dilink5"-containing cameraMode config value
+        // as authoritative ("mode.contains("dilink5", ignoreCase = true) ||
+        // DiLink5QCarCamBackend.isSupported()"), so writing this value here is
+        // enough to force every DiLink5-gated code path in the app on, with no
+        // daemon-side change required. A standalone diagnostics app that used
+        // to help identify this case (dilink-probe) was removed upstream on
+        // 2026-09-03 with nothing to replace its "force it" capability — this
+        // restores that capability inside the existing dialog instead of a
+        // separate app.
+        val initialModeRadioId = when (state.cameraMode) {
+            "dilink4" -> R.id.rbCameraModeDilink4
+            "dilink5" -> R.id.rbCameraModeDilink5
+            else -> R.id.rbCameraModeDefault
         }
         cameraModeGroup.check(initialModeRadioId)
-        currentCameraModeView.text = if (state.cameraMode == "dilink4") {
-            getString(R.string.camera_mode_current_dilink4)
-        } else {
-            getString(R.string.camera_mode_current_default)
+        currentCameraModeView.text = when (state.cameraMode) {
+            "dilink4" -> getString(R.string.camera_mode_current_dilink4)
+            "dilink5" -> getString(R.string.camera_mode_current_dilink5)
+            else -> getString(R.string.camera_mode_current_default)
         }
 
         saveCameraModeButton.setOnClickListener {
             val selectedMode = when (cameraModeGroup.checkedRadioButtonId) {
                 R.id.rbCameraModeDilink4 -> "dilink4"
+                R.id.rbCameraModeDilink5 -> "dilink5"
                 else -> "default"
             }
             // No-op when the user re-applies the already-saved mode — saves a
@@ -2746,10 +2762,10 @@ open class MainActivity : AppCompatActivity() {
             saveCameraModeButton.isEnabled = false
             postSurveillanceConfig(payload) { success, message ->
                 if (success) {
-                    currentCameraModeView.text = if (selectedMode == "dilink4") {
-                        getString(R.string.camera_mode_current_dilink4)
-                    } else {
-                        getString(R.string.camera_mode_current_default)
+                    currentCameraModeView.text = when (selectedMode) {
+                        "dilink4" -> getString(R.string.camera_mode_current_dilink4)
+                        "dilink5" -> getString(R.string.camera_mode_current_dilink5)
+                        else -> getString(R.string.camera_mode_current_default)
                     }
                     Toast.makeText(
                         this,

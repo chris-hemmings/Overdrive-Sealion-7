@@ -332,6 +332,19 @@
                         android:text="@string/camera_mode_option_dilink4"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         android:textColor="?attr/colorOnSurface" />
+
+                    <RadioButton
+                        android:id="@+id/rbCameraModeDilink5"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:buttonTint="?attr/colorPrimary"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="@string/camera_mode_option_dilink5"
+                        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                        android:textColor="?attr/colorOnSurface" />
                 </RadioGroup>
 
                 <com.google.android.material.button.MaterialButton

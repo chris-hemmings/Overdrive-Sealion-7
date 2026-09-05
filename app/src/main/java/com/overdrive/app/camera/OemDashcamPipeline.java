@@ -1549,7 +1549,10 @@ public class OemDashcamPipeline {
     private static final int GLES11_OES_TEXTURE_EXTERNAL = 0x8D65;
 
     private void openCameraAndAttach() throws Exception {
-        if (com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isSupported()) {
+        // DiLink5Platform.isActive() also honors an explicit cameraMode="dilink5"
+        // config override (see the Ingestion Mode dialog), for a unit whose
+        // native probe fails to auto-detect DiLink5 hardware.
+        if (com.overdrive.app.byd.DiLink5Platform.isActive()) {
             logger.info("DiLink 5 platform: dashcam integrated into primary QCarCam pipeline");
             return;
         }

@@ -15,6 +15,7 @@ public class DiLink5QCarCamBackend {
     private static final DaemonLogger logger = DaemonLogger.getInstance(TAG);
 
     private static volatile Boolean sSupported = null;
+    private static volatile Boolean sHardwareSupported = null;
 
     static {
         try {
@@ -39,14 +40,49 @@ public class DiLink5QCarCamBackend {
     private final AtomicBoolean isStreaming = new AtomicBoolean(false);
     private static volatile Process sHardwareProcess = null;
 
-    public static boolean isSupported() {
-        if (sSupported != null) return sSupported;
+    /**
+     * Raw native AIS/QCarCam probe only — no config override, no calls
+     * out to UnifiedConfigManager. UnifiedConfigManager.applyDefaults()
+     * (invoked from inside loadConfig() during first-run migration) must
+     * use this instead of isSupported(): isSupported() reads config
+     * through UnifiedConfigManager to honor the manual "DiLink 5"
+     * override, and calling back into loadConfig() from its own
+     * migration path would recurse infinitely.
+     */
+    public static boolean isNativelySupported() {
+        if (sHardwareSupported != null) return sHardwareSupported;
         try {
-            sSupported = nativeIsSupported();
+            sHardwareSupported = nativeIsSupported();
         } catch (Throwable t) {
             logger.warn("nativeIsSupported check failed: " + t.getMessage());
-            sSupported = false;
+            sHardwareSupported = false;
         }
+        return sHardwareSupported;
+    }
+
+    /**
+     * True if this unit is (or should be treated as) DiLink 5.0 hardware:
+     * either the native probe succeeds, or the user has manually forced
+     * it via the "DiLink 5" camera-mode override (Ingestion Mode dialog)
+     * for a unit whose auto-detect fails. This is the single check every
+     * DiLink5-gated call site in the app should use so the manual
+     * override actually takes effect everywhere, not just at the few
+     * spots that separately re-implement the OR against config.
+     */
+    public static boolean isSupported() {
+        if (sSupported != null) return sSupported;
+        boolean supported = isNativelySupported();
+        if (!supported) {
+            try {
+                org.json.JSONObject camera = com.overdrive.app.config.UnifiedConfigManager.INSTANCE
+                        .loadConfig().optJSONObject("camera");
+                String mode = camera != null ? camera.optString("cameraMode", "") : "";
+                supported = mode.toLowerCase(java.util.Locale.US).contains("dilink5");
+            } catch (Throwable t) {
+                logger.warn("camera-mode override check failed: " + t.getMessage());
+            }
+        }
+        sSupported = supported;
         return sSupported;
     }
 

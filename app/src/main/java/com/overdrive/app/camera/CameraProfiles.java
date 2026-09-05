@@ -147,7 +147,10 @@ public final class CameraProfiles {
             }
         }
 
-        if (com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isSupported()) {
+        // DiLink5Platform.isActive() also honors an explicit cameraMode="dilink5"
+        // config override (see the Ingestion Mode dialog), for a unit whose
+        // native probe fails to auto-detect DiLink5 hardware.
+        if (com.overdrive.app.byd.DiLink5Platform.isActive()) {
             return get(PROFILE_DILINK5_SEALION7);
         }
 

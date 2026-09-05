@@ -142,15 +142,17 @@
     <string name="toast_tailscale_adb_save_failed">Failed to change remote ADB setting</string>
     <string name="tailscale_proxy_warning">While enabled, MQTT to public brokers (HiveMQ, AWS IoT, etc.) will fail — Tailscale only routes to your tailnet. Saving will restart the daemon.</string>
 
-    <!-- Camera ingestion mode selector (Default vs DiLink 4) -->
+    <!-- Camera ingestion mode selector (Default vs DiLink 4 vs DiLink 5) -->
     <string name="camera_mode_title">Ingestion Mode</string>
-    <string name="camera_mode_subtitle">Pick the path that matches your head unit. Default fits legacy panoramic cameras; DiLink 4 consumes the AVM HAL\'s native SurfaceTexture output.</string>
+    <string name="camera_mode_subtitle">Pick the path that matches your head unit. Default fits legacy panoramic cameras; DiLink 4 consumes the AVM HAL\'s native SurfaceTexture output; DiLink 5 forces the newer SA8155P camera path when it isn\'t detected automatically.</string>
     <string name="camera_mode_option_default">Default — works on Seal, Atto, Dolphin (most cars)</string>
     <string name="camera_mode_option_dilink4">DiLink 4 — newer Han / Tang variants</string>
+    <string name="camera_mode_option_dilink5">DiLink 5 — Sealion 7 / SA8155P (force, if not auto-detected)</string>
     <string name="camera_mode_current_default">Current: Default</string>
     <string name="camera_mode_current_dilink4">Current: DiLink 4</string>
+    <string name="camera_mode_current_dilink5">Current: DiLink 5</string>
     <string name="camera_mode_save">Apply &amp; restart</string>
-    <string name="camera_mode_hint">Changing the mode restarts the camera daemon. If video looks wrong (squished, missing quadrants, red overlay), try the other mode.</string>
+    <string name="camera_mode_hint">Changing the mode restarts the camera daemon. If video looks wrong (squished, missing quadrants, red overlay), try a different mode. DiLink 5 hardware is normally detected automatically — only force it here if your cameras aren\'t working and the other modes don\'t help.</string>
 
     <!-- DiLink 4 compatibility options (only effective in DiLink 4 mode) -->
     <string name="camera_dilink4_tweaks_title">DiLink 4 Compatibility</string>
