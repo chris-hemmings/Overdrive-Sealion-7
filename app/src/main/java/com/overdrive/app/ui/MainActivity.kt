@@ -2158,7 +2158,15 @@ open class MainActivity : AppCompatActivity() {
         val oemDashcamManualOverride: Boolean,
         // Opt-in for the destructive dual-camera concurrency probe
         // (camera.concurrentAvmProbeEnabled). Default false = never auto-probe.
-        val concurrentAvmProbeEnabled: Boolean
+        val concurrentAvmProbeEnabled: Boolean,
+        // Daemon-side DiLink5QCarCamBackend.isNativelySupported() result.
+        // MUST come from the daemon's own response, not a fresh in-process
+        // probe here: the daemon runs as shell UID while this app runs under
+        // its own sandboxed UID, and the vendor-lib existence check this
+        // wraps can be permitted for one and denied for the other. Only the
+        // daemon's answer reflects the process the camera pipeline actually
+        // runs in.
+        val nativeDilink5Detected: Boolean
     )
 
     /**
@@ -2268,6 +2276,7 @@ open class MainActivity : AppCompatActivity() {
             val cameraMode = config.optString("cameraMode", "default")
                 .lowercase(java.util.Locale.US)
                 .let { if (it == "dilink4" || it == "dilink5") it else "default" }
+            val nativeDilink5Detected = config.optBoolean("nativeDilink5Detected", false)
 
             // OEM Dashcam state lives in the same camera.* UCM section but is
             // not (yet) merged into /api/surveillance/config. Read it directly
@@ -2297,7 +2306,8 @@ open class MainActivity : AppCompatActivity() {
                 panoCameraId = panoCameraId,
                 oemDashcamCameraId = oemDashcamCameraId,
                 oemDashcamManualOverride = oemDashcamManualOverride,
-                concurrentAvmProbeEnabled = concurrentAvmProbeEnabled
+                concurrentAvmProbeEnabled = concurrentAvmProbeEnabled,
+                nativeDilink5Detected = nativeDilink5Detected
             )
         } catch (e: Exception) {
             logsViewModel.error("Camera", "Failed to load camera mapping state: ${e.message}")
@@ -2736,8 +2746,15 @@ open class MainActivity : AppCompatActivity() {
         // nothing is written to config unless the user changes the selection
         // and hits Save (see the no-op check below, which compares against this
         // same effective mode, not the raw stored value).
-        val autoDetectedDilink5 = state.cameraMode == "default" &&
-                com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isNativelySupported()
+        //
+        // Reads state.nativeDilink5Detected (the daemon's own probe result,
+        // fetched over HTTP) rather than calling isNativelySupported() here
+        // directly — this dialog runs in the app's own sandboxed UID, not the
+        // daemon's shell UID, and the vendor-lib existence check the probe
+        // wraps can be permitted for one and denied for the other. Probing
+        // in-process here previously showed "Default" on units where the
+        // daemon (and therefore the actual cameras) had detected DiLink5 fine.
+        val autoDetectedDilink5 = state.cameraMode == "default" && state.nativeDilink5Detected
         val effectiveMode = if (autoDetectedDilink5) "dilink5" else state.cameraMode
         val initialModeRadioId = when (effectiveMode) {
             "dilink4" -> R.id.rbCameraModeDilink4

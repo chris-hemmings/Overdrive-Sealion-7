@@ -835,6 +835,18 @@ public class SurveillanceApiHandler {
                         camCfg.optBoolean("dilink4RedMask", false));
                     passiveApaMode = camCfg.optBoolean("dilink4PassiveApaMode", false);
                     config.put("dilink4PassiveApaMode", passiveApaMode);
+                    // Native DiLink5 hardware probe, evaluated HERE (inside the
+                    // daemon process) rather than in the app UI process that
+                    // reads this response. The two run under different UIDs
+                    // (daemon: shell; app: its own sandboxed UID), and the
+                    // vendor-lib existence check this wraps
+                    // (/vendor/lib64/libais_client.so) can be permitted for one
+                    // and denied for the other. The daemon's result is the one
+                    // that actually matters — it's the process the camera
+                    // pipeline itself runs in — so the dialog must read it from
+                    // here rather than re-probing itself.
+                    config.put("nativeDilink5Detected",
+                        com.overdrive.app.camera.dilink5.DiLink5QCarCamBackend.isNativelySupported());
                 }
                 // DiLink 4 mosaic-viewpoint handshake result. This is the write
                 // that flips the byd_apa HAL out of single-camera dashcam mode;
