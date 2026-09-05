@@ -2239,6 +2239,38 @@ public class CameraDaemon {
             }
         }, 2, 60, java.util.concurrent.TimeUnit.MINUTES);
         log("Analytics DAU/MAU ping armed (hourly check, <=1 send/day)");
+
+        // Surveillance-init watchdog. Confirmed live, 2026-09-05: a GL/EGL
+        // fault (EGL_BAD_DISPLAY) during GpuSurveillancePipeline's own init
+        // sequence gets caught SOMEWHERE inside it without escalating —
+        // no uncaught exception (so the global handler installed in main()
+        // never sees it), no crash, no retry. The pipeline just sits there
+        // forever reporting initialized=false while the process itself stays
+        // alive and otherwise healthy, so nothing detects it until a human
+        // notices surveillance never armed. Rather than track down which of
+        // this file's many catch blocks is the exact culprit (it may not even
+        // be the same one next time), detect the SYMPTOM instead: still not
+        // initialized a full 5 minutes after this scheduler itself started
+        // (i.e. well past any normal init window) means something is stuck,
+        // regardless of which code path caused it. First delay is long
+        // specifically so a normal, slower-than-usual init on a loaded system
+        // still gets a fair chance before this ever fires.
+        memoryLogScheduler.scheduleAtFixedRate(() -> {
+            try {
+                if (gpuPipeline != null && !gpuPipeline.isInitialized()
+                        && !isProcessRestartPending()) {
+                    log("WATCHDOG: surveillance pipeline still not initialized "
+                            + "5+ minutes after startup — forcing a process "
+                            + "restart rather than leaving it stuck");
+                    requestProcessRestartPreservingTrip(
+                            "surveillance pipeline stuck uninitialized");
+                }
+            } catch (Throwable t) {
+                log("Surveillance-init watchdog tick failed: "
+                        + t.getClass().getSimpleName() + ": " + t.getMessage());
+            }
+        }, 5, 3, java.util.concurrent.TimeUnit.MINUTES);
+        log("Surveillance-init watchdog armed (5-min initial grace, 3-min recheck)");
     }
 
     private static void logMemoryStatus() {
@@ -4251,6 +4283,25 @@ public class CameraDaemon {
             }
 
             gpuPipeline.init(assetManager, com.overdrive.app.daemon.DaemonBootstrap.getContext());
+
+            // Confirmed live, 2026-09-05: init() can return NORMALLY (no
+            // throw) while a GL/EGL step inside it (EGL_BAD_DISPLAY) failed
+            // and left the pipeline's own isInitialized() false — no
+            // exception, no crash, nothing for the catch block below (and
+            // its existing uncapped exponential-backoff retry) to react to.
+            // gpuPipeline stays non-null either way, so every check further
+            // down this file that gates on "gpuPipeline != null" (including
+            // the retry loop's own success/exit condition) reads this as a
+            // successful init and never retries. Converting the silent
+            // false into an explicit throw here routes it through the exact
+            // same already-correct, already-tested retry path below instead
+            // of adding a second, parallel recovery mechanism.
+            if (!gpuPipeline.isInitialized()) {
+                throw new IllegalStateException(
+                    "GpuSurveillancePipeline.init() returned without completing "
+                    + "initialization (isInitialized() still false) — likely a "
+                    + "GL/EGL failure swallowed internally");
+            }
 
             log("GPU Surveillance initialized: profile=" + resolvedCamera.getProfile().getDisplayName()
                 + ", panoCam=" + resolvedCamera.getPanoCameraId()
